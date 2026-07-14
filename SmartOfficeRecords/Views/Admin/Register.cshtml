@@ -1,0 +1,546 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="utf-8" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0">
+
+        <title>Register</title>
+
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+              rel="stylesheet" />
+
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+
+        <style>
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            body {
+                background: #f3f4f6;
+                min-height: 100vh;
+            }
+
+            .main-container {
+                width: 100%;
+                min-height: 100vh;
+                padding: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .register-wrapper {
+                width: 100%;
+                max-width: 1400px;
+                background: white;
+                display: flex;
+                overflow: hidden;
+            }
+
+            /* LEFT SIDE */
+            .left-side {
+                width: 38%;
+                background: #243f99;
+                position: relative;
+            }
+
+            .top-content {
+                text-align: center;
+                padding-top: 60px;
+                position: relative;
+                z-index: 2;
+            }
+
+                .top-content img {
+                    width: 120px;
+                    margin-bottom: 20px;
+                }
+
+                .top-content h1 {
+                    color: white;
+                    font-size: 42px;
+                    font-weight: 700;
+                    line-height: 1.2;
+                }
+
+            .bottom-image {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+
+                .bottom-image img {
+                    width: 100%;
+                    height: 420px;
+                    object-fit: cover;
+                }
+
+            /* RIGHT SIDE */
+            .right-side {
+                width: 62%;
+                background: #f8f8f8;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 40px;
+            }
+
+            /* REGISTER CARD */
+            .register-card {
+                width: 100%;
+                max-width: 720px;
+                background: white;
+                border: 1px solid #dddddd;
+                border-radius: 8px;
+                padding: 40px;
+            }
+
+                .register-card h2 {
+                    text-align: center;
+                    font-size: 38px;
+                    font-weight: 700;
+                    margin-bottom: 5px;
+                }
+
+            .subtitle {
+                text-align: center;
+                color: #6b7280;
+                margin-bottom: 35px;
+            }
+
+            /* GRID */
+            .form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+            }
+
+            /* INPUT */
+            .input-group-custom {
+                position: relative;
+            }
+
+                .input-group-custom .left-icon {
+                    position: absolute;
+                    left: 15px;
+                    top: 15px;
+                    color: #9ca3af;
+                }
+
+                .input-group-custom .right-icon {
+                    position: absolute;
+                    right: 15px;
+                    top: 15px;
+                    color: #6b7280;
+                    cursor: pointer;
+                }
+
+            .form-control-custom {
+                width: 100%;
+                height: 50px;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                padding-left: 42px;
+                padding-right: 42px;
+                outline: none;
+                font-size: 14px;
+            }
+
+                .form-control-custom:focus {
+                    border-color: #2563eb;
+                }
+
+            /* UPLOAD BOX */
+            .upload-box {
+                margin-top: 25px;
+                border: 2px dashed #d1d5db;
+                border-radius: 8px;
+                padding: 30px;
+                text-align: center;
+                background: #fafafa;
+            }
+
+                .upload-box i {
+                    font-size: 40px;
+                    color: #2563eb;
+                }
+
+                .upload-box p {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    color: #374151;
+                    font-size: 14px;
+                }
+
+            .upload-btn {
+                background: #2563eb;
+                color: white;
+                border: none;
+                padding: 8px 18px;
+                border-radius: 5px;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .upload-info {
+                margin-top: 10px;
+                color: #9ca3af;
+                font-size: 13px;
+            }
+
+            /* BUTTON */
+            .btn-register {
+                width: 100%;
+                height: 55px;
+                border: none;
+                border-radius: 6px;
+                background: #2563eb;
+                color: white;
+                font-size: 20px;
+                font-weight: 600;
+                margin-top: 25px;
+            }
+
+                .btn-register:hover {
+                    background: #1e40af;
+                }
+
+            /* LOGIN */
+            .login-link {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 15px;
+            }
+
+                .login-link a {
+                    color: #2563eb;
+                    font-weight: 600;
+                    text-decoration: none;
+                }
+
+            /* ALERTS */
+            .error-message {
+                color: red;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .success-message {
+                color: green;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            @@media(max-width: 991px) {
+
+                .register-wrapper {
+                    flex-direction: column;
+                }
+
+                .left-side,
+                .right-side {
+                    width: 100%;
+                }
+
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="main-container">
+
+            <div class="register-wrapper">
+
+                <!-- LEFT -->
+                <div class="left-side">
+
+                    <div class="top-content">
+
+                        <img src="~/Images/logo.png"
+                             alt="Logo" />
+
+                        <h1>
+                            SMART OFFICE
+                            <br />
+                            RECORDS SYSTEM
+                        </h1>
+
+                    </div>
+
+                    <div class="bottom-image">
+
+                        <img src="~/Images/admin.png"
+                             alt="Background" />
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="right-side">
+
+                    <div class="register-card">
+
+                        <h2>Create an Account!</h2>
+
+                        <p class="subtitle">
+                            Fill in the details to get started.
+                        </p>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="error-message">
+                                @ViewBag.Error
+                            </div>
+                        }
+
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="success-message">
+                                @ViewBag.Success
+                            </div>
+                        }
+
+                        @using (Html.BeginForm(
+                                            "Register",
+                                            "Admin",
+                                            FormMethod.Post,
+                                            new { enctype = "multipart/form-data" }))
+                        {
+
+                            <div class="form-grid">
+
+                                <!-- FULLNAME -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-person left-icon"></i>
+
+                                    <input type="text"
+                                           name="Fullname"
+                                           class="form-control-custom"
+                                           placeholder="Enter Fullname"
+                                           required />
+
+                                </div>
+
+                                <!-- USERNAME -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-person left-icon"></i>
+
+                                    <input type="text"
+                                           name="Username"
+                                           class="form-control-custom"
+                                           placeholder="Enter Username"
+                                           required />
+
+                                </div>
+
+                                <!-- EMAIL -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-envelope left-icon"></i>
+
+                                    <input type="email"
+                                           name="Email"
+                                           class="form-control-custom"
+                                           placeholder="Enter your email"
+                                           required />
+
+                                </div>
+
+                                <!-- CONTACT -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-telephone left-icon"></i>
+
+                                    <input type="text"
+                                           name="Contact"
+                                           class="form-control-custom"
+                                           placeholder="Enter Contact #"
+                                           required />
+
+                                </div>
+
+                                <!-- ADDRESS -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-geo-alt left-icon"></i>
+
+                                    <input type="text"
+                                           name="Address"
+                                           class="form-control-custom"
+                                           placeholder="Enter Address"
+                                           required />
+
+                                </div>
+
+                                <!-- DEPARTMENT -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-building left-icon"></i>
+
+                                    <input type="text"
+                                           name="Department"
+                                           class="form-control-custom"
+                                           placeholder="Enter Department"
+                                           required />
+
+                                </div>
+
+                                <!-- PASSWORD -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-lock left-icon"></i>
+
+                                    <input type="password"
+                                           id="password"
+                                           name="Password"
+                                           class="form-control-custom"
+                                           placeholder="Password"
+                                           required />
+
+                                    <i class="bi bi-eye right-icon"
+                                       id="togglePassword"></i>
+
+                                </div>
+
+                                <!-- CONFIRM PASSWORD -->
+                                <div class="input-group-custom">
+
+                                    <i class="bi bi-lock left-icon"></i>
+
+                                    <input type="password"
+                                           id="confirmPassword"
+                                           name="ConfirmPassword"
+                                           class="form-control-custom"
+                                           placeholder="Confirm Password"
+                                           required />
+
+                                    <i class="bi bi-eye right-icon"
+                                       id="toggleConfirmPassword"></i>
+
+                                </div>
+
+                            </div>
+
+                            <!-- UPLOAD -->
+                            <div class="upload-box">
+
+                                <i class="bi bi-cloud-arrow-up-fill"></i>
+
+                                <p>
+                                    Drag and drop image here
+                                </p>
+
+                                <input type="file"
+                                       name="ProfileImage"
+                                       class="form-control"
+                                       accept=".jpg,.jpeg,.png" />
+
+                                <div class="upload-info">
+                                    JPG, JPEG OR PNG, Max size 4MB.
+                                </div>
+
+                            </div>
+
+                            <!-- BUTTON -->
+                            <button type="submit"
+                                    class="btn-register">
+
+                                Register
+
+                            </button>
+
+                        }
+
+                        <!-- LOGIN -->
+                        <div class="login-link">
+
+                            Already have an account?
+
+                            <a href="/Admin/Login">
+                                Login!
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <script>
+
+            // PASSWORD
+            const togglePassword =
+                document.querySelector("#togglePassword");
+
+            const password =
+                document.querySelector("#password");
+
+            togglePassword.addEventListener("click", function () {
+
+                const type =
+                    password.getAttribute("type") === "password"
+                        ? "text"
+                        : "password";
+
+                password.setAttribute("type", type);
+
+                this.classList.toggle("bi-eye");
+                this.classList.toggle("bi-eye-slash");
+            });
+
+            // CONFIRM PASSWORD
+            const toggleConfirmPassword =
+                document.querySelector("#toggleConfirmPassword");
+
+            const confirmPassword =
+                document.querySelector("#confirmPassword");
+
+            toggleConfirmPassword.addEventListener("click", function () {
+
+                const type =
+                    confirmPassword.getAttribute("type") === "password"
+                        ? "text"
+                        : "password";
+
+                confirmPassword.setAttribute("type", type);
+
+                this.classList.toggle("bi-eye");
+                this.classList.toggle("bi-eye-slash");
+            });
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,341 @@
+﻿@{
+    ViewBag.Title = "Applicant Dashboard - My Appointments";
+    Layout = null;
+}
+
+@model List<SmartOfficeRecords.Models.Appointment>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments - Smart Office Records System</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #16a34a;
+            --dark-green: #166534;
+            --light-mint: #dcfce7;
+            --surface-white: #ffffff;
+            --text-dark: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER & NAVIGATION */
+        .top-header {
+            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-text h4 {
+            color: var(--primary-green);
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #64748b;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+            .nav-menu a:hover, .nav-menu a.active {
+                color: var(--dark-green);
+                background: var(--light-mint);
+                font-weight: 600;
+            }
+
+        /* BANNER */
+        .page-banner {
+            background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+            color: white;
+            padding: 35px 0;
+            border-radius: 0 0 24px 24px;
+        }
+
+        /* CARDS & TABLES */
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .appointment-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s ease;
+        }
+
+            .appointment-card:hover {
+                transform: translateY(-2px);
+                border-color: #bbf7d0;
+            }
+
+        .status-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 30px;
+        }
+
+        .badge-confirmed {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .badge-pending {
+            background-color: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .badge-completed {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #166534;
+            color: #dcfce7;
+            padding: 30px 0;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<!-- NAVIGATION HEADER -->
+<div class="top-header">
+    <div class="container h-100 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <img src="~/Images/logo.png" alt="SORS Logo" style="width: 40px;">
+            <div class="logo-text">
+                <h4>SMART OFFICE</h4>
+                <span>RECORDS SYSTEM</span>
+            </div>
+        </div>
+
+        <div class="nav-menu d-flex align-items-center gap-2">
+            <a href="@Url.Action("ApplicantDash", "Applicant")"><i class="bi bi-house-door me-1"></i> Home</a>
+            <a href="@Url.Action("MyAppointment", "Applicant")" class="active"><i class="bi bi-calendar-check me-1"></i> My Appointments</a>
+            <div class="dropdown ms-2">
+                <button class="btn btn-sm btn-outline-success dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle me-1"></i> Applicant Account
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="@Url.Action("Profile", "Applicant")"><i class="bi bi-person-gear me-2"></i>My Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="@Url.Action("ApplicantLogout", "Applicant")"><i class="bi bi-box-arrow-left me-2"></i>Sign Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BANNER -->
+<div class="page-banner">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-calendar2-range me-2"></i>My Scheduled Sequences</h2>
+            <p class="mb-0 opacity-90">Review your booked dates, check confirmation metrics, or tracking verification pipeline steps.</p>
+        </div>
+        <button class="btn btn-light fw-bold" data-bs-toggle="modal" data-bs-target="#bookModal">
+            <i class="bi bi-plus-circle me-1"></i> Book Appointment
+        </button>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="container my-5">
+
+    @if (ViewBag.Success != null)
+    {
+        <div class="alert alert-success">@ViewBag.Success</div>
+    }
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <!-- STATUS COUNTERS row — now calculated from real data -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stat-card d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small fw-semibold">Confirmed Slots</span>
+                    <h3 class="fw-bold text-success mt-1 mb-0">@Model.Count(a => a.Status == "Approved")</h3>
+                </div>
+                <div class="fs-1 text-success opacity-50"><i class="bi bi-calendar-check-fill"></i></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small fw-semibold">Pending Approvals</span>
+                    <h3 class="fw-bold text-warning mt-1 mb-0">@Model.Count(a => a.Status == "Pending")</h3>
+                </div>
+                <div class="fs-1 text-warning opacity-50"><i class="bi bi-hourglass-split"></i></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small fw-semibold">Total Submissions</span>
+                    <h3 class="fw-bold text-dark mt-1 mb-0">@Model.Count</h3>
+                </div>
+                <div class="fs-1 text-dark opacity-25"><i class="bi bi-folder-fill"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPOINTMENTS TIMELINE SECTION -->
+    <h4 class="fw-bold text-success mb-4">Your Active Registrations</h4>
+
+    <div class="row g-4">
+        @if (Model.Count == 0)
+        {
+            <div class="col-12">
+                <p class="text-muted">You haven't booked any appointments yet.</p>
+            </div>
+        }
+
+        @foreach (var appointment in Model)
+        {
+            // Pick badge style based on status
+            string badgeClass = appointment.Status switch
+            {
+                "Approved" => "badge-confirmed",
+                "Pending" => "bg-warning text-dark",
+                "Completed" => "bg-primary",
+                "Rejected" => "bg-danger",
+                _ => "bg-secondary"
+            };
+
+            <div class="col-12">
+                <div class="appointment-card">
+                    <div class="row align-items-center g-3">
+                        <div class="col-md-4">
+                            <span class="text-muted small d-block">PURPOSE</span>
+                            <h5 class="fw-bold mb-1 text-dark">@appointment.Purpose</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="text-muted small d-block">SCHEDULED SLOT</span>
+                            <p class="fw-semibold mb-0 text-secondary">
+                                <i class="bi bi-calendar3 text-success me-2"></i> @appointment.AppointmentDate.ToString("MMMM dd, yyyy")
+                            </p>
+                            <p class="fw-semibold mb-0 text-secondary">
+                                <i class="bi bi-clock text-success me-2"></i> @DateTime.Today.Add(appointment.AppointmentTime).ToString("hh:mm tt")
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="text-muted small d-block mb-1">PIPELINE STATUS</span>
+                            <span class="status-badge @badgeClass"><i class="bi bi-check-circle-fill me-1"></i> @appointment.Status</span>
+                        </div>
+                        <div class="col-md-2 text-md-end">
+                            @if (appointment.Status == "Pending")
+                            {
+                                <form action="@Url.Action("CancelAppointment", "Applicant")" method="post" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                                    <input type="hidden" name="AppointmentId" value="@appointment.AppointmentId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger px-3 rounded-2">
+                                        <i class="bi bi-x-circle me-1"></i> Cancel Slot
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</main>
+
+<!-- BOOK APPOINTMENT MODAL -->
+<div class="modal fade" id="bookModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("BookAppointment", "Applicant", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title">Book an Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Purpose</label>
+                        <input type="text" name="Purpose" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Date</label>
+                        <input type="date" name="AppointmentDate" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Time</label>
+                        <input type="time" name="AppointmentTime" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Submit Request</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container text-center small opacity-75">
+        <p class="mb-1">© 2026 Smart Office Records System. All rights reserved.</p>
+        <p class="mb-0">Designed & Developed by JJJC</p>
+    </div>
+</footer>
+</body>
+</html>
+
