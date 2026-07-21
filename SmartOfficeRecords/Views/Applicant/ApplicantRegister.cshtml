@@ -1,6 +1,6 @@
-﻿@{
-    ViewBag.Title = "Applicant Register";
-    Layout = null;
+﻿﻿@{
+ViewBag.Title = "Applicant Register";
+Layout = null;
 }
 
 <!DOCTYPE html>
@@ -17,392 +17,393 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: #f4f6f9;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .main-container {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-        }
-
-        .register-wrapper {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: row-reverse;
-            overflow: hidden;
-            background: white;
-        }
-
-        /* LEFT SIDE - MATCHING GRADIENT & TEXTURE */
-        .left-side {
-            width: 40%;
-            height: 100vh;
-            background: linear-gradient(135deg, #1b9a46 0%, #0f6328 100%);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-            /* Subtle geometric overlay background pattern matching login */
-            .left-side::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                opacity: 0.04;
-                background-image: linear-gradient(30deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(150deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(300deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(60deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000), linear-gradient(240deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000);
-                background-size: 40px 70px;
-                z-index: 1;
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
             }
 
-        .top-content {
-            text-align: center;
-            padding-top: 80px;
-            position: relative;
-            z-index: 2;
-        }
-
-            /* Ambient glow ring under logo */
-            .top-content img {
-                width: 130px;
-                margin-bottom: 25px;
-                background: rgba(255, 255, 255, 0.1);
-                padding: 10px;
-                border-radius: 50%;
-                backdrop-filter: blur(8px);
-                border: 1px solid rgba(255, 255, 255, 0.15);
+            body {
+                background: #f4f6f9;
+                min-height: 100vh;
+                overflow: hidden;
             }
 
-            .top-content h1 {
-                color: white;
-                font-size: 40px;
-                font-weight: 700;
-                line-height: 1.25;
-                letter-spacing: 0.5px;
-                text-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            }
-
-        .bottom-image {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            margin-top: auto;
-        }
-
-            .bottom-image img {
+            .main-container {
                 width: 100%;
-                height: 50vh;
-                object-fit: cover;
-                display: block;
+                height: 100vh;
+                display: flex;
             }
 
-        /* RIGHT SIDE */
-        .right-side {
-            width: 60%;
-            height: 100vh;
-            background: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 40px;
-        }
-
-        /* MODERN FLOATING CARD */
-        .register-card {
-            width: 100%;
-            max-width: 660px;
-            background: white;
-            border: none;
-            border-radius: 16px;
-            padding: 40px 45px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-            /* Animation */
-            opacity: 0;
-            animation: slideInCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-            .register-card h2 {
-                text-align: center;
-                font-size: 30px;
-                font-weight: 700;
-                color: #1e293b;
-                margin-bottom: 6px;
+            .register-wrapper {
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                flex-direction: row-reverse;
+                overflow: hidden;
+                background: white;
             }
 
-        .subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        /* BALANCED FORM GRID */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px 20px;
-        }
-
-        /* INPUT GROUP STYLING */
-        .input-group-custom {
-            position: relative;
-        }
-
-            .input-group-custom .left-icon {
-                position: absolute;
-                left: 16px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #94a3b8;
-                font-size: 17px;
-                transition: color 0.2s ease;
+            /* LEFT SIDE - MATCHING GRADIENT & TEXTURE */
+            .left-side {
+                width: 40%;
+                height: 100vh;
+                background: linear-gradient(135deg, #1b9a46 0%, #0f6328 100%);
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                overflow: hidden;
             }
 
-            .input-group-custom .right-icon {
-                position: absolute;
-                right: 16px;
-                top: 50%;
-                transform: translateY(-50%);
-                cursor: pointer;
-                color: #94a3b8;
-                font-size: 17px;
-                transition: color 0.2s ease;
-            }
-
-                .input-group-custom .right-icon:hover {
-                    color: #475569;
+                /* Subtle geometric overlay background pattern matching login */
+                .left-side::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    opacity: 0.04;
+                    background-image: linear-gradient(30deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(150deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(300deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(60deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000), linear-gradient(240deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000);
+                    background-size: 40px 70px;
+                    z-index: 1;
                 }
 
-        .form-control-custom {
-            width: 100%;
-            height: 48px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding-left: 46px;
-            padding-right: 46px;
-            outline: none;
-            color: #1e293b;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            background-color: #f8fafc;
-        }
-
-            /* Formatting dynamic adjustments for specific fields like dates */
-            .form-control-custom[type="date"] {
-                color: #475569;
+            .top-content {
+                text-align: center;
+                padding-top: 80px;
+                position: relative;
+                z-index: 2;
             }
 
-            .form-control-custom::placeholder {
+                /* Ambient glow ring under logo */
+                .top-content img {
+                    width: 130px;
+                    margin-bottom: 25px;
+                    background: rgba(255, 255, 255, 0.1);
+                    padding: 10px;
+                    border-radius: 50%;
+                    backdrop-filter: blur(8px);
+                    border: 1px solid rgba(255, 255, 255, 0.15);
+                }
+
+                .top-content h1 {
+                    color: white;
+                    font-size: 40px;
+                    font-weight: 700;
+                    line-height: 1.25;
+                    letter-spacing: 0.5px;
+                    text-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                }
+
+            .bottom-image {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                margin-top: auto;
+            }
+
+                .bottom-image img {
+                    width: 100%;
+                    height: 50vh;
+                    object-fit: cover;
+                    display: block;
+                }
+
+            /* RIGHT SIDE */
+            .right-side {
+                width: 60%;
+                height: 100vh;
+                background: #f8fafc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px 40px;
+            }
+
+            /* MODERN FLOATING CARD */
+            .register-card {
+                width: 100%;
+                max-width: 660px;
+                background: white;
+                border: none;
+                border-radius: 16px;
+                padding: 40px 45px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+                /* Animation */
+                opacity: 0;
+                animation: slideInCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+
+                .register-card h2 {
+                    text-align: center;
+                    font-size: 30px;
+                    font-weight: 700;
+                    color: #1e293b;
+                    margin-bottom: 6px;
+                }
+
+            .subtitle {
+                text-align: center;
+                color: #64748b;
+                margin-bottom: 30px;
+                font-size: 14px;
+            }
+
+            /* BALANCED FORM GRID */
+            .form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px 20px;
+            }
+
+            /* INPUT GROUP STYLING */
+            .input-group-custom {
+                position: relative;
+            }
+
+                .input-group-custom .left-icon {
+                    position: absolute;
+                    left: 16px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #94a3b8;
+                    font-size: 17px;
+                    transition: color 0.2s ease;
+                }
+
+                .input-group-custom .right-icon {
+                    position: absolute;
+                    right: 16px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                    color: #94a3b8;
+                    font-size: 17px;
+                    transition: color 0.2s ease;
+                }
+
+                    .input-group-custom .right-icon:hover {
+                        color: #475569;
+                    }
+
+            .form-control-custom {
+                width: 100%;
+                height: 48px;
+                border: 1px solid #e2e8f0;
+                border-radius: 10px;
+                padding-left: 46px;
+                padding-right: 46px;
+                outline: none;
+                color: #1e293b;
+                font-size: 14px;
+                transition: all 0.2s ease;
+                background-color: #f8fafc;
+            }
+
+                /* Formatting dynamic adjustments for specific fields like dates */
+                .form-control-custom[type="date"] {
+                    color: #475569;
+                    padding-right: 50px;
+                }
+
+                .form-control-custom::placeholder {
+                    color: #94a3b8;
+                }
+
+                .form-control-custom[type="date"]::-webkit-calendar-picker-indicator {
+                    position: absolute;
+                    right: 15px;
+                    cursor: pointer;
+                    opacity: 1;
+                    z-index: 2;
+                }
+
+                .form-control-custom:focus {
+                    background-color: #fff;
+                    border-color: #16a34a;
+                    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+                }
+
+            .input-group-custom:focus-within .left-icon {
+                color: #16a34a;
+            }
+
+            /* MODERN SLICK UPLOAD BOX */
+            .upload-box {
+                margin-top: 20px;
+                border: 2px dashed #cbd5e1;
+                border-radius: 12px;
+                background: #f8fafc;
+                padding: 20px;
+                text-align: center;
+                transition: all 0.2s ease;
+            }
+
+                .upload-box:hover {
+                    border-color: #16a34a;
+                    background: #f0fdf4;
+                }
+
+                .upload-box i {
+                    font-size: 38px;
+                    color: #16a34a;
+                    margin-bottom: 8px;
+                    display: inline-block;
+                }
+
+                .upload-box p {
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: #475569;
+                    margin-bottom: 12px;
+                }
+
+                .upload-box input[type=file] {
+                    max-width: 100%;
+                    font-size: 13px;
+                    color: #64748b;
+                }
+
+            .upload-info {
+                margin-top: 8px;
+                font-size: 12px;
                 color: #94a3b8;
             }
 
-            .form-control-custom:focus {
-                background-color: #fff;
-                border-color: #16a34a;
-                box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+            /* REGISTER BUTTON */
+            .btn-register {
+                width: 60%;
+                height: 50px;
+                border: none;
+                border-radius: 10px;
+                background: linear-gradient(135deg, #22c55e, #16a34a);
+                color: white;
+                font-size: 16px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                display: block;
+                margin: 24px auto 0;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
             }
 
-        .input-group-custom:focus-within .left-icon {
-            color: #16a34a;
-        }
+                .btn-register:hover {
+                    background: linear-gradient(135deg, #16a34a, #15803d);
+                    transform: translateY(-1px);
+                    box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+                }
 
-        /* MODERN SLICK UPLOAD BOX */
-        .upload-box {
-            margin-top: 20px;
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            background: #f8fafc;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.2s ease;
-        }
+                .btn-register:active {
+                    transform: translateY(1px);
+                    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.2);
+                }
 
-            .upload-box:hover {
-                border-color: #16a34a;
-                background: #f0fdf4;
-            }
-
-            .upload-box i {
-                font-size: 38px;
-                color: #16a34a;
-                margin-bottom: 8px;
-                display: inline-block;
-            }
-
-            .upload-box p {
-                font-size: 13px;
-                font-weight: 500;
-                color: #475569;
-                margin-bottom: 12px;
-            }
-
-            .upload-box input[type=file] {
-                max-width: 100%;
-                font-size: 13px;
+            /* LOGIN LINK */
+            .login-link {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 14px;
                 color: #64748b;
             }
 
-        .upload-info {
-            margin-top: 8px;
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        /* REGISTER BUTTON */
-        .btn-register {
-            width: 60%;
-            height: 50px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            display: block;
-            margin: 24px auto 0;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
-        }
-
-            .btn-register:hover {
-                background: linear-gradient(135deg, #16a34a, #15803d);
-                transform: translateY(-1px);
-                box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
-            }
-
-            .btn-register:active {
-                transform: translateY(1px);
-                box-shadow: 0 4px 10px rgba(22, 163, 74, 0.2);
-            }
-
-        /* LOGIN LINK */
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #64748b;
-        }
-
-            .login-link a {
-                color: #16a34a;
-                font-weight: 600;
-                text-decoration: none;
-                transition: color 0.2s ease;
-            }
-
-                .login-link a:hover {
-                    color: #15803d;
-                    text-decoration: underline;
+                .login-link a {
+                    color: #16a34a;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: color 0.2s ease;
                 }
 
-        /* STATUS ALERTS */
-        .error-message {
-            background-color: #fef2f2;
-            border: 1px solid #fee2e2;
-            color: #dc2626;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
+                    .login-link a:hover {
+                        color: #15803d;
+                        text-decoration: underline;
+                    }
 
-        .success-message {
-            background-color: #f0fdf4;
-            border: 1px solid #dcfce7;
-            color: #16a34a;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* RESPONSIVE LAYOUT */
-        @@media(max - width: 991px)
-
-        {
-            .register-wrapper
-
-        {
-            flex-direction: column-reverse;
-            overflow-y: auto;
-        }
-
-        .left-side,
-        .right-side {
-            width: 100%;
-        }
-
-        .left-side {
-            height: auto;
-            padding-bottom: 0;
-        }
-
-        .top-content {
-            padding: 50px 20px 30px 20px;
-        }
-
-            .top-content h1 {
-                font-size: 32px;
+            /* STATUS ALERTS */
+            .error-message {
+                background-color: #fef2f2;
+                border: 1px solid #fee2e2;
+                color: #dc2626;
+                text-align: center;
+                padding: 10px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                font-size: 14px;
+                font-weight: 500;
             }
 
-        .bottom-image img {
-            height: 35vh;
-        }
+            .success-message {
+                background-color: #f0fdf4;
+                border: 1px solid #dcfce7;
+                color: #16a34a;
+                text-align: center;
+                padding: 10px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                font-size: 14px;
+                font-weight: 500;
+            }
 
-        .right-side {
-            height: auto;
-            padding: 40px 20px;
-        }
+            /* RESPONSIVE LAYOUT */
+            @@media(max - width: 991px) {
+                .register-wrapper {
+                    flex-direction: column-reverse;
+                    overflow-y: auto;
+                }
 
-        .form-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
+                .left-side,
+                .right-side {
+                    width: 100%;
+                }
 
-        .register-card {
-            padding: 35px 24px;
-        }
+                .left-side {
+                    height: auto;
+                    padding-bottom: 0;
+                }
 
-        .btn-register {
-            width: 100%;
-        }
+                .top-content {
+                    padding: 50px 20px 30px 20px;
+                }
 
-        }
+                    .top-content h1 {
+                        font-size: 32px;
+                    }
 
-        /* CARD SLIDE ANIMATION */
-        @@keyframes slideInCard {
-            from
+                .bottom-image img {
+                    height: 35vh;
+                }
 
-        {
-            opacity: 0;
-            transform: translateY(30px);
-        }
+                .right-side {
+                    height: auto;
+                    padding: 40px 20px;
+                }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+                .form-grid {
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                }
 
-        }
+                .register-card {
+                    padding: 35px 24px;
+                }
+
+                .btn-register {
+                    width: 100%;
+                }
+            }
+
+            /* CARD SLIDE ANIMATION */
+            @@keyframes slideInCard {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
     </style>
 </head>
 <body>
@@ -506,9 +507,12 @@
 
                             <div class="input-group-custom">
                                 <i class="bi bi-calendar-event left-icon"></i>
-                                <input type="date"
+                                <input type="text"
                                        name="Birthdate"
                                        class="form-control-custom"
+                                       placeholder="Birthdate"
+                                       onfocus="(this.type='date')"
+                                       onblur="if(!this.value)this.type='text'"
                                        required />
                             </div>
 
@@ -527,9 +531,9 @@
 
                         <div class="upload-box">
                             <i class="bi bi-cloud-arrow-up"></i>
-                            <p>Drag and drop profile image here or click to browse</p>
+                            <p>Drag and drop Valid ID  here or click to browse</p>
                             <input type="file"
-                                   name="ProfileImage"
+                                   name="Valid ID"
                                    accept=".jpg,.jpeg,.png" />
                             <div class="upload-info">
                                 JPG, JPEG or PNG formats supported. Max size 4MB.
@@ -553,27 +557,27 @@
     </div>
 
     <script>
-        // PASSWORD VISIBILITY TOGGLE
-        const togglePassword = document.querySelector("#togglePassword");
-        const password = document.querySelector("#password");
+            // PASSWORD VISIBILITY TOGGLE
+            const togglePassword = document.querySelector("#togglePassword");
+            const password = document.querySelector("#password");
 
-        togglePassword.addEventListener("click", function () {
-            const type = password.getAttribute("type") === "password" ? "text" : "password";
-            password.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
-            this.classList.toggle("bi-eye-slash");
-        });
+            togglePassword.addEventListener("click", function () {
+                const type = password.getAttribute("type") === "password" ? "text" : "password";
+                password.setAttribute("type", type);
+                this.classList.toggle("bi-eye");
+                this.classList.toggle("bi-eye-slash");
+            });
 
-        // CONFIRM PASSWORD VISIBILITY TOGGLE
-        const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
-        const confirmPassword = document.querySelector("#confirmPassword");
+            // CONFIRM PASSWORD VISIBILITY TOGGLE
+            const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+            const confirmPassword = document.querySelector("#confirmPassword");
 
-        toggleConfirmPassword.addEventListener("click", function () {
-            const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
-            confirmPassword.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
-            this.classList.toggle("bi-eye-slash");
-        });
+            toggleConfirmPassword.addEventListener("click", function () {
+                const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+                confirmPassword.setAttribute("type", type);
+                this.classList.toggle("bi-eye");
+                this.classList.toggle("bi-eye-slash");
+            });
     </script>
 </body>
 </html>

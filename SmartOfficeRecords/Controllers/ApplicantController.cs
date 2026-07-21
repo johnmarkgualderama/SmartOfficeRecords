@@ -187,21 +187,20 @@ namespace SmartOfficeRecords.Controllers
         }
         public ActionResult ApplicantLand()
         {
-            // If there's no ApplicantId in session, they never logged in — send them back
-            if (HttpContext.Session.GetInt32("ApplicantId") == null)
-            {
-                return RedirectToAction("ApplicantLogin");
-            }
-
             return View();
         }
 
         public ActionResult ApplicantDash()
         {
-            if (HttpContext.Session.GetInt32("ApplicantId") == null)
-            {
+            if (!LoadLoggedInApplicant())
                 return RedirectToAction("ApplicantLogin");
-            }
+
+            return View();
+        }
+        public ActionResult SomeAction()
+        {
+            if (!LoadLoggedInApplicant())
+                return RedirectToAction("ApplicantLogin");
 
             return View();
         }
@@ -218,20 +217,63 @@ namespace SmartOfficeRecords.Controllers
             var applicant = _context.ApplicantRegisters.Find(applicantId);
             return View(applicant);
         }
+        [HttpPost]
+        public ActionResult Profile(string Username, string Email, string ContactNumber)
+        {
+            if (!LoadLoggedInApplicant())
+                return RedirectToAction("ApplicantLogin");
+
+            int applicantId = HttpContext.Session.GetInt32("ApplicantId")!.Value;
+            var applicant = _context.ApplicantRegisters.Find(applicantId);
+
+            if (applicant == null)
+                return RedirectToAction("ApplicantLogin");
+
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(ContactNumber))
+            {
+                ViewBag.Error = "Please fill in all fields.";
+                return View(applicant);
+            }
+
+            // Check if the new username/email is already used by SOMEONE ELSE
+            bool taken = _context.ApplicantRegisters
+                .Any(a => a.ApplicantId != applicantId && (a.Username == Username || a.Email == Email));
+
+            if (taken)
+            {
+                ViewBag.Error = "That Username or Email is already in use by another account.";
+                return View(applicant);
+            }
+
+            applicant.Username = Username;
+            applicant.Email = Email;
+            applicant.ContactNumber = ContactNumber;
+
+            _context.SaveChanges();
+
+            // Keep session in sync since Username may have just changed
+            HttpContext.Session.SetString("ApplicantUsername", applicant.Username);
+
+            ViewBag.Success = "Profile updated successfully!";
+            ViewBag.FullName = applicant.FullName;
+            ViewBag.Username = applicant.Username;
+            ViewBag.Email = applicant.Email;
+            ViewBag.Initials = applicant.FullName.Length >= 2
+                ? applicant.FullName.Substring(0, 2).ToUpper()
+                : applicant.FullName.ToUpper();
+
+            return View(applicant);
+        }
         public ActionResult ApplicantLogout()
         {
             HttpContext.Session.Clear(); // wipes everything stored in session
             return RedirectToAction("ApplicantLogin");
         }
-
-
-
         public ApplicantController(ApplicationDbContext context, EmailService emailService)
         {
             _context = context;
             _emailService = emailService;
         }
-
 
         // ================== FORGOT PASSWORD - STEP 1: Request a code ==================
 
@@ -382,9 +424,10 @@ namespace SmartOfficeRecords.Controllers
         // GET: Applicant/MyAppointment
         public ActionResult MyAppointment()
         {
-            int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
-            if (applicantId == null)
+            if (!LoadLoggedInApplicant())
                 return RedirectToAction("ApplicantLogin");
+
+            int applicantId = HttpContext.Session.GetInt32("ApplicantId")!.Value;
 
             var myAppointments = _context.Appointments
                 .Where(a => a.ApplicantId == applicantId)
@@ -393,6 +436,45 @@ namespace SmartOfficeRecords.Controllers
 
             return View(myAppointments);
         }
+        private bool LoadLoggedInApplicant()
+        {
+            int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
+            if (applicantId == null)
+                return false;
+
+            var applicant = _context.ApplicantRegisters.Find(applicantId);
+            if (applicant == null)
+                return false;
+
+            string cleanName = applicant.FullName.Trim();
+            string[] nameParts = cleanName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            string initials;
+            if (nameParts.Length >= 2)
+            {
+                initials = $"{nameParts[0][0]}{nameParts[^1][0]}".ToUpper();
+            }
+            else if (nameParts.Length == 1 && nameParts[0].Length >= 2)
+            {
+                initials = nameParts[0].Substring(0, 2).ToUpper();
+            }
+            else if (nameParts.Length == 1)
+            {
+                initials = nameParts[0].ToUpper();
+            }
+            else
+            {
+                initials = "?";
+            }
+
+            ViewBag.FullName = applicant.FullName;
+            ViewBag.Username = applicant.Username;
+            ViewBag.Email = applicant.Email;
+            ViewBag.Initials = initials;
+
+            return true;
+        }
+
 
         // POST: Applicant/BookAppointment
         [HttpPost]
@@ -420,11 +502,175 @@ namespace SmartOfficeRecords.Controllers
                 DateRequested = DateTime.Now // this is what feeds the admin dashboard graph
             };
 
+            if (applicantId == null)
+            {
+                return RedirectToAction("ApplicantLogin");
+            }
+
+            var applicant = _context.ApplicantRegisters.Find(applicantId);
+
+            if (applicant == null)
+            {
+                return RedirectToAction("ApplicantLogin");
+            }
+
+            // Get initials safely, regardless of whether FullName has spaces or not
+            string cleanName = applicant.FullName.Trim();
+            string initials;
+
+            if (cleanName.Length >= 2)
+            {
+                initials = cleanName.Substring(0, 2).ToUpper(); // first 2 letters, e.g. "Jo" -> "JO"
+            }
+            else if (cleanName.Length == 1)
+            {
+                initials = cleanName.ToUpper();
+            }
+            else
+            {
+                initials = "?";
+            }
+
+            ViewBag.FullName = applicant.FullName;
+            ViewBag.Username = applicant.Username;
+            ViewBag.Email = applicant.Email;
+            ViewBag.Initials = initials;
+
+ 
+
             _context.Appointments.Add(newAppointment);
             _context.SaveChanges();
 
             ViewBag.Success = "Appointment request submitted!";
             return RedirectToAction("MyAppointment");
         }
-    }            
+        public ActionResult BookInterview()
+        {
+            if (!LoadLoggedInApplicant())
+                return RedirectToAction("ApplicantLogin");
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult BookInterview(
+     string FullName,
+     string ContactNumber,
+     string EmailAddress,
+     IFormFile ResumeFile,
+     IFormFile ValidIDFile,
+     string PreferredDate,
+     string PreferredTime,
+     string AdditionalNotes)
+        {
+            if (!LoadLoggedInApplicant())
+                return RedirectToAction("ApplicantLogin");
+
+            int applicantId = HttpContext.Session.GetInt32("ApplicantId")!.Value;
+
+            if (string.IsNullOrWhiteSpace(FullName) ||
+                string.IsNullOrWhiteSpace(ContactNumber) ||
+                string.IsNullOrWhiteSpace(EmailAddress) ||
+                string.IsNullOrWhiteSpace(PreferredDate) ||
+                string.IsNullOrWhiteSpace(PreferredTime))
+            {
+                ViewBag.Error = "Please fill in all required fields.";
+                return View();
+            }
+
+            if (!DateTime.TryParse(PreferredDate, out DateTime parsedDate))
+            {
+                ViewBag.Error = "Invalid interview date.";
+                return View();
+            }
+
+            if (!DateTime.TryParse(PreferredTime, out DateTime parsedTimeDateTime))
+            {
+                ViewBag.Error = "Invalid interview time.";
+                return View();
+            }
+            TimeSpan parsedTime = parsedTimeDateTime.TimeOfDay;
+
+            // ----- SAVE RESUME FILE -----
+            string? savedResumeFileName = null;
+            if (ResumeFile != null && ResumeFile.Length > 0)
+            {
+                savedResumeFileName = Guid.NewGuid().ToString() + Path.GetExtension(ResumeFile.FileName);
+                string resumeFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Resumes");
+                if (!Directory.Exists(resumeFolder))
+                    Directory.CreateDirectory(resumeFolder);
+
+                string resumePath = Path.Combine(resumeFolder, savedResumeFileName);
+                using (var stream = new FileStream(resumePath, FileMode.Create))
+                {
+                    ResumeFile.CopyTo(stream);
+                }
+            }
+
+            // ----- SAVE VALID ID FILE -----
+            string? savedValidIDFileName = null;
+            if (ValidIDFile != null && ValidIDFile.Length > 0)
+            {
+                savedValidIDFileName = Guid.NewGuid().ToString() + Path.GetExtension(ValidIDFile.FileName);
+                string validIDFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ValidIDs");
+                if (!Directory.Exists(validIDFolder))
+                    Directory.CreateDirectory(validIDFolder);
+
+                string validIDPath = Path.Combine(validIDFolder, savedValidIDFileName);
+                using (var stream = new FileStream(validIDPath, FileMode.Create))
+                {
+                    ValidIDFile.CopyTo(stream);
+                }
+            }
+
+            // ----- SAVE TO DATABASE -----
+            var newAppointment = new Appointment
+            {
+                ApplicantId = applicantId,
+                Purpose = "Interview",
+                AppointmentDate = parsedDate,
+                AppointmentTime = parsedTime,
+                Status = "Pending",
+                DateRequested = DateTime.Now,
+                ContactNumber = ContactNumber,
+                Email = EmailAddress,
+                ResumeFile = savedResumeFileName,
+                ValidIDFile = savedValidIDFileName,
+                AdditionalNotes = AdditionalNotes
+            };
+
+            _context.Appointments.Add(newAppointment);
+            _context.SaveChanges();
+
+            ViewBag.Success = "Interview booking submitted successfully!";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CancelAppointment(int AppointmentId)
+        {
+            int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
+            if (applicantId == null)
+                return RedirectToAction("ApplicantLogin");
+
+            var appointment = _context.Appointments
+                .FirstOrDefault(a => a.AppointmentId == AppointmentId && a.ApplicantId == applicantId);
+
+            if (appointment == null)
+            {
+                ViewBag.Error = "Appointment not found.";
+                return RedirectToAction("MyAppointment");
+            }
+
+            if (appointment.Status != "Pending")
+            {
+                ViewBag.Error = "This appointment can no longer be cancelled.";
+                return RedirectToAction("MyAppointment");
+            }
+
+            _context.Appointments.Remove(appointment);  // <-- this line deletes it from SQL Server
+            _context.SaveChanges();                      // <-- this line commits the delete
+
+            ViewBag.Success = "Appointment cancelled successfully.";
+            return RedirectToAction("MyAppointment");
+        }
+    }
 }            
