@@ -1,6 +1,6 @@
-﻿﻿@{
-ViewBag.Title = "Home";
-Layout = null;
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -8,13 +8,10 @@ Layout = null;
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Smart Office Records System</title>
+    <title>Dashboard - SORS</title>
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Google Fonts (Poppins) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -26,539 +23,1245 @@ Layout = null;
             }
 
             body {
-                background-color: #eaf6ed; /* Light mint background */
+                background: #f1f1f1;
+                color: #263238;
                 min-height: 100vh;
-                color: #334155;
-                padding-top: 70px; /* Add this line to offset the fixed navbar height */
+                overflow-x: hidden;
             }
 
-            /* --- NAVBAR STYLING --- */
+            a {
+                text-decoration: none;
+            }
+
+            :root {
+                --red: #ed1c24;
+                --red-dark: #c9151c;
+                --red-light: #fff1f1;
+                --sidebar: #222b30;
+                --sidebar-hover: #2d373d;
+                --white: #ffffff;
+                --black-gray: #263238;
+                --dark-gray: #455a64;
+                --gray: #78909c;
+                --light-gray: #eceff1;
+                --border: #e1e5e8;
+                --page-bg: #f1f1f1;
+            }
+
+            /* NAVBAR */
             .navbar-custom {
-                background-color: #ffffff;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                padding: 12px 24px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 56px;
+                background: var(--white);
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                align-items: center;
+                z-index: 1030;
+                padding: 0;
+            }
+
+            .navbar-left-box {
+                width: 155px;
+                height: 56px;
+                background: var(--sidebar);
+                display: flex;
+                align-items: center;
+                padding: 0 15px;
+                border-right: 1px solid #39434a;
+                transition: all .3s ease;
             }
 
             .navbar-brand-custom {
                 display: flex;
                 align-items: center;
-                text-decoration: none;
-                gap: 10px;
+                gap: 8px;
             }
 
                 .navbar-brand-custom img {
-                    width: 40px;
-                    height: 40px;
+                    width: 34px;
+                    height: 34px;
                     object-fit: contain;
+                    border-radius: 50%;
                 }
 
             .brand-text {
-                color: #0f6328;
-                font-weight: 700;
-                line-height: 1.1;
+                color: #ffffff;
                 font-size: 14px;
-                letter-spacing: 0.5px;
+                font-weight: 700;
+                letter-spacing: .4px;
             }
 
-                .brand-text span {
-                    color: #1e293b;
-                    font-weight: 500;
-                    font-size: 12px;
-                }
-
-            .nav-links-custom {
-                display: flex;
-                gap: 30px;
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                align-items: center;
-            }
-
-            .nav-link-custom {
-                text-decoration: none;
-                color: #64748b;
-                font-weight: 500;
-                font-size: 15px;
+            .toggle-zone-box {
+                height: 56px;
+                width: 55px;
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                transition: all 0.2s ease;
+                justify-content: center;
+                background: #ffffff;
             }
 
-                .nav-link-custom:hover {
-                    color: #16a34a;
-                }
+            .sidebar-toggle-btn {
+                border: none;
+                background: transparent;
+                color: var(--red);
+                font-size: 18px;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: .2s ease;
+            }
 
-                .nav-link-custom.active {
-                    color: #16a34a;
-                    border-bottom: 2px solid #16a34a;
-                    padding-bottom: 4px;
-                    font-weight: 600;
+                .sidebar-toggle-btn:hover {
+                    color: var(--red-dark);
                 }
 
             .navbar-profile {
+                margin-left: auto;
+                height: 56px;
                 display: flex;
                 align-items: center;
                 gap: 15px;
+                padding-right: 15px;
+            }
+
+            /* NOTIFICATION */
+            .notification-container {
+                position: relative;
             }
 
             .notification-btn {
-                background: none;
+                width: 40px;
+                height: 40px;
                 border: none;
-                color: #64748b;
+                background: transparent;
+                color: var(--dark-gray);
                 font-size: 20px;
-                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .notification-btn:hover {
+                    color: var(--red);
+                }
+
+            .notification-badge-dot {
+                position: absolute;
+                top: 8px;
+                right: 7px;
+                width: 7px;
+                height: 7px;
+                background: var(--red);
+                border-radius: 50%;
+                border: 1px solid white;
+            }
+
+            .notification-dropdown-custom {
+                position: absolute;
+                right: 0;
+                top: 48px;
+                width: 330px;
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.12);
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: all .25s ease;
+                z-index: 1050;
+            }
+
+            .notification-container.open .notification-dropdown-custom {
+                max-height: 450px;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .notif-header {
+                padding: 14px 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #eeeeee;
+            }
+
+            .notif-header-title {
+                color: var(--black-gray);
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .notif-mark-read {
+                color: var(--red);
+                font-size: 10px;
+                font-weight: 600;
+            }
+
+                .notif-mark-read:hover {
+                    color: var(--red-dark);
+                }
+
+            .notif-body {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .notif-item {
+                display: flex;
+                gap: 10px;
+                padding: 12px 15px;
+                border-bottom: 1px solid #f1f1f1;
+                color: inherit;
+                transition: .2s ease;
+            }
+
+                .notif-item:hover {
+                    background: var(--red-light);
+                }
+
+            .notif-icon-box {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .notif-icon-success {
+                background: #e8f5e9;
+                color: #43a047;
+            }
+
+            .notif-icon-warning {
+                background: #fff3e0;
+                color: #fb8c00;
+            }
+
+            .notif-text {
+                color: var(--dark-gray);
+                font-size: 11px;
+                line-height: 1.4;
+            }
+
+            .notif-time {
+                color: #9e9e9e;
+                font-size: 9px;
+                margin-top: 3px;
+            }
+
+            .notif-footer {
+                padding: 10px;
+                text-align: center;
+                background: #fafafa;
+                border-top: 1px solid #eeeeee;
+            }
+
+            .notif-footer-btn {
+                color: var(--red);
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+            /* PROFILE */
+            .profile-container {
+                position: relative;
             }
 
             .profile-widget {
                 display: flex;
                 align-items: center;
-                gap: 10px;
-                background: #f8fafc;
-                padding: 6px 12px;
-                border-radius: 30px;
-                border: 1px solid #e2e8f0;
+                gap: 8px;
+                padding: 4px 8px;
+                border-radius: 20px;
+                background: #f5f5f5;
+                border: 1px solid #e3e3e3;
                 cursor: pointer;
+                transition: .2s ease;
             }
 
+                .profile-widget:hover {
+                    background: #eeeeee;
+                }
+
             .profile-avatar {
-                width: 32px;
-                height: 32px;
+                width: 28px;
+                height: 28px;
                 border-radius: 50%;
-                background-color: #ffb74d; /* Yellow/Orange avatar placeholder */
+                background: #ffb52e;
+                color: white;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: white;
-                font-weight: 600;
-                font-size: 13px;
+                font-size: 10px;
+                font-weight: 700;
             }
 
             .profile-info {
-                text-align: left;
-                line-height: 1.2;
+                line-height: 1.1;
             }
 
             .profile-name {
-                font-size: 12px;
-                font-weight: 600;
-                color: #1e293b;
                 display: block;
+                color: var(--black-gray);
+                font-size: 10px;
+                font-weight: 700;
             }
 
             .profile-email {
-                font-size: 10px;
-                color: #64748b;
                 display: block;
+                color: #78909c;
+                font-size: 8px;
             }
 
-            /* --- CONTENT BODY STYLING --- */
+            .profile-arrow {
+                color: #546e7a;
+                font-size: 11px;
+                transition: .3s;
+            }
+
+            .profile-dropdown-custom {
+                position: absolute;
+                right: 0;
+                top: 48px;
+                width: 200px;
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.12);
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: all .25s ease;
+                z-index: 1050;
+            }
+
+            .profile-container.open .profile-dropdown-custom {
+                max-height: 200px;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .profile-container.open .profile-arrow {
+                transform: rotate(180deg);
+            }
+
+            .profile-dropdown-custom a {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 15px;
+                color: var(--dark-gray);
+                font-size: 12px;
+                font-weight: 500;
+                transition: .2s ease;
+            }
+
+                .profile-dropdown-custom a:hover {
+                    background: var(--red-light);
+                    color: var(--red);
+                }
+
+                .profile-dropdown-custom a i {
+                    font-size: 16px;
+                }
+
+            /* SIDEBAR */
+            .sidebar-menu-wrapper {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                bottom: 0;
+                width: 155px;
+                background: var(--sidebar);
+                border-right: 1px solid #39434a;
+                padding: 15px 8px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                z-index: 1020;
+                transition: all .3s ease;
+            }
+
+                .sidebar-menu-wrapper::-webkit-scrollbar {
+                    width: 4px;
+                }
+
+                .sidebar-menu-wrapper::-webkit-scrollbar-track {
+                    background: var(--sidebar);
+                }
+
+                .sidebar-menu-wrapper::-webkit-scrollbar-thumb {
+                    background: #45545d;
+                    border-radius: 10px;
+                }
+
+            .sidebar-links {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .sidebar-link-item {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 11px 10px;
+                border-radius: 5px;
+                color: #ffffff;
+                font-size: 12px;
+                font-weight: 500;
+                white-space: nowrap;
+                transition: all .2s ease;
+            }
+
+                .sidebar-link-item i {
+                    width: 17px;
+                    min-width: 17px;
+                    font-size: 14px;
+                    display: inline-flex;
+                    justify-content: center;
+                }
+
+                .sidebar-link-item:hover {
+                    color: var(--red);
+                    background: rgba(237, 28, 36, .08);
+                }
+
+                .sidebar-link-item.active {
+                    color: var(--red);
+                    background: transparent;
+                    font-weight: 600;
+                }
+
+            .logout-wrapper {
+                position: absolute;
+                bottom: 15px;
+                left: 8px;
+                right: 8px;
+            }
+
+            .logout-link {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                padding: 10px;
+                color: #ffffff;
+                font-size: 12px;
+                font-weight: 500;
+                border-radius: 5px;
+                transition: .2s ease;
+            }
+
+                .logout-link:hover {
+                    color: var(--red);
+                    background: rgba(237,28,36,.08);
+                }
+
+                .logout-link i {
+                    font-size: 16px;
+                }
+
+            /* MAIN CONTENT */
             .page-container {
-                max-width: 1300px;
-                margin: 0 auto;
-                padding: 40px 20px;
+                margin-left: 155px;
+                padding: 78px 18px 35px 18px;
+                min-height: 100vh;
+                transition: margin-left .3s ease;
             }
 
             .heading-section {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 35px;
+                margin-bottom: 20px;
             }
 
             .page-title {
-                color: #16a34a;
-                font-size: 26px;
+                color: var(--black-gray);
+                font-size: 23px;
                 font-weight: 700;
-                margin-bottom: 4px;
+                margin-bottom: 2px;
             }
 
             .page-subtitle {
-                color: #64748b;
-                font-size: 14px;
+                color: #607d8b;
+                font-size: 11px;
                 font-weight: 500;
                 margin: 0;
             }
 
-            /* Date display pill */
-            .date-pill-container {
-                display: flex;
-                background: white;
-                border: 1px solid #e2e8f0;
-                border-radius: 10px;
-                overflow: hidden;
+            .dashboard-card {
+                background: #ffffff;
+                border: 1px solid #e5e5e5;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 3px 15px rgba(0,0,0,.04);
             }
 
-            .date-pill-value {
-                padding: 12px 24px;
-                font-size: 15px;
-                font-weight: 600;
-                color: #334155;
-            }
-
-            .date-pill-day {
-                padding: 12px 24px;
-                background-color: #f8fafc;
-                border-left: 1px solid #e2e8f0;
-                font-size: 15px;
-                font-weight: 600;
-                color: #334155;
-            }
-
-            /* --- LEFT MAIN CONTAINER CARD --- */
-            .main-dashboard-box {
-                background-color: #ffffff;
-                border-radius: 12px;
-                padding: 40px;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-                height: 100%;
-            }
-
-            .section-title-custom {
-                font-size: 18px;
+            .status-title {
+                color: var(--red);
+                font-size: 14px;
                 font-weight: 700;
-                color: #475569;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
             }
 
-            /* --- QUICK ACTIONS STYLING (UPDATED) --- */
-            .quick-actions-grid {
-                display: flex;
-                gap: 20px;
-                margin-bottom: 45px;
-                flex-wrap: wrap;
-            }
-
-            .action-card-button {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-start;
-                gap: 16px;
-                width: 230px;
-                height: 75px;
-                background-color: #ffffff;
-                border: 1.5px solid #a7f3d0;
+            .status-box {
+                background: #ffffff;
+                border: 1px solid #e5e5e5;
                 border-radius: 8px;
-                text-decoration: none;
-                color: #1e293b;
-                transition: all 0.2s ease;
-                padding: 10px 20px;
+                min-height: 145px;
+                padding: 15px;
+                box-shadow: 0 3px 12px rgba(0,0,0,.04);
             }
 
-                .action-card-button:hover {
-                    background-color: #f0fdf4;
-                    border-color: #16a34a;
-                    transform: translateY(-2px);
-                    color: #16a34a;
-                }
-
-                .action-card-button i {
-                    font-size: 32px;
-                    color: #16a34a;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .action-card-button span {
-                    font-size: 11px;
-                    font-weight: 700;
-                    line-height: 1.3;
-                    text-align: left;
-                    color: #334155;
-                }
-
-            /* --- TABLE STYLING --- */
-            .recent-request-section {
-                margin-top: 20px;
+            .status-box-title {
+                color: #78909c;
+                font-size: 11px;
+                font-weight: 600;
+                margin-bottom: 13px;
             }
 
-            .custom-table-container {
-                border: 1px solid #16a34a;
-                border-radius: 8px;
-                overflow: hidden;
+            .request-status {
+                color: var(--red);
+                font-size: 13px;
+                font-weight: 700;
+                margin-bottom: 17px;
             }
 
-            .custom-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin: 0;
+            .request-details {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                row-gap: 9px;
             }
 
-                .custom-table th {
-                    background-color: #eaf6ed;
-                    color: #000000;
-                    font-weight: 700;
-                    font-size: 14px;
-                    padding: 14px 20px;
-                    text-align: left;
-                    border-bottom: 1px solid #16a34a;
-                }
-
-                .custom-table td {
-                    padding: 16px 20px;
-                    vertical-align: middle;
-                    font-size: 13px;
-                    color: #334155;
-                    background-color: #ffffff;
+                .request-details span {
+                    font-size: 10px;
                     font-weight: 500;
+                    color: #78909c;
                 }
 
-            /* Status Pills */
-            .status-pill-pending {
-                background-color: #ffe0b2;
-                color: #e65100;
-                font-weight: 600;
+                .request-details strong {
+                    font-size: 10px;
+                    font-weight: 600;
+                    color: #607d8b;
+                }
+
+            .progress-box {
+                text-align: center;
+            }
+
+            .progress-circle {
+                width: 75px;
+                height: 75px;
+                margin: 0 auto 5px;
+                border-radius: 50%;
+                background: conic-gradient(var(--red) 0deg 270deg, #e5e7eb 270deg 360deg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+            }
+
+                .progress-circle::before {
+                    content: "";
+                    position: absolute;
+                    width: 60px;
+                    height: 60px;
+                    background: white;
+                    border-radius: 50%;
+                }
+
+            .progress-number {
+                position: relative;
+                z-index: 1;
+                color: #334155;
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .progress-label {
+                color: #64748b;
                 font-size: 11px;
-                padding: 4px 12px;
-                border-radius: 4px;
-                display: inline-block;
-            }
-
-            .status-pill-approved {
-                background-color: #a7f3d0;
-                color: #047857;
                 font-weight: 600;
+            }
+
+            .timeline-wrapper {
+                position: relative;
+                margin: 25px 0 20px;
+                padding: 0;
+            }
+
+            .timeline-line {
+                position: absolute;
+                top: 10px;
+                left: 2%;
+                width: 96%;
+                height: 7px;
+                background: #d9dcdf;
+                z-index: 0;
+            }
+
+            .timeline-progress {
+                position: absolute;
+                top: 10px;
+                left: 2%;
+                width: 48%;
+                height: 7px;
+                background: var(--red);
+                z-index: 1;
+            }
+
+            .timeline-steps {
+                position: relative;
+                z-index: 2;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .timeline-step {
+                text-align: center;
+            }
+
+            .timeline-dot {
+                width: 30px;
+                height: 30px;
+                margin: -1px auto 15px;
+                border-radius: 50%;
+                background: #d9dcdf;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .timeline-step.completed .timeline-dot,
+            .timeline-step.current .timeline-dot {
+                background: var(--red);
+            }
+
+            .timeline-step.current .timeline-dot {
+                box-shadow: 0 0 0 5px rgba(237,28,36,.12);
+            }
+
+            .timeline-title {
+                color: #64748b;
                 font-size: 11px;
-                padding: 4px 12px;
-                border-radius: 4px;
-                display: inline-block;
+                font-weight: 600;
+                margin-bottom: 2px;
             }
 
-            /* --- RIGHT COL SIDEBAR CARDS --- */
-            .sidebar-panel {
-                background-color: #ffffff;
-                border-radius: 12px;
-                padding: 24px;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-                margin-bottom: 24px;
+            .timeline-date {
+                color: #64748b;
+                font-size: 9px;
+                font-weight: 500;
             }
 
-            .sidebar-header {
+            .status-alert {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                font-size: 15px;
-                font-weight: 700;
-                color: #1e293b;
-                margin-bottom: 12px;
+                background: #eeeeee;
+                padding: 8px 10px;
+                margin: 10px 8px 20px;
+                color: #555;
+                font-size: 10px;
+                font-style: italic;
             }
 
-                .sidebar-header i {
-                    color: #16a34a;
-                    font-size: 18px;
+                .status-alert i {
+                    color: var(--red);
+                    font-size: 14px;
                 }
 
-            .sidebar-body {
+            .recent-activity {
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 10px 12px 12px;
+                background: white;
+            }
+
+            .activity-title {
+                color: #334155;
                 font-size: 12px;
-                color: #64748b;
-                line-height: 1.6;
+                font-weight: 700;
+                margin-bottom: 8px;
             }
 
-            .announcements-box {
-                background-color: #eaf6ed; /* Slightly lighter mint tint for Announcements */
-                border: none;
+            .activity-list {
+                position: relative;
+                padding-left: 18px;
             }
 
-            /* Responsive UI adjustments */
+                .activity-list::before {
+                    content: "";
+                    position: absolute;
+                    left: 4px;
+                    top: 7px;
+                    bottom: 7px;
+                    width: 2px;
+                    background: var(--red);
+                }
+
+            .activity-item {
+                position: relative;
+                display: grid;
+                grid-template-columns: 145px 1fr;
+                gap: 15px;
+                padding: 4px 0;
+            }
+
+                .activity-item::before {
+                    content: "";
+                    position: absolute;
+                    left: -18px;
+                    top: 8px;
+                    width: 9px;
+                    height: 9px;
+                    background: var(--red);
+                    border-radius: 50%;
+                }
+
+            .activity-date {
+                color: #475569;
+                font-size: 9px;
+                font-weight: 600;
+            }
+
+            .activity-time {
+                display: block;
+                color: #94a3b8;
+                font-size: 8px;
+            }
+
+            .activity-description {
+                color: #94a3b8;
+                font-size: 8px;
+                padding-top: 1px;
+            }
+
+            /* COLLAPSE */
+            body.sidebar-collapsed .navbar-left-box {
+                width: 60px;
+                padding: 0;
+                justify-content: center;
+            }
+
+            body.sidebar-collapsed .brand-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .sidebar-menu-wrapper {
+                width: 60px;
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+
+            body.sidebar-collapsed .sidebar-link-item {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+                gap: 0;
+            }
+
+            body.sidebar-collapsed .sidebar-link-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .logout-link {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            body.sidebar-collapsed .logout-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .page-container {
+                margin-left: 60px;
+            }
+
+            /* RESPONSIVE */
             @@media (max-width: 991px) {
-                .heading-section {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 15px;
+                .navbar-left-box {
+                    width: 210px;
                 }
 
-                .date-pill-container {
-                    align-self: flex-start;
+                .sidebar-menu-wrapper {
+                    width: 210px;
                 }
 
-                .nav-links-custom {
+                .page-container {
+                    margin-left: 210px;
+                }
+
+                body.sidebar-collapsed .page-container {
+                    margin-left: 60px;
+                }
+
+                .timeline-steps {
+                    grid-template-columns: repeat(5, 130px);
+                    min-width: 650px;
+                }
+
+                .timeline-wrapper {
+                    overflow-x: auto;
+                    padding-bottom: 10px;
+                }
+
+                .timeline-line, .timeline-progress {
+                    width: 96%;
+                }
+
+                .activity-item {
+                    grid-template-columns: 110px 1fr;
+                }
+            }
+
+            @@media (max-width: 700px) {
+                .navbar-left-box {
+                    width: 60px;
+                    padding: 0;
+                    justify-content: center;
+                }
+
+                .brand-text {
                     display: none;
                 }
+
+                .sidebar-menu-wrapper {
+                    width: 60px;
+                }
+
+                .sidebar-link-item {
+                    justify-content: center;
+                    padding: 11px 0;
+                    gap: 0;
+                }
+
+                .sidebar-link-text {
+                    display: none;
+                }
+
+                .page-container {
+                    margin-left: 60px;
+                    padding: 90px 15px 25px;
+                }
+
+                .profile-info {
+                    display: none;
+                }
+
+                .profile-widget {
+                    padding: 4px;
+                }
+
+                .status-box {
+                    margin-bottom: 12px;
+                }
+
+                .activity-item {
+                    grid-template-columns: 1fr;
+                    gap: 2px;
+                }
+            }
+            /* SETTINGS DROPDOWN */
+            .sidebar-settings {
+                list-style: none;
+            }
+
+            .settings-toggle {
+                justify-content: space-between;
+                cursor: pointer;
+            }
+
+                .settings-toggle > a {
+                    color: #ffffff !important;
+                }
+
+                    .settings-toggle > a:hover {
+                        color: var(--red) !important;
+                    }
+
+                .settings-toggle.active {
+                    color: var(--red);
+                    background: rgba(237,28,36,.08);
+                }
+
+                    .settings-toggle.active > a {
+                        color: var(--red) !important;
+                    }
+
+            .settings-arrow {
+                color: #ffffff;
+                font-size: 11px;
+                transition: .3s;
+            }
+
+            .settings-toggle:hover .settings-arrow {
+                color: var(--red);
+            }
+
+            .settings-submenu {
+                list-style: none;
+                padding: 0 0 0 12px;
+                margin: 2px 0 0 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height .3s ease;
+            }
+
+                .settings-submenu li {
+                    margin: 2px 0;
+                }
+
+                .settings-submenu a {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 9px;
+                    border-radius: 5px;
+                    color: #ffffff !important;
+                    font-size: 11px;
+                    font-weight: 500;
+                    transition: .2s ease;
+                }
+
+                    .settings-submenu a:hover {
+                        background: rgba(237,28,36,.10);
+                        color: var(--red) !important;
+                    }
+
+                    .settings-submenu a i {
+                        color: #ffffff;
+                        font-size: 12px;
+                    }
+
+                    .settings-submenu a:hover i {
+                        color: var(--red);
+                    }
+
+            .sidebar-settings.open .settings-submenu {
+                max-height: 150px;
+            }
+
+            .sidebar-settings.open .settings-arrow {
+                transform: rotate(90deg);
+            }
+
+            body.sidebar-collapsed .settings-arrow {
+                display: none;
+            }
+
+            body.sidebar-collapsed .settings-submenu {
+                display: none !important;
             }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
+    <!-- TOP NAVBAR -->
+    <nav class="navbar-custom">
 
-            <!-- Left: Brand Logo -->
-            <a class="navbar-brand-custom" href="#">
-                <img src="~/Images/logo.png" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3061/3061341.png'" />
-                <div class="brand-text">
-                    SMART OFFICE<br />
-                    <span>RECORDS SYSTEM</span>
-                </div>
+        <div class="navbar-left-box">
+            <a class="navbar-brand-custom" href="@Url.Action("ApplicantDash", "Applicant")">
+                <img src="~/Images/logo.png" alt="SORS Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3061/3061341.png'" />
+                <span class="brand-text">SORS</span>
             </a>
+        </div>
 
-            <!-- Center: Navigation Links -->
-            <ul class="nav-links-custom">
-                <li>
-                    <a href="@Url.Action("ApplicantDash", "Applicant")" class="nav-link-custom active">
-                        <i class="bi bi-house-door-fill"></i> Home
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("BookInterview", "Applicant")" class="nav-link-custom">
-                        <i class="bi bi-file-earmark-spreadsheet-fill"></i> Book Interview
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("MyAppointment", "Applicant")" class="nav-link-custom">
-                        <i class="bi bi-person-bounding-box"></i> My Appointment
-                    </a>
-                </li>
-            </ul>
+        <div class="toggle-zone-box">
+            <button class="sidebar-toggle-btn" id="toggleSidebar" type="button" title="Toggle Sidebar">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
 
-            <!-- Right: Notifications & Profile -->
-            <div class="navbar-profile">
-                <button class="notification-btn" title="Notifications">
+        <div class="navbar-profile">
+
+            <div class="notification-container">
+                <button class="notification-btn" id="notificationToggle" type="button" title="Notifications">
                     <i class="bi bi-bell"></i>
+                    <span class="notification-badge-dot"></span>
                 </button>
 
-                <div class="dropdown">
-                    <div class="profile-widget dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer;">
-                        <div class="profile-avatar">@ViewBag.Initials</div>
-                        <div class="profile-info">
-                            <span class="profile-name">@ViewBag.FullName</span>
-                            <span class="profile-email">@ViewBag.Email</span>
-                        </div>
+                <div class="notification-dropdown-custom" id="notificationMenu">
+                    <div class="notif-header">
+                        <span class="notif-header-title">Notifications</span>
+                        <a href="#" class="notif-mark-read">Mark all as read</a>
                     </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" href="@Url.Action("Profile", "Applicant")">
-                                <i class="bi bi-person-gear me-2"></i>My Account
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item text-danger" href="@Url.Action("ApplicantLogout", "Applicant")">
-                                <i class="bi bi-box-arrow-left me-2"></i>Sign Out
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="notif-body">
+                        <a href="#" class="notif-item">
+                            <div class="notif-icon-box notif-icon-success"><i class="bi bi-check-circle-fill"></i></div>
+                            <div>
+                                <div class="notif-text">Your interview request has been approved.</div>
+                                <div class="notif-time">10 mins ago</div>
+                            </div>
+                        </a>
+                        <a href="#" class="notif-item">
+                            <div class="notif-icon-box notif-icon-warning"><i class="bi bi-clock-history"></i></div>
+                            <div>
+                                <div class="notif-text">Reminder: Check your interview schedule.</div>
+                                <div class="notif-time">2 hours ago</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="notif-footer">
+                        <a href="#" class="notif-footer-btn">View All Notifications</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-container">
+                <div class="profile-widget" id="profileToggle">
+                    <div class="profile-avatar">@ViewBag.Initials</div>
+                    <div class="profile-info">
+                        <span class="profile-name">@ViewBag.FullName</span>
+                        <span class="profile-email">@ViewBag.Email</span>
+                    </div>
+                    <i class="bi bi-chevron-down profile-arrow"></i>
+                </div>
+
+                <div class="profile-dropdown-custom" id="profileMenu">
+                    <a href="@Url.Action("Profile", "Applicant")">
+                        <i class="bi bi-person-circle"></i> My Account
+                    </a>
+                    <a href="@Url.Action("ApplicantLogout", "Applicant")">
+                        <i class="bi bi-box-arrow-right"></i> Sign Out
+                    </a>
                 </div>
             </div>
         </div>
+
     </nav>
 
-    <!-- CONTENT BODY -->
-    <div class="page-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar-menu-wrapper" id="sidebarMenu">
+        <ul class="sidebar-links">
+            <li>
+                <a href="@Url.Action("ApplicantDash", "Applicant")" class="sidebar-link-item active">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span class="sidebar-link-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("BookInterview", "Applicant")" class="sidebar-link-item">
+                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                    <span class="sidebar-link-text">Book Interview</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("MyAppointment", "Applicant")" class="sidebar-link-item">
+                    <i class="bi bi-person-bounding-box"></i>
+                    <span class="sidebar-link-text">My Appointment</span>
+                </a>
+            </li>
+            <li class="sidebar-settings">
+                <div class="sidebar-link-item settings-toggle">
+                    <a href="@Url.Action("Settings", "Applicant")"
+                       class="d-flex align-items-center flex-grow-1 text-decoration-none text-reset">
+                        <i class="bi bi-gear-fill"></i>
+                        <span class="sidebar-link-text ms-2">Settings</span>
+                    </a>
+                    <i class="bi bi-chevron-right settings-arrow" id="settingsToggle"></i>
+                </div>
 
-        <!-- Header Panel Layout -->
+                <ul class="settings-submenu" id="settingsMenu">
+                    <li>
+                        <a href="@Url.Action("Settings", "Applicant")" id="settingsLink">
+                            <i class="bi bi-shield-lock"></i>
+                            <span class="sidebar-link-text">Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Profile", "Applicant")">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="sidebar-link-text">My Account</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="logout-wrapper">
+            <a href="@Url.Action("ApplicantLogout", "Applicant")" class="logout-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span class="logout-text">Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-container">
+
         <div class="heading-section">
-            <div>
-                <h1 class="page-title">Welcome @ViewBag.Username!</h1>
-                <p class="page-subtitle">Here's what's happening with your interviews and records today.</p>
-            </div>
-
-            <!-- Header Date Pills -->
-            <div class="date-pill-container">
-                <div class="date-pill-value" id="currentDate">July 12, 2026</div>
-                <div class="date-pill-day" id="currentDay">Monday</div>
-            </div>
+            <h1 class="page-title">Welcome @ViewBag.Username!</h1>
+            <p class="page-subtitle">Here's what's happening with your interviews and records today.</p>
         </div>
 
-        <div class="row g-4">
+        <div class="dashboard-card">
 
-            <!-- Left Column: Main Dashboard Features (Col-8) -->
-            <div class="col-lg-8">
-                <div class="main-dashboard-box">
+            <div class="status-title">Status Tracker</div>
 
-                    <!-- Quick Actions -->
-                    <h5 class="section-title-custom">Quick Actions</h5>
-                    <div class="quick-actions-grid">
-                        <a href="@Url.Action("BookInterview", "Applicant")" class="action-card-button">
-                            <i class="bi bi-funnel-fill"></i>
-                            <span>Submit New Request</span>
-                        </a>
-                        <a href="@Url.Action("MyAppointment", "Applicant")" class="action-card-button">
-                            <i class="bi bi-folder-fill"></i>
-                            <span>My Request</span>
-                        </a>
-                        <a href="#" class="action-card-button">
-                            <i class="bi bi-box-arrow-down"></i>
-                            <span>Download Approved Documents</span>
-                        </a>
-                    </div>
-
-                    <!-- Recent Request Table -->
-                    <div class="recent-request-section">
-                        <h5 class="section-title-custom">Recent Request</h5>
-
-                        <div class="custom-table-container">
-                            <table class="custom-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 25%;">Request ID</th>
-                                        <th style="width: 25%;">Service</th>
-                                        <th style="width: 30%;">Date Submitted</th>
-                                        <th style="width: 20%;">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>RI01</td>
-                                        <td>RI01</td>
-                                        <td>July 15, 2026</td>
-                                        <td><span class="status-pill-pending">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>RI01</td>
-                                        <td>RI01</td>
-                                        <td>July 15, 2026</td>
-                                        <td><span class="status-pill-approved">Approved</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <div class="status-box">
+                        <div class="status-box-title">Current Request</div>
+                        <div class="request-status">Document Verification</div>
+                        <div class="request-details">
+                            <span>Service ID</span>
+                            <strong>DV-0001</strong>
+                            <span>Date Submitted</span>
+                            <strong>July 27, 2026</strong>
                         </div>
                     </div>
+                </div>
 
+                <div class="col-lg-4 col-md-6">
+                    <div class="status-box progress-box">
+                        <div class="status-box-title">Overall Progress</div>
+                        <div class="progress-circle">
+                            <span class="progress-number">75%</span>
+                        </div>
+                        <div class="progress-label">Document Verification</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Column: Sidebar Panels (Col-4) -->
-            <div class="col-lg-4">
+            <div class="timeline-wrapper">
+                <div class="timeline-line"></div>
+                <div class="timeline-progress"></div>
 
-                <!-- Announcements Card (Tinted Mint Background) -->
-                <div class="sidebar-panel announcements-box">
-                    <div class="sidebar-header">
-                        <i class="bi bi-megaphone-fill"></i> Announcements
+                <div class="timeline-steps">
+                    <div class="timeline-step completed">
+                        <div class="timeline-dot"><i class="bi bi-check"></i></div>
+                        <div class="timeline-title">Request Submitted</div>
+                        <div class="timeline-date">July 15, 2026</div>
                     </div>
-                    <div class="sidebar-body">
-                        Office holiday schedule updated. (August 04, 2030)
+                    <div class="timeline-step completed">
+                        <div class="timeline-dot"><i class="bi bi-check"></i></div>
+                        <div class="timeline-title">Under Review</div>
+                        <div class="timeline-date">July 15, 2026</div>
+                    </div>
+                    <div class="timeline-step current">
+                        <div class="timeline-dot"><i class="bi bi-circle-fill" style="font-size:7px;"></i></div>
+                        <div class="timeline-title">Interview Schedule</div>
+                        <div class="timeline-date">July 15, 2026</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Document Verification</div>
+                        <div class="timeline-date">July 15, 2026</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Final Approval Pending</div>
+                        <div class="timeline-date">July 15, 2026</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Office Info Card -->
-                <div class="sidebar-panel">
-                    <div class="sidebar-header">
-                        <i class="bi bi-info-circle-fill"></i> Office Info
+            <div class="status-alert">
+                <i class="bi bi-info-circle-fill"></i>
+                <span>Your request is currently being verified by our office. You will be notified once approved.</span>
+            </div>
+
+            <div class="recent-activity">
+                <div class="activity-title">Recent Activity</div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-date">July 15, 2026 <span class="activity-time">Time</span></div>
+                        <div class="activity-description">You submitted a request for document verification</div>
                     </div>
-                    <div class="sidebar-body">
-                        Office holiday schedule updated. (August 04, 2030)
+                    <div class="activity-item">
+                        <div class="activity-date">July 15, 2026 <span class="activity-time">Time</span></div>
+                        <div class="activity-description">You submitted a request for document verification</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-date">July 15, 2026 <span class="activity-time">Time</span></div>
+                        <div class="activity-description">You submitted a request for document verification</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-date">July 15, 2026 <span class="activity-time">Time</span></div>
+                        <div class="activity-description">You submitted a request for document verification</div>
                     </div>
                 </div>
-
             </div>
 
         </div>
-    </div>
 
-    <!-- Date Helper Script -->
+    </main>
+
     <script>
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const toggleSidebar = document.getElementById("toggleSidebar");
+            toggleSidebar.addEventListener("click", function () {
+                document.body.classList.toggle("sidebar-collapsed");
+            });
 
-            const now = new Date();
-            document.getElementById("currentDate").innerText = `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-            document.getElementById("currentDay").innerText = days[now.getDay()];
+            const profileContainer = document.querySelector(".profile-container");
+            const profileToggle = document.getElementById("profileToggle");
+
+            profileToggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                profileContainer.classList.toggle("open");
+                notificationContainer.classList.remove("open");
+            });
+
+            const notificationContainer = document.querySelector(".notification-container");
+            const notificationToggle = document.getElementById("notificationToggle");
+
+            notificationToggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                notificationContainer.classList.toggle("open");
+                profileContainer.classList.remove("open");
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!profileContainer.contains(e.target)) {
+                    profileContainer.classList.remove("open");
+                }
+                if (!notificationContainer.contains(e.target)) {
+                    notificationContainer.classList.remove("open");
+                }
+            });
+
+            // SETTINGS DROPDOWN
+            const settingsToggle = document.getElementById("settingsToggle");
+            const settingsParent = document.querySelector(".settings-toggle");
+            const settingsGroup = document.querySelector(".sidebar-settings");
+            const settingsLink = document.getElementById("settingsLink");
+
+            settingsToggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                settingsGroup.classList.toggle("open");
+                settingsParent.classList.add("active");
+            });
+
+            settingsLink.addEventListener("click", function () {
+                settingsParent.classList.add("active");
+                settingsLink.classList.add("active");
+            });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

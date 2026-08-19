@@ -13,10 +13,12 @@
     <title>Admin Dashboard</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
 
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet" />
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -31,44 +33,34 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .body {
-            background: #f4f6f9;
-            min-height: 100vh;
-            overflow: hidden;   /* <-- this blocks scrolling */
+        body {
+            background: #F5F6F8;
+            overflow: hidden;
         }
-
-        /* ==========================
-               DASHBOARD DESIGN
-           ===========================*/
 
         .dashboard-container {
             display: flex;
             height: 100vh;
+            width: 100%;
         }
 
-        /* ==========================
-                SIDEBAR DESIGN
-          ===========================*/
         .sidebar {
-            width: 190px;
-            background-color: #0b1f3a;
-            color: white;
+            width: 158px;
+            min-width: 158px;
+            height: 100vh;
+            background: #1F2933;
+            color: #FFFFFF;
             display: flex;
             flex-direction: column;
             transition: all .3s ease;
-            height: 100vh; /* important */
-            overflow-y: auto; /* enable vertical scroll */
-            overflow-x: hidden; /* prevent horizontal scroll */
-        }
-
-        .sidebar {
+            overflow-y: auto;
+            overflow-x: hidden;
             scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,.3) transparent;
+            scrollbar-color: rgba(255,255,255,.25) transparent;
         }
 
-            /* Chrome / Edge */
             .sidebar::-webkit-scrollbar {
-                width: 6px;
+                width: 5px;
             }
 
             .sidebar::-webkit-scrollbar-thumb {
@@ -80,78 +72,64 @@
                 background: transparent;
             }
 
-            /* ==========================
-                COLLAPSED SIDEBAR
-               ===========================*/
             .sidebar.collapsed {
-                width: 90px;
+                width: 78px;
+                min-width: 78px;
             }
 
-                /* Keep SORS visible */
                 .sidebar.collapsed .system-name {
                     display: block;
-                    font-size: 12px;
+                    font-size: 10px;
                     font-weight: 600;
-                    margin-top: 10px;
+                    margin-top: 8px;
                 }
 
-                /* Logo size when collapsed */
                 .sidebar.collapsed .logo-circle {
-                    width: 58px;
-                    height: 58px;
+                    width: 42px;
+                    height: 42px;
                 }
 
-                /* Keep divider line */
                 .sidebar.collapsed .logo-section {
-                    padding: 25px 15px;
-                    border-bottom: 1px solid rgba(255,255,255,.15);
+                    padding: 18px 10px;
                 }
 
-                /* Hide menu text only */
                 .sidebar.collapsed .menu a span,
                 .sidebar.collapsed .logout a span {
                     display: none;
                 }
 
-                /* Menu layout */
                 .sidebar.collapsed .menu {
-                    padding: 20px 12px;
+                    padding: 15px 10px;
                 }
 
-                    /* Menu items */
                     .sidebar.collapsed .menu a {
-                        width: 50px;
-                        height: 50px;
-                        margin: 0 auto 18px auto;
+                        width: 42px;
+                        height: 42px;
+                        margin: 0 auto 10px auto;
                         padding: 0;
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        border-radius: 8px;
+                        border-radius: 6px;
                     }
 
-                        /* Active menu */
                         .sidebar.collapsed .menu a.active {
-                            background: #1e4f8a;
+                            background: #B91C1C;
                             box-shadow: 0 4px 10px rgba(0,0,0,.15);
                         }
 
-                        /* Keep icon size same as expanded */
                         .sidebar.collapsed .menu a i,
                         .sidebar.collapsed .logout a i {
                             margin: 0;
-                            font-size: inherit;
                         }
 
-                /* Logout */
                 .sidebar.collapsed .logout {
-                    margin-top: auto;
-                    padding-bottom: 20px;
+                    padding-bottom: 15px;
                 }
 
                     .sidebar.collapsed .logout a {
-                        width: 50px;
-                        height: 50px;
+                        width: 42px;
+                        height: 42px;
                         margin: 0 auto;
                         padding: 0;
                         display: flex;
@@ -159,84 +137,20 @@
                         align-items: center;
                     }
 
-
-        /* ================
-               SETTINGS DROPDOWN
-           ====================== */
-
-        .sidebar-dropdown {
-            margin-bottom: 10px;
-        }
-
-        .dropdown-toggle-menu {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-            .dropdown-toggle-menu:hover {
-                background: rgba(255,255,255,.12);
-            }
-
-        .small-arrow {
-            font-size: 12px;
-            transition: transform .3s ease;
-        }
-
-        /* submenu */
-        .dropdown-submenu {
-            display: none;
-            flex-direction: column;
-            padding-left: 20px;
-        }
-
-            .dropdown-submenu a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 10px 12px;
-                font-size: 14px;
-                border-radius: 6px;
-            }
-
-                .dropdown-submenu a:hover {
-                    background: rgba(30, 79, 138, .15);
+                .sidebar.collapsed .small-arrow {
+                    display: none;
                 }
 
-        /* active state */
-        .sidebar-dropdown.open .dropdown-submenu {
-            display: flex;
-        }
-
-        .sidebar-dropdown.open .small-arrow {
-            transform: rotate(180deg);
-        }
-
-        /* Hide dropdown arrow when sidebar is collapsed */
-        .sidebar.collapsed .small-arrow {
-            display: none;
-        }
-
-        /* ==========================
-                  LOGO DESIGN
-           ===========================*/
         .logo-section {
             text-align: center;
-            padding: 25px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, .15);
+            padding: 16px 10px;
+            border-bottom: 1px solid rgba(255,255,255,.18);
         }
 
         .logo-circle {
-            width: 60px;
-            height: 60px;
-            background: white;
+            width: 40px;
+            height: 40px;
+            background: #FFFFFF;
             border-radius: 50%;
             margin: auto;
             display: flex;
@@ -250,124 +164,193 @@
             object-fit: contain;
         }
 
-        .logout {
-            margin-top: auto;
-            padding: 15px 12px;
-        }
-
-            .logout a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                gap: 12px;
-                align-items: center;
-                padding: 12px 14px;
-            }
-
         .system-name {
-            margin-top: 12px;
-            font-size: 14px;
+            margin-top: 8px;
+            font-size: 12px;
             font-weight: 600;
+            color: #FFFFFF;
         }
 
-        /* ==========================
-                 MENU DESIGN
-           ===========================*/
         .menu {
-            padding: 20px 12px;
+            padding: 14px 8px;
         }
 
             .menu a {
-                color: white;
+                color: #FFFFFF;
                 text-decoration: none;
                 display: flex;
                 align-items: center;
-                gap: 12px;
-                padding: 12px 14px;
-                margin-bottom: 10px;
-                border-radius: 6px;
+                gap: 10px;
+                padding: 8px 10px;
+                margin-bottom: 3px;
+                border-radius: 5px;
+                font-size: 11px;
+                font-weight: 500;
+                transition: all .2s ease;
             }
 
+                .menu a i {
+                    font-size: 14px;
+                    min-width: 14px;
+                }
+
                 .menu a:hover {
-                    background: rgba(30, 79, 138, .15);
+                    background: rgba(185, 28, 28, .18);
+                    color: #FFFFFF;
                 }
 
                 .menu a.active {
-                    background: #1e4f8a;
-                    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+                    background: #B91C1C;
+                    color: #FFFFFF;
+                    box-shadow: 0 3px 8px rgba(185,28,28,.22);
                 }
 
-        /* ==========================
-                    MAIN CONTENT
-            ===========================*/
-        .main-content {
-            flex: 1;
-            background: #f4f6f9;
+        .sidebar-dropdown {
+            margin-bottom: 3px;
         }
 
-        /* ==========================
-                    TOP BAR
-           ===========================*/
+        .dropdown-toggle-menu {
+            color: #FFFFFF;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all .2s ease;
+        }
+
+            .dropdown-toggle-menu:hover {
+                background: rgba(185,28,28,.18);
+                color: #FFFFFF;
+            }
+
+        .small-arrow {
+            font-size: 8px;
+            transition: transform .3s ease;
+        }
+
+        .dropdown-submenu {
+            display: none;
+            flex-direction: column;
+            padding-left: 14px;
+            margin-top: 3px;
+        }
+
+            .dropdown-submenu a {
+                color: #FFFFFF;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 7px 9px;
+                font-size: 10px;
+                border-radius: 5px;
+            }
+
+                .dropdown-submenu a:hover {
+                    background: rgba(185,28,28,.18);
+                    color: #FFFFFF;
+                }
+
+        .sidebar-dropdown.open .dropdown-submenu {
+            display: flex;
+        }
+
+        .sidebar-dropdown.open .small-arrow {
+            transform: rotate(180deg);
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 10px 8px 12px 8px;
+        }
+
+            .logout a {
+                color: #FFFFFF;
+                text-decoration: none;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                padding: 8px 10px;
+                font-size: 11px;
+                font-weight: 500;
+                border-radius: 5px;
+                transition: all .2s ease;
+            }
+
+                .logout a:hover {
+                    background: rgba(185,28,28,.18);
+                }
+
+        .main-content {
+            flex: 1;
+            background: #F5F6F8;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
         .topbar {
-            height: 60px;
-            border-bottom: 1px solid #d9dce3;
+            height: 52px;
+            min-height: 52px;
+            flex-shrink: 0;
+            border-bottom: 1px solid #E5E7EB;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
-            background: #fff;
-        }
-
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: #243f99;
-            font-size: 22px;
-            cursor: pointer;
-            margin-right: 10px;
+            padding: 0 16px;
+            background: #FFFFFF;
         }
 
         .topbar-left {
             display: flex;
             align-items: center;
-            gap: 18px;
-            margin-right: 8px;
+            gap: 10px;
         }
 
-            .topbar-left i {
-                font-size: 28px;
-                color: #0b1f3a;
-                cursor: pointer;
-                margin: 8px;
-            }
-
-            .topbar-left h3 {
-                color: #0b1f3a;
-                font-weight: 700;
-                margin: 0;
-            }
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #B91C1C;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px;
+        }
 
         .topbar-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 14px;
             margin-left: auto;
         }
 
-            .topbar-right i {
-                font-size: 24px;
-                cursor: pointer;
+        .notification-icon {
+            font-size: 17px;
+            color: #374151;
+            cursor: pointer;
+            transition: color .2s ease;
+        }
+
+            .notification-icon:hover {
+                color: #B91C1C;
             }
 
         .profile {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 7px;
+            padding-left: 8px;
+            border-left: 1px solid #E5E7EB;
         }
 
             .profile img {
-                width: 40px;
-                height: 40px;
+                width: 30px;
+                height: 30px;
                 border-radius: 50%;
                 object-fit: cover;
             }
@@ -375,153 +358,602 @@
         .profile-info {
             display: flex;
             flex-direction: column;
-            line-height: 1.2;
+            line-height: 1.15;
         }
-
-            .profile-info .role {
-                font-size: 12px;
-                color: #777;
-            }
 
             .profile-info h5 {
                 margin: 0;
-                font-size: 14px;
+                font-size: 10px;
                 font-weight: 600;
-                color: #1e4f8a;
+                color: #111827;
             }
 
-        .profile-info span {
-            font-size: 12px;
-            color: gray;
+            .profile-info span {
+                font-size: 8px;
+                color: #6B7280;
+            }
+
+        .profile-arrow {
+            color: #6B7280;
+            font-size: 9px;
+            margin-left: 2px;
         }
 
-        /* CONTENT */
         .content-area {
-            padding: 30px;
+            flex: 1;
+            padding: 18px 28px;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
-        /* CARDS */
+        .welcome-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 13px;
+        }
+
+        .welcome-text h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #B91C1C;
+            margin: 0 0 2px 0;
+        }
+
+        .welcome-text p {
+            font-size: 9px;
+            color: #64748B;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .search-box {
+            width: 255px;
+            height: 34px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.07);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            gap: 8px;
+        }
+
+            .search-box i {
+                color: #6B7280;
+                font-size: 12px;
+            }
+
+            .search-box input {
+                width: 100%;
+                border: none;
+                outline: none;
+                font-size: 10px;
+                color: #374151;
+                background: transparent;
+            }
+
+                .search-box input::placeholder {
+                    color: #9CA3AF;
+                }
+
         .cards-container {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 18px;
         }
 
         .dashboard-card {
-            width: 227px;
-            height: 100px;
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-radius: 10px;
+            flex: 1;
+            min-width: 150px;
+            height: 86px;
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
             display: flex;
             align-items: center;
-            padding: 20px;
-            gap: 15px;
+            padding: 13px;
+            gap: 12px;
+            transition: all .2s ease;
+            cursor: pointer;
         }
 
+            .dashboard-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,.06);
+            }
+
         .card-icon {
-            width: 52px;
-            height: 52px;
+            width: 43px;
+            height: 43px;
+            min-width: 43px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
-            font-size: 22px;
+            color: #FFFFFF;
+            font-size: 18px;
         }
 
         .purple {
-            background: #7e22ce;
+            background: #7C3AED;
         }
 
         .orange {
-            background: #f59e0b;
+            background: #F59E0B;
         }
 
         .green {
-            background: #10b981;
+            background: #10B981;
         }
 
         .blue {
-            background: #3b82f6;
+            background: #3B82F6;
         }
 
         .red {
-            background: #ef4444;
+            background: #EF4444;
         }
 
         .card-info h2 {
             margin: 0;
-            font-size: 34px;
+            font-size: 21px;
             font-weight: 700;
+            color: #111827;
         }
 
         .card-info span {
-            font-size: 14px;
+            font-size: 9px;
             font-weight: 600;
         }
 
-        /* GRAPH SECTION */
-        .graph-section {
-            margin-top: 35px;
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            height: 420px;
+
+        /* =========================================================
+                           LOWER CONTENT (GRAPH + TABLE)
+                        ========================================================= */
+
+        .lower-content {
+            display: grid;
+            grid-template-columns: 1.65fr .95fr;
+            gap: 14px;
         }
 
-        .graph-header {
+        .dashboard-panel {
+            background: #FFFFFF;
+            border: 1px solid #D9DDE3;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            height: 38px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            justify-content: space-between;
+            padding: 0 15px;
         }
 
-            .graph-header h4 {
-                font-size: 22px;
+            .panel-header h4 {
+                font-size: 11px;
                 font-weight: 700;
+                color: #111827;
+                margin: 0;
             }
 
-        .filter-btn {
-            border: 1px solid #d1d5db;
-            background: white;
-            padding: 10px 20px;
-            border-radius: 8px;
+        .filter-select {
+            height: 27px;
+            min-width: 115px;
+            border: 1px solid #D1D5DB;
+            background: #FFFFFF;
+            padding: 0 8px;
+            border-radius: 6px;
+            font-size: 10px;
             font-weight: 600;
+            color: #374151;
         }
 
-        .graph-placeholder {
-            width: 100%;
-            height: 280px;
-            border-left: 2px solid black;
-            border-bottom: 2px solid black;
-            position: relative;
+            .filter-select:hover {
+                border-color: #B91C1C;
+            }
+
+            .filter-select:focus {
+                outline: none;
+                border-color: #B91C1C;
+            }
+
+        .graph-panel-body {
+            height: 240px;
+            padding: 6px 15px 15px 15px;
         }
 
-        .days {
-            position: absolute;
-            bottom: -35px;
-            width: 100%;
+
+        /* =========================================================
+                           APPLICANT TABLE PANEL
+                        ========================================================= */
+
+        .table-panel {
+            height: 296px;
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
+        }
+
+        .applicant-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+            .applicant-table thead {
+                background: #D1D1D1;
+            }
+
+            .applicant-table th {
+                height: 36px;
+                padding: 0 10px;
+                font-size: 9px;
+                font-weight: 700;
+                color: #111827;
+                border-bottom: 1px solid #D1D5DB;
+                white-space: nowrap;
+                text-align: left;
+            }
+
+            .applicant-table thead th {
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+            .applicant-table td {
+                min-height: 34px;
+                padding: 9px 10px;
+                font-size: 9px;
+                color: #374151;
+                border-bottom: 1px solid #E5E7EB;
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+
+            .applicant-table tbody tr:hover {
+                background: #FEF2F2;
+            }
+
+            .applicant-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+        .applicant-table-scroll {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+            .applicant-table-scroll::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .applicant-table-scroll::-webkit-scrollbar-thumb {
+                background: #D1D5DB;
+                border-radius: 10px;
+            }
+
+            .applicant-table-scroll::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+
+        /* =========================================================
+                           STAT SUMMARY CARD POPUPS
+                        ========================================================= */
+
+        .stat-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 22, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+            .stat-modal-overlay.show {
+                display: flex;
+            }
+
+        .stat-modal-card {
+            width: 100%;
+            max-width: 560px;
+            max-height: 85vh;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 25px 60px rgba(0,0,0,.28);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .stat-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .stat-modal-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-modal-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .stat-modal-badge {
+            background: #B91C1C;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .stat-modal-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #6B7280;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+            .stat-modal-close:hover {
+                color: #B91C1C;
+            }
+
+        .stat-modal-date {
+            padding: 10px 20px 0;
+            font-size: 10px;
             font-weight: 600;
+            color: #B91C1C;
+        }
+
+        .stat-modal-search {
+            padding: 12px 20px;
+        }
+
+            .stat-modal-search .search-box {
+                width: 100%;
+            }
+
+        .stat-modal-table-wrap {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 16px;
+        }
+
+        .stat-modal-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .stat-modal-table thead th {
+                position: sticky;
+                top: 0;
+                background: #D1D1D1;
+                font-size: 9px;
+                font-weight: 700;
+                color: #111827;
+                padding: 8px 10px;
+                text-align: left;
+                white-space: nowrap;
+                z-index: 1;
+            }
+
+            .stat-modal-table td {
+                padding: 9px 10px;
+                font-size: 10px;
+                color: #374151;
+                border-bottom: 1px solid #E5E7EB;
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+
+            .stat-modal-table tbody tr:hover {
+                background: #FEF2F2;
+            }
+
+        .stat-avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .status-pill-approved {
+            background: #DCFCE7;
+            color: #15803D;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pill-completed {
+            background: #DBEAFE;
+            color: #2563EB;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+
+        /* =========================================================
+                           RESPONSIVE
+                        ========================================================= */
+
+        @@media (max-width: 1000px) {
+
+            .cards-container {
+                flex-wrap: wrap;
+            }
+
+            .dashboard-card {
+                min-width: 180px;
+            }
+
+            .lower-content {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                width: 200px;
+            }
+
+            .applicant-table {
+                min-width: 400px;
+            }
+
+            .table-panel {
+                overflow-x: auto;
+                height: auto;
+            }
+        }
+
+
+        @@media (max-width: 768px) {
+
+            body {
+                overflow-y: auto;
+            }
+
+            .sidebar {
+                width: 70px;
+                min-width: 70px;
+            }
+
+            .system-name,
+            .menu a span,
+            .dropdown-toggle-menu span,
+            .logout a span {
+                display: none;
+            }
+
+            .logo-section {
+                padding: 15px 8px;
+            }
+
+            .logo-circle {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu {
+                padding: 15px 8px;
+            }
+
+                .menu a {
+                    justify-content: center;
+                    padding: 10px;
+                }
+
+            .dropdown-toggle-menu {
+                justify-content: center;
+                padding: 10px;
+            }
+
+            .small-arrow {
+                display: none;
+            }
+
+            .logout a {
+                justify-content: center;
+            }
+
+            .content-area {
+                padding: 12px;
+            }
+
+            .welcome-section {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .cards-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-card {
+                width: 100%;
+            }
+        }
+
+
+        @@media (max-width: 500px) {
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-info {
+                display: none;
+            }
+
+            .lower-content {
+                display: block;
+            }
+
+            .dashboard-panel {
+                margin-bottom: 15px;
+            }
         }
 
     </style>
 
 </head>
 
+
 <body>
 
     <div class="dashboard-container">
 
+
         <!-- SIDEBAR -->
+
         <aside class="sidebar">
 
             <div class="logo-section">
 
                 <div class="logo-circle">
-                    <img src="~/Images/logo.png" class="logo-img">
+
+                    <img src="~/Images/logo.png"
+                         class="logo-img"
+                         alt="SORS Logo" />
+
                 </div>
 
                 <div class="system-name">
@@ -532,51 +964,94 @@
 
             <div class="menu">
 
-                <a href="@Url.Action("Dashboard", "Admin")" class="active">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
+                <a href="@Url.Action("Dashboard", "Admin")"
+                   class="active">
+
+                    <i class="bi bi-grid-fill"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
                 </a>
 
                 <a href="@Url.Action("RequestManagement", "Admin")">
+
                     <i class="bi bi-file-earmark-text"></i>
-                    <span>Request</span>
+
+                    <span>
+                        Request
+                    </span>
+
                 </a>
 
                 <a href="@Url.Action("RecordsManagement", "Admin")">
+
                     <i class="bi bi-folder2-open"></i>
-                    <span>Records</span>
+
+                    <span>
+                        Records
+                    </span>
+
                 </a>
 
                 <a href="@Url.Action("ReportsManagement", "Admin")">
-                    <i class="bi bi-clipboard-data"></i>
-                    <span>Reports</span>
+
+                    <i class="bi bi-file-earmark-bar-graph"></i>
+
+                    <span>
+                        Reports
+                    </span>
+
                 </a>
 
                 <a href="@Url.Action("UsersManagement", "Admin")">
-                    <i class="bi bi-people"></i>
-                    <span>Users</span>
+
+                    <i class="bi bi-people-fill"></i>
+
+                    <span>
+                        Users
+                    </span>
+
                 </a>
 
-                <!-- SETTINGS DROPDOWN -->
                 <div class="sidebar-dropdown">
 
-                    <a href="javascript:void(0)" class="dropdown-toggle-menu">
-                        <i class="bi bi-gear"></i>
-                        <span>Settings</span>
-                        <i class="bi bi-caret-down-fill ms-auto small-arrow"></i>
+                    <a href="javascript:void(0)"
+                       class="dropdown-toggle-menu">
+
+                        <i class="bi bi-gear-fill"></i>
+
+                        <span>
+                            Settings
+                        </span>
+
+                        <i class="bi bi-chevron-right ms-auto small-arrow"></i>
+
                     </a>
 
                     <div class="dropdown-submenu">
 
                         <a href="@Url.Action("Settings", "Admin")">
+
                             <i class="bi bi-sliders"></i>
-                            <span>General Settings</span>
+
+                            <span>
+                                General Settings
+                            </span>
+
                         </a>
 
                         <a href="@Url.Action("SAccountSettings", "Admin")">
+
                             <i class="bi bi-person-gear"></i>
-                            <span>Account & Security</span>
+
+                            <span>
+                                Account & Security
+                            </span>
+
                         </a>
+
                     </div>
 
                 </div>
@@ -586,38 +1061,61 @@
             <div class="logout">
 
                 <a href="@Url.Action("Logout", "Admin")">
+
                     <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
+
+                    <span>
+                        Logout
+                    </span>
+
                 </a>
 
             </div>
 
         </aside>
 
-        <!-- MAIN -->
+
+        <!-- MAIN CONTENT -->
+
         <div class="main-content">
 
             <!-- TOPBAR -->
+
             <div class="topbar">
 
                 <div class="topbar-left">
-                    <button class="menu-toggle" id="menuToggle">
+
+                    <button class="menu-toggle"
+                            id="menuToggle">
+
                         <i class="bi bi-list"></i>
+
                     </button>
+
                 </div>
 
                 <div class="topbar-right">
 
-                    <i class="bi bi-bell-fill"></i>
+                    <i class="bi bi-bell notification-icon"></i>
 
                     <div class="profile">
 
-                        <img src="~/Images/adminpic.jpg" alt="Profile" />
+                        <img src="~/Images/adminpic.jpg"
+                             alt="Profile" />
 
                         <div class="profile-info">
-                            <span class="role">Administrator</span>
-                            <h5>Juan Dela Cruz</h5>
+
+                            <h5>
+                                Juan Dela Cruz
+                            </h5>
+
+                            <span>
+                                Administrator
+                            </span>
+
                         </div>
+
+                        <i class="bi bi-chevron-down profile-arrow"></i>
 
                     </div>
 
@@ -625,173 +1123,686 @@
 
             </div>
 
+
             <!-- CONTENT -->
+
             <div class="content-area">
 
-                <!-- CARDS -->
-                <div class="cards-container">
+                <div class="welcome-section">
 
-                    <div class="dashboard-card">
+                    <div class="welcome-text">
 
-                        <div class="card-icon purple">
-                            <i class="bi bi-send-fill"></i>
-                        </div>
+                        <h2>
+                            Hi!
+                        </h2>
 
-                        <div class="card-info">
-                            <h2>@ViewBag.TotalRequests</h2>
-                            <span style="color:#7e22ce;">
-                                Total Request
-                            </span>
-                        </div>
+                        <p>
+                            Here's what's happening with your interviews and records today.
+                        </p>
 
                     </div>
 
-                    <div class="dashboard-card">
+                    <div class="search-box">
 
-                        <div class="card-icon orange">
-                            <i class="bi bi-clock"></i>
-                        </div>
+                        <i class="bi bi-search"></i>
 
-                        <div class="card-info">
-                            <h2>@ViewBag.Pending</h2>
-                            <span style="color:#f59e0b;">
-                                Pendings
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="dashboard-card">
-
-                        <div class="card-icon green">
-                            <i class="bi bi-check-circle"></i>
-                        </div>
-
-                        <div class="card-info">
-                            <h2>@ViewBag.Approved</h2>
-                            <span style="color:#10b981;">
-                                Approved
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="dashboard-card">
-
-                        <div class="card-icon blue">
-                            <i class="bi bi-file-earmark-text"></i>
-                        </div>
-
-                        <div class="card-info">
-                            <h2>@ViewBag.Completed</h2>
-                            <span style="color:#3b82f6;">
-                                Completed
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="dashboard-card">
-
-                        <div class="card-icon red">
-                            <i class="bi bi-x-circle"></i>
-                        </div>
-
-                        <div class="card-info">
-                            <h2>@ViewBag.Rejected</h2>
-                            <span style="color:#ef4444;">
-                                Rejected
-                            </span>
-                        </div>
+                        <input type="text"
+                               placeholder="Search here..." />
 
                     </div>
 
                 </div>
 
-                <!-- GRAPH -->
-                <div class="graph-section">
 
-                    <div class="graph-header">
+                <!-- SUMMARY CARDS -->
 
-                        <h4>Request Overview</h4>
+                <div class="cards-container">
 
-                        <select id="rangeSelect" class="form-select w-auto">
-                            <option value="week">This Week</option>
-                            <option value="month">This Month</option>
-                            <option value="year">This Year</option>
-                        </select>
+                    <div class="dashboard-card" onclick="openStatModal('modalTotalRequest')">
+                        <div class="card-icon purple">
+                            <i class="bi bi-send-fill"></i>
+                        </div>
+                        <div class="card-info">
+                            <h2>@ViewBag.TotalRequests</h2>
+                            <span style="color:#7C3AED;">Total Request</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" onclick="openStatModal('modalPending')">
+                        <div class="card-icon orange">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <div class="card-info">
+                            <h2>@ViewBag.Pending</h2>
+                            <span style="color:#F59E0B;">Pendings</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" onclick="openStatModal('modalApproved')">
+                        <div class="card-icon green">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h2>@ViewBag.Approved</h2>
+                            <span style="color:#10B981;">Approved</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" onclick="openStatModal('modalCompleted')">
+                        <div class="card-icon blue">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                        <div class="card-info">
+                            <h2>@ViewBag.Completed</h2>
+                            <span style="color:#3B82F6;">Completed</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" onclick="openStatModal('modalRejected')">
+                        <div class="card-icon red">
+                            <i class="bi bi-x-circle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h2>@ViewBag.Rejected</h2>
+                            <span style="color:#B91C1C;">Rejected</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- GRAPH + TABLE -->
+
+                <div class="lower-content">
+
+                    <!-- REQUEST OVERVIEW GRAPH -->
+
+                    <div class="dashboard-panel">
+
+                        <div class="panel-header">
+
+                            <h4>
+                                Request Overview
+                            </h4>
+
+                            <div style="display:flex; gap:8px;">
+
+                                <select id="yearSelect" class="filter-select">
+                                    @foreach (var yr in ViewBag.AvailableYears)
+                                    {
+                                        <option value="@yr" selected="@(yr == ViewBag.CurrentYear)">@yr</option>
+                                    }
+                                </select>
+
+                                <select id="rangeSelect" class="filter-select">
+                                    <option value="week" selected>This Week</option>
+                                    <option value="month">This Month</option>
+                                    <option value="year">This Year</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="graph-panel-body">
+                            <canvas id="requestChart"></canvas>
+                        </div>
 
                     </div>
 
-                    <div class="graph-placeholder">
-                        <canvas id="requestChart" height="100"></canvas>
-                    </div>
 
+                    <!-- RECENT APPLICANTS TABLE -->
+
+                    <div class="dashboard-panel table-panel">
+
+                        <div class="panel-header">
+                            <h4>Recent Applicants</h4>
+                        </div>
+
+                        <div class="applicant-table-scroll">
+                            <table class="applicant-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>APPLICANT NAME</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (ViewBag.RecentApplicants == null || ViewBag.RecentApplicants.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted py-3">No approved applicants yet.</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var applicant in ViewBag.RecentApplicants)
+                                        {
+                                            <tr>
+                                                <td>@applicant.DisplayId</td>
+                                                <td>@applicant.ApplicantName</td>
+                                                <td>
+                                                    @if (applicant.Status == "Approved")
+                                                    {
+                                                        <form action="@Url.Action("CompleteAppointment", "Admin")" method="post" style="display:inline;" onsubmit="return confirm('Mark this applicant as Completed?');">
+                                                            <input type="hidden" name="AppointmentId" value="@applicant.AppointmentId" />
+                                                            <button type="submit" class="status-pill-approved" style="border:none; cursor:pointer;">
+                                                                In Process
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="status-pill-completed">@applicant.Status</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                @{
+                    var pendingModalList = new List<dynamic>();
+                    var approvedModalList = new List<dynamic>();
+                    var completedModalList = new List<dynamic>();
+                    var rejectedModalList = new List<dynamic>();
+
+                    if (ViewBag.TodayApplicants != null)
+                    {
+                        foreach (var item in ViewBag.TodayApplicants)
+                        {
+                            string status = item.Status;
+
+                            if (status == "Pending")
+                            {
+                                pendingModalList.Add(item);
+                            }
+                            else if (status == "Approved")
+                            {
+                                approvedModalList.Add(item);
+                            }
+                            else if (status == "Completed")
+                            {
+                                completedModalList.Add(item);
+                            }
+                            else if (status == "Rejected")
+                            {
+                                rejectedModalList.Add(item);
+                            }
+                        }
+                    }
+                }
+
+
+                <!-- ================================================
+                     STAT MODAL: TOTAL REQUEST
+                ================================================= -->
+
+                <div class="stat-modal-overlay" id="modalTotalRequest">
+                    <div class="stat-modal-card">
+
+                        <div class="stat-modal-header">
+                            <div class="stat-modal-title-group">
+                                <span class="stat-modal-title">Total Request</span>
+                                <span class="stat-modal-badge">@ViewBag.TotalRequests</span>
+                            </div>
+                            <button type="button" class="stat-modal-close" onclick="closeStatModal('modalTotalRequest')">&times;</button>
+                        </div>
+
+                        <div class="stat-modal-date">@DateTime.Today.ToString("MMMM dd, yyyy")</div>
+
+                        <div class="stat-modal-search">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" data-target="tblTotalRequest" placeholder="Search applicant..." oninput="filterStatTable(this)" />
+                            </div>
+                        </div>
+
+                        <div class="stat-modal-table-wrap">
+                            <table class="stat-modal-table" id="tblTotalRequest">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>APPLICANT NAME</th>
+                                        <th>EMAIL ADDRESS</th>
+                                        <th>DATE APPLIED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.TodayApplicants == null || ViewBag.TodayApplicants.Count == 0)
+                                    {
+                                        <tr><td colspan="4" class="text-center text-muted py-3">No Applicants in this category yet.</td></tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var a in ViewBag.TodayApplicants)
+                                        {
+                                            <tr>
+                                                <td>@a.DisplayId</td>
+                                                <td>
+                                                    <div class="stat-avatar-row">
+                                                        <span class="stat-avatar" style="background:@a.AvatarColor;">@a.Initials</span>
+                                                        <span>@a.ApplicantName</span>
+                                                    </div>
+                                                </td>
+                                                <td>@a.ApplicantEmail</td>
+                                                <td>@a.DateAppliedFormatted</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- ================================================
+                     STAT MODAL: PENDING
+                ================================================= -->
+
+                <div class="stat-modal-overlay" id="modalPending">
+                    <div class="stat-modal-card">
+
+                        <div class="stat-modal-header">
+                            <div class="stat-modal-title-group">
+                                <span class="stat-modal-title">Pendings</span>
+                                <span class="stat-modal-badge">@pendingModalList.Count</span>
+                            </div>
+                            <button type="button" class="stat-modal-close" onclick="closeStatModal('modalPending')">&times;</button>
+                        </div>
+
+                        <div class="stat-modal-date">@DateTime.Today.ToString("MMMM dd, yyyy")</div>
+
+                        <div class="stat-modal-search">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" data-target="tblPending" placeholder="Search applicant..." oninput="filterStatTable(this)" />
+                            </div>
+                        </div>
+
+                        <div class="stat-modal-table-wrap">
+                            <table class="stat-modal-table" id="tblPending">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>APPLICANT NAME</th>
+                                        <th>EMAIL ADDRESS</th>
+                                        <th>DATE APPLIED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (pendingModalList.Count == 0)
+                                    {
+                                        <tr><td colspan="4" class="text-center text-muted py-3">No Applicants in this category yet.</td></tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var a in pendingModalList)
+                                        {
+                                            <tr>
+                                                <td>@a.DisplayId</td>
+                                                <td>
+                                                    <div class="stat-avatar-row">
+                                                        <span class="stat-avatar" style="background:@a.AvatarColor;">@a.Initials</span>
+                                                        <span>@a.ApplicantName</span>
+                                                    </div>
+                                                </td>
+                                                <td>@a.ApplicantEmail</td>
+                                                <td>@a.DateAppliedFormatted</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- ================================================
+                     STAT MODAL: APPROVED
+                ================================================= -->
+
+                <div class="stat-modal-overlay" id="modalApproved">
+                    <div class="stat-modal-card">
+
+                        <div class="stat-modal-header">
+                            <div class="stat-modal-title-group">
+                                <span class="stat-modal-title">Approved</span>
+                                <span class="stat-modal-badge">@approvedModalList.Count</span>
+                            </div>
+                            <button type="button" class="stat-modal-close" onclick="closeStatModal('modalApproved')">&times;</button>
+                        </div>
+
+                        <div class="stat-modal-date">@DateTime.Today.ToString("MMMM dd, yyyy")</div>
+
+                        <div class="stat-modal-search">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" data-target="tblApproved" placeholder="Search applicant..." oninput="filterStatTable(this)" />
+                            </div>
+                        </div>
+
+                        <div class="stat-modal-table-wrap">
+                            <table class="stat-modal-table" id="tblApproved">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>APPLICANT NAME</th>
+                                        <th>EMAIL ADDRESS</th>
+                                        <th>DATE APPLIED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (approvedModalList.Count == 0)
+                                    {
+                                        <tr><td colspan="4" class="text-center text-muted py-3">No Applicants in this category yet.</td></tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var a in approvedModalList)
+                                        {
+                                            <tr>
+                                                <td>@a.DisplayId</td>
+                                                <td>
+                                                    <div class="stat-avatar-row">
+                                                        <span class="stat-avatar" style="background:@a.AvatarColor;">@a.Initials</span>
+                                                        <span>@a.ApplicantName</span>
+                                                    </div>
+                                                </td>
+                                                <td>@a.ApplicantEmail</td>
+                                                <td>@a.DateAppliedFormatted</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- ================================================
+                     STAT MODAL: COMPLETED
+                ================================================= -->
+
+                <div class="stat-modal-overlay" id="modalCompleted">
+                    <div class="stat-modal-card">
+
+                        <div class="stat-modal-header">
+                            <div class="stat-modal-title-group">
+                                <span class="stat-modal-title">Completed</span>
+                                <span class="stat-modal-badge">@completedModalList.Count</span>
+                            </div>
+                            <button type="button" class="stat-modal-close" onclick="closeStatModal('modalCompleted')">&times;</button>
+                        </div>
+
+                        <div class="stat-modal-date">@DateTime.Today.ToString("MMMM dd, yyyy")</div>
+
+                        <div class="stat-modal-search">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" data-target="tblCompleted" placeholder="Search applicant..." oninput="filterStatTable(this)" />
+                            </div>
+                        </div>
+
+                        <div class="stat-modal-table-wrap">
+                            <table class="stat-modal-table" id="tblCompleted">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>APPLICANT NAME</th>
+                                        <th>EMAIL ADDRESS</th>
+                                        <th>DATE APPLIED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (completedModalList.Count == 0)
+                                    {
+                                        <tr><td colspan="4" class="text-center text-muted py-3">No Applicants in this category yet.</td></tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var a in completedModalList)
+                                        {
+                                            <tr>
+                                                <td>@a.DisplayId</td>
+                                                <td>
+                                                    <div class="stat-avatar-row">
+                                                        <span class="stat-avatar" style="background:@a.AvatarColor;">@a.Initials</span>
+                                                        <span>@a.ApplicantName</span>
+                                                    </div>
+                                                </td>
+                                                <td>@a.ApplicantEmail</td>
+                                                <td>@a.DateAppliedFormatted</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- ================================================
+                     STAT MODAL: REJECTED
+                ================================================= -->
+
+                <div class="stat-modal-overlay" id="modalRejected">
+                    <div class="stat-modal-card">
+
+                        <div class="stat-modal-header">
+                            <div class="stat-modal-title-group">
+                                <span class="stat-modal-title">Rejected</span>
+                                <span class="stat-modal-badge">@rejectedModalList.Count</span>
+                            </div>
+                            <button type="button" class="stat-modal-close" onclick="closeStatModal('modalRejected')">&times;</button>
+                        </div>
+
+                        <div class="stat-modal-date">@DateTime.Today.ToString("MMMM dd, yyyy")</div>
+
+                        <div class="stat-modal-search">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" data-target="tblRejected" placeholder="Search applicant..." oninput="filterStatTable(this)" />
+                            </div>
+                        </div>
+
+                        <div class="stat-modal-table-wrap">
+                            <table class="stat-modal-table" id="tblRejected">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>APPLICANT NAME</th>
+                                        <th>EMAIL ADDRESS</th>
+                                        <th>DATE APPLIED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (rejectedModalList.Count == 0)
+                                    {
+                                        <tr><td colspan="4" class="text-center text-muted py-3">No Applicants in this category yet.</td></tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var a in rejectedModalList)
+                                        {
+                                            <tr>
+                                                <td>@a.DisplayId</td>
+                                                <td>
+                                                    <div class="stat-avatar-row">
+                                                        <span class="stat-avatar" style="background:@a.AvatarColor;">@a.Initials</span>
+                                                        <span>@a.ApplicantName</span>
+                                                    </div>
+                                                </td>
+                                                <td>@a.ApplicantEmail</td>
+                                                <td>@a.DateAppliedFormatted</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
-
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const dropdown = document.querySelector('.sidebar-dropdown');
-        const toggle = document.querySelector('.dropdown-toggle-menu');
 
-        toggle.addEventListener('click', function () {
+    <!-- JAVASCRIPT -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        /* =========================================
+           SETTINGS DROPDOWN
+        ========================================= */
+
+        const dropdown = document.querySelector('.sidebar-dropdown');
+        const dropdownToggle = document.querySelector('.dropdown-toggle-menu');
+
+        dropdownToggle.addEventListener('click', function () {
             dropdown.classList.toggle('open');
         });
 
-        const sidebar = document.querySelector('.sidebar');
-        const toggleBtn = document.getElementById('menuToggle');
 
-        toggleBtn.addEventListener('click', function () {
+        /* =========================================
+           SIDEBAR COLLAPSE
+        ========================================= */
+
+        const sidebar = document.querySelector('.sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+
+        menuToggle.addEventListener('click', function () {
             sidebar.classList.toggle('collapsed');
         });
 
-        // ----- CHART.JS: Request Overview graph -----
-        let chart; // holds the current chart so we can destroy/redraw it when the range changes
 
-        function loadChart(range) {
-            fetch(`/Admin/GetRequestChartData?range=${range}`)
-                .then(res => res.json())
-                .then(data => {
-                    const ctx = document.getElementById('requestChart').getContext('2d');
+        /* =========================================
+        CHART.JS: REQUEST OVERVIEW GRAPH
+        ========================================= */
 
-                    if (chart) chart.destroy(); // remove old chart before drawing a new one
+        let chart;
+        const currentYear = @(ViewBag.CurrentYear)
 
-                    chart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: data.labels,
-                            datasets: [{
-                                label: 'Appointment Requests',
-                                data: data.counts,
-                                backgroundColor: '#7e22ce'
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: { display: false }
-                            },
-                            scales: {
-                                y: { beginAtZero: true, ticks: { stepSize: 1 } }
-                            }
-                        }
-                    });
-                });
+        function loadChart(range, year) {
+
+        fetch(`/Admin/GetRequestChartData?range=${range}&year=${year}`)
+        .then(res => res.json())
+        .then(data => {
+
+        const ctx = document.getElementById('requestChart').getContext('2d');
+
+        if (chart) chart.destroy();
+
+        chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: data.labels,
+        datasets: [{
+        label: 'Appointment Requests',
+        data: data.counts,
+        backgroundColor: '#B91C1C',
+        borderRadius: 4
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+        legend: { display: false }
+        },
+        scales: {
+        y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1, font: { size: 9 } }
+        },
+        x: {
+        ticks: { font: { size: 9 } }
+        }
+        }
+        }
+        });
+
+        });
         }
 
-        // Load "This Week" by default when the dashboard opens
-        loadChart('week');
+        const rangeSelect = document.getElementById('rangeSelect');
+        const yearSelect = document.getElementById('yearSelect');
 
-        // Reload the chart whenever the dropdown selection changes
-        document.getElementById('rangeSelect').addEventListener('change', function () {
-            loadChart(this.value);
+        function currentSelection() {
+        return { range: rangeSelect.value, year: parseInt(yearSelect.value, 10) };
+        }
+
+        loadChart('week', currentYear);
+
+        rangeSelect.addEventListener('change', function () {
+        const sel = currentSelection();
+        loadChart(sel.range, sel.year);
         });
-    </script>
 
+        yearSelect.addEventListener('change', function () {
+        const sel = currentSelection();
+
+        // Week view doesn't make sense for a past year — auto-switch to Month
+        if (sel.range === 'week' && sel.year !== currentYear) {
+        rangeSelect.value = 'month';
+        loadChart('month', sel.year);
+        } else {
+        loadChart(sel.range, sel.year);
+        }
+        });
+
+
+        /* =========================================
+           STAT SUMMARY CARD POPUPS
+        ========================================= */
+
+        function openStatModal(id) {
+            document.getElementById(id).classList.add('show');
+        }
+
+        function closeStatModal(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        document.querySelectorAll('.stat-modal-overlay').forEach(function (overlay) {
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) {
+                    overlay.classList.remove('show');
+                }
+            });
+        });
+
+        function filterStatTable(input) {
+            const targetId = input.getAttribute('data-target');
+            const table = document.getElementById(targetId);
+            const filter = input.value.toLowerCase();
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(function (row) {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.indexOf(filter) > -1 ? '' : 'none';
+            });
+        }
+
+    </script>
 </body>
 </html>

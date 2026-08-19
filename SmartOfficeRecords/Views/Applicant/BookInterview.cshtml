@@ -1,23 +1,36 @@
-﻿﻿@{
-ViewBag.Title = "Book Interview";
-Layout = null; // Set to null as requested, or replace with your layout if you prefer
+﻿@{
+    ViewBag.Title = "Book Interview";
+    Layout = null;
 }
 
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book an Interview</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Google Fonts (Poppins) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Book Interview - SORS</title>
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+
+    <!-- BOOTSTRAP ICONS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- POPPINS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
 
     <style>
+
+            /* =========================================================
+                                           GLOBAL
+                                        ========================================================= */
+
             * {
                 margin: 0;
                 padding: 0;
@@ -26,813 +39,1994 @@ Layout = null; // Set to null as requested, or replace with your layout if you p
             }
 
             body {
-                background-color: #eaf6ed; /* Light mint background */
+                background: #f1f1f1;
+                color: #263238;
                 min-height: 100vh;
-                color: #334155;
-                padding-top: 70px; /* Add this line to offset the fixed navbar height */
+                overflow-x: hidden;
             }
 
-            /* --- NAVBAR STYLING --- */
+            a {
+                text-decoration: none;
+            }
+
+            :root {
+                --red: #ed1c24;
+                --red-dark: #c9151c;
+                --red-light: #fff1f1;
+                --sidebar: #222b30;
+                --sidebar-hover: #2d373d;
+                --white: #ffffff;
+                --black-gray: #263238;
+                --dark-gray: #455a64;
+                --gray: #78909c;
+                --light-gray: #eceff1;
+                --border: #e1e5e8;
+                --page-bg: #f1f1f1;
+            }
+
+
+            /* =========================================================
+                                           TOP NAVBAR
+                                        ========================================================= */
+
             .navbar-custom {
-                background-color: #ffffff;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                padding: 12px 24px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 56px;
+                background: var(--white);
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                align-items: center;
+                z-index: 1030;
+                padding: 0;
+            }
+
+
+            /* =========================================================
+                                           LEFT LOGO BOX
+                                        ========================================================= */
+
+            .navbar-left-box {
+                width: 155px;
+                height: 56px;
+                background: var(--sidebar);
+                display: flex;
+                align-items: center;
+                padding: 0 15px;
+                border-right: 1px solid #39434a;
+                transition: all .3s ease;
             }
 
             .navbar-brand-custom {
                 display: flex;
                 align-items: center;
+                gap: 8px;
                 text-decoration: none;
-                gap: 10px;
             }
 
                 .navbar-brand-custom img {
-                    width: 40px;
-                    height: 40px;
+                    width: 34px;
+                    height: 34px;
                     object-fit: contain;
+                    border-radius: 50%;
                 }
 
             .brand-text {
-                color: #0f6328;
-                font-weight: 700;
-                line-height: 1.1;
+                color: #ffffff;
                 font-size: 14px;
-                letter-spacing: 0.5px;
+                font-weight: 700;
+                letter-spacing: .4px;
             }
 
-                .brand-text span {
-                    color: #1e293b;
-                    font-weight: 500;
-                    font-size: 12px;
-                }
 
-            .nav-links-custom {
-                display: flex;
-                gap: 30px;
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                align-items: center;
-            }
+            /* =========================================================
+                                           HAMBURGER
+                                        ========================================================= */
 
-            .nav-link-custom {
-                text-decoration: none;
-                color: #64748b;
-                font-weight: 500;
-                font-size: 15px;
+            .toggle-zone-box {
+                height: 56px;
+                width: 55px;
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                transition: all 0.2s ease;
+                justify-content: center;
+                background: #ffffff;
             }
 
-                .nav-link-custom:hover {
-                    color: #16a34a;
+            .sidebar-toggle-btn {
+                border: none;
+                background: transparent;
+                color: var(--red);
+                font-size: 18px;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .sidebar-toggle-btn:hover {
+                    color: var(--red-dark);
                 }
 
-                .nav-link-custom.active {
-                    color: #16a34a;
-                    border-bottom: 2px solid #16a34a;
-                    padding-bottom: 4px;
-                    font-weight: 600;
-                }
+
+            /* =========================================================
+                                           NAVBAR RIGHT
+                                        ========================================================= */
 
             .navbar-profile {
+                margin-left: auto;
+                height: 56px;
                 display: flex;
                 align-items: center;
                 gap: 15px;
+                padding-right: 15px;
+            }
+
+
+            /* =========================================================
+                                           NOTIFICATION
+                                        ========================================================= */
+
+            .notification-container {
+                position: relative;
             }
 
             .notification-btn {
-                background: none;
+                width: 40px;
+                height: 40px;
                 border: none;
-                color: #64748b;
+                background: transparent;
+                color: var(--dark-gray);
                 font-size: 20px;
-                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .notification-btn:hover {
+                    color: var(--red);
+                }
+
+            .notification-badge-dot {
+                position: absolute;
+                top: 8px;
+                right: 7px;
+                width: 7px;
+                height: 7px;
+                background: var(--red);
+                border-radius: 50%;
+                border: 1px solid white;
+            }
+
+
+            /* =========================================================
+                                           NOTIFICATION DROPDOWN
+                                        ========================================================= */
+
+            .notification-dropdown-custom {
+                position: absolute;
+                right: 0;
+                top: 48px;
+                width: 330px;
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.12);
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: all .25s ease;
+                z-index: 1050;
+            }
+
+            .notification-container.open .notification-dropdown-custom {
+                max-height: 450px;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .notif-header {
+                padding: 14px 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #eeeeee;
+            }
+
+            .notif-header-title {
+                color: var(--black-gray);
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .notif-mark-read {
+                color: var(--red);
+                font-size: 10px;
+                font-weight: 600;
+            }
+
+                .notif-mark-read:hover {
+                    color: var(--red-dark);
+                }
+
+            .notif-body {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .notif-item {
+                display: flex;
+                gap: 10px;
+                padding: 12px 15px;
+                border-bottom: 1px solid #f1f1f1;
+                color: inherit;
+                transition: .2s ease;
+            }
+
+                .notif-item:hover {
+                    background: var(--red-light);
+                }
+
+            .notif-icon-box {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .notif-icon-success {
+                background: #e8f5e9;
+                color: #43a047;
+            }
+
+            .notif-icon-warning {
+                background: #fff3e0;
+                color: #fb8c00;
+            }
+
+            .notif-text {
+                color: var(--dark-gray);
+                font-size: 11px;
+                line-height: 1.4;
+            }
+
+            .notif-time {
+                color: #9e9e9e;
+                font-size: 9px;
+                margin-top: 3px;
+            }
+
+            .notif-footer {
+                padding: 10px;
+                text-align: center;
+                background: #fafafa;
+                border-top: 1px solid #eeeeee;
+            }
+
+            .notif-footer-btn {
+                color: var(--red);
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+
+            /* =========================================================
+                                           PROFILE
+                                        ========================================================= */
+
+            .profile-container {
+                position: relative;
             }
 
             .profile-widget {
                 display: flex;
                 align-items: center;
-                gap: 10px;
-                background: #f8fafc;
-                padding: 6px 12px;
-                border-radius: 30px;
-                border: 1px solid #e2e8f0;
+                gap: 8px;
+                padding: 4px 8px;
+                border-radius: 20px;
+                background: #f5f5f5;
+                border: 1px solid #e3e3e3;
                 cursor: pointer;
+                transition: .2s ease;
             }
 
+                .profile-widget:hover {
+                    background: #eeeeee;
+                }
+
             .profile-avatar {
-                width: 32px;
-                height: 32px;
+                width: 28px;
+                height: 28px;
                 border-radius: 50%;
-                background-color: #ffb74d; /* Yellow/Orange avatar placeholder */
+                background: #ffb52e;
+                color: white;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: white;
-                font-weight: 600;
-                font-size: 13px;
+                font-size: 10px;
+                font-weight: 700;
             }
 
             .profile-info {
-                text-align: left;
-                line-height: 1.2;
+                line-height: 1.1;
             }
 
             .profile-name {
-                font-size: 12px;
-                font-weight: 600;
-                color: #1e293b;
                 display: block;
+                color: var(--black-gray);
+                font-size: 10px;
+                font-weight: 700;
             }
 
             .profile-email {
-                font-size: 10px;
-                color: #64748b;
                 display: block;
+                color: #78909c;
+                font-size: 8px;
             }
 
-            .profile-dropdown {
-                min-width: 220px;
-                border-radius: 16px;
-                border: 1px solid #dbe4dc;
-                padding: 10px 0;
-                margin-top: 12px;
+            .profile-arrow {
+                color: #546e7a;
+                font-size: 11px;
+                transition: .3s;
             }
 
-                .profile-dropdown .dropdown-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    padding: 12px 18px;
-                    font-size: 15px;
-                    font-weight: 500;
-                    color: #374151;
+            .profile-dropdown-custom {
+                position: absolute;
+                right: 0;
+                top: 48px;
+                width: 200px;
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.12);
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: all .25s ease;
+                z-index: 1050;
+            }
+
+            .profile-container.open .profile-dropdown-custom {
+                max-height: 200px;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .profile-container.open .profile-arrow {
+                transform: rotate(180deg);
+            }
+
+            .profile-dropdown-custom a {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 15px;
+                color: var(--dark-gray);
+                font-size: 12px;
+                font-weight: 500;
+                transition: .2s ease;
+            }
+
+                .profile-dropdown-custom a:hover {
+                    background: var(--red-light);
+                    color: var(--red);
                 }
 
-                    .profile-dropdown .dropdown-item i {
-                        font-size: 18px;
-                        width: 20px;
-                    }
+                .profile-dropdown-custom a i {
+                    font-size: 16px;
+                }
 
-                    .profile-dropdown .dropdown-item:hover {
-                        background: #f0fdf4;
-                        color: #16a34a;
-                    }
 
-    
+            /* =========================================================
+                                           SIDEBAR
+                                        ========================================================= */
 
-            /* --- CONTENT BODY STYLING --- */
-            .page-container {
-                max-width: 1300px;
-                margin: 0 auto;
-                padding: 40px 20px;
+            .sidebar-menu-wrapper {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                bottom: 0;
+                width: 155px;
+                background: var(--sidebar);
+                border-right: 1px solid #39434a;
+                padding: 15px 8px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                z-index: 1020;
+                transition: all .3s ease;
             }
 
-            .heading-section {
+                .sidebar-menu-wrapper::-webkit-scrollbar {
+                    width: 4px;
+                }
+
+                .sidebar-menu-wrapper::-webkit-scrollbar-track {
+                    background: var(--sidebar);
+                }
+
+                .sidebar-menu-wrapper::-webkit-scrollbar-thumb {
+                    background: #45545d;
+                    border-radius: 10px;
+                }
+
+            .sidebar-links {
+                list-style: none;
+                padding: 0;
+                margin: 0;
                 display: flex;
-                justify-content: space-between;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .sidebar-link-item {
+                width: 100%;
+                display: flex;
                 align-items: center;
-                margin-bottom: 35px;
+                gap: 10px;
+                padding: 11px 10px;
+                border-radius: 5px;
+                color: #ffffff;
+                font-size: 12px;
+                font-weight: 500;
+                white-space: nowrap;
+                transition: all .2s ease;
+            }
+
+                .sidebar-link-item i {
+                    width: 17px;
+                    min-width: 17px;
+                    font-size: 14px;
+                    display: inline-flex;
+                    justify-content: center;
+                }
+
+                .sidebar-link-item:hover {
+                    color: var(--red);
+                    background: rgba(237, 28, 36, .08);
+                }
+
+                .sidebar-link-item.active {
+                    color: var(--red);
+                    background: transparent;
+                    font-weight: 600;
+                }
+
+
+            /* =========================================================
+                                           SETTINGS
+                                        ========================================================= */
+
+            .sidebar-settings {
+                list-style: none;
+            }
+
+            .settings-toggle {
+                justify-content: space-between;
+                cursor: pointer;
+            }
+
+                .settings-toggle > a {
+                    color: #ffffff !important;
+                }
+
+                    .settings-toggle > a:hover {
+                        color: var(--red) !important;
+                    }
+
+                .settings-toggle.active {
+                    color: var(--red);
+                    background: rgba(237,28,36,.08);
+                }
+
+                    .settings-toggle.active > a {
+                        color: var(--red) !important;
+                    }
+
+            .settings-arrow {
+                color: #ffffff;
+                font-size: 11px;
+                transition: .3s;
+            }
+
+            .settings-toggle:hover .settings-arrow {
+                color: var(--red);
+            }
+
+            .settings-submenu {
+                list-style: none;
+                padding: 0 0 0 12px;
+                margin: 2px 0 0 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height .3s ease;
+            }
+
+                .settings-submenu li {
+                    margin: 2px 0;
+                }
+
+                .settings-submenu a {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 9px;
+                    border-radius: 5px;
+                    color: #ffffff !important;
+                    font-size: 11px;
+                    font-weight: 500;
+                    transition: .2s ease;
+                }
+
+                    .settings-submenu a:hover {
+                        background: rgba(237,28,36,.10);
+                        color: var(--red) !important;
+                    }
+
+                    .settings-submenu a i {
+                        color: #ffffff;
+                        font-size: 12px;
+                    }
+
+                    .settings-submenu a:hover i {
+                        color: var(--red);
+                    }
+
+            .sidebar-settings.open .settings-submenu {
+                max-height: 150px;
+            }
+
+            .sidebar-settings.open .settings-arrow {
+                transform: rotate(90deg);
+            }
+
+
+            /* =========================================================
+                                           LOGOUT
+                                        ========================================================= */
+
+            .logout-wrapper {
+                position: absolute;
+                bottom: 15px;
+                left: 8px;
+                right: 8px;
+            }
+
+            .logout-link {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                padding: 10px;
+                color: #ffffff;
+                font-size: 12px;
+                font-weight: 500;
+                border-radius: 5px;
+                transition: .2s ease;
+            }
+
+                .logout-link:hover {
+                    color: var(--red);
+                    background: rgba(237,28,36,.08);
+                }
+
+                .logout-link i {
+                    font-size: 16px;
+                }
+
+
+            /* =========================================================
+                                           MAIN CONTENT
+                                        ========================================================= */
+
+            .page-container {
+                margin-left: 155px;
+                padding: 78px 18px 35px 18px;
+                min-height: 100vh;
+                transition: margin-left .3s ease;
+            }
+
+
+            /* =========================================================
+                                           PAGE HEADING
+                                        ========================================================= */
+
+            .heading-section {
+                margin-bottom: 18px;
             }
 
             .page-title {
-                color: #16a34a;
-                font-size: 28px;
+                color: var(--black-gray);
+                font-size: 21px;
                 font-weight: 700;
                 margin-bottom: 2px;
             }
 
             .page-subtitle {
-                color: #64748b;
-                font-size: 14px;
+                color: #607d8b;
+                font-size: 10px;
+                font-weight: 500;
                 margin: 0;
             }
 
-            /* Form Card */
-            .form-card {
-                background: white;
-                border-radius: 12px;
-                border: none;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-                padding: 35px;
+
+            /* =========================================================
+                                           BOOKING LAYOUT
+                                        ========================================================= */
+
+            .booking-layout {
+                display: grid;
+                grid-template-columns: minmax(0, 2.2fr) minmax(220px, .78fr);
+                gap: 12px;
+                align-items: start;
             }
 
-            .form-card-title {
-                font-size: 18px;
-                font-weight: 600;
-                color: #1e293b;
+
+            /* =========================================================
+                                           BOOKING CARD
+                                        ========================================================= */
+
+            .booking-card {
+                background: #ffffff;
+                border: 1px solid #e5e5e5;
+                border-radius: 9px;
+                padding: 16px 17px 20px;
+                box-shadow: 0 3px 15px rgba(0,0,0,.05);
+            }
+
+            .booking-card-header {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                margin-bottom: 30px;
-            }
-
-                .form-card-title i {
-                    color: #16a34a;
-                    font-size: 22px;
-                }
-
-            .form-section-header {
-                font-size: 14px;
-                font-weight: 600;
-                color: #16a34a;
-                border-bottom: 1px solid #f1f5f9;
-                padding-bottom: 8px;
-                margin-top: 25px;
-                margin-bottom: 20px;
-            }
-
-            /* Form Controls customized with icons */
-            .form-label-custom {
-                font-weight: 600;
-                font-size: 13px;
-                color: #1e293b;
-                margin-bottom: 8px;
-            }
-
-            .input-group-custom {
-                position: relative;
-            }
-
-                .input-group-custom i {
-                    position: absolute;
-                    left: 16px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    color: #94a3b8;
-                    font-size: 16px;
-                    pointer-events: none;
-                }
-
-            .form-control-custom {
-                width: 100%;
-                height: 48px;
-                border: 1px solid #e2e8f0;
-                border-radius: 8px;
-                padding-left: 44px;
-                padding-right: 16px;
-                outline: none;
-                color: #334155;
-                font-size: 14px;
-                background-color: #fafbfc;
-                transition: all 0.2s ease;
-            }
-
-                .form-control-custom:focus {
-                    background-color: #fff;
-                    border-color: #16a34a;
-                    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
-                }
-
-            /* Custom File Input Upload Wrapper */
-            .file-upload-wrapper {
-                display: flex;
-                border: 1px solid #e2e8f0;
-                border-radius: 8px;
-                overflow: hidden;
-                background: #fafbfc;
-                height: 48px;
-                align-items: center;
-            }
-
-            .file-upload-input {
-                border: none;
-                background: transparent;
-                padding-left: 44px;
-                padding-right: 16px;
-                font-size: 14px;
-                flex-grow: 1;
-                color: #334155;
-                outline: none;
-            }
-
-            .file-upload-btn {
-                background-color: #f1f5f9;
-                color: #475569;
-                border: none;
-                border-left: 1px solid #e2e8f0;
-                padding: 0 20px;
-                font-size: 13px;
-                font-weight: 500;
-                height: 100%;
-                cursor: pointer;
-                transition: background 0.2s ease;
-            }
-
-                .file-upload-btn:hover {
-                    background-color: #e2e8f0;
-                }
-
-            /* Textarea input spacing */
-            .textarea-custom {
-                border: 1px solid #e2e8f0;
-                border-radius: 8px;
-                padding: 12px 16px;
-                font-size: 14px;
-                background-color: #fafbfc;
-                resize: none;
-                width: 100%;
-                outline: none;
-            }
-
-                .textarea-custom:focus {
-                    background-color: #fff;
-                    border-color: #16a34a;
-                    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
-                }
-
-            /* Custom Select element drop arrow adjustment */
-            select.form-control-custom {
-                appearance: none;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-position: right 16px center;
-                background-size: 12px;
-            }
-
-            /* Buttons footer row */
-            .form-buttons-row {
-                display: flex;
-                justify-content: center;
-                gap: 15px;
-                margin-top: 35px;
-            }
-
-            .btn-reset {
-                background: white;
-                color: #16a34a;
-                border: 1px solid #16a34a;
-                border-radius: 8px;
-                font-weight: 600;
-                font-size: 14px;
-                height: 44px;
-                padding: 0 40px;
-                transition: all 0.2s ease;
-            }
-
-                .btn-reset:hover {
-                    background-color: #f0fdf4;
-                    transform: translateY(-1px);
-                }
-
-            .btn-submit {
-                background-color: #16a34a;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                font-weight: 600;
-                font-size: 14px;
-                height: 44px;
-                padding: 0 40px;
-                transition: all 0.2s ease;
-                box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
-            }
-
-                .btn-submit:hover {
-                    background-color: #15803d;
-                    transform: translateY(-1px);
-                    box-shadow: 0 6px 16px rgba(22, 163, 74, 0.25);
-                }
-
-            /* --- SIDEBAR STYLING --- */
-            .sidebar-card-reminder {
-                background-color: #e2f4e9;
-                border-radius: 12px;
-                padding: 20px;
-                margin-bottom: 20px;
-                border: none;
-            }
-
-                .sidebar-card-reminder h5 {
-                    color: #14532d;
-                    font-size: 14px;
-                    font-weight: 700;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    margin-bottom: 10px;
-                }
-
-                .sidebar-card-reminder p {
-                    color: #14532d;
-                    font-size: 12px;
-                    line-height: 1.6;
-                    margin: 0;
-                    opacity: 0.85;
-                }
-
-            .sidebar-card-guidelines {
-                background: white;
-                border: 1px solid #bbf7d0; /* Soft green border */
-                border-radius: 12px;
-                padding: 24px;
-            }
-
-            .guidelines-title {
-                color: #16a34a;
-                font-size: 14px;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin-bottom: 20px;
-                border-bottom: 1px solid #f1f5f9;
-                padding-bottom: 10px;
-            }
-
-            .guideline-item {
-                display: flex;
-                gap: 15px;
                 margin-bottom: 18px;
             }
 
-                .guideline-item:last-child {
-                    margin-bottom: 0;
-                }
-
-            .guideline-icon {
-                color: #16a34a;
-                font-size: 18px;
-                margin-top: 2px;
+            .booking-card-icon {
+                width: 26px;
+                height: 26px;
+                border-radius: 5px;
+                background: #ffffff;
+                border: 2px solid #455a64;
+                color: #455a64;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
             }
 
-            .guideline-content h6 {
+            .booking-card-title {
+                color: #263238;
                 font-size: 13px;
                 font-weight: 700;
-                color: #1e293b;
-                margin-bottom: 3px;
             }
 
-            .guideline-content p {
+
+            /* =========================================================
+                                           ALERTS
+                                        ========================================================= */
+
+            .alert-custom {
                 font-size: 11px;
-                color: #64748b;
+                padding: 10px 14px;
+                border-radius: 7px;
+                margin-bottom: 16px;
+            }
+
+
+            /* =========================================================
+                                           SECTION TITLE
+                                        ========================================================= */
+
+            .form-section {
+                margin-bottom: 18px;
+            }
+
+            .form-section-title {
+                color: #263238;
+                font-size: 12px;
+                font-weight: 700;
+                padding-bottom: 8px;
+                border-bottom: 1px solid #e1e5e8;
+                margin-bottom: 15px;
+            }
+
+
+            /* =========================================================
+                                           FORM LABEL
+                                        ========================================================= */
+
+            .form-label-custom {
+                display: block;
+                color: #37474f;
+                font-size: 10px;
+                font-weight: 600;
+                margin-bottom: 6px;
+            }
+
+
+            /* =========================================================
+                                           INPUT WRAPPER
+                                        ========================================================= */
+
+            .input-wrapper {
+                position: relative;
+            }
+
+            .input-icon {
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #78909c;
+                font-size: 14px;
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            .form-control-custom {
+                width: 100%;
+                height: 38px;
+                border: 1px solid #d8dde0;
+                border-radius: 7px;
+                background: #ffffff;
+                color: #455a64;
+                font-size: 10px;
+                padding: 0 12px 0 36px;
+                outline: none;
+                box-shadow: 0 2px 6px rgba(0,0,0,.10);
+                transition: all .2s ease;
+            }
+
+                .form-control-custom::placeholder {
+                    color: #a0a8ad;
+                }
+
+                .form-control-custom:focus {
+                    border-color: var(--red);
+                    box-shadow: 0 0 0 3px rgba(237,28,36,.08);
+                }
+
+
+            /* =========================================================
+                                           FILE INPUT
+                                        ========================================================= */
+
+            .file-input-wrapper {
+                position: relative;
+                display: flex;
+                height: 38px;
+                border: 1px solid #d8dde0;
+                border-radius: 7px;
+                overflow: hidden;
+                background: #ffffff;
+                box-shadow: 0 2px 6px rgba(0,0,0,.10);
+            }
+
+            .file-input-label {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 0 12px;
+                color: #a0a8ad;
+                font-size: 10px;
+                cursor: pointer;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+                .file-input-label i {
+                    color: #78909c;
+                    font-size: 14px;
+                }
+
+            .file-input-wrapper input[type="file"] {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                opacity: 0;
+            }
+
+            .browse-btn {
+                width: 66px;
+                border: none;
+                background: var(--red);
+                color: #ffffff;
+                font-size: 10px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .browse-btn:hover {
+                    background: var(--red-dark);
+                }
+
+
+            /* =========================================================
+                                           DATE / TIME INPUT
+                                        ========================================================= */
+
+            .form-control-custom[type="date"] {
+                color: #78909c;
+                padding-right: 32px;
+            }
+
+                .form-control-custom[type="date"]::-webkit-calendar-picker-indicator {
+                    opacity: .55;
+                    cursor: pointer;
+                }
+
+
+            /* =========================================================
+                                           TEXTAREA
+                                        ========================================================= */
+
+            .textarea-custom {
+                width: 100%;
+                min-height: 46px;
+                resize: vertical;
+                border: 1px solid #d8dde0;
+                border-radius: 7px;
+                background: #ffffff;
+                color: #455a64;
+                font-size: 10px;
+                padding: 12px;
+                outline: none;
+                box-shadow: 0 2px 6px rgba(0,0,0,.10);
+                transition: all .2s ease;
+            }
+
+                .textarea-custom::placeholder {
+                    color: #a0a8ad;
+                }
+
+                .textarea-custom:focus {
+                    border-color: var(--red);
+                    box-shadow: 0 0 0 3px rgba(237,28,36,.08);
+                }
+
+
+            /* =========================================================
+                                           FORM BUTTONS
+                                        ========================================================= */
+
+            .booking-actions {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                margin-top: 18px;
+            }
+
+            .btn-reset {
+                min-width: 184px;
+                height: 38px;
+                border: 1px solid #ff6b70;
+                border-radius: 7px;
+                background: #ffffff;
+                color: var(--red);
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all .2s ease;
+            }
+
+                .btn-reset:hover {
+                    background: var(--red-light);
+                }
+
+            .btn-submit {
+                min-width: 184px;
+                height: 38px;
+                border: none;
+                border-radius: 7px;
+                background: var(--red);
+                color: #ffffff;
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(237,28,36,.18);
+                transition: all .2s ease;
+            }
+
+                .btn-submit:hover {
+                    background: var(--red-dark);
+                    transform: translateY(-1px);
+                    box-shadow: 0 5px 13px rgba(237,28,36,.22);
+                }
+
+
+            /* =========================================================
+                                           RIGHT SIDE CARDS
+                                        ========================================================= */
+
+            .right-side {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+
+            /* =========================================================
+                                           REMINDER
+                                        ========================================================= */
+
+            .reminder-card {
+                background: #fff6f6;
+                border: 1px solid #ffc5c7;
+                border-radius: 7px;
+                padding: 13px;
+            }
+
+            .side-card-header {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                color: #263238;
+                font-size: 12px;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+
+                .side-card-header i {
+                    color: var(--red);
+                    font-size: 14px;
+                }
+
+            .reminder-text {
+                color: #78909c;
+                font-size: 9px;
                 line-height: 1.5;
                 margin: 0;
             }
 
-            /* Responsive Breakpoints */
-            @@media (max-width: 991px) {
-                .heading-section {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 15px;
+
+            /* =========================================================
+                                           GUIDELINES
+                                        ========================================================= */
+
+            .guideline-card {
+                background: #ffffff;
+                border: 1px solid #e5e5e5;
+                border-radius: 7px;
+                padding: 13px;
+                box-shadow: 0 2px 8px rgba(0,0,0,.03);
+            }
+
+            .guideline-list {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            .guideline-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 8px 0;
+                border-bottom: 1px solid #eeeeee;
+            }
+
+                .guideline-item:last-child {
+                    border-bottom: none;
+                    padding-bottom: 0;
                 }
 
-                .date-pill-container {
-                    align-self: flex-start;
+            .guideline-icon {
+                width: 15px;
+                min-width: 15px;
+                color: var(--red);
+                font-size: 12px;
+                margin-top: 2px;
+            }
+
+            .guideline-content {
+                flex: 1;
+            }
+
+            .guideline-title {
+                display: block;
+                color: #37474f;
+                font-size: 10px;
+                font-weight: 700;
+                margin-bottom: 2px;
+            }
+
+            .guideline-description {
+                display: block;
+                color: #78909c;
+                font-size: 8.5px;
+                line-height: 1.35;
+            }
+
+
+            /* =========================================================
+                                           SIDEBAR COLLAPSE
+                                        ========================================================= */
+
+            body.sidebar-collapsed .navbar-left-box {
+                width: 60px;
+                padding: 0;
+                justify-content: center;
+            }
+
+            body.sidebar-collapsed .brand-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .sidebar-menu-wrapper {
+                width: 60px;
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+
+            body.sidebar-collapsed .sidebar-link-item {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+                gap: 0;
+            }
+
+            body.sidebar-collapsed .sidebar-link-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .settings-arrow {
+                display: none;
+            }
+
+            body.sidebar-collapsed .settings-submenu {
+                display: none !important;
+            }
+
+            body.sidebar-collapsed .logout-link {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            body.sidebar-collapsed .logout-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .page-container {
+                margin-left: 60px;
+            }
+
+
+            /* =========================================================
+                                           RESPONSIVE
+                                        ========================================================= */
+
+            @@media (max-width: 1000px) {
+
+                .navbar-left-box {
+                    width: 210px;
                 }
 
-                .nav-links-custom {
-                    display: none; /* Hide on smaller screens or implement standard Bootstrap toggle navbar */
+                .sidebar-menu-wrapper {
+                    width: 210px;
+                }
+
+                .page-container {
+                    margin-left: 210px;
+                }
+
+                body.sidebar-collapsed .page-container {
+                    margin-left: 60px;
+                }
+
+                .booking-layout {
+                    grid-template-columns: 1fr;
+                }
+
+                .right-side {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
                 }
             }
+
+
+            @@media (max-width: 700px) {
+
+                .navbar-left-box {
+                    width: 60px;
+                    padding: 0;
+                    justify-content: center;
+                }
+
+                .brand-text {
+                    display: none;
+                }
+
+                .sidebar-menu-wrapper {
+                    width: 60px;
+                }
+
+                .sidebar-link-item {
+                    justify-content: center;
+                    padding: 11px 0;
+                    gap: 0;
+                }
+
+                .sidebar-link-text {
+                    display: none;
+                }
+
+                .settings-arrow {
+                    display: none;
+                }
+
+                .settings-submenu {
+                    display: none !important;
+                }
+
+                .page-container {
+                    margin-left: 60px;
+                    padding: 75px 12px 25px;
+                }
+
+                .profile-info {
+                    display: none;
+                }
+
+                .profile-widget {
+                    padding: 4px;
+                }
+
+                .booking-card {
+                    padding: 14px;
+                }
+
+                .right-side {
+                    display: flex;
+                }
+
+                .booking-actions {
+                    flex-direction: column;
+                }
+
+                .btn-reset,
+                .btn-submit {
+                    width: 100%;
+                }
+            }
+
+
+            @@media (max-width: 500px) {
+
+                .navbar-profile {
+                    gap: 5px;
+                    padding-right: 7px;
+                }
+
+                .notification-dropdown-custom {
+                    width: 280px;
+                    right: -60px;
+                }
+
+                .profile-dropdown-custom {
+                    right: -5px;
+                }
+
+                .page-title {
+                    font-size: 18px;
+                }
+
+                .page-subtitle {
+                    font-size: 9px;
+                }
+            }
+            /* =========================================================
+                                   EDIT BOOK INTERVIEW MODAL
+                                ========================================================= */
+
+            .eb-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 20, 22, 0.55);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                padding: 20px;
+            }
+
+                .eb-overlay.show {
+                    display: flex;
+                }
+
+            .eb-card {
+                width: 100%;
+                max-width: 400px;
+                background: #ffffff;
+                border-left: 6px solid var(--red);
+                border-radius: 10px;
+                padding: 26px 28px;
+                box-shadow: 0 25px 60px rgba(0,0,0,.28);
+                opacity: 0;
+                transform: translateY(16px);
+                animation: ebSlideIn .3s ease forwards;
+            }
+
+            @@keyframes ebSlideIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .eb-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: var(--red-light);
+                color: var(--red);
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: .3px;
+                padding: 6px 11px;
+                border-radius: 20px;
+                margin-bottom: 16px;
+            }
+
+            .eb-title {
+                color: #263238;
+                font-size: 15px;
+                font-weight: 700;
+                margin-bottom: 4px;
+            }
+
+            .eb-subtitle {
+                color: #78909c;
+                font-size: 10.5px;
+                line-height: 1.5;
+                margin-bottom: 20px;
+            }
+
+            .eb-group {
+                margin-bottom: 16px;
+            }
+
+            .eb-label {
+                display: block;
+                color: #37474f;
+                font-size: 10px;
+                font-weight: 600;
+                margin-bottom: 6px;
+            }
+
+            .eb-input-wrap {
+                position: relative;
+            }
+
+                .eb-input-wrap i {
+                    position: absolute;
+                    left: 12px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #78909c;
+                    font-size: 13px;
+                    pointer-events: none;
+                }
+
+            .eb-input {
+                width: 100%;
+                height: 40px;
+                border: 1px solid #d8dde0;
+                border-radius: 7px;
+                background: #ffffff;
+                color: #455a64;
+                font-size: 11px;
+                padding: 0 12px 0 34px;
+                outline: none;
+                transition: all .2s ease;
+            }
+
+                .eb-input:focus {
+                    border-color: var(--red);
+                    box-shadow: 0 0 0 3px rgba(237,28,36,.08);
+                }
+
+                .eb-input::placeholder {
+                    color: #a0a8ad;
+                }
+
+            select.eb-input {
+                padding-left: 34px;
+                appearance: auto;
+            }
+
+            .eb-actions {
+                display: flex;
+                gap: 10px;
+                margin-top: 22px;
+            }
+
+            .eb-btn-cancel {
+                flex: 1;
+                height: 40px;
+                border: 1px solid #d8dde0;
+                background: #ffffff;
+                color: #455a64;
+                border-radius: 7px;
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .eb-btn-cancel:hover {
+                    background: #f1f1f1;
+                }
+
+            .eb-btn-save {
+                flex: 1;
+                height: 40px;
+                border: none;
+                background: var(--red);
+                color: #ffffff;
+                border-radius: 7px;
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(237,28,36,.18);
+                transition: .2s ease;
+            }
+
+                .eb-btn-save:hover {
+                    background: var(--red-dark);
+                }
+
+                .eb-btn-save:disabled {
+                    opacity: .65;
+                    cursor: not-allowed;
+                }
+
+            .eb-error-text {
+                color: var(--red-dark);
+                font-size: 10px;
+                font-weight: 500;
+                margin-top: -8px;
+                margin-bottom: 14px;
+                display: none;
+            }
+
+
+            /* =========================================================
+                                   SUCCESS MODAL
+                                ========================================================= */
+
+            .eb-success-card {
+                width: 100%;
+                max-width: 340px;
+                background: #ffffff;
+                border-radius: 12px;
+                padding: 30px 28px 26px;
+                text-align: center;
+                box-shadow: 0 25px 60px rgba(0,0,0,.28);
+                opacity: 0;
+                transform: translateY(16px);
+                animation: ebSlideIn .3s ease forwards;
+            }
+
+            .eb-success-label {
+                color: #90a4ae;
+                font-size: 9.5px;
+                font-weight: 700;
+                letter-spacing: .6px;
+                text-transform: uppercase;
+                margin-bottom: 18px;
+            }
+
+            .eb-success-icon {
+                width: 62px;
+                height: 62px;
+                border-radius: 50%;
+                background: var(--red-light);
+                color: #263238;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 26px;
+                margin: 0 auto 16px;
+            }
+
+            .eb-success-title {
+                color: #263238;
+                font-size: 16px;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+
+            .eb-success-text {
+                color: #78909c;
+                font-size: 11px;
+                line-height: 1.5;
+                margin-bottom: 22px;
+            }
+
+            .eb-btn-ok {
+                width: 100%;
+                height: 42px;
+                border: none;
+                background: var(--red);
+                color: #ffffff;
+                border-radius: 7px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(237,28,36,.18);
+                transition: .2s ease;
+            }
+
+                .eb-btn-ok:hover {
+                    background: var(--red-dark);
+                }
+
     </style>
+
 </head>
+
+
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
 
-            <!-- Left: Brand Logo -->
-            <a class="navbar-brand-custom" href="#">
-                <img src="~/Images/logo.png" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3061/3061341.png'" />
-                <div class="brand-text">
-                    SMART OFFICE<br />
-                    <span>RECORDS SYSTEM</span>
-                </div>
+    <!-- TOP NAVBAR -->
+
+    <nav class="navbar-custom">
+
+        <div class="navbar-left-box">
+
+            <a class="navbar-brand-custom" href="@Url.Action("ApplicantDash", "Applicant")">
+                <img src="~/Images/logo.png" alt="SORS Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3061/3061341.png'" />
+                <span class="brand-text">SORS</span>
             </a>
 
-            <!-- Center: Menu Navigation Links -->
-            <ul class="nav-links-custom">
-                <li>
-                    <a href="@Url.Action("ApplicantDash", "Applicant")" class="nav-link-custom">
-                        <i class="bi bi-house-door"></i> Home
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="nav-link-custom active">
-                        <i class="bi bi-file-earmark-spreadsheet"></i> Book Interview
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("MyAppointment", "Applicant")" class="nav-link-custom">
-                        <i class="bi bi-person-bounding-box"></i> My Appointment
-                    </a>
-                </li>
-            </ul>
+        </div>
 
-            <!-- Right: Notifications & Profile -->
-            <div class="navbar-profile">
-                <button class="notification-btn" title="Notifications">
+        <div class="toggle-zone-box">
+            <button class="sidebar-toggle-btn" id="toggleSidebar" type="button" title="Toggle Sidebar">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+
+        <div class="navbar-profile">
+
+            <!-- NOTIFICATION -->
+            <div class="notification-container">
+
+                <button class="notification-btn" id="notificationToggle" type="button" title="Notifications">
                     <i class="bi bi-bell"></i>
+                    <span class="notification-badge-dot"></span>
                 </button>
 
-                <div class="dropdown">
-                    <div class="profile-widget dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer;">
-                        <div class="profile-avatar">@ViewBag.Initials</div>
-                        <div class="profile-info">
-                            <span class="profile-name">@ViewBag.FullName</span>
-                            <span class="profile-email">@ViewBag.Email</span>
-                        </div>
+                <div class="notification-dropdown-custom" id="notificationMenu">
+
+                    <div class="notif-header">
+                        <span class="notif-header-title">Notifications</span>
+                        <a href="#" class="notif-mark-read">Mark all as read</a>
                     </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" href="@Url.Action("Profile", "Applicant")">
-                                <i class="bi bi-person-gear me-2"></i>My Account
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item text-danger" href="@Url.Action("ApplicantLogout", "Applicant")">
-                                <i class="bi bi-box-arrow-left me-2"></i>Sign Out
-                            </a>
-                        </li>
-                    </ul>
+
+                    <div class="notif-body">
+
+                        <a href="#" class="notif-item">
+                            <div class="notif-icon-box notif-icon-success">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+                            <div>
+                                <div class="notif-text">Your interview request has been approved.</div>
+                                <div class="notif-time">10 mins ago</div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="notif-item">
+                            <div class="notif-icon-box notif-icon-warning">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <div>
+                                <div class="notif-text">Reminder: Check your interview schedule.</div>
+                                <div class="notif-time">2 hours ago</div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="notif-footer">
+                        <a href="#" class="notif-footer-btn">View All Notifications</a>
+                    </div>
+
                 </div>
+
             </div>
+
+            <!-- PROFILE -->
+            <div class="profile-container">
+
+                <div class="profile-widget" id="profileToggle">
+
+                    <div class="profile-avatar">@ViewBag.Initials</div>
+
+                    <div class="profile-info">
+                        <span class="profile-name">@ViewBag.FullName</span>
+                        <span class="profile-email">@ViewBag.Email</span>
+                    </div>
+
+                    <i class="bi bi-chevron-down profile-arrow"></i>
+
+                </div>
+
+                <div class="profile-dropdown-custom" id="profileMenu">
+
+                    <a href="@Url.Action("Profile", "Applicant")">
+                        <i class="bi bi-person-circle"></i>
+                        My Account
+                    </a>
+
+                    <a href="@Url.Action("ApplicantLogout", "Applicant")">
+                        <i class="bi bi-box-arrow-right"></i>
+                        Sign Out
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
+
     </nav>
 
-    <!-- CONTENT BODY -->
-    <div class="page-container">
 
-        <!-- Header Section -->
-        <div class="heading-section">
-            <div>
-                <h1 class="page-title">Book an Interview</h1>
-                <p class="page-subtitle">Fill out the form below to schedule your interview.</p>
-            </div>
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar-menu-wrapper" id="sidebarMenu">
+
+        <ul class="sidebar-links">
+
+            <li>
+                <a href="@Url.Action("ApplicantDash", "Applicant")" class="sidebar-link-item">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span class="sidebar-link-text">Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="@Url.Action("BookInterview", "Applicant")" class="sidebar-link-item active">
+                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                    <span class="sidebar-link-text">Book Interview</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="@Url.Action("MyAppointment", "Applicant")" class="sidebar-link-item">
+                    <i class="bi bi-person-bounding-box"></i>
+                    <span class="sidebar-link-text">My Appointment</span>
+                </a>
+            </li>
+
+            <li class="sidebar-settings">
+
+                <div class="sidebar-link-item settings-toggle" id="settingsToggle">
+
+                    <a href="@Url.Action("Settings", "Applicant")" class="d-flex align-items-center flex-grow-1 text-decoration-none">
+                        <i class="bi bi-gear-fill"></i>
+                        <span class="sidebar-link-text ms-2">Settings</span>
+                    </a>
+
+                    <i class="bi bi-chevron-right settings-arrow"></i>
+
+                </div>
+
+                <ul class="settings-submenu" id="settingsMenu">
+
+                    <li>
+                        <a href="@Url.Action("Settings", "Applicant")">
+                            <i class="bi bi-shield-lock"></i>
+                            <span class="sidebar-link-text">Settings</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Profile", "Applicant")">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="sidebar-link-text">My Account</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </li>
+
+        </ul>
+
+        <div class="logout-wrapper">
+            <a href="@Url.Action("ApplicantLogout", "Applicant")" class="logout-link">
+                <i class="bi bi-box-arrow-right"></i>
+                <span class="logout-text">Logout</span>
+            </a>
         </div>
 
-        <!-- Layout Grid -->
-        <div class="row g-4">
+    </aside>
 
-            <!-- Main Form Card (Col-8) -->
-            <div class="col-lg-8">
-                <div class="form-card">
-                    <div class="form-card-title">
-                        <i class="bi bi-file-earmark-text"></i> Interview Booking Form
+
+    <!-- MAIN CONTENT -->
+
+    <main class="page-container">
+
+        <div class="heading-section">
+            <h1 class="page-title">Book Interview</h1>
+            <p class="page-subtitle">Fill out the form below to schedule your interview.</p>
+        </div>
+
+        <div class="booking-layout">
+
+            <!-- LEFT: BOOKING FORM OR COOLDOWN NOTICE -->
+            <div class="booking-card">
+
+                @if (ViewBag.InCooldown == true)
+                {
+                    <div style="border: 2px solid #2563EB; border-radius: 10px; padding: 24px; text-align: center;">
+
+                        <div style="width: 56px; height: 56px; border-radius: 50%; background: #FEE2E2; color: #E32626; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 16px;">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+
+                        <h5 style="color: #263238; font-weight: 700; margin-bottom: 8px;">You've Already Completed an Interview.</h5>
+                        <p style="color: #78909c; font-size: 11px; max-width: 420px; margin: 0 auto 20px;">
+                            To give every applicant a fair chance, you can submit a new interview request 30 days after your last completed interview. Here's when you'll be eligible again.
+                        </p>
+
+                        <div style="background: #1F2933; color: #ffffff; border-radius: 8px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <div style="text-align: left;">
+                                <div style="font-size: 22px; font-weight: 700;">@ViewBag.DaysLeft</div>
+                                <div style="font-size: 9px; color: #9CA3AF; letter-spacing: .5px;">DAYS LEFT</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 12px; font-weight: 700;">@ViewBag.EligibleDate</div>
+                                <div style="font-size: 9px; color: #9CA3AF; letter-spacing: .5px;">ELIGIBLE TO REAPPLY</div>
+                            </div>
+                        </div>
+
+                        <div style="height: 6px; background: #E5E7EB; border-radius: 10px; overflow: hidden; margin-bottom: 20px;">
+                            <div style="height: 100%; width: @(ViewBag.ProgressPercent)%; background: #E32626;"></div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left; margin-bottom: 20px;">
+                            <div>
+                                <div style="font-size: 9px; color: #9CA3AF; font-weight: 700; letter-spacing: .4px;">LAST INTERVIEW DATE</div>
+                                <div style="font-size: 12px; font-weight: 700; color: #1F2933;">@ViewBag.LastInterviewDate</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 9px; color: #9CA3AF; font-weight: 700; letter-spacing: .4px;">RESULT</div>
+                                <div style="font-size: 12px; font-weight: 700; color: #16A34A;">
+                                    <i class="bi bi-check-circle-fill"></i> Completed
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-size: 9px; color: #9CA3AF; font-weight: 700; letter-spacing: .4px;">POSITION APPLIED</div>
+                                <div style="font-size: 12px; font-weight: 700; color: #1F2933;">@ViewBag.PositionApplied</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 9px; color: #9CA3AF; font-weight: 700; letter-spacing: .4px;">REAPPLICATION WINDOW</div>
+                                <div style="font-size: 12px; font-weight: 700; color: #1F2933;">@ViewBag.ReapplicationWindow Days</div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: center; gap: 10px;">
+                            <a href="@Url.Action("MyAppointment", "Applicant")" class="btn-reset" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                                View My Appointment
+                            </a>
+                            <button type="button" class="btn-submit" style="opacity: .6; cursor: not-allowed;" disabled title="Not eligible yet">
+                                <i class="bi bi-lock-fill"></i> Book Interview
+                            </button>
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="booking-card-header">
+                        <div class="booking-card-icon">
+                            <i class="bi bi-card-checklist"></i>
+                        </div>
+                        <div class="booking-card-title">Interview Booking Form</div>
                     </div>
 
                     @if (ViewBag.Error != null)
                     {
-                        <div class="alert alert-danger" id="errorAlert">@ViewBag.Error</div>
+                        <div class="alert alert-danger alert-custom" id="errorAlert">@ViewBag.Error</div>
                     }
                     @if (ViewBag.Success != null)
                     {
-                        <div class="alert alert-success" id="successAlert">@ViewBag.Success</div>
+                        <div class="alert alert-success alert-custom" id="successAlert">@ViewBag.Success</div>
                     }
 
                     @using (Html.BeginForm("BookInterview", "Applicant", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
-                        <!-- SECTION 1: Personal Information -->
-                        <div class="form-section-header">Personal Information</div>
+                        <div class="form-section">
 
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Full name</label>
-                                <div class="input-group-custom">
-                                    <i class="bi bi-person"></i>
-                                    <input type="text" name="FullName" class="form-control-custom" placeholder="Enter full name" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Contact Number</label>
-                                <div class="input-group-custom">
-                                    <i class="bi bi-telephone"></i>
-                                    <input type="text" name="ContactNumber" class="form-control-custom" placeholder="Enter Contact Number" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Email Address</label>
-                                <div class="input-group-custom">
-                                    <i class="bi bi-envelope"></i>
-                                    <input type="email" name="EmailAddress" class="form-control-custom" placeholder="Enter your email address" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Upload Resume (PDF, DOC, DOCX)</label>
-                                <div class="file-upload-wrapper">
-                                    <!-- Hidden underlying file element -->
-                                    <input type="file" id="realFile" name="ResumeFile" accept=".pdf,.doc,.docx" style="display:none;" required />
-                                    <!-- Customized visual presentation -->
-                                    <div class="input-group-custom" style="flex-grow: 1;">
-                                        <i class="bi bi-file-earmark-arrow-up"></i>
-                                        <input type="text" id="fakeFileText" class="file-upload-input" placeholder="Choose File" readonly />
+                            <div class="form-section-title">Personal Information</div>
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Full name</label>
+                                    <div class="input-wrapper">
+                                        <i class="bi bi-person input-icon"></i>
+                                        <input type="text" name="FullName" class="form-control-custom" placeholder="Enter full name" required />
                                     </div>
-                                    <button type="button" id="uploadBtn" class="file-upload-btn">Browse</button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                                <label class="form-label-custom">Upload Valid ID (JPG, JPEG, PNG )</label>
 
-                                <div class="file-upload-wrapper">
-
-                                    <!-- Hidden File Input -->
-                                    <input type="file"
-                                           id="validIDFile"
-                                           name="ValidIDFile"
-                                           accept=".jpg,.jpeg,.png,.pdf"
-                                           style="display:none;"
-                                           required />
-
-                                    <!-- Custom Text Box -->
-                                    <div class="input-group-custom" style="flex-grow:1;">
-                                        <i class="bi bi-person-vcard"></i>
-                                        <input type="text"
-                                               id="validIDText"
-                                               class="file-upload-input"
-                                               placeholder="Choose Valid ID"
-                                               readonly />
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Contact Number</label>
+                                    <div class="input-wrapper">
+                                        <i class="bi bi-telephone input-icon"></i>
+                                        <input type="text" name="ContactNumber" class="form-control-custom" placeholder="Enter Contact Number" required />
                                     </div>
-
-                                    <!-- Browse Button -->
-                                    <button type="button"
-                                            id="validIDBtn"
-                                            class="file-upload-btn">
-                                        Browse
-                                    </button>
-
                                 </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <i class="bi bi-envelope input-icon"></i>
+                                        <input type="email" name="EmailAddress" class="form-control-custom" placeholder="Enter your email address" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Upload Resume (PDF, DOC, DOCX)</label>
+                                    <div class="file-input-wrapper">
+                                        <label class="file-input-label" for="resumeFile">
+                                            <i class="bi bi-file-earmark"></i>
+                                            <span id="fileName">Choose File</span>
+                                        </label>
+                                        <button type="button" class="browse-btn" onclick="document.getElementById('resumeFile').click();">Browse</button>
+                                        <input type="file" id="resumeFile" name="ResumeFile" accept=".pdf,.doc,.docx" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Upload Valid ID (JPG, JPEG, PNG)</label>
+                                    <div class="file-input-wrapper">
+                                        <label class="file-input-label" for="validIDFile">
+                                            <i class="bi bi-person-vcard"></i>
+                                            <span id="validIDName">Choose Valid ID</span>
+                                        </label>
+                                        <button type="button" class="browse-btn" onclick="document.getElementById('validIDFile').click();">Browse</button>
+                                        <input type="file" id="validIDFile" name="ValidIDFile" accept=".jpg,.jpeg,.png,.pdf" required />
+                                    </div>
+                                </div>
+
                             </div>
 
-                        
-                        <!-- SECTION 2: Interview Details -->
-                        <div class="form-section-header">Interview Details</div>
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Prefered Interview Date</label>
-                                <div class="input-group-custom">
-                                    <i class="bi bi-calendar3"></i>
-                                    <input type="date" name="PreferredDate" class="form-control-custom" required />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Prefered Time</label>
-                                <div class="input-group-custom">
-                                    <i class="bi bi-clock"></i>
-                                    <select name="PreferredTime" class="form-control-custom" required>
-                                        <option value="" disabled selected>Select Time</option>
-                                        <option value="09:00 AM">09:00 AM</option>
-                                        <option value="10:00 AM">10:00 AM</option>
-                                        <option value="11:00 AM">11:00 AM</option>
-                                        <option value="01:00 PM">01:00 PM</option>
-                                        <option value="02:00 PM">02:00 PM</option>
-                                        <option value="03:00 PM">03:00 PM</option>
-                                        <option value="04:00 PM">04:00 PM</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
 
-                        <!-- SECTION 3: Additional Notes -->
-                        <div class="row g-3 mt-1">
-                            <div class="col-12">
-                                <label class="form-label-custom">Additional Notes (Optional)</label>
-                                <textarea name="AdditionalNotes" class="textarea-custom" rows="3" placeholder="Enter any additional notes...."></textarea>
+                        <div class="form-section">
+
+                            <div class="form-section-title">Interview Details</div>
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Preferred Interview Date</label>
+                                    <div class="input-wrapper">
+                                        <i class="bi bi-calendar3 input-icon"></i>
+                                        <input type="date" name="PreferredDate" class="form-control-custom" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Preferred Time</label>
+                                    <div class="input-wrapper">
+                                        <i class="bi bi-clock input-icon"></i>
+                                        <select name="PreferredTime" class="form-control-custom" required>
+                                            <option value="" disabled selected>Select Time</option>
+                                            <option value="09:00 AM">09:00 AM</option>
+                                            <option value="10:00 AM">10:00 AM</option>
+                                            <option value="11:00 AM">11:00 AM</option>
+                                            <option value="01:00 PM">01:00 PM</option>
+                                            <option value="02:00 PM">02:00 PM</option>
+                                            <option value="03:00 PM">03:00 PM</option>
+                                            <option value="04:00 PM">04:00 PM</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                             </div>
+
                         </div>
 
-                        <!-- Buttons Row -->
-                        <div class="form-buttons-row">
+                        <div class="form-section">
+                            <label class="form-label-custom">Additional Notes (Optional)</label>
+                            <textarea name="AdditionalNotes" class="textarea-custom" placeholder="Enter any additional notes...."></textarea>
+                        </div>
+
+                        <div class="booking-actions">
                             <button type="reset" class="btn-reset" id="resetBtn">Reset</button>
                             <button type="submit" class="btn-submit">Submit Booking</button>
                         </div>
                     }
-                    <script>
-                                            // Auto-hide the success message after 3 seconds
-                                            const successAlert = document.getElementById('successAlert');
-                                            if (successAlert) {
-                                                setTimeout(function () {
-                                                    successAlert.style.transition = "opacity 0.5s ease";
-                                                    successAlert.style.opacity = "0";
-                                                    setTimeout(function () {
-                                                        successAlert.remove();
-                                                    }, 500);
-                                                }, 3000);
-                                            }
-                                             
-                                            // Auto-hide the error message after 3 seconds
-                                            const errorAlert = document.getElementById('errorAlert');
-                                            if (errorAlert) {
-                                                setTimeout(function () {
-                                                    errorAlert.style.transition = "opacity 0.5s ease";
-                                                    errorAlert.style.opacity = "0";
-                                                    setTimeout(function () {
-                                                        errorAlert.remove();
-                                                    }, 500);
-                                                }, 3000);
-                                            }
-                    </script>
+                }
 
-                </div>
             </div>
 
-            <!-- Sidebar Cards (Col-4) -->
-            <div class="col-lg-4">
+            <!-- RIGHT SIDE -->
+            <div class="right-side">
 
-                <!-- Card 1: Reminder -->
-                <div class="sidebar-card-reminder">
-                    <h5><i class="bi bi-info-circle"></i> Reminder</h5>
-                    <p>Please provide accurate information. You will receive a confirmation once your booking is successfully processed.</p>
+                <div class="reminder-card">
+                    <div class="side-card-header">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <span>Reminder</span>
+                    </div>
+                    <p class="reminder-text">
+                        Please provide accurate information.
+                        You will receive a confirmation once your
+                        booking is successfully submitted.
+                    </p>
                 </div>
 
-                <!-- Card 2: Interview Guidelines -->
-                <div class="sidebar-card-guidelines">
-                    <div class="guidelines-title">
-                        <i class="bi bi-list-task"></i> Interview Guidelines
+                <div class="guideline-card">
+
+                    <div class="side-card-header">
+                        <i class="bi bi-card-list"></i>
+                        <span>Interview Guidelines</span>
                     </div>
 
-                    <!-- Guideline List Items -->
-                    <div class="guideline-item">
-                        <div class="guideline-icon">
-                            <i class="bi bi-clock"></i>
-                        </div>
-                        <div class="guideline-content">
-                            <h6>Be on time</h6>
-                            <p>Please arrive at least 10 minutes before your scheduled time.</p>
-                        </div>
-                    </div>
+                    <ul class="guideline-list">
 
-                    <div class="guideline-item">
-                        <div class="guideline-icon">
-                            <i class="bi bi-card-image"></i>
-                        </div>
-                        <div class="guideline-content">
-                            <h6>Bring Valid ID</h6>
-                            <p>Present valid government-issued ID for verification.</p>
-                        </div>
-                    </div>
+                        <li class="guideline-item">
+                            <div class="guideline-icon"><i class="bi bi-clock"></i></div>
+                            <div class="guideline-content">
+                                <span class="guideline-title">Be on time</span>
+                                <span class="guideline-description">Please arrive at least 10 minutes before your scheduled time.</span>
+                            </div>
+                        </li>
 
-                    <div class="guideline-item">
-                        <div class="guideline-icon">
-                            <i class="bi bi-person-workspace"></i>
-                        </div>
-                        <div class="guideline-content">
-                            <h6>Dress Appropriately</h6>
-                            <p>Please wear professional attire for your interview.</p>
-                        </div>
-                    </div>
+                        <li class="guideline-item">
+                            <div class="guideline-icon"><i class="bi bi-card-text"></i></div>
+                            <div class="guideline-content">
+                                <span class="guideline-title">Bring Valid ID</span>
+                                <span class="guideline-description">Present valid government-issued ID for verification.</span>
+                            </div>
+                        </li>
+
+                        <li class="guideline-item">
+                            <div class="guideline-icon"><i class="bi bi-person-workspace"></i></div>
+                            <div class="guideline-content">
+                                <span class="guideline-title">Dress appropriately</span>
+                                <span class="guideline-description">Please wear professional attire for your interview.</span>
+                            </div>
+                        </li>
+
+                    </ul>
 
                 </div>
 
             </div>
 
         </div>
-    </div>
 
-    <!-- JS Logic for custom file input mechanism -->
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
     <script>
-            const realFileBtn = document.getElementById("realFile");
-            const customBtn = document.getElementById("uploadBtn");
-            const customTxt = document.getElementById("fakeFileText");
-            const resetBtn = document.getElementById("resetBtn");
 
-            customBtn.addEventListener("click", function() {
-                realFileBtn.click();
+            // SIDEBAR TOGGLE
+            const toggleSidebar = document.getElementById("toggleSidebar");
+            toggleSidebar.addEventListener("click", function () {
+                document.body.classList.toggle("sidebar-collapsed");
             });
 
-            realFileBtn.addEventListener("change", function() {
-                if (realFileBtn.value) {
-                    // Extracts the file name and places it into the custom text box
-                    customTxt.value = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-                } else {
-                    customTxt.value = "Choose File";
+            // SETTINGS DROPDOWN
+            const settingsToggle = document.getElementById("settingsToggle");
+            const settingsGroup = document.querySelector(".sidebar-settings");
+
+            settingsToggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                settingsGroup.classList.toggle("open");
+            });
+
+            // PROFILE DROPDOWN
+            const profileContainer = document.querySelector(".profile-container");
+            const profileToggle = document.getElementById("profileToggle");
+
+            profileToggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                profileContainer.classList.toggle("open");
+                notificationContainer.classList.remove("open");
+            });
+
+            // NOTIFICATION DROPDOWN
+            const notificationContainer = document.querySelector(".notification-container");
+            const notificationToggle = document.getElementById("notificationToggle");
+
+            notificationToggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                notificationContainer.classList.toggle("open");
+                profileContainer.classList.remove("open");
+            });
+
+            // CLOSE DROPDOWNS
+            document.addEventListener("click", function (e) {
+                if (!profileContainer.contains(e.target)) {
+                    profileContainer.classList.remove("open");
+                }
+                if (!notificationContainer.contains(e.target)) {
+                    notificationContainer.classList.remove("open");
                 }
             });
+
+            // RESUME FILE NAME
+            const resumeFile = document.getElementById("resumeFile");
+            const fileName = document.getElementById("fileName");
+
+            if (resumeFile) {
+                resumeFile.addEventListener("change", function () {
+                    fileName.textContent = this.files.length > 0 ? this.files[0].name : "Choose File";
+                });
+            }
+
+            // VALID ID FILE NAME
             const validIDFile = document.getElementById("validIDFile");
-            const validIDBtn = document.getElementById("validIDBtn");
-            const validIDText = document.getElementById("validIDText");
+            const validIDName = document.getElementById("validIDName");
 
-            validIDBtn.addEventListener("click", function() {
-                validIDFile.click();
-            });
+            if (validIDFile) {
+                validIDFile.addEventListener("change", function () {
+                    validIDName.textContent = this.files.length > 0 ? this.files[0].name : "Choose Valid ID";
+                });
+            }
 
-            validIDFile.addEventListener("change", function() {
-                if (validIDFile.value) {
-                    validIDText.value = validIDFile.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-                } else {
-                    validIDText.value = "Choose Valid ID";
-                }
-            });
+            // RESET FILE LABELS ON FORM RESET
+            const resetBtn = document.getElementById("resetBtn");
+            if (resetBtn) {
+                resetBtn.addEventListener("click", function () {
+                    if (fileName) fileName.textContent = "Choose File";
+                    if (validIDName) validIDName.textContent = "Choose Valid ID";
+                });
+            }
 
-            // Clear both custom labels when Reset is pressed
-            resetBtn.addEventListener("click", function() {
-                customTxt.value = "Choose File";
-                validIDText.value = "Choose Valid ID";
-            });
+            // AUTO-DISMISS ALERTS
+            const successAlert = document.getElementById('successAlert');
+            if (successAlert) {
+                setTimeout(function () {
+                    successAlert.style.transition = "opacity 0.5s ease";
+                    successAlert.style.opacity = "0";
+                    setTimeout(function () { successAlert.remove(); }, 500);
+                }, 3000);
+            }
 
-            // Clear Custom File label when Reset is pressed
-            resetBtn.addEventListener("click", function() {
-                customTxt.value = "Choose File";
-            });
+            const errorAlert = document.getElementById('errorAlert');
+            if (errorAlert) {
+                setTimeout(function () {
+                    errorAlert.style.transition = "opacity 0.5s ease";
+                    errorAlert.style.opacity = "0";
+                    setTimeout(function () { errorAlert.remove(); }, 500);
+                }, 3000);
+            }
+
     </script>
+
+
+    <!-- BOOTSTRAP JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 </html>

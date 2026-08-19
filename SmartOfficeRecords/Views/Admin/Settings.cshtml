@@ -61,7 +61,6 @@
             scrollbar-color: rgba(255,255,255,.3) transparent;
         }
 
-            /* Chrome / Edge */
             .sidebar::-webkit-scrollbar {
                 width: 6px;
             }
@@ -75,14 +74,10 @@
                 background: transparent;
             }
 
-            /* ==========================
-                COLLAPSED SIDEBAR
-           ===========================*/
             .sidebar.collapsed {
                 width: 90px;
             }
 
-                /* Keep SORS visible */
                 .sidebar.collapsed .system-name {
                     display: block;
                     font-size: 12px;
@@ -90,30 +85,25 @@
                     margin-top: 10px;
                 }
 
-                /* Logo size when collapsed */
                 .sidebar.collapsed .logo-circle {
                     width: 58px;
                     height: 58px;
                 }
 
-                /* Keep divider line */
                 .sidebar.collapsed .logo-section {
                     padding: 25px 15px;
                     border-bottom: 1px solid rgba(255,255,255,.15);
                 }
 
-                /* Hide menu text only */
                 .sidebar.collapsed .menu a span,
                 .sidebar.collapsed .logout a span {
                     display: none;
                 }
 
-                /* Menu layout */
                 .sidebar.collapsed .menu {
                     padding: 20px 12px;
                 }
 
-                    /* Menu items */
                     .sidebar.collapsed .menu a {
                         width: 50px;
                         height: 50px;
@@ -125,20 +115,17 @@
                         border-radius: 8px;
                     }
 
-                        /* Active menu */
                         .sidebar.collapsed .menu a.active {
                             background: #1e4f8a;
                             box-shadow: 0 4px 10px rgba(0,0,0,.15);
                         }
 
-                        /* Keep icon size same as expanded */
                         .sidebar.collapsed .menu a i,
                         .sidebar.collapsed .logout a i {
                             margin: 0;
                             font-size: inherit;
                         }
 
-                /* Logout */
                 .sidebar.collapsed .logout {
                     margin-top: auto;
                     padding-bottom: 20px;
@@ -183,7 +170,6 @@
             transition: transform .3s ease;
         }
 
-        /* submenu */
         .dropdown-submenu {
             display: none;
             flex-direction: column;
@@ -205,7 +191,6 @@
                     background: rgba(255,255,255,.12);
                 }
 
-        /* active state */
         .sidebar-dropdown.open .dropdown-submenu {
             display: flex;
         }
@@ -214,7 +199,6 @@
             transform: rotate(180deg);
         }
 
-        /* Hide dropdown arrow when sidebar is collapsed */
         .sidebar.collapsed .small-arrow {
             display: none;
         }
@@ -528,7 +512,7 @@
 
             <div class="logout">
 
-                <a href="@Url.Action("Login", "Admin")">
+                <a href="@Url.Action("Logout", "Admin")">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Logout</span>
                 </a>
@@ -547,8 +531,6 @@
                     <button class="menu-toggle" id="menuToggle">
                         <i class="bi bi-list"></i>
                     </button>
-
-
                 </div>
 
                 <div class="topbar-right">
@@ -698,7 +680,7 @@
 
     <script>
         const dropdown = document.querySelector('.sidebar-dropdown');
-            const toggle = document.querySelector('.dropdown-toggle-menu');
+        const toggle = document.querySelector('.dropdown-toggle-menu');
 
         toggle.addEventListener('click', function () {
             dropdown.classList.toggle('open');

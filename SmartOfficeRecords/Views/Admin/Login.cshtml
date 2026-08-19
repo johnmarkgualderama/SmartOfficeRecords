@@ -11,10 +11,15 @@
     <title>Admin Login</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -23,15 +28,21 @@
         }
 
         body {
-            background: #f4f6f9;
+            background: #F3F4F6;
             min-height: 100vh;
             overflow: hidden;
         }
+
+        /* =========================================
+                   MAIN CONTAINER
+                   ========================================= */
 
         .main-container {
             width: 100%;
             height: 100vh;
             display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .login-wrapper {
@@ -39,381 +50,526 @@
             height: 100vh;
             display: flex;
             overflow: hidden;
-            background: white;
+            background: #FFFFFF;
         }
 
-        /* LEFT SIDE - DEEP ROYAL BLUE GRADIENT */
+
+        /* =========================================
+                   LEFT SIDE
+                   ========================================= */
+
         .left-side {
-            width: 40%;
+            width: 41%;
             height: 100vh;
-            background: linear-gradient(135deg, #142b6f 0%, #0b1a3a 100%);
-            position: relative;
+            background: #111827;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 72px;
+            position: relative;
         }
 
-            /* Subtle geometric overlay background pattern */
-            .left-side::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                opacity: 0.04;
-                background-image: linear-gradient(30deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(150deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(300deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(60deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000), linear-gradient(240deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000);
-                background-size: 40px 70px;
-                z-index: 1;
-            }
+
+        /* =========================================
+                   LOGO
+                   ========================================= */
 
         .top-content {
+            width: 100%;
             text-align: center;
-            padding-top: 80px;
-            position: relative;
-            z-index: 2;
         }
 
-            /* Ambient glow ring under logo */
             .top-content img {
-                width: 130px;
-                margin-bottom: 25px;
-                background: rgba(255, 255, 255, 0.1);
-                padding: 10px;
+                width: 120px;
+                height: 120px;
+                object-fit: contain;
+                background: #FFFFFF;
+                padding: 8px;
                 border-radius: 50%;
-                backdrop-filter: blur(8px);
-                border: 1px solid rgba(255, 255, 255, 0.15);
+                margin-bottom: 32px;
             }
+
+
+            /* =========================================
+                   SYSTEM NAME
+                   ========================================= */
 
             .top-content h1 {
-                color: white;
-                font-size: 34px;
+                color: #FFFFFF;
+                font-size: 30px;
                 font-weight: 700;
-                line-height: 1.3;
-                letter-spacing: 0.5px;
-                text-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                line-height: 1.35;
+                letter-spacing: 0.2px;
+                margin: 0;
             }
 
-        .bottom-image {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            margin-top: auto;
-        }
 
-            .bottom-image img {
-                width: 100%;
-                height: 50vh;
-                object-fit: cover;
-                display: block;
-            }
+        /* =========================================
+                   RIGHT SIDE
+                   ========================================= */
 
-        /* RIGHT SIDE */
         .right-side {
-            width: 60%;
+            width: 59%;
             height: 100vh;
-            background: #f8fafc;
+            background: #FFFFFF;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 40px;
         }
 
-        /* MODERN FLOATING LOGIN CARD */
+
+        /* =========================================
+                   LOGIN CARD
+                   ========================================= */
+
         .login-card {
             width: 100%;
-            max-width: 480px;
-            background: white;
+            max-width: 430px;
+            background: #FFFFFF;
+            padding: 52px 45px 55px 45px;
+            border-radius: 8px;
             border: none;
-            border-radius: 16px;
-            padding: 50px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-            opacity: 0;
-            animation: slideInCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: 0 8px 25px rgba(17, 24, 39, 0.07);
+            animation: fadeIn 0.6s ease forwards;
         }
+
+
+            /* =========================================
+                   TITLE
+                   ========================================= */
 
             .login-card h2 {
                 text-align: center;
-                font-size: 34px;
+                font-size: 27px;
                 font-weight: 700;
-                color: #1e293b;
-                margin-bottom: 8px;
+                color: #111827;
+                margin-bottom: 5px;
             }
 
         .subtitle {
             text-align: center;
-            color: #64748b;
-            margin-bottom: 35px;
-            font-size: 15px;
+            color: #6B7280;
+            font-size: 13px;
+            margin-bottom: 40px;
         }
+
+
+
+        /* =========================================
+                   LABEL
+                   ========================================= */
 
         .form-label {
-            font-weight: 500;
-            color: #334155;
-            margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 7px;
         }
 
-        /* INPUT GROUP STYLING */
+
+        /* =========================================
+                   INPUT GROUP
+                   ========================================= */
+
         .input-group-custom {
             position: relative;
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
+
+
+            /* LEFT ICON */
 
             .input-group-custom .left-icon {
                 position: absolute;
-                left: 16px;
+                left: 14px;
                 top: 50%;
                 transform: translateY(-50%);
-                color: #94a3b8;
-                font-size: 18px;
-                transition: color 0.2s ease;
+                color: #9CA3AF;
+                font-size: 16px;
+                z-index: 2;
+                transition: 0.2s ease;
             }
+
+
+            /* RIGHT ICON */
 
             .input-group-custom .right-icon {
                 position: absolute;
-                right: 16px;
+                right: 14px;
                 top: 50%;
                 transform: translateY(-50%);
+                color: #6B7280;
+                font-size: 16px;
                 cursor: pointer;
-                color: #94a3b8;
-                font-size: 18px;
-                transition: color 0.2s ease;
+                z-index: 2;
+                transition: 0.2s ease;
             }
 
                 .input-group-custom .right-icon:hover {
-                    color: #475569;
+                    color: #991B1B;
                 }
+
+
+        /* =========================================
+                   INPUT
+                   ========================================= */
 
         .form-control-custom {
             width: 100%;
-            height: 52px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding-left: 48px;
-            padding-right: 48px;
+            height: 48px;
+            background: #FFFFFF;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            padding-left: 44px;
+            padding-right: 44px;
+            color: #111827;
+            font-size: 14px;
             outline: none;
-            color: #1e293b;
-            font-size: 15px;
             transition: all 0.2s ease;
-            background-color: #f8fafc;
         }
 
             .form-control-custom::placeholder {
-                color: #94a3b8;
+                color: #9CA3AF;
+            }
+
+            .form-control-custom:hover {
+                border-color: #9CA3AF;
             }
 
             .form-control-custom:focus {
-                background-color: #fff;
-                border-color: #142b6f;
-                box-shadow: 0 0 0 4px rgba(20, 43, 111, 0.12);
+                border-color: #B91C1C;
+                box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.10);
+                background: #FFFFFF;
             }
 
         .input-group-custom:focus-within .left-icon {
-            color: #142b6f;
+            color: #B91C1C;
         }
 
-        /* INTERACTIVE BUTTON WITH BLUE GRADIENT */
+
+        /* =========================================
+                   LOGIN BUTTON
+                   ========================================= */
+
         .btn-login {
             width: 100%;
-            height: 52px;
+            height: 58px;
             border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #142b6f, #0b1a3a);
-            color: white;
-            font-size: 16px;
+            border-radius: 6px;
+            background: #B91C1C;
+            color: #FFFFFF;
+            font-size: 17px;
             font-weight: 600;
-            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(11, 26, 58, 0.2);
             margin-top: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(185, 28, 28, 0.18);
         }
+
 
             .btn-login:hover {
-                background: linear-gradient(135deg, #1a3994, #142b6f);
+                background: #991B1B;
                 transform: translateY(-1px);
-                box-shadow: 0 8px 20px rgba(11, 26, 58, 0.35);
+                box-shadow: 0 6px 15px rgba(153, 27, 27, 0.25);
             }
+
 
             .btn-login:active {
+                background: #7F1D1D;
                 transform: translateY(1px);
-                box-shadow: 0 4px 10px rgba(11, 26, 58, 0.2);
             }
 
-        /* REGISTER / CONTACT LINK */
-        .contact-admin {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 14px;
-            color: #64748b;
-        }
 
-            .contact-admin a {
-                color: #142b6f;
-                text-decoration: none;
-                font-weight: 600;
-                transition: color 0.2s ease;
-            }
+        /* =========================================
+                   ERROR MESSAGE
+                   ========================================= */
 
-                .contact-admin a:hover {
-                    color: #0b1a3a;
-                    text-decoration: underline;
-                }
-
-        /* ERROR DISPLAY */
         .error-message {
-            background-color: #fef2f2;
-            border: 1px solid #fee2e2;
-            color: #dc2626;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #B91C1C;
             text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 12px;
             font-weight: 500;
         }
 
-        /* RESPONSIVE LAYOUT */
-        @@media(max - width: 991px)
 
-        {
-            .login-wrapper
+        /* =========================================
+                   ANIMATION
+                   ========================================= */
 
-        {
-            flex-direction: column;
-            overflow-y: auto;
-        }
+        @@keyframes fadeIn {
 
-        .left-side, .right-side {
-            width: 100%;
-        }
-
-        .left-side {
-            height: auto;
-            padding-bottom: 0;
-        }
-
-        .top-content {
-            padding: 50px 20px 30px 20px;
-        }
-
-            .top-content h1 {
-                font-size: 28px;
+            from {
+                opacity: 0;
+                transform: translateY(15px);
             }
 
-        .bottom-image img {
-            height: 35vh;
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .right-side {
-            height: auto;
-            padding: 40px 20px;
+
+        /* =========================================
+                   RESPONSIVE
+                   ========================================= */
+
+        @@media (max-width: 991px) {
+
+            body {
+                overflow-y: auto;
+            }
+
+            .login-wrapper {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .left-side {
+                width: 100%;
+                height: auto;
+                min-height: 420px;
+                padding-top: 50px;
+            }
+
+            .right-side {
+                width: 100%;
+                height: auto;
+                min-height: 550px;
+                padding: 35px 20px;
+            }
+
+            .top-content img {
+                width: 105px;
+                height: 105px;
+                margin-bottom: 25px;
+            }
+
+            .top-content h1 {
+                font-size: 26px;
+            }
+
+            .login-card {
+                max-width: 420px;
+            }
         }
 
-        .login-card {
-            padding: 35px 24px;
+
+        /* =========================================
+                   MOBILE
+                   ========================================= */
+
+        @@media (max-width: 576px) {
+
+            .left-side {
+                min-height: 350px;
+                padding-top: 40px;
+            }
+
+            .top-content img {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 20px;
+            }
+
+            .top-content h1 {
+                font-size: 22px;
+            }
+
+            .right-side {
+                padding: 25px 15px;
+            }
+
+            .login-card {
+                padding: 35px 25px 40px 25px;
+            }
+
+                .login-card h2 {
+                    text-align: center;
+                    font-size: 29px;
+                    font-weight: 700;
+                    color: #111827;
+                    margin-bottom: 6px;
+                }
         }
-
-        }
-
-        /* CARD ANIMATION */
-        @@keyframes slideInCard {
-            from
-
-        {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }}
 
     </style>
 </head>
+
+
 <body>
 
     <div class="main-container">
+
         <div class="login-wrapper">
 
+
+            <!-- =====================================
+                 LEFT SIDE
+                 ===================================== -->
+
             <div class="left-side">
+
                 <div class="top-content">
-                    <img src="~/Images/logo.png" alt="Logo" />
+
+                    <img src="~/Images/logo.png"
+                         alt="Smart Office Records System Logo" />
+
                     <h1>
                         SMART OFFICE
                         <br />
                         RECORDS SYSTEM
                     </h1>
+
                 </div>
 
-                <div class="bottom-image">
-                    <img src="~/Images/admin.png" alt="Admin Graphic" />
-                </div>
             </div>
 
+
+            <!-- =====================================
+                 RIGHT SIDE
+                 ===================================== -->
+
             <div class="right-side">
+
                 <div class="login-card">
 
-                    <h2>Welcome Back!</h2>
-                    <p class="subtitle">Please sign in to continue.</p>
 
+                    <!-- TITLE -->
+
+                    <h2>
+                        Welcome Back!
+                    </h2>
+
+                    <p class="subtitle">
+                        Please sign in to continue.
+                    </p>
+
+
+                    <!-- ERROR -->
                     @if (ViewBag.Error != null)
                     {
                         <div class="error-message">
+
                             <i class="bi bi-exclamation-circle me-2"></i>@ViewBag.Error
+
                         </div>
                     }
 
+
+                    <!-- LOGIN FORM -->
                     @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
                     {
+
+
+                        <!-- USERNAME -->
+
                         <div class="mb-1">
-                            <label class="form-label">Username</label>
+
+                            <label class="form-label">
+                                Username
+                            </label>
+
                             <div class="input-group-custom">
+
                                 <i class="bi bi-person left-icon"></i>
+
                                 <input type="text"
                                        name="Username"
                                        class="form-control-custom"
                                        placeholder="Enter Username"
                                        required />
+
                             </div>
+
                         </div>
 
+
+                        <!-- PASSWORD -->
+
                         <div class="mb-1">
-                            <label class="form-label">Password</label>
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
                             <div class="input-group-custom">
+
                                 <i class="bi bi-lock left-icon"></i>
+
                                 <input type="password"
                                        id="password"
                                        name="Password"
                                        class="form-control-custom"
                                        placeholder="Enter Password"
                                        required />
-                                <i class="bi bi-eye right-icon" id="togglePassword"></i>
+
+                                <i class="bi bi-eye right-icon"
+                                   id="togglePassword"></i>
+
                             </div>
+
                         </div>
 
-                        <button type="submit" class="btn-login">
+
+                        <!-- LOGIN BUTTON -->
+
+                        <button type="submit"
+                                class="btn-login">
+
                             Login
+
                         </button>
+
                     }
 
                 </div>
+
             </div>
 
         </div>
+
     </div>
 
+
+    <!-- =========================================
+         PASSWORD TOGGLE
+         ========================================= -->
+
     <script>
-        const togglePassword = document.querySelector("#togglePassword");
-        const password = document.querySelector("#password");
+
+        const togglePassword =
+            document.querySelector("#togglePassword");
+
+        const password =
+            document.querySelector("#password");
+
 
         togglePassword.addEventListener("click", function () {
-            const type = password.getAttribute("type") === "password" ? "text" : "password";
+
+            const type =
+                password.getAttribute("type") === "password"
+                    ? "text"
+                    : "password";
+
             password.setAttribute("type", type);
 
+
             this.classList.toggle("bi-eye");
+
             this.classList.toggle("bi-eye-slash");
+
         });
+
     </script>
+
 </body>
 </html>

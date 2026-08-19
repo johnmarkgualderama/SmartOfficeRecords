@@ -1,298 +1,703 @@
-﻿﻿@{
-ViewBag.Title = "Applicant Land";
-Layout = null;
+﻿@{
+    ViewBag.Title = "Applicant Land";
+    Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Office Records System - Work Avenue</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Google Fonts (Poppins) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <style>
             :root {
-                --primary-green: #16a34a;
-                --dark-green: #166534;
-                --light-mint: #dcfce7;
-                --surface-white: #ffffff;
-                --text-dark: #166534;
-                --text-muted: #ffffff;
+                --primary-red: #E11D2E;
+                --dark-red: #C41425;
+                --light-red: #FFF1F2;
+                --black: #111111;
+                --dark-black: #0B0B0B;
+                --white: #FFFFFF;
+                --light-gray: #F5F5F5;
+                --medium-gray: #E5E5E5;
+                --border-gray: #D9D9D9;
+                --text-dark: #222222;
+                --text-gray: #666666;
+                --text-light: #888888;
             }
 
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
-                font-family: 'Poppins', sans-serif;
+            }
+
+            html {
+                scroll-behavior: smooth;
             }
 
             body {
-                background-color: #f8fafc;
+                font-family: 'Poppins', sans-serif;
+                background-color: var(--white);
                 color: var(--text-dark);
                 min-height: 100vh;
             }
 
             /* HEADER */
             .top-header {
-                height: 80px;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(8px);
+                width: 100%;
+                height: 72px;
+                background-color: var(--black);
                 position: sticky;
                 top: 0;
                 z-index: 1000;
-                border-bottom: 1px solid #e2e8f0;
-            }
-
-            .logo-text h4 {
-                color: var(--primary-green);
-                font-size: 20px;
-                font-weight: 700;
-                margin: 0;
-                line-height: 1.1;
-                letter-spacing: -0.5px;
-            }
-
-            .logo-text span {
-                font-size: 10px;
-                font-weight: 600;
-                letter-spacing: 1px;
-                color: var(--text-dark);
-            }
-
-            .nav-menu a {
-                text-decoration: none;
-                color: #475569;
-                font-weight: 500;
-                font-size: 14px;
-                padding: 8px 16px;
-                border-radius: 6px;
-                transition: all 0.2s ease;
-            }
-
-                .nav-menu a:hover {
-                    color: var(--primary-green);
-                    background: var(--light-mint);
-                }
-
-                .nav-menu a.active {
-                    background: #dcfce7;
-                    color: #166534;
-                    font-weight: 600;
-                }
-
-            /* HERO SECTION */
-            .hero {
-                min-height: 540px;
-                background: linear-gradient(135deg,#dcfce7,#bbf7d0);
-                position: relative;
-                overflow: hidden;
                 display: flex;
                 align-items: center;
             }
 
-                .hero::before {
-                    content: "";
-                    position: absolute;
-                    inset: 0;
-                    background-image: radial-gradient(circle, #bbf7d0 1.5px, transparent 1.5px);
-                    background-size: 40px 40px;
-                    opacity: 0.6;
-                    z-index: 1;
-                }
-
-            .hero-content {
-                position: relative;
-                z-index: 2;
-            }
-
-            .hero h1 {
-                font-size: 2.85rem;
-                font-weight: 700;
-                color: var(--dark-green);
-                line-height: 1.25;
-                letter-spacing: -1px;
-            }
-
-            .hero p {
-                max-width: 800px;
-                margin: 1.5rem auto;
-                color: #334155;
-                font-size: 1.05rem;
-                line-height: 1.6;
-            }
-
-            /* COMMON BUTTON EFFECT */
-            .btn-green,
-            .btn-book {
-                position: relative;
-                overflow: hidden;
-                transition: all .35s ease;
-            }
-
-            /* REGISTER BUTTON */
-            .btn-green {
-                background: linear-gradient(135deg,#16a34a,#15803d);
-                color: white;
-                padding: 14px 38px;
-                border-radius: 10px;
-                font-weight: 600;
-                border: none;
-                box-shadow: 0 5px 18px rgba(22,163,74,.25);
-            }
-
-                .btn-green:hover {
-                    color: white;
-                    transform: translateY(-4px) scale(1.02);
-                    box-shadow: 0 12px 25px rgba(22,163,74,.35), 0 0 20px rgba(34,197,94,.25);
-                }
-
-                .btn-green:active {
-                    transform: translateY(-1px);
-                }
-
-            /* LOGIN BUTTON */
-            .btn-book {
-                background: white;
-                border: 2px solid #16a34a;
-                color: #166534;
-                border-radius: 10px;
-                padding: 14px 38px;
-                font-weight: 600;
-                box-shadow: 0 5px 18px rgba(0,0,0,.05);
-            }
-
-                .btn-book:hover {
-                    background: white;
-                    color: #166534;
-                    transform: translateY(-4px) scale(1.02);
-                    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15), 0 0 20px rgba(0, 0, 0, 0.08);
-                }
-
-                .btn-book:active {
-                    transform: translateY(-1px);
-                }
-
-            /* SECTION TEXT HEADER */
-            .section-title {
-                color: #166534;
-                font-weight: 700;
-                position: relative;
-                display: inline-block;
-                margin-bottom: 10px;
-            }
-
-            /* CARDS / CONTAINERS */
-            .custom-card {
-                background: var(--surface-white);
-                border: 1px solid #bbf7d0;
-                border-radius: 16px;
-                padding: 28px;
-                box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+            .header-container {
+                width: 100%;
                 height: 100%;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-                .custom-card:hover {
-                    transform: translateY(-4px);
-                    box-shadow: 0 12px 24px -4px rgba(16, 185, 129, 0.08);
-                    border-color: #16a34a;
-                }
-
-            /* ICON CIRCLE */
-            .icon-circle {
-                width: 52px;
-                height: 52px;
-                background: var(--light-mint);
-                color: var(--primary-green);
-                border-radius: 12px;
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                font-size: 22px;
-                margin-bottom: 18px;
+                justify-content: space-between;
             }
 
-            /* WORKFLOW TIMELINE STEP */
-            .step-number {
-                font-size: 13px;
-                font-weight: 700;
-                color: var(--primary-green);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                margin-bottom: 6px;
+            .brand-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                height: 100%;
+            }
+
+            .brand-logo {
+                width: 36px;
+                height: 36px;
+                object-fit: contain;
                 display: block;
             }
 
-            .workflow-box {
-                background: white;
-                border: 1px solid #bbf7d0;
-                border-radius: 12px;
-                transition: all 0.2s ease;
+            .brand-name {
+                color: var(--white);
+                font-size: 15px;
+                font-weight: 600;
+                line-height: 1;
+                margin: 0;
+                white-space: nowrap;
             }
 
-                .workflow-box.highlighted {
-                    border-color: var(--primary-green);
-                    background: linear-gradient(to bottom, #ffffff, #f0fdf4);
-                    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.05);
+            .nav-menu {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+            }
+
+                .nav-menu a {
+                    color: #E5E5E5;
+                    text-decoration: none;
+                    font-size: 12px;
+                    font-weight: 500;
+                    padding: 10px 14px;
+                    border-radius: 4px;
+                    transition: all 0.25s ease;
                 }
 
-            /* CONTACT FORM INPUTS */
-            .contact-input {
-                width: 100%;
-                padding: 12px 16px;
-                border: 1px solid #cbd5e1;
+                    .nav-menu a:hover {
+                        background-color: #2D2D2D;
+                        color: var(--white);
+                    }
+
+                    .nav-menu a.active {
+                        background-color: #383838;
+                        color: var(--white);
+                    }
+
+            /* HERO */
+            .hero {
+                background-color: var(--light-gray);
+                min-height: 310px;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid #E8E8E8;
+                overflow: hidden;
+            }
+
+            .hero-container {
+                padding-top: 42px;
+                padding-bottom: 42px;
+            }
+
+            .hero-content {
+                padding-left: 35px;
+            }
+
+            .hero h1 {
+                color: var(--black);
+                font-size: 34px;
+                font-weight: 700;
+                line-height: 1.3;
+                letter-spacing: -0.8px;
+                margin-bottom: 10px;
+            }
+
+                .hero h1 span {
+                    color: var(--primary-red);
+                }
+
+            .hero-description {
+                max-width: 550px;
+                color: #68707A;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 1.7;
+                margin-bottom: 23px;
+            }
+
+            .hero-buttons {
+                display: flex;
+                align-items: center;
+                gap: 24px;
+            }
+
+            .btn-signup,
+            .btn-signin {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 145px;
+                padding: 11px 28px;
+                border-radius: 4px;
+                font-size: 13px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.25s ease;
+            }
+
+            .btn-signup {
+                background-color: var(--primary-red);
+                border: 1px solid var(--primary-red);
+                color: var(--white);
+                box-shadow: 0 4px 10px rgba(225, 29, 46, 0.18);
+            }
+
+                .btn-signup:hover {
+                    background-color: var(--dark-red);
+                    border-color: var(--dark-red);
+                    color: var(--white);
+                    transform: translateY(-2px);
+                    box-shadow: 0 7px 15px rgba(225, 29, 46, 0.25);
+                }
+
+            .btn-signin {
+                background-color: var(--white);
+                border: 1px solid var(--primary-red);
+                color: var(--primary-red);
+            }
+
+                .btn-signin:hover {
+                    background-color: var(--light-red);
+                    border-color: var(--dark-red);
+                    color: var(--dark-red);
+                    transform: translateY(-2px);
+                }
+
+            /* HERO ILLUSTRATION */
+            .hero-art {
+                position: relative;
+                width: 270px;
+                height: 180px;
+                margin: auto;
+            }
+
+            .document {
+                position: absolute;
+                width: 140px;
+                height: 130px;
+                background-color: var(--white);
+                border: 5px solid #2D3236;
+                border-radius: 9px;
+                top: 2px;
+                left: 45px;
+                box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+            }
+
+            .document-circle {
+                position: absolute;
+                top: 12px;
+                left: 11px;
+                width: 14px;
+                height: 14px;
+                background-color: var(--primary-red);
+                border-radius: 50%;
+            }
+
+                .document-circle::after {
+                    content: "";
+                    position: absolute;
+                    width: 5px;
+                    height: 5px;
+                    background-color: var(--white);
+                    border-radius: 50%;
+                    top: 4px;
+                    left: 4px;
+                }
+
+            .document-line {
+                position: absolute;
+                height: 3px;
+                background-color: #D6D6D6;
+                border-radius: 5px;
+            }
+
+            .line-one {
+                width: 38px;
+                top: 16px;
+                left: 33px;
+            }
+
+            .line-two {
+                width: 87px;
+                top: 35px;
+                left: 15px;
+            }
+
+            .line-three {
+                width: 65px;
+                top: 53px;
+                left: 15px;
+            }
+
+            .line-four {
+                width: 91px;
+                top: 71px;
+                left: 15px;
+            }
+
+            .line-five {
+                width: 75px;
+                top: 89px;
+                left: 15px;
+            }
+
+            .calendar {
+                position: absolute;
+                width: 72px;
+                height: 69px;
+                background-color: var(--white);
                 border-radius: 8px;
-                outline: none;
-                font-size: 14px;
-                transition: all 0.2s ease;
+                left: 20px;
+                bottom: 3px;
+                overflow: hidden;
+                box-shadow: 0 5px 14px rgba(0, 0, 0, 0.10);
             }
 
-                .contact-input:focus {
-                    border-color: var(--primary-green);
-                    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+            .calendar-top {
+                width: 100%;
+                height: 20px;
+                background-color: var(--primary-red);
+            }
+
+            .calendar-hook {
+                position: absolute;
+                width: 5px;
+                height: 14px;
+                background-color: #999999;
+                top: -5px;
+                border-radius: 3px;
+                z-index: 2;
+            }
+
+            .hook-one {
+                left: 16px;
+            }
+
+            .hook-two {
+                right: 16px;
+            }
+
+            .calendar-grid {
+                padding: 9px;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 4px;
+            }
+
+                .calendar-grid span {
+                    width: 7px;
+                    height: 7px;
+                    display: block;
+                    background-color: #9AA4A9;
+                    border-radius: 1px;
                 }
+
+            .folder {
+                position: absolute;
+                width: 80px;
+                height: 61px;
+                background-color: var(--dark-red);
+                right: 13px;
+                bottom: 3px;
+                border-radius: 8px;
+                box-shadow: 0 5px 14px rgba(0, 0, 0, 0.10);
+            }
+
+                .folder::before {
+                    content: "";
+                    position: absolute;
+                    width: 35px;
+                    height: 10px;
+                    background-color: var(--dark-red);
+                    top: -7px;
+                    left: 9px;
+                    border-radius: 5px 5px 0 0;
+                }
+
+            /* GUIDELINE */
+            .guideline-section {
+                background-color: var(--white);
+                padding-top: 43px;
+                padding-bottom: 38px;
+            }
+
+            .section-heading {
+                text-align: center;
+                margin-bottom: 29px;
+            }
+
+                .section-heading h2 {
+                    color: var(--black);
+                    font-size: 27px;
+                    font-weight: 700;
+                    line-height: 1.3;
+                    margin-bottom: 7px;
+                }
+
+                .section-heading p {
+                    max-width: 680px;
+                    margin: 0 auto;
+                    color: #777777;
+                    font-size: 12px;
+                    font-weight: 400;
+                    line-height: 1.6;
+                }
+
+            .guideline-card {
+                background-color: var(--white);
+                border: 1px solid #E0E0E0;
+                border-radius: 6px;
+                min-height: 125px;
+                padding: 17px 18px;
+                box-shadow: 0 4px 13px rgba(0, 0, 0, 0.08);
+                transition: all 0.25s ease;
+            }
+
+                .guideline-card:hover {
+                    transform: translateY(-3px);
+                    border-color: #C9C9C9;
+                    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+                }
+
+            .guideline-label {
+                color: #333333;
+                font-size: 9px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                margin-bottom: 4px;
+            }
+
+            .guideline-title {
+                color: var(--primary-red);
+                font-size: 13px;
+                font-weight: 700;
+                line-height: 1.3;
+                margin-bottom: 8px;
+            }
+
+            .guideline-description {
+                color: #707070;
+                font-size: 10px;
+                font-weight: 400;
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            /* CORE SYSTEM */
+            .core-section {
+                background-color: var(--light-gray);
+                padding-top: 45px;
+                padding-bottom: 43px;
+            }
+
+                .core-section .section-heading {
+                    margin-bottom: 29px;
+                }
+
+            .core-card {
+                background-color: var(--white);
+                border: 1px solid #DFDFDF;
+                border-radius: 6px;
+                min-height: 135px;
+                padding: 20px;
+                box-shadow: 0 4px 13px rgba(0, 0, 0, 0.07);
+                transition: all 0.25s ease;
+            }
+
+                .core-card:hover {
+                    transform: translateY(-3px);
+                    border-color: var(--primary-red);
+                    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+                }
+
+            .core-icon {
+                color: var(--primary-red);
+                font-size: 18px;
+                margin-bottom: 7px;
+            }
+
+            .core-card h5 {
+                color: var(--primary-red);
+                font-size: 13px;
+                font-weight: 700;
+                line-height: 1.3;
+                margin-bottom: 8px;
+            }
+
+            .core-card p {
+                color: #666666;
+                font-size: 10px;
+                font-weight: 400;
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            /* ABOUT */
+            .about-section {
+                background-color: var(--white);
+                padding-top: 45px;
+                padding-bottom: 45px;
+                border-top: 1px solid #E8E8E8;
+            }
+
+            .about-content h2 {
+                color: var(--black);
+                font-size: 22px;
+                font-weight: 700;
+                margin-bottom: 12px;
+            }
+
+            .about-content p {
+                color: #666666;
+                font-size: 12px;
+                line-height: 1.7;
+                margin-bottom: 12px;
+            }
+
+            .about-highlight {
+                background-color: var(--light-red);
+                border-left: 3px solid var(--primary-red);
+                border-radius: 4px;
+                padding: 14px 16px;
+                font-size: 11px;
+                color: var(--dark-red);
+                line-height: 1.6;
+            }
 
             /* FOOTER */
             footer {
-                background: #166534;
-                color: #94a3b8;
-                padding: 60px 0 30px 0;
+                background-color: var(--black);
+                color: var(--white);
             }
 
-                footer h5 {
-                    color: white;
-                    font-size: 14px;
-                    font-weight: 600;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                    margin-bottom: 20px;
-                }
+            .footer-main {
+                padding-top: 32px;
+                padding-bottom: 23px;
+            }
 
-                footer p, footer a {
-                    font-size: 13.5px;
-                    color: var(--text-muted);
-                    text-decoration: none;
-                    margin-bottom: 10px;
+            .footer-brand {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                margin-bottom: 10px;
+            }
+
+            .footer-logo {
+                width: 34px;
+                height: 34px;
+                object-fit: contain;
+            }
+
+            .footer-brand-text {
+                color: var(--white);
+                font-size: 11px;
+                font-weight: 700;
+                line-height: 1.2;
+            }
+
+                .footer-brand-text span {
                     display: block;
-                    transition: color 0.2s ease;
+                    color: var(--primary-red);
+                    font-size: 9px;
+                    margin-top: 2px;
                 }
 
-                    footer a:hover {
-                        color: #ffffff;
+            .footer-main .col-lg-4 > p {
+                color: #C7C7C7;
+                max-width: 390px;
+                font-size: 9px;
+                line-height: 1.65;
+                margin-bottom: 9px;
+            }
+
+            .footer-column h6 {
+                color: var(--white);
+                font-size: 11px;
+                font-weight: 600;
+                margin-bottom: 11px;
+            }
+
+            .footer-column p,
+            .footer-column a {
+                color: #C7C7C7;
+                font-size: 9px;
+                font-weight: 400;
+                line-height: 1.65;
+                text-decoration: none;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+                .footer-column a:hover {
+                    color: var(--white);
+                }
+
+            .footer-social {
+                margin-top: 9px;
+            }
+
+                .footer-social a {
+                    display: inline-block;
+                    margin-right: 9px;
+                    color: var(--primary-red);
+                    font-size: 13px;
+                }
+
+                    .footer-social a:hover {
+                        color: #FF5361;
                     }
 
+            .footer-bottom {
+                border-top: 1px solid #353535;
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+
+                .footer-bottom p {
+                    color: #AFAFAF;
+                    font-size: 9px;
+                    margin: 0;
+                }
+
+            /* RESPONSIVE */
             @@media (max-width: 991px) {
+                .hero {
+                    min-height: auto;
+                }
+
+                .hero-content {
+                    padding-left: 15px;
+                }
+
                 .hero h1 {
-                    font-size: 2.25rem;
+                    font-size: 30px;
+                }
+
+                .hero-art {
+                    margin-top: 25px;
+                }
+
+                .guideline-card {
+                    min-height: 135px;
+                }
+            }
+
+            @@media (max-width: 767px) {
+                .top-header {
+                    height: auto;
+                    padding-top: 13px;
+                    padding-bottom: 13px;
+                }
+
+                .header-container {
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+
+                .brand-logo {
+                    width: 32px;
+                    height: 32px;
+                }
+
+                .brand-name {
+                    font-size: 13px;
+                }
+
+                .nav-menu {
+                    display: none;
+                }
+
+                .hero {
+                    text-align: center;
+                }
+
+                .hero-content {
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+
+                .hero h1 {
+                    font-size: 27px;
+                }
+
+                .hero-description {
+                    margin-left: auto;
+                    margin-right: auto;
+                    font-size: 12px;
+                }
+
+                .hero-buttons {
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                }
+
+                .hero-art {
+                    transform: scale(0.90);
+                    margin-top: 20px;
+                }
+
+                .section-heading h2 {
+                    font-size: 23px;
+                }
+
+                .section-heading p {
+                    font-size: 11px;
+                }
+
+                .guideline-section, .core-section, .about-section {
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
+
+                .footer-main {
+                    padding-left: 15px;
+                    padding-right: 15px;
                 }
             }
     </style>
@@ -301,315 +706,282 @@ Layout = null;
 <body>
 
     <!-- HEADER -->
-    <div class="top-header">
-        <div class="container h-100 d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-3">
-                <img src="~/Images/logo.png" alt="SORS Logo" style="width: 40px;">
-                <div class="logo-text">
-                    <h4>SMART OFFICE</h4>
-                    <span>RECORDS SYSTEM</span>
-                </div>
+    <header class="top-header">
+        <div class="container header-container">
+
+            <div class="brand-wrapper">
+                <img src="~/Images/logo.png" alt="Smart Office Records Logo" class="brand-logo" />
+                <p class="brand-name">Smart Office Records</p>
             </div>
 
-            <!-- Combined Nav Links and Header Action Buttons -->
-            <div class="d-none d-md-flex align-items-center gap-4">
-                <div class="nav-menu d-flex gap-2">
-                    <a href="#" class="active">Home</a>
-                    <a href="#architecture">System Modules</a>
-                    <a href="#workflow">Applicant Steps</a>
-                    <a href="#about">About Us</a>
-                    <a href="#contact">Contact</a>
-                </div>
+            <nav class="nav-menu">
+                <a href="#" class="active">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#architecture">System Modules</a>
+                <a href="#workflow">Applicant Steps</a>
+            </nav>
 
-                <!-- Top Action Buttons -->
-                <div class="d-flex gap-2">
-                    <a href="@Url.Action("ApplicantLogin", "Applicant")"
-                       class="btn border border-success text-success px-3 py-1.5 fw-semibold btn-sm transition-all"
-                       style="border-radius: 6px; font-size: 13.5px; text-decoration: none;">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
-                    </a>
-                    <a href="@Url.Action("ApplicantRegister", "Applicant")"
-                       class="btn btn-success px-3 py-1.5 fw-semibold btn-sm text-white"
-                       style="background: linear-gradient(135deg,#16a34a,#15803d); border-radius: 6px; font-size: 13.5px; border: none; text-decoration: none;">
-                        <i class="bi bi-person-plus-fill me-1"></i> Sign Up
-                    </a>
-                </div>
-            </div>
         </div>
-    </div>
+    </header>
 
     <!-- HERO SECTION -->
-    <section class="hero text-center">
-        <div class="container hero-content">
-            <h1 class="px-3">Interview Booking & Records Portal</h1>
-            <p class="px-4">
-                Welcome to the <strong>Smart Office Records System</strong> for Work Avenue and Business Solutions, Inc.
-                Applicants must create and validate an account before they are eligible to schedule and lock in their official interview dates.
-            </p>
-            <div class="gap-3 d-flex justify-content-center flex-wrap mt-3">
-                <a href="@Url.Action("ApplicantRegister", "Applicant")"
-                   class="btn btn-green">
-                    <i class="bi bi-person-plus-fill me-2"></i>
-                    SIGN UP  & BOOK NOW!
-                </a>
-                <a href="@Url.Action("ApplicantLogin", "Applicant")"
-                   class="btn btn-book">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>
-                    SIGN IN NOW!
-                </a>
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="row align-items-center">
+
+                <div class="col-lg-7">
+                    <div class="hero-content">
+                        <h1>Interview Booking and <br />Records <span>Portal</span></h1>
+
+                        <p class="hero-description">
+                            Welcome to the Smart Office Records System for Work Avenue and Business Solutions, Inc.
+                            Applicants must create and validate an account before they are eligible to schedule and lock
+                            in their official interview dates.
+                        </p>
+
+                        <div class="hero-buttons">
+                            <a href="@Url.Action("ApplicantRegister", "Applicant")" class="btn-signup">SIGN UP</a>
+                            <a href="@Url.Action("ApplicantLogin", "Applicant")" class="btn-signin">SIGN IN NOW</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="hero-art">
+                        <div class="document">
+                            <div class="document-circle"></div>
+                            <div class="document-line line-one"></div>
+                            <div class="document-line line-two"></div>
+                            <div class="document-line line-three"></div>
+                            <div class="document-line line-four"></div>
+                            <div class="document-line line-five"></div>
+                        </div>
+
+                        <div class="calendar">
+                            <div class="calendar-top"></div>
+                            <div class="calendar-hook hook-one"></div>
+                            <div class="calendar-hook hook-two"></div>
+                            <div class="calendar-grid">
+                                <span></span><span></span><span></span><span></span>
+                                <span></span><span></span><span></span><span></span>
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+
+                        <div class="folder"></div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- APPLICANT HIERARCHICAL WORKFLOW -->
-    <section id="workflow" class="py-5 bg-light border-top border-bottom">
-        <div class="container py-3">
-            <div class="text-center mb-5">
-                <h2 class="section-title">The Booking & Interview Guideline</h2>
-                <p class="text-secondary mx-auto" style="max-width: 600px;">
-                    Please follow the sequential timeline to complete your application entry successfully.
-                </p>
+    <!-- BOOKING GUIDELINE -->
+    <section id="workflow" class="guideline-section">
+        <div class="container">
+
+            <div class="section-heading">
+                <h2>The Booking & Interview Guideline</h2>
+                <p>Please follow the sequential timeline to complete your application entry successfully.</p>
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="guideline-card">
+                        <div class="guideline-label">REQUIRED FIRST</div>
+                        <div class="guideline-title">Account Registration</div>
+                        <p class="guideline-description">
+                            Create your unique profile using verified personal details and upload a valid identity
+                            document for administrative validation.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="guideline-card">
+                        <div class="guideline-label">BOOKING ACCESS</div>
+                        <div class="guideline-title">Schedule Your Interview</div>
+                        <p class="guideline-description">
+                            Once logged in, open the scheduling module to select an available interview schedule.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="guideline-card">
+                        <div class="guideline-label">FRONT DESK CHECK</div>
+                        <div class="guideline-title">Documentation Verification</div>
+                        <p class="guideline-description">
+                            Arrive at the office with the required documents and valid identification for verification.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="guideline-card">
+                        <div class="guideline-label">LIVE UPDATE</div>
+                        <div class="guideline-title">Monitoring & PDF Logs</div>
+                        <p class="guideline-description">
+                            Track your application progress and access official system records and reports.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CORE SYSTEM BOUNDARIES -->
+    <section id="architecture" class="core-section">
+        <div class="container">
+
+            <div class="section-heading">
+                <h2>Core System Boundaries</h2>
+                <p>Engineered specifically to solve structural operational challenges within the Philippine Service Industry.</p>
             </div>
 
             <div class="row g-4 justify-content-center">
-                <!-- Step 1 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 workflow-box highlighted text-center h-100">
-                        <span class="step-number"><i class="bi bi-1-circle-fill me-1"></i> Required First</span>
-                        <h5 class="fw-bold text-dark small mb-2">Account Registration</h5>
-                        <p class="text-muted mb-0" style="font-size: 12px;">
-                            Create your unique profile using verified personal details and upload a valid identity card for administrative validation.
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="core-card">
+                        <div class="core-icon"><i class="bi bi-person-check-fill"></i></div>
+                        <h5>User Account Validation</h5>
+                        <p>
+                            Protects office integrity boundaries by enforcing role-based authorization parameters
+                            and account identity matching upon submission.
                         </p>
                     </div>
                 </div>
-                <!-- Step 2 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 workflow-box text-center h-100">
-                        <span class="step-number"><i class="bi bi-2-circle-fill me-1"></i> Booking Access</span>
-                        <h5 class="fw-bold text-dark small mb-2">Schedule Your Interview</h5>
-                        <p class="text-muted mb-0" style="font-size: 12px;">
-                            Once logged in, open the scheduling module to select an available service time and request an official interview date slot.
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="core-card">
+                        <div class="core-icon"><i class="bi bi-activity"></i></div>
+                        <h5>Monitoring Feature</h5>
+                        <p>
+                            Tracks and updates the status of individual requests and interview sequences dynamically
+                            on system dashboards.
                         </p>
                     </div>
                 </div>
-                <!-- Step 3 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 workflow-box text-center h-100">
-                        <span class="step-number"><i class="bi bi-3-circle-fill me-1"></i> Front Desk Check</span>
-                        <h5 class="fw-bold text-dark small mb-2">Document Verification</h5>
-                        <p class="text-muted mb-0" style="font-size: 12px;">
-                            Arrive at the office to lodge required physical duplicates (resumes, valid IDs) to match your digital system record.
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="core-card">
+                        <div class="core-icon"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+                        <h5>PDF Report Export</h5>
+                        <p>
+                            Instantly extracts transactional activity reports, scheduling records, and official
+                            summary files securely.
                         </p>
                     </div>
                 </div>
-                <!-- Step 4 -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="p-4 workflow-box text-center h-100">
-                        <span class="step-number"><i class="bi bi-4-circle-fill me-1"></i> Live Update</span>
-                        <h5 class="fw-bold text-dark small mb-2">Monitoring & PDF Logs</h5>
-                        <p class="text-muted mb-0" style="font-size: 12px;">
-                            Track queue progress via real-time monitoring dashboards and download an official summary report in PDF format upon completion.
-                        </p>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- CORE FUNCTIONAL MODULES SECTION -->
-    <section id="architecture" class="container py-5 my-4">
-        <div class="text-center mb-5">
-            <h2 class="section-title">Core System Boundaries</h2>
-            <p class="text-secondary mx-auto" style="max-width: 650px;">
-                Engineered specifically to solve structural operational challenges within the Philippine Service Industry.
-            </p>
-        </div>
+    <!-- ABOUT US -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center g-4">
 
-        <div class="row g-4">
-            <!-- Security Module -->
-            <div class="col-md-4">
-                <div class="custom-card">
-                    <div class="icon-circle">
-                        <i class="bi bi-shield-lock"></i>
-                    </div>
-                    <h5 class="fw-bold mb-2">User Account Validation</h5>
-                    <p class="text-secondary small lh-base mb-0">Protects office integrity boundaries by enforcing role-based authorization parameters and account identity matching upon submission.</p>
-                </div>
-            </div>
-            <!-- Document Tracking Module -->
-            <div class="col-md-4">
-                <div class="custom-card">
-                    <div class="icon-circle">
-                        <i class="bi bi-calendar3"></i>
-                    </div>
-                    <h5 class="fw-bold mb-2">Monitoring Feature</h5>
-                    <p class="text-secondary small lh-base mb-0">Tracks and updates the status of individual requests and interview sequences dynamically on structural dashboards.</p>
-                </div>
-            </div>
-            <!-- Report Generation Module -->
-            <div class="col-md-4">
-                <div class="custom-card">
-                    <div class="icon-circle">
-                        <i class="bi bi-filetype-pdf"></i>
-                    </div>
-                    <h5 class="fw-bold mb-2">PDF Report Export</h5>
-                    <p class="text-secondary small lh-base mb-0">Instantly extracts transactional activity reports, scheduling records histories, and official summary files securely.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ABOUT US SECTION -->
-    <section id="about" class="py-5 bg-white border-top">
-        <div class="container py-4">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6">
-                    <h2 class="section-title mb-3">About Our Institutional Framework</h2>
-                    <p class="text-secondary sm-lead mb-4">
-                        The Smart Office Records System (SORS) is a dedicated operational engine designed to enhance organizational efficiency, process visibility, and systematic consistency for local enterprise operations.
-                    </p>
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <div class="d-flex align-items-center gap-2 text-dark fw-semibold mb-2">
-                                <i class="bi bi-check-circle-fill text-success"></i> Optimized Pipelines
-                            </div>
-                            <p class="text-secondary small">Eliminates application delays with automated record assignment rules.</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex align-items-center gap-2 text-dark fw-semibold mb-2">
-                                <i class="bi bi-check-circle-fill text-success"></i> Complete Integrity
-                            </div>
-                            <p class="text-secondary small">Maintains accountability structures across the recruitment lifespan.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="p-4 rounded-4" style="background-color: #f0fdf4; border: 1px dashed var(--primary-green);">
-                        <h4 class="fw-bold mb-3"><i class="bi bi-rocket-takeoff-fill me-2 text-success"></i>Our Core Mission</h4>
-                        <p class="text-secondary small mb-3">
-                            Developed specifically in an academic context for the College of Computer Studies, this platform demonstrates the structural integration of secure user access levels with complex scheduling rules.
+                <div class="col-lg-7">
+                    <div class="about-content">
+                        <h2>About Our Institutional Framework</h2>
+                        <p>
+                            The Smart Office Records System (SORS) is a dedicated operational engine designed to
+                            enhance organizational efficiency, process visibility, and systematic consistency for
+                            local enterprise operations.
                         </p>
-                        <p class="text-secondary small mb-0">
-                            By transforming archaic manual booking books into real-time metrics trackers, the system brings optimal administrative stability right to the modern Philippine enterprise framework.
+                        <p>
+                            Developed in an academic context for the College of Computer Studies, this platform
+                            demonstrates the structural integration of secure user access levels with complex
+                            scheduling rules.
                         </p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="py-5 bg-light border-top">
-        <div class="container py-4">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Connect With Us</h2>
-                <p class="text-secondary mx-auto" style="max-width: 600px;">
-                    Have questions regarding your interview validation pipeline? Reach out through our direct touchpoints.
-                </p>
-            </div>
-
-            <div class="row g-4 justify-content-center">
-                <!-- Contact Details Info Cards -->
-                <div class="col-lg-4">
-                    <div class="d-flex flex-column gap-3 h-100 justify-content-between">
-                        <div class="custom-card p-3 d-flex align-items-center gap-3">
-                            <div class="icon-circle mb-0 flex-shrink-0">
-                                <i class="bi bi-geo-alt"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1 text-dark">Office Address</h6>
-                                <p class="text-secondary small mb-0">
-                                    Unit 3 Ground Floor Ranulfo Bldg. 206 F. Ramos St. Cebu City,
-                                    Philippines
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="custom-card p-3 d-flex align-items-center gap-3">
-                            <div class="icon-circle mb-0 flex-shrink-0">
-                                <i class="bi bi-envelope-at"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1 text-dark">Email Support</h6>
-                                <p class="text-secondary small mb-0">smartOffice@gmail.com</p>
-                            </div>
-                        </div>
-
-                        <div class="custom-card p-3 d-flex align-items-center gap-3">
-                            <div class="icon-circle mb-0 flex-shrink-0">
-                                <i class="bi bi-telephone-inbound"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1 text-dark">Contact Number</h6>
-                                <p class="text-secondary small mb-0">+63 (32) 412 8900</p>
-                            </div>
-                        </div>
+                <div class="col-lg-5">
+                    <div class="about-highlight">
+                        <i class="bi bi-rocket-takeoff-fill me-1"></i>
+                        By transforming archaic manual booking books into real-time metrics trackers, the system
+                        brings optimal administrative stability right to the modern Philippine enterprise framework.
                     </div>
                 </div>
 
-                <!-- Simple Contact Card Form Component -->
-                <div class="col-lg-6">
-                    <div class="custom-card">
-                        <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-chat-left-dots-fill text-success me-2"></i>Send an Inquiry</h5>
-                        <form action="#" method="post" onsubmit="event.preventDefault(); alert('Inquiry Simulation Sent.');">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <input type="text" class="contact-input" placeholder="Your Name" required />
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="email" class="contact-input" placeholder="Your Email Address" required />
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" class="contact-input" placeholder="Subject Topic" required />
-                                </div>
-                                <div class="col-12">
-                                    <textarea class="contact-input" rows="3" placeholder="Write your context messages details here..." required></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-green w-100 py-2.5 rounded-3 font-semibold text-sm">
-                                        Send Message Entry
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-6 col-md-6">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <img src="~/Images/logo.png" width="36" alt="SORS Footer Logo">
-                        <span class="text-white fw-bold tracking-wider small">SMART OFFICE RECORDS SYSTEM</span>
+
+        <div class="footer-main">
+            <div class="container">
+                <div class="row g-4">
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-brand">
+                            <img src="~/Images/logo.png" alt="SORS Logo" class="footer-logo" />
+                            <div class="footer-brand-text">
+                                Smart Office
+                                <span>Records System</span>
+                            </div>
+                        </div>
+
+                        <p>
+                            A centralized interview booking and records management system designed to streamline
+                            applicant registration, interview scheduling, and record monitoring.
+                        </p>
+
+                        <div class="footer-social">
+                            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+                        </div>
                     </div>
-                    <p class="small text-white pe-4">Developed as an institutional framework optimization targeting organizational accountability boundaries inside the Philippine Service Sector.</p>
+
+                    <div class="col-lg-3 col-md-6 footer-column">
+                        <h6>About Us</h6>
+                        <p>
+                            Smart Office Records System is a web platform designed to simplify the management of
+                            applicant information, interview schedules, and office records.
+                        </p>
+                        <p>It helps make the hiring process more organized, accessible, and efficient.</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-column">
+                        <h6>Contact Us</h6>
+                        <p><i class="bi bi-envelope me-1"></i>smart.office.records@gmail.com</p>
+                        <p><i class="bi bi-telephone me-1"></i>+63 963 968 6682</p>
+                        <p><i class="bi bi-clock me-1"></i>Monday - Friday</p>
+                        <p>8:00 - 5:00 PM</p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-column">
+                        <h6>Quick Links</h6>
+                        <a href="#">Home</a>
+                        <a href="#about">About Us</a>
+                        <a href="#architecture">System Modules</a>
+                        <a href="#workflow">Applicant Steps</a>
+                        <a href="@Url.Action("ApplicantLogin", "Applicant")">Sign In</a>
+                        <a href="@Url.Action("ApplicantRegister", "Applicant")">Sign Up</a>
+                    </div>
+
                 </div>
-                <div class="col-lg-3 col-6">
-                    <h5>Academic Context</h5>
-                    <p class="small text-white mb-1">Asian College of Technology</p>
-                    <p class="small text-white mb-0">College of Computer Studies</p>
-                </div>
-                <div class="col-lg-3 col-6">
-                    <h5>System Scope</h5>
-                    <p class="small text-white mb-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Interview Scheduling</p>
-                    <p class="small text-white mb-0"><i class="bi bi-check-circle-fill text-success me-2"></i>PDF Reporting Logs</p>
-                </div>
-            </div>
-            <hr class="my-4 border-secondary opacity-25">
-            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small opacity-50">
-                <p class="mb-2 mb-sm-0">© 2026 Smart Office Records System. All rights reserved.</p>
-                <p class="mb-0">Designed & Developed by JJJ</p>
             </div>
         </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p>2026 Smart Office Records System. All rights reserved.</p>
+            </div>
+        </div>
+
     </footer>
 
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

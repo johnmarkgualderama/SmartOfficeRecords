@@ -4,418 +4,612 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Staff Login</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
 
-        body {
-            background: #f4f6f9;
-            min-height: 100vh;
-            overflow: hidden;
-        }
+            /* =========================================================
+                               GLOBAL
+                            ========================================================= */
 
-        .main-container {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-        }
-
-        .login-wrapper {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            overflow: hidden;
-            background: white;
-        }
-
-        /* LEFT SIDE - CORPORATE BLUE GRADIENT */
-        .left-side {
-            width: 40%;
-            height: 100vh;
-            background: linear-gradient(135deg, #243f99 0%, #1e3a8a 100%);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-        }
-
-            /* Geometric background overlay pattern */
-            .left-side::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                opacity: 0.04;
-                background-image: linear-gradient(30deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(150deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(300deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(60deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000), linear-gradient(240deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000);
-                background-size: 40px 70px;
-                z-index: 1;
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
             }
 
-        .top-content {
-            text-align: center;
-            padding-top: 80px;
-            position: relative;
-            z-index: 2;
-        }
-
-            /* Glassmorphism ring backdrop container behind logo */
-            .top-content img {
-                width: 130px;
-                margin-bottom: 25px;
-                background: rgba(255, 255, 255, 0.12);
-                padding: 10px;
-                border-radius: 50%;
-                backdrop-filter: blur(8px);
-                border: 1px solid rgba(255, 255, 255, 0.2);
+            body {
+                background: #f4f6f9;
+                min-height: 100vh;
+                overflow: hidden;
             }
 
-            .top-content h1 {
-                color: white;
-                font-size: 34px;
-                font-weight: 700;
-                line-height: 1.3;
-                letter-spacing: 0.5px;
-                text-shadow: 0 4px 12px rgba(0,0,0,0.12);
-            }
 
-        .bottom-image {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            margin-top: auto;
-        }
+            /* =========================================================
+                               MAIN CONTAINER
+                            ========================================================= */
 
-            .bottom-image img {
+            .main-container {
                 width: 100%;
-                height: 50vh;
-                object-fit: cover;
-                display: block;
+                height: 100vh;
+                display: flex;
             }
 
-        /* RIGHT SIDE */
-        .right-side {
-            width: 60%;
-            height: 100vh;
-            background: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-
-        /* MODERN FLOATING LOGIN CARD */
-        .login-card {
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            border: none;
-            border-radius: 16px;
-            padding: 50px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-            opacity: 0;
-            animation: slideInCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-            .login-card h2 {
-                text-align: center;
-                font-size: 34px;
-                font-weight: 700;
-                color: #1e293b;
-                margin-bottom: 8px;
+            .login-wrapper {
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                overflow: hidden;
+                background: #FFFFFF;
             }
 
-        .subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 35px;
-            font-size: 15px;
-        }
 
-        .form-label {
-            font-weight: 500;
-            color: #334155;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
+            /* =========================================================
+                               LEFT SIDE
+                            ========================================================= */
 
-        /* INPUT GROUP STYLING */
-        .input-group-custom {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-            .input-group-custom .left-icon {
-                position: absolute;
-                left: 16px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #94a3b8;
-                font-size: 18px;
-                transition: color 0.2s ease;
+            .left-side {
+                width: 41%;
+                height: 100vh;
+                background: #1F2933;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                overflow: hidden;
             }
 
-            .input-group-custom .right-icon {
-                position: absolute;
-                right: 16px;
-                top: 50%;
-                transform: translateY(-50%);
-                cursor: pointer;
-                color: #94a3b8;
-                font-size: 18px;
-                transition: color 0.2s ease;
-            }
-
-                .input-group-custom .right-icon:hover {
-                    color: #475569;
+                /* Geometric background overlay pattern */
+                .left-side::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    opacity: 0.04;
+                    background-image: linear-gradient(30deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(150deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(300deg, #000 12%, transparent 12.5%, transparent 87%, #000 87.5%, #000), linear-gradient(60deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000), linear-gradient(240deg, #000 25%, transparent 25.5%, transparent 75%, #000 75%, #000);
+                    background-size: 40px 70px;
+                    z-index: 1;
                 }
 
-        .form-control-custom {
-            width: 100%;
-            height: 52px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding-left: 48px;
-            padding-right: 48px;
-            outline: none;
-            color: #1e293b;
-            font-size: 15px;
-            transition: all 0.2s ease;
-            background-color: #f8fafc;
-        }
 
-            .form-control-custom::placeholder {
-                color: #94a3b8;
+            /* =========================================================
+                               LOGO + SYSTEM NAME
+                            ========================================================= */
+
+            .top-content {
+                width: 100%;
+                text-align: center;
+                padding-top: 70px;
+                position: relative;
+                z-index: 2;
             }
 
-            .form-control-custom:focus {
-                background-color: #fff;
-                border-color: #243f99;
-                box-shadow: 0 0 0 4px rgba(36, 63, 153, 0.12);
+                .top-content img {
+                    width: 124px;
+                    height: 124px;
+                    object-fit: contain;
+                    background: rgba(255, 255, 255, 0.12);
+                    border-radius: 50%;
+                    padding: 8px;
+                    display: block;
+                    margin: 0 auto 32px auto;
+                    backdrop-filter: blur(8px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                }
+
+                .top-content h1 {
+                    color: #FFFFFF;
+                    font-size: 27px;
+                    font-weight: 700;
+                    line-height: 1.45;
+                    letter-spacing: 0;
+                    margin: 0;
+                    text-shadow: 0 4px 12px rgba(0,0,0,0.12);
+                }
+
+            .bottom-image {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                margin-top: auto;
             }
 
-        .input-group-custom:focus-within .left-icon {
-            color: #243f99;
-        }
+                .bottom-image img {
+                    width: 100%;
+                    height: 50vh;
+                    object-fit: cover;
+                    display: block;
+                }
 
-        /* INTERACTIVE BUTTON WITH BLUE GRADIENT */
-        .btn-login {
-            width: 100%;
-            height: 52px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #243f99, #1e40af);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(36, 63, 153, 0.2);
-            margin-top: 10px;
-        }
 
-            .btn-login:hover {
-                background: linear-gradient(135deg, #2a4bc2, #243f99);
-                transform: translateY(-1px);
-                box-shadow: 0 8px 20px rgba(36, 63, 153, 0.35);
+            /* =========================================================
+                               RIGHT SIDE
+                            ========================================================= */
+
+            .right-side {
+                width: 59%;
+                height: 100vh;
+                background: #F8F8F8;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
             }
 
-            .btn-login:active {
-                transform: translateY(1px);
-                box-shadow: 0 4px 10px rgba(36, 63, 153, 0.2);
+
+            /* =========================================================
+                               LOGIN CARD
+                            ========================================================= */
+
+            .login-card {
+                width: 386px;
+                min-height: 516px;
+                background: #FFFFFF;
+                border: 1px solid #D7DCE2;
+                border-radius: 6px;
+                padding: 46px 37px 35px 37px;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
             }
 
-        /* REGISTER / CONTACT LINK */
-        .contact-admin {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 14px;
-            color: #64748b;
-        }
 
-            .contact-admin a {
-                color: #243f99;
-                text-decoration: none;
+                /* =========================================================
+                               LOGIN TITLE
+                            ========================================================= */
+
+                .login-card h2 {
+                    text-align: center;
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: #172033;
+                    margin: 0 0 4px 0;
+                }
+
+            .subtitle {
+                text-align: center;
+                color: #4B5563;
+                font-size: 10px;
+                font-weight: 400;
+                margin: 0 0 44px 0;
+            }
+
+
+            /* =========================================================
+                               FORM LABEL
+                            ========================================================= */
+
+            .form-label {
+                display: block;
                 font-weight: 600;
-                transition: color 0.2s ease;
+                color: #111827;
+                margin: 0 0 7px 0;
+                font-size: 11px;
             }
 
-                .contact-admin a:hover {
-                    color: #1e3a8a;
+
+            /* =========================================================
+                               INPUT GROUP
+                            ========================================================= */
+
+            .input-group-custom {
+                position: relative;
+                width: 100%;
+                margin-bottom: 34px;
+            }
+
+                .input-group-custom .left-icon {
+                    position: absolute;
+                    left: 13px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #9CA3AF;
+                    font-size: 14px;
+                    z-index: 2;
+                }
+
+                .input-group-custom .right-icon {
+                    position: absolute;
+                    right: 13px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #9CA3AF;
+                    font-size: 14px;
+                    cursor: pointer;
+                    z-index: 2;
+                }
+
+                    .input-group-custom .right-icon:hover {
+                        color: #6B7280;
+                    }
+
+                .input-group-custom:focus-within .left-icon {
+                    color: #E32626;
+                }
+
+
+            /* =========================================================
+                               INPUT
+                            ========================================================= */
+
+            .form-control-custom {
+                width: 100%;
+                height: 42px;
+                border: 1px solid #AEB7C2;
+                border-radius: 5px;
+                background: #FFFFFF;
+                padding: 0 38px;
+                outline: none;
+                color: #374151;
+                font-size: 10px;
+                font-weight: 400;
+                transition: all .2s ease;
+            }
+
+                .form-control-custom::placeholder {
+                    color: #B5BBC3;
+                }
+
+                .form-control-custom:focus {
+                    border-color: #E32626;
+                    box-shadow: 0 0 0 3px rgba(227,38,38,.10);
+                }
+
+
+            /* =========================================================
+                               FORGOT PASSWORD
+                            ========================================================= */
+
+            .forgot-password {
+                display: block;
+                text-align: right;
+                margin-top: -19px;
+                margin-bottom: 39px;
+                color: #E32626;
+                text-decoration: none;
+                font-size: 10px;
+                font-weight: 500;
+            }
+
+                .forgot-password:hover {
+                    color: #B91C1C;
                     text-decoration: underline;
                 }
 
-        /* ERROR DISPLAY */
-        .error-message {
-            background-color: #fef2f2;
-            border: 1px solid #fee2e2;
-            color: #dc2626;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
 
-        /* RESPONSIVE LAYOUT */
-        @@media(max - width: 991px)
+            /* =========================================================
+                               LOGIN BUTTON
+                            ========================================================= */
 
-        {
-            .login-wrapper
-
-        {
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .left-side, .right-side {
-            width: 100%;
-        }
-
-        .left-side {
-            height: auto;
-            padding-bottom: 0;
-        }
-
-        .top-content {
-            padding: 50px 20px 30px 20px;
-        }
-
-            .top-content h1 {
-                font-size: 28px;
+            .btn-login {
+                width: 100%;
+                height: 58px;
+                border: none;
+                border-radius: 5px;
+                background: #E32626;
+                color: #FFFFFF;
+                font-size: 16px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all .2s ease;
             }
 
-        .bottom-image img {
-            height: 35vh;
-        }
+                .btn-login:hover {
+                    background: #C91C1C;
+                }
 
-        .right-side {
-            height: auto;
-            padding: 40px 20px;
-        }
+                .btn-login:active {
+                    transform: translateY(1px);
+                }
 
-        .login-card {
-            padding: 35px 24px;
-        }
 
-        }
+            /* =========================================================
+                               CONTACT ADMIN
+                            ========================================================= */
 
-        /* CARD ANIMATION */
-        @@keyframes slideInCard {
-            from
+            .contact-admin {
+                text-align: center;
+                margin-top: 18px;
+                font-size: 10px;
+                color: #333333;
+                white-space: nowrap;
+            }
 
-        {
-            opacity: 0;
-            transform: translateY(30px);
-        }
+                .contact-admin a {
+                    color: #E32626;
+                    text-decoration: none;
+                    font-weight: 500;
+                }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+                    .contact-admin a:hover {
+                        color: #B91C1C;
+                        text-decoration: underline;
+                    }
 
-        }
+
+            /* =========================================================
+                               ERROR MESSAGE
+                            ========================================================= */
+
+            .error-message {
+                background-color: #FEF2F2;
+                border: 1px solid #FECACA;
+                color: #DC2626;
+                text-align: center;
+                padding: 9px;
+                border-radius: 5px;
+                margin-bottom: 18px;
+                font-size: 9px;
+                font-weight: 500;
+            }
+
+
+            /* =========================================================
+                               RESPONSIVE
+                            ========================================================= */
+
+            @@media (max-width: 900px) {
+
+                body {
+                    overflow-y: auto;
+                }
+
+                .login-wrapper {
+                    min-height: 100vh;
+                    height: auto;
+                    flex-direction: column;
+                }
+
+                .left-side {
+                    width: 100%;
+                    height: auto;
+                    min-height: 330px;
+                }
+
+                .top-content {
+                    padding: 40px 20px;
+                }
+
+                    .top-content img {
+                        width: 100px;
+                        height: 100px;
+                        margin-bottom: 20px;
+                    }
+
+                    .top-content h1 {
+                        font-size: 22px;
+                    }
+
+                .bottom-image img {
+                    height: 30vh;
+                }
+
+                .right-side {
+                    width: 100%;
+                    height: auto;
+                    min-height: 600px;
+                    padding: 35px 20px;
+                }
+
+                .login-card {
+                    width: 100%;
+                    max-width: 386px;
+                    min-height: auto;
+                }
+            }
     </style>
+
 </head>
+
+
 <body>
 
     <div class="main-container">
+
         <div class="login-wrapper">
 
+
+            <!-- =====================================================
+                 LEFT SIDE
+            ====================================================== -->
+
             <div class="left-side">
+
                 <div class="top-content">
-                    <img src="~/Images/logo.png" alt="Logo" />
+
+                    <img src="~/Images/newlogo.png"
+                         alt="SORS Logo" />
+
                     <h1>
                         SMART OFFICE
                         <br />
                         RECORDS SYSTEM
                     </h1>
+
                 </div>
 
                 <div class="bottom-image">
                     <img src="~/Images/staffl.png" alt="Staff Graphic" />
                 </div>
+
             </div>
 
+
+            <!-- =====================================================
+                 RIGHT SIDE
+            ====================================================== -->
+
             <div class="right-side">
+
                 <div class="login-card">
 
-                    <h2>Staff Login</h2>
-                    <p class="subtitle">Please sign in to continue.</p>
+
+                    <!-- TITLE -->
+
+                    <h2>
+                        Staff Login
+                    </h2>
+
+                    <p class="subtitle">
+                        Please sign in to continue.
+                    </p>
+
 
                     @if (ViewBag.Error != null)
                     {
                         <div class="error-message">
-                            <i class="bi bi-exclamation-circle me-2"></i>@ViewBag.Error
+
+                            <i class="bi bi-exclamation-circle me-2"></i>
+
+                            @ViewBag.Error
+
                         </div>
                     }
 
+
                     @using (Html.BeginForm("StaffLogin", "Staff", FormMethod.Post))
                     {
-                        <div class="mb-1">
-                            <label class="form-label">Username</label>
+
+
+                        <!-- USERNAME -->
+
+                        <div>
+
+                            <label class="form-label">
+                                Username
+                            </label>
+
                             <div class="input-group-custom">
+
                                 <i class="bi bi-person left-icon"></i>
+
                                 <input type="text"
                                        name="Username"
                                        class="form-control-custom"
                                        placeholder="Enter Username"
                                        required />
+
                             </div>
+
                         </div>
 
-                        <div class="mb-1">
-                            <label class="form-label">Password</label>
+
+                        <!-- PASSWORD -->
+
+                        <div>
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
                             <div class="input-group-custom">
+
                                 <i class="bi bi-lock left-icon"></i>
+
                                 <input type="password"
                                        id="password"
                                        name="Password"
                                        class="form-control-custom"
                                        placeholder="Enter Password"
                                        required />
-                                <i class="bi bi-eye right-icon" id="togglePassword"></i>
+
+                                <i class="bi bi-eye right-icon"
+                                   id="togglePassword"></i>
+
                             </div>
+
                         </div>
 
-                        <button type="submit" class="btn-login">
+
+                        <!-- FORGOT PASSWORD -->
+
+                        <a href="#"
+                           class="forgot-password">
+                            Forgot Password?
+                        </a>
+
+
+                        <!-- LOGIN -->
+
+                        <button type="submit"
+                                class="btn-login">
+
                             Login
+
                         </button>
+
+
+                        <!-- CONTACT ADMIN -->
+
+                        <div class="contact-admin">
+
+                            Don't have an account?
+
+                            <a href="#">
+                                Contact the administrator!
+                            </a>
+
+                        </div>
+
                     }
 
                 </div>
+
             </div>
 
         </div>
+
     </div>
 
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
     <script>
-        const togglePassword = document.querySelector("#togglePassword");
-        const password = document.querySelector("#password");
 
-        togglePassword.addEventListener("click", function () {
-            const type = password.getAttribute("type") === "password" ? "text" : "password";
-            password.setAttribute("type", type);
+            const togglePassword =
+                document.querySelector("#togglePassword");
 
-            this.classList.toggle("bi-eye");
-            this.classList.toggle("bi-eye-slash");
-        });
+            const password =
+                document.querySelector("#password");
+
+
+            togglePassword.addEventListener("click", function () {
+
+                const type =
+                    password.getAttribute("type") === "password"
+                        ? "text"
+                        : "password";
+
+                password.setAttribute("type", type);
+
+                this.classList.toggle("bi-eye");
+
+                this.classList.toggle("bi-eye-slash");
+
+            });
+
     </script>
+
 </body>
+
 </html>

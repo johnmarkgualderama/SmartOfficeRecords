@@ -1,6 +1,6 @@
-﻿﻿@{
-ViewBag.Title = "Profile";
-Layout = null;
+﻿@{
+    ViewBag.Title = "Profile";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -8,16 +8,26 @@ Layout = null;
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account - Smart Office Records System</title>
 
-    <!-- Bootstrap 5 CSS -->
+    <title>My Account - SORS</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Google Fonts (Poppins) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <style>
+
+            /* =========================================================
+                               GLOBAL
+                            ========================================================= */
+
             * {
                 margin: 0;
                 padding: 0;
@@ -26,317 +36,961 @@ Layout = null;
             }
 
             body {
-                background-color: #eaf6ed; /* Light mint background */
+                background: #f1f1f1;
+                color: #263238;
                 min-height: 100vh;
-                color: #334155;
-                padding-top: 70px; /* Offset fixed navbar */
+                overflow-x: hidden;
             }
 
-            /* --- NAVBAR STYLING --- */
+            a {
+                text-decoration: none;
+            }
+
+
+            /* =========================================================
+                               COLOR PALETTE
+                            ========================================================= */
+
+            :root {
+                --red: #ed1c24;
+                --red-dark: #c9151c;
+                --red-light: #fff1f1;
+                --sidebar: #222b30;
+                --sidebar-hover: #2d373d;
+                --white: #ffffff;
+                --black-gray: #263238;
+                --dark-gray: #455a64;
+                --gray: #78909c;
+                --light-gray: #eceff1;
+                --border: #e1e5e8;
+                --page-bg: #f1f1f1;
+            }
+
+
+            /* =========================================================
+                               TOP NAVBAR
+                            ========================================================= */
+
             .navbar-custom {
-                background-color: #ffffff;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                padding: 12px 24px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 56px;
+                background: var(--white);
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                align-items: center;
+                z-index: 1030;
+                padding: 0;
+            }
+
+
+            /* =========================================================
+                               LEFT LOGO BOX
+                            ========================================================= */
+
+            .navbar-left-box {
+                width: 155px;
+                height: 56px;
+                background: var(--sidebar);
+                display: flex;
+                align-items: center;
+                padding: 0 15px;
+                border-right: 1px solid #39434a;
+                transition: all .3s ease;
             }
 
             .navbar-brand-custom {
                 display: flex;
                 align-items: center;
+                gap: 8px;
                 text-decoration: none;
-                gap: 10px;
             }
 
                 .navbar-brand-custom img {
-                    width: 40px;
-                    height: 40px;
+                    width: 34px;
+                    height: 34px;
                     object-fit: contain;
+                    border-radius: 50%;
                 }
 
             .brand-text {
-                color: #0f6328;
-                font-weight: 700;
-                line-height: 1.1;
+                color: #ffffff;
                 font-size: 14px;
-                letter-spacing: 0.5px;
+                font-weight: 700;
+                letter-spacing: .4px;
             }
 
-                .brand-text span {
-                    color: #1e293b;
-                    font-weight: 500;
-                    font-size: 12px;
-                }
 
-            .nav-links-custom {
-                display: flex;
-                gap: 30px;
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                align-items: center;
-            }
+            /* =========================================================
+                               HAMBURGER
+                            ========================================================= */
 
-            .nav-link-custom {
-                text-decoration: none;
-                color: #64748b;
-                font-weight: 500;
-                font-size: 15px;
+            .toggle-zone-box {
+                height: 56px;
+                width: 55px;
                 display: flex;
                 align-items: center;
-                gap: 8px;
-                transition: all 0.2s ease;
+                justify-content: center;
+                background: #ffffff;
             }
 
-                .nav-link-custom:hover {
-                    color: #16a34a;
+            .sidebar-toggle-btn {
+                border: none;
+                background: transparent;
+                color: var(--red);
+                font-size: 18px;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .sidebar-toggle-btn:hover {
+                    color: var(--red-dark);
                 }
 
-                .nav-link-custom.active {
-                    color: #16a34a;
-                    border-bottom: 2px solid #16a34a;
-                    padding-bottom: 4px;
-                    font-weight: 600;
-                }
+
+            /* =========================================================
+                               NAVBAR RIGHT
+                            ========================================================= */
 
             .navbar-profile {
+                margin-left: auto;
+                height: 56px;
                 display: flex;
                 align-items: center;
                 gap: 15px;
+                padding-right: 15px;
+            }
+
+
+            /* =========================================================
+                               NOTIFICATION
+                            ========================================================= */
+
+            .notification-container {
+                position: relative;
             }
 
             .notification-btn {
-                background: none;
+                width: 40px;
+                height: 40px;
                 border: none;
-                color: #64748b;
+                background: transparent;
+                color: var(--dark-gray);
                 font-size: 20px;
-                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .notification-btn:hover {
+                    color: var(--red);
+                }
+
+            .notification-badge-dot {
+                position: absolute;
+                top: 8px;
+                right: 7px;
+                width: 7px;
+                height: 7px;
+                background: var(--red);
+                border-radius: 50%;
+                border: 1px solid white;
+            }
+
+
+            /* =========================================================
+                               NOTIFICATION DROPDOWN
+                            ========================================================= */
+
+            .notification-dropdown-custom {
+                position: absolute;
+                right: 0;
+                top: 48px;
+                width: 330px;
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.12);
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: all .25s ease;
+                z-index: 1050;
+            }
+
+            .notification-container.open
+            .notification-dropdown-custom {
+                max-height: 450px;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .notif-header {
+                padding: 14px 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #eeeeee;
+            }
+
+            .notif-header-title {
+                color: var(--black-gray);
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .notif-mark-read {
+                color: var(--red);
+                font-size: 10px;
+                font-weight: 600;
+            }
+
+                .notif-mark-read:hover {
+                    color: var(--red-dark);
+                }
+
+            .notif-body {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .notif-item {
+                display: flex;
+                gap: 10px;
+                padding: 12px 15px;
+                border-bottom: 1px solid #f1f1f1;
+                color: inherit;
+                transition: .2s ease;
+            }
+
+                .notif-item:hover {
+                    background: var(--red-light);
+                }
+
+                .notif-item.unread {
+                    background: #fff7f7;
+                }
+
+            .notif-icon-box {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .notif-icon-success {
+                background: #e8f5e9;
+                color: #43a047;
+            }
+
+            .notif-icon-warning {
+                background: #fff3e0;
+                color: #fb8c00;
+            }
+
+            .notif-content {
+                flex: 1;
+            }
+
+            .notif-text {
+                color: var(--dark-gray);
+                font-size: 11px;
+                line-height: 1.4;
+            }
+
+            .notif-time {
+                color: #9e9e9e;
+                font-size: 9px;
+                margin-top: 3px;
+            }
+
+            .notif-footer {
+                padding: 10px;
+                text-align: center;
+                background: #fafafa;
+                border-top: 1px solid #eeeeee;
+            }
+
+            .notif-footer-btn {
+                color: var(--red);
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+
+            /* =========================================================
+                               PROFILE WIDGET (NAVBAR)
+                            ========================================================= */
+
+            .profile-container {
+                position: relative;
             }
 
             .profile-widget {
                 display: flex;
                 align-items: center;
-                gap: 10px;
-                background: #f8fafc;
-                padding: 6px 12px;
-                border-radius: 30px;
-                border: 1px solid #e2e8f0;
+                gap: 8px;
+                padding: 4px 8px;
+                border-radius: 20px;
+                background: #f5f5f5;
+                border: 1px solid #e3e3e3;
                 cursor: pointer;
+                transition: .2s ease;
             }
 
+                .profile-widget:hover {
+                    background: #eeeeee;
+                }
+
             .profile-avatar {
-                width: 32px;
-                height: 32px;
+                width: 28px;
+                height: 28px;
                 border-radius: 50%;
-                background-color: #ffb74d;
+                background: #ffb52e;
+                color: white;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: white;
-                font-weight: 600;
-                font-size: 13px;
+                font-size: 10px;
+                font-weight: 700;
             }
 
             .profile-info {
-                text-align: left;
-                line-height: 1.2;
+                line-height: 1.1;
             }
 
             .profile-name {
-                font-size: 12px;
-                font-weight: 600;
-                color: #1e293b;
                 display: block;
+                color: var(--black-gray);
+                font-size: 10px;
+                font-weight: 700;
             }
 
             .profile-email {
-                font-size: 10px;
-                color: #64748b;
                 display: block;
+                color: #78909c;
+                font-size: 8px;
             }
 
-            .profile-dropdown {
-                min-width: 220px;
-                border-radius: 16px;
-                border: 1px solid #dbe4dc;
-                padding: 10px 0;
-                margin-top: 12px;
+            .profile-arrow {
+                color: #546e7a;
+                font-size: 11px;
+                transition: .3s;
             }
 
-                .profile-dropdown .dropdown-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    padding: 12px 18px;
-                    font-size: 15px;
-                    font-weight: 500;
-                    color: #374151;
+            .profile-dropdown-custom {
+                position: absolute;
+                right: 0;
+                top: 48px;
+                width: 200px;
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,.12);
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: all .25s ease;
+                z-index: 1050;
+            }
+
+            .profile-container.open .profile-dropdown-custom {
+                max-height: 200px;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .profile-container.open .profile-arrow {
+                transform: rotate(180deg);
+            }
+
+            .profile-dropdown-custom a {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 15px;
+                color: var(--dark-gray);
+                font-size: 12px;
+                font-weight: 500;
+                transition: .2s ease;
+            }
+
+                .profile-dropdown-custom a:hover {
+                    background: var(--red-light);
+                    color: var(--red);
                 }
 
-                    .profile-dropdown .dropdown-item:hover {
-                        background: #f0fdf4;
-                        color: #16a34a;
-                    }
+                .profile-dropdown-custom a i {
+                    font-size: 16px;
+                }
 
-            /* --- ACCOUNT MAIN CONTAINER STYLING --- */
-            .page-container {
-                max-width: 1300px;
-                margin: 0 auto;
-                padding: 40px 20px;
+
+            /* =========================================================
+                               SIDEBAR
+                            ========================================================= */
+
+            .sidebar-menu-wrapper {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                bottom: 0;
+                width: 155px;
+                background: var(--sidebar);
+                border-right: 1px solid #39434a;
+                padding: 15px 8px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                z-index: 1020;
+                transition: all .3s ease;
             }
 
+                .sidebar-menu-wrapper::-webkit-scrollbar {
+                    width: 4px;
+                }
+
+                .sidebar-menu-wrapper::-webkit-scrollbar-track {
+                    background: var(--sidebar);
+                }
+
+                .sidebar-menu-wrapper::-webkit-scrollbar-thumb {
+                    background: #45545d;
+                    border-radius: 10px;
+                }
+
+
+            .sidebar-links {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .sidebar-link-item {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 11px 10px;
+                border-radius: 5px;
+                color: #ffffff;
+                font-size: 12px;
+                font-weight: 500;
+                white-space: nowrap;
+                transition: all .2s ease;
+            }
+
+                .sidebar-link-item i {
+                    width: 17px;
+                    min-width: 17px;
+                    font-size: 14px;
+                    display: inline-flex;
+                    justify-content: center;
+                }
+
+                .sidebar-link-item:hover {
+                    color: var(--red);
+                    background: rgba(237, 28, 36, .08);
+                }
+
+                .sidebar-link-item.active {
+                    color: var(--red);
+                    background: transparent;
+                    font-weight: 600;
+                }
+
+
+            /* =========================================================
+                               SETTINGS
+                            ========================================================= */
+
+            .sidebar-settings {
+                list-style: none;
+            }
+
+            .settings-toggle {
+                justify-content: space-between;
+                cursor: pointer;
+            }
+
+                .settings-toggle > a {
+                    color: #ffffff !important;
+                }
+
+                    .settings-toggle > a:hover {
+                        color: var(--red) !important;
+                    }
+
+                .settings-toggle.active {
+                    color: var(--red);
+                    background: rgba(237,28,36,.08);
+                }
+
+                    .settings-toggle.active > a {
+                        color: var(--red) !important;
+                    }
+
+            .settings-arrow {
+                color: #ffffff;
+                font-size: 11px;
+                transition: .3s;
+            }
+
+            .settings-toggle:hover .settings-arrow {
+                color: var(--red);
+            }
+
+            .settings-submenu {
+                list-style: none;
+                padding: 0 0 0 12px;
+                margin: 2px 0 0 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height .3s ease;
+            }
+
+                .settings-submenu li {
+                    margin: 2px 0;
+                }
+
+                .settings-submenu a {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 9px;
+                    border-radius: 5px;
+                    color: #ffffff !important;
+                    font-size: 11px;
+                    font-weight: 500;
+                    transition: .2s ease;
+                }
+
+                    .settings-submenu a:hover {
+                        background: rgba(237,28,36,.10);
+                        color: var(--red) !important;
+                    }
+
+                    .settings-submenu a i {
+                        color: #ffffff;
+                        font-size: 12px;
+                    }
+
+                    .settings-submenu a:hover i {
+                        color: var(--red);
+                    }
+
+                    .settings-submenu a.active {
+                        color: var(--red) !important;
+                        background: rgba(237,28,36,.10);
+                    }
+
+                        .settings-submenu a.active i {
+                            color: var(--red);
+                        }
+
+            .sidebar-settings.open .settings-submenu {
+                max-height: 150px;
+            }
+
+            .sidebar-settings.open .settings-arrow {
+                transform: rotate(90deg);
+            }
+
+
+            /* =========================================================
+                               LOGOUT
+                            ========================================================= */
+
+            .sidebar-logout {
+                position: absolute;
+                bottom: 15px;
+                left: 8px;
+                right: 8px;
+            }
+
+            .logout-link {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                padding: 10px;
+                color: #ffffff;
+                font-size: 12px;
+                font-weight: 500;
+                border-radius: 5px;
+                transition: .2s ease;
+            }
+
+                .logout-link:hover {
+                    color: var(--red);
+                    background: rgba(237,28,36,.08);
+                }
+
+                .logout-link i {
+                    font-size: 16px;
+                }
+
+
+            /* =========================================================
+                               MAIN CONTENT
+                            ========================================================= */
+
+            .page-container {
+                margin-left: 155px;
+                padding: 78px 18px 35px 18px;
+                min-height: 100vh;
+                transition: margin-left .3s ease;
+            }
+
+
+            /* =========================================================
+                               PAGE HEADING
+                            ========================================================= */
+
             .heading-section {
-                margin-bottom: 35px;
+                margin-bottom: 20px;
             }
 
             .page-title {
-                color: #16a34a;
-                font-size: 26px;
+                color: var(--black-gray);
+                font-size: 23px;
                 font-weight: 700;
-                margin-bottom: 4px;
+                margin-bottom: 2px;
             }
 
             .page-subtitle {
-                color: #64748b;
-                font-size: 14px;
+                color: #607d8b;
+                font-size: 11px;
                 font-weight: 500;
                 margin: 0;
             }
 
-            .account-card {
-                background-color: #ffffff;
-                border-radius: 12px;
-                padding: 40px;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-                height: 100%;
+
+            /* =========================================================
+                               MAIN CARD
+                            ========================================================= */
+
+            .schedules-card {
+                background: #ffffff;
+                border: 1px solid #e5e5e5;
+                border-radius: 8px;
+                padding: 20px 15px;
+                min-height: 500px;
+                box-shadow: 0 3px 15px rgba(0,0,0,.04);
             }
 
-            .section-title-custom {
-                font-size: 18px;
-                font-weight: 700;
-                color: #475569;
-                margin-bottom: 30px;
+            .card-header-flex {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 18px;
+            }
+
+            .card-title-custom {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 8px;
+                color: var(--black-gray);
+                font-size: 14px;
+                font-weight: 700;
+                margin: 0;
             }
 
-                .section-title-custom i {
-                    color: #16a34a;
+                .card-title-custom i {
+                    color: var(--red);
+                    font-size: 18px;
                 }
 
-            /* --- IMAGE MATCHED LIST DISPLAY --- */
+
+            /* =========================================================
+                               ALERTS
+                            ========================================================= */
+
+            .alert-custom {
+                padding: 11px 15px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: 500;
+                margin-bottom: 18px;
+            }
+
+            .alert-custom-success {
+                background: #e8f5e9;
+                color: #2e7d32;
+                border: 1px solid #c8e6c9;
+            }
+
+            .alert-custom-danger {
+                background: var(--red-light);
+                color: var(--red-dark);
+                border: 1px solid #ffd2d2;
+            }
+
+
+            /* =========================================================
+                               PROFILE INFO LIST (VIEW MODE)
+                            ========================================================= */
+
             .profile-info-table {
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
-                margin-bottom: 35px;
+                gap: 4px;
+                margin-bottom: 22px;
             }
 
             .profile-info-row {
                 display: flex;
-                align-items: flex-start;
+                align-items: center;
+                padding: 13px 4px;
+                border-bottom: 1px solid #f1f1f1;
             }
+
+                .profile-info-row:last-child {
+                    border-bottom: none;
+                }
 
             .profile-info-label-block {
                 display: flex;
                 align-items: center;
-                gap: 14px;
-                width: 200px;
+                gap: 10px;
+                width: 190px;
                 flex-shrink: 0;
-                color: #64748b;
+                color: #78909c;
             }
 
                 .profile-info-label-block i {
-                    font-size: 22px;
-                    color: #64748b;
+                    font-size: 15px;
+                    color: var(--red);
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    width: 24px;
+                    width: 18px;
                 }
 
             .profile-info-label-text {
-                font-size: 15px;
-                font-weight: 500;
+                font-size: 11px;
+                font-weight: 600;
             }
 
             .profile-info-value {
-                font-size: 15px;
+                font-size: 11px;
                 font-weight: 500;
-                color: #475569;
+                color: #37474f;
                 line-height: 1.5;
             }
 
-            /* Image Matched Status Pill */
             .status-pill-active {
-                background-color: #6ee7b7; /* Bright soft green from image */
-                color: #000000;
-                font-weight: 700;
-                font-size: 13px;
-                padding: 4px 20px;
-                border-radius: 8px;
                 display: inline-block;
-            }
-
-            /* Image Matched Button Style */
-            .btn-edit-profile-outline {
-                background: transparent;
-                color: #16a34a;
+                width: fit-content;
+                background: #e8f5e9;
+                color: #2e7d32;
+                font-size: 9px;
                 font-weight: 700;
-                font-size: 18px;
-                padding: 12px;
-                border-radius: 10px;
-                border: 2px solid #16a34a;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-                transition: all 0.2s ease;
+                padding: 4px 12px;
+                border-radius: 4px;
             }
 
-                .btn-edit-profile-outline:hover {
-                    background-color: #f0fdf4;
+
+            /* =========================================================
+                               FORM CONTROLS (EDIT MODE)
+                            ========================================================= */
+
+            .form-control {
+                font-size: 11px;
+                border-radius: 5px;
+                border: 1px solid #e0e0e0;
+                padding: 8px 10px;
+            }
+
+                .form-control:focus {
+                    border-color: var(--red);
+                    box-shadow: 0 0 0 2px rgba(237,28,36,.08);
+                }
+
+
+            /* =========================================================
+                               BUTTONS
+                            ========================================================= */
+
+            .btn-action-edit {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 9px 16px;
+                background: var(--red);
+                color: #ffffff;
+                border: 1px solid var(--red);
+                border-radius: 5px;
+                font-size: 11px;
+                font-weight: 600;
+                transition: all .2s ease;
+                cursor: pointer;
+            }
+
+                .btn-action-edit:hover {
+                    background: var(--red-dark);
+                    border-color: var(--red-dark);
+                    color: #ffffff;
                     transform: translateY(-1px);
                 }
 
-            /* --- SIDEBAR PANEL STYLING --- */
-            .sidebar-panel {
-                background-color: #ffffff;
-                border-radius: 12px;
-                padding: 24px;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-                margin-bottom: 24px;
-            }
-
-            .sidebar-header {
-                display: flex;
+            .btn-action-cancel {
+                display: inline-flex;
                 align-items: center;
-                gap: 10px;
-                font-size: 15px;
-                font-weight: 700;
-                color: #1e293b;
-                margin-bottom: 12px;
+                gap: 6px;
+                padding: 9px 16px;
+                background: #ffffff;
+                color: var(--red);
+                border: 1px solid var(--red);
+                border-radius: 5px;
+                font-size: 11px;
+                font-weight: 600;
+                transition: all .2s ease;
+                cursor: pointer;
             }
 
-                .sidebar-header i {
-                    color: #16a34a;
-                    font-size: 18px;
+                .btn-action-cancel:hover {
+                    background: var(--red);
+                    color: #ffffff;
+                    border-color: var(--red);
+                    transform: translateY(-1px);
                 }
 
-            .sidebar-body {
-                font-size: 13px;
-                color: #64748b;
+
+            /* =========================================================
+                               SIDE PANELS
+                            ========================================================= */
+
+            .sidebar-panel {
+                background: #ffffff;
+                border: 1px solid #e5e5e5;
+                border-radius: 8px;
+                padding: 16px;
+                box-shadow: 0 3px 15px rgba(0,0,0,.04);
+                margin-bottom: 18px;
+            }
+
+            .sidebar-panel-header {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 12px;
+                font-weight: 700;
+                color: var(--black-gray);
+                margin-bottom: 8px;
+            }
+
+                .sidebar-panel-header i {
+                    color: var(--red);
+                    font-size: 15px;
+                }
+
+            .sidebar-panel-body {
+                font-size: 10px;
+                color: #78909c;
                 line-height: 1.6;
             }
 
+
+            /* =========================================================
+                               SIDEBAR COLLAPSE
+                            ========================================================= */
+
+            body.sidebar-collapsed .navbar-left-box {
+                width: 60px;
+                padding: 0;
+                justify-content: center;
+            }
+
+            body.sidebar-collapsed .brand-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .sidebar-menu-wrapper {
+                width: 60px;
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+
+            body.sidebar-collapsed .sidebar-link-item {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+                gap: 0;
+            }
+
+            body.sidebar-collapsed .sidebar-link-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .settings-arrow {
+                display: none;
+            }
+
+            body.sidebar-collapsed .settings-submenu {
+                display: none !important;
+            }
+
+            body.sidebar-collapsed .logout-link {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            body.sidebar-collapsed .logout-text {
+                display: none;
+            }
+
+            body.sidebar-collapsed .page-container {
+                margin-left: 60px;
+            }
+
+
+            /* =========================================================
+                               RESPONSIVE
+                            ========================================================= */
+
             @@media (max-width: 991px) {
-                .nav-links-custom {
-                    display: none;
+
+                .navbar-left-box {
+                    width: 130px;
+                }
+                  
+                .sidebar-menu-wrapper {
+                    width: 130px;
+                }
+
+                .page-container {
+                    margin-left: 130px;
+                }
+
+                .card-header-flex {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 12px;
                 }
 
                 .profile-info-row {
                     flex-direction: column;
+                    align-items: flex-start;
                     gap: 4px;
                 }
 
@@ -344,209 +998,508 @@ Layout = null;
                     width: 100%;
                 }
             }
+
+
+            @@media (max-width: 700px) {
+
+                .navbar-left-box {
+                    width: 55px;
+                    justify-content: center;
+                    padding: 0;
+                }
+
+                .brand-text {
+                    display: none;
+                }
+
+                .sidebar-menu-wrapper {
+                    width: 55px;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+
+                .sidebar-link-item {
+                    justify-content: center;
+                    padding-left: 0;
+                    padding-right: 0;
+                    gap: 0;
+                }
+
+                .sidebar-link-text {
+                    display: none;
+                }
+
+                .settings-arrow {
+                    display: none;
+                }
+
+                .settings-submenu {
+                    display: none !important;
+                }
+
+                .page-container {
+                    margin-left: 55px;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                }
+
+                .profile-info {
+                    display: none;
+                }
+
+                .profile-widget {
+                    padding: 4px;
+                }
+
+                .profile-arrow {
+                    display: none;
+                }
+
+                .page-title {
+                    font-size: 20px;
+                }
+
+                .schedules-card {
+                    padding: 15px 10px;
+                }
+            }
     </style>
 </head>
+
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
 
-            <!-- Left: Brand Logo -->
-            <a class="navbar-brand-custom" href="@Url.Action("ApplicantDash", "Applicant")">
-                <img src="~/Images/logo.png" alt="Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3061/3061341.png'" />
-                <div class="brand-text">
-                    SMART OFFICE<br />
-                    <span>RECORDS SYSTEM</span>
-                </div>
+    <!-- =========================================================
+         TOP NAVBAR
+    ========================================================= -->
+
+    <nav class="navbar-custom">
+
+        <!-- LOGO -->
+        <div class="navbar-left-box" id="navLeftBox">
+
+            <a class="navbar-brand-custom"
+               href="@Url.Action("ApplicantDash", "Applicant")">
+
+                <img src="~/Images/logo.png"
+                     alt="SORS Logo"
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/3061/3061341.png';" />
+
+                <span class="brand-text" id="brandText">
+                    SORS
+                </span>
+
             </a>
 
-            <!-- Center: Navigation Links -->
-            <ul class="nav-links-custom">
-                <li>
-                    <a href="@Url.Action("ApplicantDash", "Applicant")" class="nav-link-custom">
-                        <i class="bi bi-house-door-fill"></i> Home
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("BookInterview", "Applicant")" class="nav-link-custom">
-                        <i class="bi bi-file-earmark-spreadsheet-fill"></i> Book Interview
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("MyAppointment", "Applicant")" class="nav-link-custom">
-                        <i class="bi bi-person-bounding-box"></i> My Appointment
-                    </a>
-                </li>
-            </ul>
+        </div>
 
-            <!-- Right: Notifications & Profile -->
-            <div class="navbar-profile">
-                <button class="notification-btn" title="Notifications">
+
+        <!-- HAMBURGER -->
+        <div class="toggle-zone-box">
+
+            <button class="sidebar-toggle-btn"
+                    id="toggleSidebar"
+                    type="button"
+                    title="Toggle Menu">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="navbar-profile">
+
+
+            <!-- NOTIFICATION -->
+            <div class="notification-container">
+
+                <button class="notification-btn"
+                        id="notificationToggle"
+                        type="button"
+                        title="Notifications">
+
                     <i class="bi bi-bell"></i>
+
+                    <span class="notification-badge-dot"></span>
+
                 </button>
 
-                <div class="dropdown">
-                    <div class="profile-widget" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="profile-avatar">JD</div>
-                        <div class="profile-info">
-                            <span class="profile-name">Juan Dela Cruz</span>
-                            <span class="profile-email">juandelacruz@gmail.com</span>
-                        </div>
-                        <i class="bi bi-chevron-down text-muted ms-2"></i>
+
+                <!-- Notification Dropdown -->
+                <div class="notification-dropdown-custom"
+                     id="notificationMenu">
+
+                    <div class="notif-header">
+
+                        <span class="notif-header-title">
+                            Notifications
+                        </span>
+
+                        <a href="#"
+                           class="notif-mark-read">
+                            Mark all as read
+                        </a>
+
                     </div>
 
-                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown shadow">
-                        <li>
-                            <a class="dropdown-item" href="@Url.Action("Profile", "Applicant")">
-                                <i class="bi bi-person-circle"></i> My Account
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item text-danger" href="@Url.Action("ApplicantLogin", "Applicant")">
-                                <i class="bi bi-box-arrow-right"></i> Sign out
-                            </a>
-                        </li>
-                    </ul>
+
+                    <div class="notif-body">
+
+                        <!-- Notification 1 -->
+                        <a href="#"
+                           class="notif-item unread">
+
+                            <div class="notif-icon-box notif-icon-success">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                            </div>
+
+                            <div class="notif-content">
+
+                                <div class="notif-text">
+
+                                    Your interview request
+                                    <strong>#RI01</strong>
+                                    was approved.
+
+                                </div>
+
+                                <div class="notif-time">
+                                    10 mins ago
+                                </div>
+
+                            </div>
+
+                        </a>
+
+
+                        <!-- Notification 2 -->
+                        <a href="#"
+                           class="notif-item">
+
+                            <div class="notif-icon-box notif-icon-warning">
+
+                                <i class="bi bi-clock-history"></i>
+
+                            </div>
+
+                            <div class="notif-content">
+
+                                <div class="notif-text">
+
+                                    Reminder: Upload missing
+                                    requirements for
+                                    <strong>#RI02</strong>.
+
+                                </div>
+
+                                <div class="notif-time">
+                                    2 hours ago
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="notif-footer">
+
+                        <a href="#"
+                           class="notif-footer-btn">
+
+                            View All Notifications
+
+                        </a>
+
+                    </div>
+
                 </div>
+
             </div>
+
+
+            <!-- PROFILE -->
+            <div class="profile-container">
+
+                <div class="profile-widget"
+                     id="profileToggle">
+
+                    <div class="profile-avatar">
+                        @ViewBag.Initials
+                    </div>
+
+                    <div class="profile-info">
+
+                        <span class="profile-name">
+                            @ViewBag.FullName
+                        </span>
+
+                        <span class="profile-email">
+                            @ViewBag.Email
+                        </span>
+
+                    </div>
+
+                    <i class="bi bi-chevron-down profile-arrow"></i>
+
+                </div>
+
+
+                <!-- PROFILE DROPDOWN -->
+                <div class="profile-dropdown-custom"
+                     id="profileMenu">
+
+                    <a href="@Url.Action("Profile", "Applicant")">
+
+                        <i class="bi bi-person-circle"></i>
+
+                        My Account
+
+                    </a>
+
+
+                    <a href="@Url.Action("ApplicantLogout", "Applicant")">
+
+                        <i class="bi bi-box-arrow-right"></i>
+
+                        Sign Out
+
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
+
     </nav>
 
-    <!-- CONTENT BODY -->
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================= -->
+
+    <aside class="sidebar-menu-wrapper"
+           id="sidebarMenu">
+
+        <ul class="sidebar-links">
+
+
+            <!-- DASHBOARD -->
+            <li>
+
+                <a href="@Url.Action("ApplicantDash", "Applicant")"
+                   class="sidebar-link-item">
+
+                    <i class="bi bi-house-door-fill"></i>
+
+                    <span class="sidebar-link-text">
+                        Dashboard
+                    </span>
+
+                </a>
+
+            </li>
+
+
+            <!-- BOOK INTERVIEW -->
+            <li>
+
+                <a href="@Url.Action("BookInterview", "Applicant")"
+                   class="sidebar-link-item">
+
+                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+
+                    <span class="sidebar-link-text">
+                        Book Interview
+                    </span>
+
+                </a>
+
+            </li>
+
+
+            <!-- MY APPOINTMENT -->
+            <li>
+
+                <a href="@Url.Action("MyAppointment", "Applicant")"
+                   class="sidebar-link-item">
+
+                    <i class="bi bi-person-bounding-box"></i>
+
+                    <span class="sidebar-link-text">
+                        My Appointment
+                    </span>
+
+                </a>
+
+            </li>
+
+
+            <!-- SETTINGS -->
+            <li class="sidebar-settings open">
+
+                <div class="sidebar-link-item settings-toggle active"
+                     id="settingsToggle">
+
+                    <a href="@Url.Action("Settings", "Applicant")"
+                       class="d-flex align-items-center flex-grow-1 text-decoration-none">
+
+                        <i class="bi bi-gear-fill"></i>
+
+                        <span class="sidebar-link-text ms-2">
+                            Settings
+                        </span>
+
+                    </a>
+
+                    <i class="bi bi-chevron-right settings-arrow"></i>
+
+                </div>
+
+
+                <!-- SETTINGS SUBMENU -->
+                <ul class="settings-submenu"
+                    id="settingsMenu">
+
+                    <li>
+
+                        <a href="@Url.Action("Settings", "Applicant")"
+                           id="settingsLink">
+
+                            <i class="bi bi-shield-lock"></i>
+
+                            <span class="sidebar-link-text">
+                                Settings
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="@Url.Action("Profile", "Applicant")"
+                           class="active">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span class="sidebar-link-text">
+                                My Account
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+        </ul>
+
+
+        <!-- LOGOUT -->
+        <div class="sidebar-logout">
+
+            <a href="@Url.Action("ApplicantLogout", "Applicant")"
+               class="logout-link">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                <span class="logout-text">
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================= -->
+
     <div class="page-container">
 
+
+        <!-- PAGE HEADING -->
         <div class="heading-section">
-            <h1 class="page-title">My Account</h1>
-            <p class="page-subtitle">View and update your registered system records.</p>
+
+            <h1 class="page-title">
+                My Account
+            </h1>
+
+            <p class="page-subtitle">
+                View and update your registered system records.
+            </p>
+
         </div>
+
 
         @if (ViewBag.Error != null)
         {
-            <div class="alert alert-danger" id="errorAlert">@ViewBag.Error</div>
+            <div class="alert-custom alert-custom-danger" id="errorAlert">@ViewBag.Error</div>
         }
         @if (ViewBag.Success != null)
         {
-            <div class="alert alert-success" id="successAlert">@ViewBag.Success</div>
+            <div class="alert-custom alert-custom-success" id="successAlert">@ViewBag.Success</div>
         }
 
-    <div class="row g-4">
-        <!-- Left Column: Profile View Box (Col-8) -->
-        <div class="col-lg-8">
-            <div class="account-card">
 
-                <!-- ================= VIEW MODE ================= -->
-                <div id="viewMode">
+        <div class="row g-3">
 
-                    <h5 class="section-title-custom"><i class="bi bi-person-lines-fill"></i> Profile Details</h5>
+            <!-- =================================================
+                 LEFT: PROFILE VIEW / EDIT CARD
+            ================================================== -->
 
-                    <div class="profile-info-table">
+            <div class="col-lg-8">
 
-                        <div class="profile-info-row">
-                            <div class="profile-info-label-block">
-                                <i class="bi bi-person"></i>
-                                <span class="profile-info-label-text">Full Name</span>
-                            </div>
-                            <div class="profile-info-value">@Model.FullName</div>
-                        </div>
+                <div class="schedules-card">
 
-                        <div class="profile-info-row">
-                            <div class="profile-info-label-block">
-                                <i class="bi bi-person-badge"></i>
-                                <span class="profile-info-label-text">Username</span>
-                            </div>
-                            <div class="profile-info-value">@Model.Username</div>
-                        </div>
+                    <div class="card-header-flex">
 
-                        <div class="profile-info-row">
-                            <div class="profile-info-label-block">
-                                <i class="bi bi-envelope"></i>
-                                <span class="profile-info-label-text">Email Address</span>
-                            </div>
-                            <div class="profile-info-value">@Model.Email</div>
-                        </div>
+                        <h2 class="card-title-custom">
 
-                        <div class="profile-info-row">
-                            <div class="profile-info-label-block">
-                                <i class="bi bi-telephone"></i>
-                                <span class="profile-info-label-text">Phone Number</span>
-                            </div>
-                            <div class="profile-info-value">@Model.ContactNumber</div>
-                        </div>
+                            <i class="bi bi-person-lines-fill"></i>
 
-                        <div class="profile-info-row">
-                            <div class="profile-info-label-block">
-                                <i class="bi bi-calendar3"></i>
-                                <span class="profile-info-label-text">Birthdate</span>
-                            </div>
-                            <div class="profile-info-value">@Model.Birthdate.ToString("MMMM dd, yyyy")</div>
-                        </div>
+                            Profile Details
 
-                        <div class="profile-info-row align-items-center">
-                            <div class="profile-info-label-block">
-                                <i class="bi bi-person-check"></i>
-                                <span class="profile-info-label-text">Status</span>
-                            </div>
-                            <div class="profile-info-value">
-                                <span class="status-pill-active">Active</span>
-                            </div>
-                        </div>
+                        </h2>
 
                     </div>
 
-                    <button type="button" class="btn-edit-profile-outline" onclick="toggleEdit(true)">
-                        <i class="bi bi-pencil"></i> Edit Profile
-                    </button>
-                </div>
-                    <script>
-                                            function toggleEdit(showEdit) {
-                                                document.getElementById('viewMode').style.display = showEdit ? 'none' : 'block';
-                                                document.getElementById('editMode').style.display = showEdit ? 'block' : 'none';
-                                            }
-                    </script>
-                    <script>
-                                            // Auto-hide the success message after 10 seconds
-                                            const successAlert = document.getElementById('successAlert');
-                                            if (successAlert) {
-                                                setTimeout(function () {
-                                                    successAlert.style.transition = "opacity 0.5s ease";
-                                                    successAlert.style.opacity = "0";
-                                                    setTimeout(function () {
-                                                        successAlert.remove(); // fully remove it from the page after the fade-out
-                                                    }, 500);
-                                                }, 3000); // 3,000 ms = 3 seconds
-                                            }
-                                            // Auto-hide the error message after 3 seconds
-                                            const errorAlert = document.getElementById('errorAlert');
-                                            if (errorAlert) {
-                                                setTimeout(function () {
-                                                    errorAlert.style.transition = "opacity 0.5s ease";
-                                                    errorAlert.style.opacity = "0";
-                                                    setTimeout(function () {
-                                                        errorAlert.remove();
-                                                    }, 500);
-                                                }, 3000);
-                                            }
-                    </script>
 
-                <!-- ================= EDIT MODE ================= -->
-                <div id="editMode" style="display:none;">
+                    <!-- ================= VIEW MODE ================= -->
+                    <div id="viewMode">
 
-                    <h5 class="section-title-custom"><i class="bi bi-pencil-square"></i> Edit Profile</h5>
-
-                    @using (Html.BeginForm("Profile", "Applicant", FormMethod.Post))
-                    {
                         <div class="profile-info-table">
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-label-block">
+                                    <i class="bi bi-person"></i>
+                                    <span class="profile-info-label-text">Full Name</span>
+                                </div>
+                                <div class="profile-info-value">@Model.FullName</div>
+                            </div>
 
                             <div class="profile-info-row">
                                 <div class="profile-info-label-block">
                                     <i class="bi bi-person-badge"></i>
                                     <span class="profile-info-label-text">Username</span>
                                 </div>
-                                <div class="profile-info-value">
-                                    <input type="text" name="Username" class="form-control" value="@Model.Username" required />
-                                </div>
+                                <div class="profile-info-value">@Model.Username</div>
                             </div>
 
                             <div class="profile-info-row">
@@ -554,9 +1507,7 @@ Layout = null;
                                     <i class="bi bi-envelope"></i>
                                     <span class="profile-info-label-text">Email Address</span>
                                 </div>
-                                <div class="profile-info-value">
-                                    <input type="email" name="Email" class="form-control" value="@Model.Email" required />
-                                </div>
+                                <div class="profile-info-value">@Model.Email</div>
                             </div>
 
                             <div class="profile-info-row">
@@ -564,48 +1515,297 @@ Layout = null;
                                     <i class="bi bi-telephone"></i>
                                     <span class="profile-info-label-text">Phone Number</span>
                                 </div>
+                                <div class="profile-info-value">@Model.ContactNumber</div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-label-block">
+                                    <i class="bi bi-calendar3"></i>
+                                    <span class="profile-info-label-text">Birthdate</span>
+                                </div>
+                                <div class="profile-info-value">@Model.Birthdate.ToString("MMMM dd, yyyy")</div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-label-block">
+                                    <i class="bi bi-person-check"></i>
+                                    <span class="profile-info-label-text">Status</span>
+                                </div>
                                 <div class="profile-info-value">
-                                    <input type="text" name="ContactNumber" class="form-control" value="@Model.ContactNumber" required />
+                                    <span class="status-pill-active">Active</span>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="d-flex gap-2 mt-3">
-                            <button type="button" class="btn-edit-profile-outline" onclick="toggleEdit(false)">Cancel</button>
-                            <button type="submit" class="btn-edit-profile-outline">Save Changes</button>
-                        </div>
-                    }
+                        <button type="button" class="btn-action-edit" onclick="toggleEdit(true)">
+                            <i class="bi bi-pencil"></i> Edit Profile
+                        </button>
+
+                    </div>
+
+
+                    <!-- ================= EDIT MODE ================= -->
+                    <div id="editMode" style="display:none;">
+
+                        @using (Html.BeginForm("Profile", "Applicant", FormMethod.Post))
+                        {
+                            <div class="profile-info-table">
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-label-block">
+                                        <i class="bi bi-person-badge"></i>
+                                        <span class="profile-info-label-text">Username</span>
+                                    </div>
+                                    <div class="profile-info-value w-100">
+                                        <input type="text" name="Username" class="form-control" value="@Model.Username" required />
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-label-block">
+                                        <i class="bi bi-envelope"></i>
+                                        <span class="profile-info-label-text">Email Address</span>
+                                    </div>
+                                    <div class="profile-info-value w-100">
+                                        <input type="email" name="Email" class="form-control" value="@Model.Email" required />
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-label-block">
+                                        <i class="bi bi-telephone"></i>
+                                        <span class="profile-info-label-text">Phone Number</span>
+                                    </div>
+                                    <div class="profile-info-value w-100">
+                                        <input type="text" name="ContactNumber" class="form-control" value="@Model.ContactNumber" required />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex gap-2 mt-2">
+                                <button type="submit" class="btn-action-edit">
+                                    <i class="bi bi-check-lg"></i> Save Changes
+                                </button>
+                                <button type="button" class="btn-action-cancel" onclick="toggleEdit(false)">
+                                    <i class="bi bi-x-lg"></i> Cancel
+                                </button>
+                            </div>
+                        }
+
+                    </div>
+
                 </div>
 
             </div>
-        </div>
 
-            <!-- Right Column: Sidebar Panels (Col-4) -->
+
+            <!-- =================================================
+                 RIGHT: SIDE PANELS
+            ================================================== -->
+
             <div class="col-lg-4">
 
                 <div class="sidebar-panel">
-                    <div class="sidebar-header">
+
+                    <div class="sidebar-panel-header">
                         <i class="bi bi-shield-lock-fill"></i> Security Tip
                     </div>
-                    <div class="sidebar-body">
+
+                    <div class="sidebar-panel-body">
                         Please keep your phone number and email information updated to avoid losing access to account announcements and verification documents.
                     </div>
+
                 </div>
 
+
                 <div class="sidebar-panel">
-                    <div class="sidebar-header">
+
+                    <div class="sidebar-panel-header">
                         <i class="bi bi-info-circle-fill"></i> Help & Support
                     </div>
-                    <div class="sidebar-body">
+
+                    <div class="sidebar-panel-body">
                         Need to change critical verification details? Get in touch with the main administration branch office.
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
 
+    <script>
+
+            /* =====================================================
+               EDIT / VIEW MODE TOGGLE
+            ===================================================== */
+
+            function toggleEdit(showEdit) {
+                document.getElementById('viewMode').style.display = showEdit ? 'none' : 'block';
+                document.getElementById('editMode').style.display = showEdit ? 'block' : 'none';
+            }
+            /* =====================================================
+               AUTO-HIDE SUCCESS / ERROR ALERTS
+            ===================================================== */
+
+            const successAlert = document.getElementById('successAlert');
+
+            if (successAlert) {
+
+                setTimeout(function () {
+
+                    successAlert.style.transition = "opacity 0.5s ease";
+                    successAlert.style.opacity = "0";
+
+                    setTimeout(function () {
+                        successAlert.remove();
+                    }, 500);
+
+                }, 3000);
+
+            }
+            const errorAlert = document.getElementById('errorAlert');
+
+            if (errorAlert) {
+
+                setTimeout(function () {
+
+                    errorAlert.style.transition = "opacity 0.5s ease";
+                    errorAlert.style.opacity = "0";
+
+                    setTimeout(function () {
+                        errorAlert.remove();
+                    }, 500);
+
+                }, 3000);
+
+            }
+            /* =====================================================
+               SIDEBAR TOGGLE
+            ===================================================== */
+
+            const toggleSidebar =
+                document.getElementById("toggleSidebar");
+
+            toggleSidebar.addEventListener("click", function () {
+
+                document.body.classList.toggle(
+                    "sidebar-collapsed"
+                );
+
+            });
+            /* =====================================================
+               SETTINGS DROPDOWN
+            ===================================================== */
+            const settingsToggle =
+                document.getElementById("settingsToggle");
+
+            const settingsGroup =
+                document.querySelector(".sidebar-settings");
+
+
+            settingsToggle.addEventListener("click", function (e) {
+
+                /*
+                 * Only open the dropdown when clicking
+                 * the arrow / settings area.
+                 */
+
+                const clickedLink =
+                    e.target.closest("a");
+
+                if (clickedLink) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                settingsGroup.classList.toggle("open");
+
+            });
+            /* =====================================================
+               PROFILE DROPDOWN
+            ===================================================== */
+
+            const profileContainer =
+                document.querySelector(".profile-container");
+
+            const profileToggle =
+                document.getElementById("profileToggle");
+
+
+            profileToggle.addEventListener("click", function (e) {
+
+                e.stopPropagation();
+
+                profileContainer.classList.toggle("open");
+
+                /*
+                 * Close notification if profile opens
+                 */
+
+                notificationContainer.classList.remove("open");
+
+            });
+
+
+
+            /* =====================================================
+               NOTIFICATION DROPDOWN
+            ===================================================== */
+
+            const notificationContainer =
+                document.querySelector(".notification-container");
+
+            const notificationToggle =
+                document.getElementById("notificationToggle");
+
+
+            notificationToggle.addEventListener("click", function (e) {
+
+                e.stopPropagation();
+
+                notificationContainer.classList.toggle("open");
+
+                /*
+                 * Close profile dropdown
+                 */
+
+                profileContainer.classList.remove("open");
+
+            });
+
+
+
+            /* =====================================================
+               CLOSE DROPDOWNS WHEN CLICKING OUTSIDE
+            ===================================================== */
+
+            document.addEventListener("click", function (e) {
+
+                if (!profileContainer.contains(e.target)) {
+
+                    profileContainer.classList.remove("open");
+
+                }
+
+
+                if (!notificationContainer.contains(e.target)) {
+
+                    notificationContainer.classList.remove("open");
+
+                }
+
+            });
+
+    </script>
+
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

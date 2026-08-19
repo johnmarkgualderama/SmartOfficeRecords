@@ -17,6 +17,12 @@ namespace SmartOfficeRecords.Controllers
         private readonly EmailService _emailService;
         private readonly ApplicationDbContext _context;
 
+        public ApplicantController(ApplicationDbContext context, EmailService emailService)
+        {
+            _context = context;
+            _emailService = emailService;
+        }
+
         //ApplicantLogin
         [HttpGet]
         public ActionResult ApplicantLogin()
@@ -159,14 +165,19 @@ namespace SmartOfficeRecords.Controllers
                 _context.ApplicantRegisters.Add(newApplicant); // stage the insert
                 _context.SaveChanges();                        // actually run the SQL INSERT
 
-                ViewBag.Success = "Registered Successfully!";
+                // Log the applicant in immediately after registering
+                HttpContext.Session.SetInt32("ApplicantId", newApplicant.ApplicantId);
+                HttpContext.Session.SetString("ApplicantName", newApplicant.FullName);
+                HttpContext.Session.SetString("ApplicantUsername", newApplicant.Username);
+
+                TempData["Success"] = "Registered Successfully!";
+                return RedirectToAction("ApplicantDash");
             }
             catch (Exception ex)
             {
                 ViewBag.Error = "Something went wrong while saving: " + ex.Message;
+                return View();
             }
-
-            return View();
         }
 
         // Simple, dependency-free password hashing using SHA256.
@@ -185,6 +196,8 @@ namespace SmartOfficeRecords.Controllers
                 return builder.ToString();
             }
         }
+
+
         public ActionResult ApplicantLand()
         {
             return View();
@@ -195,8 +208,11 @@ namespace SmartOfficeRecords.Controllers
             if (!LoadLoggedInApplicant())
                 return RedirectToAction("ApplicantLogin");
 
+            ViewBag.Success = TempData["Success"];
+
             return View();
         }
+
         public ActionResult SomeAction()
         {
             if (!LoadLoggedInApplicant())
@@ -205,18 +221,19 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
+        // GET: Applicant/Profile
         public ActionResult Profile()
         {
-            int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
-            if (applicantId == null)
-            {
+            if (!LoadLoggedInApplicant())
                 return RedirectToAction("ApplicantLogin");
-            }
 
-            // Fetch this applicant's actual data from the database to show on the profile page
+            int applicantId = HttpContext.Session.GetInt32("ApplicantId")!.Value;
             var applicant = _context.ApplicantRegisters.Find(applicantId);
+
             return View(applicant);
         }
+
+        // POST: Applicant/Profile
         [HttpPost]
         public ActionResult Profile(string Username, string Email, string ContactNumber)
         {
@@ -235,7 +252,6 @@ namespace SmartOfficeRecords.Controllers
                 return View(applicant);
             }
 
-            // Check if the new username/email is already used by SOMEONE ELSE
             bool taken = _context.ApplicantRegisters
                 .Any(a => a.ApplicantId != applicantId && (a.Username == Username || a.Email == Email));
 
@@ -251,28 +267,20 @@ namespace SmartOfficeRecords.Controllers
 
             _context.SaveChanges();
 
-            // Keep session in sync since Username may have just changed
             HttpContext.Session.SetString("ApplicantUsername", applicant.Username);
 
             ViewBag.Success = "Profile updated successfully!";
-            ViewBag.FullName = applicant.FullName;
-            ViewBag.Username = applicant.Username;
-            ViewBag.Email = applicant.Email;
-            ViewBag.Initials = applicant.FullName.Length >= 2
-                ? applicant.FullName.Substring(0, 2).ToUpper()
-                : applicant.FullName.ToUpper();
+
+            // Refresh ViewBag with the updated info, using the SAME logic as LoadLoggedInApplicant()
+            LoadLoggedInApplicant();
 
             return View(applicant);
         }
+
         public ActionResult ApplicantLogout()
         {
             HttpContext.Session.Clear(); // wipes everything stored in session
             return RedirectToAction("ApplicantLogin");
-        }
-        public ApplicantController(ApplicationDbContext context, EmailService emailService)
-        {
-            _context = context;
-            _emailService = emailService;
         }
 
         // ================== FORGOT PASSWORD - STEP 1: Request a code ==================
@@ -421,6 +429,7 @@ namespace SmartOfficeRecords.Controllers
             ViewBag.Success = "Password reset successfully! Please log in.";
             return RedirectToAction("ApplicantLogin");
         }
+
         // GET: Applicant/MyAppointment
         public ActionResult MyAppointment()
         {
@@ -431,11 +440,15 @@ namespace SmartOfficeRecords.Controllers
 
             var myAppointments = _context.Appointments
                 .Where(a => a.ApplicantId == applicantId)
-                .OrderByDescending(a => a.DateRequested)
+                .OrderBy(a => a.DateRequested)
                 .ToList();
+
+            ViewBag.Success = TempData["Success"];
+            ViewBag.CancelSuccess = TempData["CancelSuccess"] != null;
 
             return View(myAppointments);
         }
+
         private bool LoadLoggedInApplicant()
         {
             int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
@@ -502,11 +515,6 @@ namespace SmartOfficeRecords.Controllers
                 DateRequested = DateTime.Now // this is what feeds the admin dashboard graph
             };
 
-            if (applicantId == null)
-            {
-                return RedirectToAction("ApplicantLogin");
-            }
-
             var applicant = _context.ApplicantRegisters.Find(applicantId);
 
             if (applicant == null)
@@ -536,36 +544,95 @@ namespace SmartOfficeRecords.Controllers
             ViewBag.Email = applicant.Email;
             ViewBag.Initials = initials;
 
- 
-
             _context.Appointments.Add(newAppointment);
             _context.SaveChanges();
 
             ViewBag.Success = "Appointment request submitted!";
             return RedirectToAction("MyAppointment");
         }
+
+        // GET: Applicant/BookInterview
         public ActionResult BookInterview()
         {
             if (!LoadLoggedInApplicant())
                 return RedirectToAction("ApplicantLogin");
 
+            int applicantId = HttpContext.Session.GetInt32("ApplicantId")!.Value;
+
+            // Find the applicant's most recent Completed interview
+            var lastCompleted = _context.Appointments
+                .Where(a => a.ApplicantId == applicantId && a.Status == "Completed" && a.DateCompleted != null)
+                .OrderByDescending(a => a.DateCompleted)
+                .FirstOrDefault();
+
+            if (lastCompleted != null)
+            {
+                DateTime completedDate = lastCompleted.DateCompleted!.Value;
+                DateTime eligibleDate = completedDate.AddDays(30);
+                int daysLeft = (eligibleDate.Date - DateTime.Today).Days;
+
+                if (daysLeft > 0)
+                {
+                    // Still in the 30-day cooldown — block new bookings
+                    ViewBag.InCooldown = true;
+                    ViewBag.DaysLeft = daysLeft;
+                    ViewBag.EligibleDate = eligibleDate.ToString("MMMM dd, yyyy");
+                    ViewBag.LastInterviewDate = lastCompleted.AppointmentDate.ToString("MMMM dd, yyyy");
+                    ViewBag.PositionApplied = lastCompleted.Purpose;
+                    ViewBag.ReapplicationWindow = 30;
+
+                    // Progress bar: how much of the 30 days has already elapsed
+                    int daysElapsed = 30 - daysLeft;
+                    ViewBag.ProgressPercent = (int)((daysElapsed / 30.0) * 100);
+                }
+            }
+
             return View();
         }
+
+        // POST: Applicant/BookInterview
         [HttpPost]
         public ActionResult BookInterview(
-     string FullName,
-     string ContactNumber,
-     string EmailAddress,
-     IFormFile ResumeFile,
-     IFormFile ValidIDFile,
-     string PreferredDate,
-     string PreferredTime,
-     string AdditionalNotes)
+         string FullName,
+         string ContactNumber,
+         string EmailAddress,
+         IFormFile ResumeFile,
+         IFormFile ValidIDFile,
+         string PreferredDate,
+         string PreferredTime,
+         string AdditionalNotes)
         {
             if (!LoadLoggedInApplicant())
                 return RedirectToAction("ApplicantLogin");
 
             int applicantId = HttpContext.Session.GetInt32("ApplicantId")!.Value;
+
+            // ----- SERVER-SIDE COOLDOWN GUARD -----
+            // Re-check the 30-day cooldown here too, since a determined user could
+            // still POST directly to this action even with the button disabled client-side.
+            var lastCompleted = _context.Appointments
+                .Where(a => a.ApplicantId == applicantId && a.Status == "Completed" && a.DateCompleted != null)
+                .OrderByDescending(a => a.DateCompleted)
+                .FirstOrDefault();
+
+            if (lastCompleted != null && lastCompleted.DateCompleted!.Value.AddDays(30) > DateTime.Today)
+            {
+                DateTime completedDate = lastCompleted.DateCompleted!.Value;
+                DateTime eligibleDate = completedDate.AddDays(30);
+                int daysLeft = (eligibleDate.Date - DateTime.Today).Days;
+                int daysElapsed = 30 - daysLeft;
+
+                ViewBag.InCooldown = true;
+                ViewBag.DaysLeft = daysLeft;
+                ViewBag.EligibleDate = eligibleDate.ToString("MMMM dd, yyyy");
+                ViewBag.LastInterviewDate = lastCompleted.AppointmentDate.ToString("MMMM dd, yyyy");
+                ViewBag.PositionApplied = lastCompleted.Purpose;
+                ViewBag.ReapplicationWindow = 30;
+                ViewBag.ProgressPercent = (int)((daysElapsed / 30.0) * 100);
+
+                ViewBag.Error = "You are not yet eligible to book a new interview.";
+                return View();
+            }
 
             if (string.IsNullOrWhiteSpace(FullName) ||
                 string.IsNullOrWhiteSpace(ContactNumber) ||
@@ -641,9 +708,10 @@ namespace SmartOfficeRecords.Controllers
             _context.Appointments.Add(newAppointment);
             _context.SaveChanges();
 
-            ViewBag.Success = "Interview booking submitted successfully!";
-            return View();
+            TempData["Success"] = "Interview booking submitted successfully!";
+            return RedirectToAction("MyAppointment");
         }
+
         [HttpPost]
         public ActionResult CancelAppointment(int AppointmentId)
         {
@@ -669,8 +737,68 @@ namespace SmartOfficeRecords.Controllers
             _context.Appointments.Remove(appointment);  // <-- this line deletes it from SQL Server
             _context.SaveChanges();                      // <-- this line commits the delete
 
-            ViewBag.Success = "Appointment cancelled successfully.";
+            TempData["CancelSuccess"] = true;
             return RedirectToAction("MyAppointment");
         }
+
+        [HttpPost]
+        public JsonResult EditAppointment([FromBody] EditAppointmentRequest request)
+        {
+            int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
+            if (applicantId == null)
+            {
+                return Json(new { success = false, message = "Session expired. Please log in again." });
+            }
+
+            // Only allow editing your OWN pending appointment
+            var appointment = _context.Appointments
+                .FirstOrDefault(a => a.AppointmentId == request.AppointmentId && a.ApplicantId == applicantId);
+
+            if (appointment == null)
+            {
+                return Json(new { success = false, message = "Appointment not found." });
+            }
+
+            if (appointment.Status != "Pending")
+            {
+                return Json(new { success = false, message = "Only pending appointments can be edited." });
+            }
+
+            // ----- VALIDATE -----
+            if (string.IsNullOrWhiteSpace(request.EmailAddress) ||
+                string.IsNullOrWhiteSpace(request.PreferredDate) ||
+                string.IsNullOrWhiteSpace(request.PreferredTime))
+            {
+                return Json(new { success = false, message = "Please fill out all fields." });
+            }
+
+            if (!DateTime.TryParse(request.PreferredDate, out DateTime parsedDate))
+            {
+                return Json(new { success = false, message = "Invalid date." });
+            }
+
+            if (!DateTime.TryParse(request.PreferredTime, out DateTime parsedTimeDateTime))
+            {
+                return Json(new { success = false, message = "Invalid time." });
+            }
+            TimeSpan parsedTime = parsedTimeDateTime.TimeOfDay;
+
+            // ----- UPDATE -----
+            appointment.Email = request.EmailAddress;
+            appointment.AppointmentDate = parsedDate;
+            appointment.AppointmentTime = parsedTime;
+
+            _context.SaveChanges();
+
+            return Json(new { success = true, message = "Appointment updated successfully." });
+        }
+
+        public ActionResult Settings()
+        {
+            if (!LoadLoggedInApplicant())
+                return RedirectToAction("ApplicantLogin");
+
+            return View();
+        }
     }
-}            
+}
