@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewBag.Title = "Admin Settings";
     Layout = null;
 }
@@ -13,685 +13,1067 @@
     <title>Admin Settings</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
 
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet" />
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <!-- Inter Font - SAME AS RECORDS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet">
 
     <style>
+
+        /* =========================================================
+                   GLOBAL
+                ========================================================= */
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
         }
 
         body {
-            background: #f4f6f9;
+            background: #FFFFFF;
             overflow: hidden;
+            color: #111827;
         }
+
+
+        /* =========================================================
+                   FULL PAGE
+                ========================================================= */
 
         .settings-container {
-            display: flex;
-            height: 100vh;
-        }
-
-       /* ==========================
-                SIDEBAR DESIGN
-          ===========================*/
-        .sidebar {
-            width: 190px;
-            background: #0b1f3a;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            transition: all .3s ease;
-            height: 100vh; 
-            overflow-y: auto; 
-            overflow-x: hidden; 
-        }
-
-        .sidebar {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,.3) transparent;
-        }
-
-            .sidebar::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            .sidebar::-webkit-scrollbar-thumb {
-                background: rgba(255,255,255,.25);
-                border-radius: 10px;
-            }
-
-            .sidebar::-webkit-scrollbar-track {
-                background: transparent;
-            }
-
-            .sidebar.collapsed {
-                width: 90px;
-            }
-
-                .sidebar.collapsed .system-name {
-                    display: block;
-                    font-size: 12px;
-                    font-weight: 600;
-                    margin-top: 10px;
-                }
-
-                .sidebar.collapsed .logo-circle {
-                    width: 58px;
-                    height: 58px;
-                }
-
-                .sidebar.collapsed .logo-section {
-                    padding: 25px 15px;
-                    border-bottom: 1px solid rgba(255,255,255,.15);
-                }
-
-                .sidebar.collapsed .menu a span,
-                .sidebar.collapsed .logout a span {
-                    display: none;
-                }
-
-                .sidebar.collapsed .menu {
-                    padding: 20px 12px;
-                }
-
-                    .sidebar.collapsed .menu a {
-                        width: 50px;
-                        height: 50px;
-                        margin: 0 auto 18px auto;
-                        padding: 0;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        border-radius: 8px;
-                    }
-
-                        .sidebar.collapsed .menu a.active {
-                            background: #1e4f8a;
-                            box-shadow: 0 4px 10px rgba(0,0,0,.15);
-                        }
-
-                        .sidebar.collapsed .menu a i,
-                        .sidebar.collapsed .logout a i {
-                            margin: 0;
-                            font-size: inherit;
-                        }
-
-                .sidebar.collapsed .logout {
-                    margin-top: auto;
-                    padding-bottom: 20px;
-                }
-
-                    .sidebar.collapsed .logout a {
-                        width: 50px;
-                        height: 50px;
-                        margin: 0 auto;
-                        padding: 0;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-
-
-        /* ================
-               SETTINGS DROPDOWN
-           ====================== */
-
-        .sidebar-dropdown {
-            margin-bottom: 10px;
-        }
-
-        .dropdown-toggle-menu {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-            .dropdown-toggle-menu:hover {
-                background: rgba(255,255,255,.12);
-            }
-
-        .small-arrow {
-            font-size: 12px;
-            transition: transform .3s ease;
-        }
-
-        .dropdown-submenu {
-            display: none;
-            flex-direction: column;
-            padding-left: 20px;
-        }
-
-            .dropdown-submenu a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 10px 12px;
-                font-size: 14px;
-                border-radius: 6px;
-            }
-
-                .dropdown-submenu a:hover {
-                    background: rgba(255,255,255,.12);
-                }
-
-        .sidebar-dropdown.open .dropdown-submenu {
-            display: flex;
-        }
-
-        .sidebar-dropdown.open .small-arrow {
-            transform: rotate(180deg);
-        }
-
-        .sidebar.collapsed .small-arrow {
-            display: none;
-        }
-
-        /* ==========================
-                  LOGO DESIGN
-           ===========================*/
-        .logo-section {
-            text-align: center;
-            padding: 25px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, .15);
-        }
-
-        .logo-circle {
-            width: 60px;
-            height: 60px;
-            background: white;
-            border-radius: 50%;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .logout {
-            margin-top: auto;
-            padding: 15px 12px;
-        }
-
-            .logout a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                gap: 12px;
-                align-items: center;
-                padding: 12px 14px;
-            }
-
-        .system-name {
-            margin-top: 12px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        /* ==========================
-                 MENU DESIGN
-           ===========================*/
-
-        .menu {
-            padding: 20px 12px;
-        }
-
-            .menu a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 12px 14px;
-                margin-bottom: 10px;
-                border-radius: 6px;
-            }
-
-                .menu a:hover {
-                    background: rgba(255,255,255,.12);
-                }
-
-                .menu a.active {
-                    background: #1e4f8a;
-                    box-shadow: 0 4px 10px rgba(0,0,0,.15);
-                }
-
-         /* =================
-                        MAIN
-                  ================= */
-        .main-content {
-            flex: 1;
-            background: #f4f6f9;
             height: 100vh;
+            background: #FFFFFF;
+            display: flex;
+        }
+
+        .settings-page {
+            width: 100%;
+            height: 100vh;
+            background: #FFFFFF;
+            display: flex;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* ==========================
-                   TOP BAR
-           ===========================*/
-        .topbar {
-            height: 60px;
-            border-bottom: 1px solid #d9dce3;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            background: #fff;
-            flex-shrink: 0;
-        }
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: #1e4f8a;
-            font-size: 22px;
-            cursor: pointer;
-            margin-right: 10px;
+
+        /* =========================================================
+                   LEFT SETTINGS PANEL
+                   SIZE MATCHED TO RECORDS
+                ========================================================= */
+
+        .settings-sidebar {
+            width: 158px;
+            min-width: 158px;
+            height: 100vh;
+            background: #FFFFFF;
+            padding: 18px 18px;
+            border-right: 1px solid #F0F0F0;
         }
 
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            margin-right: 8px;
-        }
 
-            .topbar-left i {
-                font-size: 28px;
-                color: #1e4f8a;
-                cursor: pointer;
-                margin: 8px;
-            }
+        /* =========================================================
+                   BACK BUTTON
+                ========================================================= */
 
-            .topbar-left h3 {
-                color: #1e4f8a;
-                font-weight: 700;
-                margin: 0;
-            }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-left: auto;
-        }
-
-            .topbar-right i {
-                font-size: 24px;
-                cursor: pointer;
-            }
-
-        .profile {
+        .settings-back {
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 30px;
         }
 
-            .profile img {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                object-fit: cover;
+            .settings-back i {
+                font-size: 16px;
             }
 
-        .profile-info {
+            .settings-back:hover {
+                color: #B91C1C;
+            }
+
+
+        /* =========================================================
+                   PROFILE
+                ========================================================= */
+
+        .settings-profile {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 0 3px 18px 3px;
+            border-bottom: 1px solid #E5E7EB;
+            margin-bottom: 18px;
+        }
+
+        .settings-profile-img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #F4A340;
+        }
+
+        .settings-profile-info {
             display: flex;
             flex-direction: column;
-            line-height: 1.2;
+            line-height: 1.25;
+            min-width: 0;
         }
 
-            .profile-info .role {
-                font-size: 12px;
-                color: #777;
+        .settings-profile-email {
+            font-size: 9px;
+            font-weight: 500;
+            color: #222222;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .settings-profile-role {
+            font-size: 8px;
+            color: #6B7280;
+            margin-top: 2px;
+        }
+
+
+        /* =========================================================
+                   SETTINGS NAVIGATION
+                   SAME FONT SCALE AS RECORDS MENU
+                ========================================================= */
+
+        .settings-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+            .settings-nav a {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                min-height: 38px;
+                padding: 9px 8px;
+                text-decoration: none;
+                color: #222222;
+                font-size: 13px;
+                font-weight: 500;
+                border-radius: 6px;
+                transition: .2s ease;
             }
 
-            .profile-info h5 {
-                margin: 0;
-                font-size: 14px;
-                font-weight: 600;
-                color: #1e4f8a;
-            }
+                .settings-nav a i {
+                    width: 16px;
+                    text-align: center;
+                    font-size: 16px;
+                }
 
-            .profile-info span {
-                font-size: 12px;
-                color: gray;
-            }
+                .settings-nav a:hover {
+                    color: #B91C1C;
+                    background: #FEF2F2;
+                }
 
-        /* =================
-                 CONTENT
-            ================= */
-        .content-area {
-            padding: 30px;
+                .settings-nav a.active {
+                    color: #B91C1C;
+                    background: #FEF2F2;
+                    font-weight: 600;
+                }
+
+
+        /* =========================================================
+                   MAIN CONTENT
+                ========================================================= */
+
+        .settings-main {
             flex: 1;
+            height: 100vh;
+            background: #FFFFFF;
+            padding: 22px 30px;
             overflow-y: auto;
             overflow-x: hidden;
         }
 
-        .settings-box {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            border: 1px solid #e5e5e5;
-        }
 
-            .settings-box h5 {
-                color: #1e4f8a;
-                font-weight: 600;
-            }
+        /* =========================================================
+                   SEARCH BAR
+                   SAME SIZE SCALE AS RECORDS
+                ========================================================= */
 
-        .form-label {
-            font-weight: 500;
-        }
-
-        .form-check-input:checked {
-            background-color: #1e4f8a;
-            border-color: #1e4f8a;
-        }
-
-        .form-control,
-        .form-select {
-            height: 45px;
-        }
-
-        .form-control-color {
+        .settings-top {
             width: 100%;
-            height: 45px;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 22px;
         }
 
-        .form-control {
-            border-radius: 8px;
+        .settings-search {
+            width: 540px;
+            height: 36px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 3px 12px rgba(0,0,0,.05);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 0 13px;
         }
 
-        .btn-save {
-            background: #1e4f8a;
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-        }
-
-            .btn-save:hover {
-                background: #2f66dd;
+            .settings-search i {
+                font-size: 13px;
+                color: #6B7280;
             }
+
+            .settings-search input {
+                width: 100%;
+                height: 100%;
+                border: none;
+                outline: none;
+                background: transparent;
+                font-size: 11px;
+                font-weight: 400;
+                color: #374151;
+            }
+
+                .settings-search input::placeholder {
+                    color: #9CA3AF;
+                }
+
+
+        /* =========================================================
+                   SYSTEM HEADING
+                   SAME SIZE AS RECORDS PAGE HEADER
+                ========================================================= */
+
+        .settings-heading {
+            margin-bottom: 18px;
+        }
+
+            .settings-heading h1 {
+                font-size: 24px;
+                font-weight: 700;
+                letter-spacing: -0.2px;
+                line-height: 1.2;
+                color: #B91C1C;
+                margin: 0 0 5px 0;
+            }
+
+            .settings-heading p {
+                font-size: 13px;
+                font-weight: 400;
+                color: #64748B;
+                line-height: 1.5;
+                margin: 0;
+            }
+
+
+        /* =========================================================
+                   SYSTEM CARD
+                ========================================================= */
+
+        .system-card {
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #D9DDE3;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,.02);
+        }
+
+
+        /* =========================================================
+                   SYSTEM ROW
+                ========================================================= */
+
+        .system-row {
+            min-height: 68px;
+            padding: 0 18px 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+            .system-row:last-child {
+                border-bottom: none;
+            }
+
+
+        /* =========================================================
+                   SYSTEM LABEL
+                ========================================================= */
+
+        .system-label-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+            .system-label-text strong {
+                font-size: 11px;
+                font-weight: 600;
+                color: #374151;
+            }
+
+            .system-label-text span {
+                font-size: 9px;
+                font-weight: 400;
+                color: #64748B;
+            }
+
+
+        /* =========================================================
+                   SELECT
+                ========================================================= */
+
+        .settings-select {
+            width: 194px;
+            height: 36px;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            background: #FFFFFF;
+            padding: 0 11px;
+            font-size: 10px;
+            font-weight: 400;
+            color: #374151;
+            outline: none;
+        }
+
+            .settings-select:focus {
+                border-color: #B91C1C;
+                box-shadow: none;
+            }
+
+
+        /* =========================================================
+                   SESSION TIMEOUT
+                ========================================================= */
+
+        .timeout-row {
+            min-height: 72px;
+        }
+
+        .timeout-control {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .timeout-slider {
+            width: 192px;
+            height: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
+            border-radius: 10px;
+            background: #D9D9D9;
+        }
+
+            .timeout-slider::-webkit-slider-runnable-track {
+                height: 4px;
+                border-radius: 10px;
+                background: linear-gradient( to right, #B91C1C 0%, #B91C1C 70%, #D9D9D9 70%, #D9D9D9 100% );
+            }
+
+            .timeout-slider::-webkit-slider-thumb {
+                appearance: none;
+                -webkit-appearance: none;
+                width: 10px;
+                height: 10px;
+                margin-top: -3px;
+                border-radius: 50%;
+                background: #B91C1C;
+                border: 1px solid #FFFFFF;
+                box-shadow: 0 0 0 1px #B91C1C;
+                cursor: pointer;
+            }
+
+            .timeout-slider::-moz-range-track {
+                height: 4px;
+                border-radius: 10px;
+                background: #D9D9D9;
+            }
+
+            .timeout-slider::-moz-range-progress {
+                height: 4px;
+                border-radius: 10px;
+                background: #B91C1C;
+            }
+
+            .timeout-slider::-moz-range-thumb {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #B91C1C;
+                border: 1px solid #FFFFFF;
+                box-shadow: 0 0 0 1px #B91C1C;
+                cursor: pointer;
+            }
+
+        .timeout-value {
+            min-width: 40px;
+            font-size: 10px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+
+        /* =========================================================
+                   DANGER ZONE
+                ========================================================= */
+
+        .danger-section {
+            margin-top: 24px;
+        }
+
+        .danger-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+
+        .danger-card {
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #D9DDE3;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,.02);
+        }
+
+        .danger-row {
+            min-height: 90px;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+            .danger-row:last-child {
+                border-bottom: none;
+            }
+
+        .danger-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+            .danger-info strong {
+                font-size: 11px;
+                font-weight: 600;
+                color: #B91C1C;
+            }
+
+            .danger-info span {
+                font-size: 9px;
+                font-weight: 400;
+                color: #64748B;
+            }
+
+        .danger-button {
+            min-width: 140px;
+            height: 36px;
+            padding: 0 14px;
+            background: #FFFFFF;
+            border: 1px solid #FCA5A5;
+            border-radius: 6px;
+            color: #B91C1C;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s ease;
+            white-space: nowrap;
+        }
+
+            .danger-button:hover {
+                background: #B91C1C;
+                border-color: #B91C1C;
+                color: #FFFFFF;
+            }
+
+
+        /* =========================================================
+                   SCROLLBAR
+                ========================================================= */
+
+        .settings-main {
+            scrollbar-width: thin;
+            scrollbar-color: #C7CBD1 transparent;
+        }
+
+            .settings-main::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .settings-main::-webkit-scrollbar-thumb {
+                background: #C7CBD1;
+                border-radius: 10px;
+            }
+
+            .settings-main::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+
+        /* =========================================================
+                   RESPONSIVE
+                ========================================================= */
+
+        @@media (max-width: 900px) {
+
+            .settings-sidebar {
+                width: 158px;
+                min-width: 158px;
+            }
+
+            .settings-main {
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+
+            .settings-search {
+                width: 70%;
+            }
+        }
+
+
+        @@media (max-width: 700px) {
+
+            body {
+                overflow-y: auto;
+            }
+
+            .settings-page {
+                height: auto;
+                min-height: 100vh;
+                flex-direction: column;
+            }
+
+            .settings-sidebar {
+                width: 100%;
+                min-width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #E5E7EB;
+                padding: 15px 20px;
+            }
+
+            .settings-back {
+                margin-bottom: 20px;
+            }
+
+            .settings-profile {
+                margin-bottom: 12px;
+            }
+
+            .settings-nav {
+                flex-direction: row;
+            }
+
+                .settings-nav a {
+                    flex: 1;
+                }
+
+            .settings-main {
+                height: auto;
+                min-height: calc(100vh - 250px);
+                overflow: visible;
+                padding: 25px 20px;
+            }
+
+            .settings-search {
+                width: 100%;
+            }
+
+            .settings-heading h1 {
+                font-size: 21px;
+            }
+
+            .settings-heading p {
+                font-size: 12px;
+            }
+
+            .system-row {
+                min-height: 78px;
+                padding: 14px 18px;
+            }
+
+            .danger-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .danger-button {
+                width: 100%;
+            }
+        }
+
+
+        @@media (max-width: 480px) {
+
+            .settings-nav {
+                flex-direction: column;
+            }
+
+            .system-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .settings-select {
+                width: 100%;
+            }
+
+            .timeout-control {
+                width: 100%;
+            }
+
+            .timeout-slider {
+                flex: 1;
+            }
+        }
 
     </style>
 
 </head>
 
+
 <body>
 
     <div class="settings-container">
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <div class="settings-page">
 
-            <div class="logo-section">
 
-                <div class="logo-circle">
-                    <img src="~/Images/logo.png" class="logo-img" />
+            <!-- =====================================================
+                 LEFT SETTINGS SIDEBAR
+            ====================================================== -->
+
+            <aside class="settings-sidebar">
+
+
+                <!-- BACK -->
+
+                <a href="@Url.Action("Dashboard", "Admin")"
+                   class="settings-back">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
+
+                <!-- PROFILE -->
+
+                <div class="settings-profile">
+
+                    <img src="~/Images/adminpic.jpg"
+                         class="settings-profile-img"
+                         alt="Profile" />
+
+                    <div class="settings-profile-info">
+
+                        <span class="settings-profile-email">
+                            smart.officerecords@gmail.com
+                        </span>
+
+                        <span class="settings-profile-role">
+                            Administrator
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <div class="system-name">SORS</div>
 
-            </div>
+                <!-- SETTINGS NAVIGATION -->
 
-            <div class="menu">
+                <nav class="settings-nav">
 
-                <a href="@Url.Action("Dashboard", "Admin")">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
-                </a>
 
-                <a href="@Url.Action("RequestManagement", "Admin")">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>Request</span>
-                </a>
+                    <!-- SYSTEM -->
 
-                <a href="@Url.Action("RecordsManagement", "Admin")">
-                    <i class="bi bi-folder2-open"></i>
-                    <span>Records</span>
-                </a>
+                    <a href="@Url.Action("Settings", "Admin")"
+                       class="active">
 
-                <a href="@Url.Action("ReportsManagement", "Admin")">
-                    <i class="bi bi-clipboard-data"></i>
-                    <span>Reports</span>
-                </a>
+                        <i class="bi bi-display"></i>
 
-                <a href="@Url.Action("UsersManagement", "Admin")">
-                    <i class="bi bi-people"></i>
-                    <span>Users</span>
-                </a>
+                        <span>
+                            System
+                        </span>
 
-                <!-- SETTINGS DROPDOWN -->
-                <div class="sidebar-dropdown">
-
-                    <a href="javascript:void(0)" class="dropdown-toggle-menu">
-                        <i class="bi bi-gear"></i>
-                        <span>Settings</span>
-                        <i class="bi bi-caret-down-fill ms-auto small-arrow"></i>
                     </a>
 
-                    <div class="dropdown-submenu">
 
-                        <a href="@Url.Action("Settings", "Admin")" class="active">
-                            <i class="bi bi-sliders"></i>
-                            <span>General Settings</span>
-                        </a>
+                    <!-- PROFILE -->
 
-                        <a href="@Url.Action("SAccountSettings", "Admin")">
-                            <i class="bi bi-person-gear"></i>
-                            <span>Account & Security</span>
-                        </a>
+                    <a href="@Url.Action("SAccountSettings", "Admin")">
+
+                        <i class="bi bi-person"></i>
+
+                        <span>
+                            Profile
+                        </span>
+
+                    </a>
+
+
+                </nav>
+
+            </aside>
+
+
+            <!-- =====================================================
+                 MAIN SETTINGS
+            ====================================================== -->
+
+            <main class="settings-main">
+
+
+                <!-- SEARCH -->
+
+                <div class="settings-top">
+
+                    <div class="settings-search">
+
+                        <i class="bi bi-search"></i>
+
+                        <input type="text"
+                               placeholder="Find Settings..." />
 
                     </div>
 
                 </div>
 
-            </div>
 
-            <div class="logout">
+                <!-- HEADING -->
 
-                <a href="@Url.Action("Logout", "Admin")">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
-                </a>
+                <div class="settings-heading">
 
-            </div>
+                    <h1>
+                        System
+                    </h1>
 
-        </aside>
+                    <p>
+                        Manage your profile, security and system preferences.
+                    </p>
 
-        <!-- MAIN -->
-        <div class="main-content">
-
-            <!-- TOPBAR -->
-            <div class="topbar">
-
-                <div class="topbar-left">
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="bi bi-list"></i>
-                    </button>
                 </div>
 
-                <div class="topbar-right">
 
-                    <i class="bi bi-bell-fill"></i>
+                <!-- =================================================
+                     SYSTEM SETTINGS CARD
+                ================================================== -->
 
-                    <div class="profile">
+                <div class="system-card">
 
-                        <img src="~/Images/adminpic.jpg" alt="Profile" />
 
-                        <div class="profile-info">
-                            <span class="role">Administrator</span>
-                            <h5>Juan Dela Cruz</h5>
+                    <!-- TIME ZONE -->
+
+                    <div class="system-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Time Zone
+                            </strong>
+
+                        </div>
+
+                        <select class="settings-select">
+
+                            <option selected>
+                                Asia/Manila (GMT+8)
+                            </option>
+
+                            <option>
+                                Asia/Tokyo (GMT+9)
+                            </option>
+
+                            <option>
+                                Asia/Singapore (GMT+8)
+                            </option>
+
+                            <option>
+                                UTC
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DATE FORMAT -->
+
+                    <div class="system-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Date Format
+                            </strong>
+
+                        </div>
+
+                        <select class="settings-select">
+
+                            <option selected>
+                                MM/DD/YYYY
+                            </option>
+
+                            <option>
+                                DD/MM/YYYY
+                            </option>
+
+                            <option>
+                                YYYY-MM-DD
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DEFAULT LANGUAGE -->
+
+                    <div class="system-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Default Language
+                            </strong>
+
+                        </div>
+
+                        <select class="settings-select">
+
+                            <option selected>
+                                English
+                            </option>
+
+                            <option>
+                                Filipino
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SESSION TIMEOUT -->
+
+                    <div class="system-row timeout-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Session Timeout
+                            </strong>
+
+                            <span>
+                                How long before you're signed out from inactivity.
+                            </span>
+
+                        </div>
+
+                        <div class="timeout-control">
+
+                            <input type="range"
+                                   id="timeoutSlider"
+                                   class="timeout-slider"
+                                   min="10"
+                                   max="60"
+                                   value="40" />
+
+                            <span id="timeoutValue"
+                                  class="timeout-value">
+
+                                40 mins
+
+                            </span>
+
                         </div>
 
                     </div>
 
                 </div>
 
-            </div>
 
-            <!-- CONTENT -->
-            <div class="content-area">
+                <!-- =================================================
+                     DANGER ZONE
+                ================================================== -->
 
-                <div class="settings-box">
+                <div class="danger-section">
 
-                    <h4 class="mb-4">
-                        <i class="bi bi-sliders me-2"></i>
-                        General Settings
-                    </h4>
+                    <h2 class="danger-title">
+                        Danger Zone
+                    </h2>
 
-                    <div class="row">
+                    <div class="danger-card">
 
-                        <!-- System Information -->
-                        <div class="col-md-6">
 
-                            <h5 class="mb-3">System Information</h5>
+                        <!-- SIGN OUT EVERYWHERE -->
 
-                            <div class="mb-3">
-                                <label class="form-label">System Name</label>
-                                <input type="text"
-                                       class="form-control"
-                                       value="Smart Office Records System">
+                        <div class="danger-row">
+
+                            <div class="danger-info">
+
+                                <strong>
+                                    Sign out all of devices
+                                </strong>
+
+                                <span>
+                                    Ends every active session except this one. You'll need to sign back in on other devices.
+                                </span>
+
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Organization Name</label>
-                                <input type="text"
-                                       class="form-control"
-                                       value="Asian Banat">
-                            </div>
+                            <button type="button"
+                                    class="danger-button"
+                                    id="signOutButton">
 
-                            <div class="mb-3">
-                                <label class="form-label">System Email</label>
-                                <input type="email"
-                                       class="form-control"
-                                       value="admin@sors.com">
-                            </div>
+                                Sign out everywhere
 
-                            <div class="mb-3">
-                                <label class="form-label">Contact Number</label>
-                                <input type="text"
-                                       class="form-control"
-                                       placeholder="+63">
-                            </div>
+                            </button>
 
                         </div>
 
-                        <!-- Appearance -->
-                        <div class="col-md-6">
 
-                            <h5 class="mb-3">Appearance</h5>
+                        <!-- DELETE ACCOUNT -->
 
-                            <div class="mb-3">
-                                <label class="form-label">System Theme</label>
-                                <select class="form-select">
-                                    <option selected>Light</option>
-                                    <option>Dark</option>
-                                </select>
+                        <div class="danger-row">
+
+                            <div class="danger-info">
+
+                                <strong>
+                                    Delete Account
+                                </strong>
+
+                                <span>
+                                    Permanent removes your access and profile. This can't be undone– assign another administrator.
+                                </span>
+
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Primary Color</label>
-                                <input type="color"
-                                       class="form-control form-control-color"
-                                       value="#1f3b97">
-                            </div>
+                            <button type="button"
+                                    class="danger-button"
+                                    id="deleteAccountButton">
 
-                            <div class="mb-3">
-                                <label class="form-label">Logo</label>
-                                <input type="file"
-                                       class="form-control">
-                            </div>
+                                Delete Account
+
+                            </button>
 
                         </div>
 
-                    </div>
 
-                    <hr class="my-4">
-
-                    <h5 class="mb-3">Request Settings</h5>
-
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               checked>
-                        <label class="form-check-label">
-                            Allow Applicants Request
-                        </label>
-                    </div>
-
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               checked>
-                        <label class="form-check-label">
-                            Email Notifications
-                        </label>
-                    </div>
-
-                    <div class="form-check form-switch mb-4">
-                        <input class="form-check-input"
-                               type="checkbox">
-                        <label class="form-check-label">
-                            Maintenance Mode
-                        </label>
-                    </div>
-
-                    <div class="text-end">
-                        <button class="btn btn-secondary me-2">
-                            Cancel
-                        </button>
-
-                        <button class="btn-save">
-                            <i class="bi bi-check-circle me-1"></i>
-                            Save Changes
-                        </button>
                     </div>
 
                 </div>
 
-            </div>
+
+            </main>
 
         </div>
 
     </div>
 
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
     <script>
-        const dropdown = document.querySelector('.sidebar-dropdown');
-        const toggle = document.querySelector('.dropdown-toggle-menu');
 
-        toggle.addEventListener('click', function () {
-            dropdown.classList.toggle('open');
+        /* =========================================================
+           SESSION TIMEOUT
+        ========================================================= */
+
+        const timeoutSlider =
+            document.getElementById("timeoutSlider");
+
+        const timeoutValue =
+            document.getElementById("timeoutValue");
+
+
+        timeoutSlider.addEventListener("input", function () {
+
+            timeoutValue.textContent =
+                this.value + " mins";
+
         });
 
-        const sidebar = document.querySelector('.sidebar');
-        const toggleBtn = document.getElementById('menuToggle');
 
-        toggleBtn.addEventListener('click', function () {
-            sidebar.classList.toggle('collapsed');
-        });
+        /* =========================================================
+           SIGN OUT EVERYWHERE
+        ========================================================= */
+
+        document.getElementById("signOutButton")
+            .addEventListener("click", function () {
+
+                const confirmLogout =
+                    confirm(
+                        "Are you sure you want to sign out all other devices?"
+                    );
+
+                if (confirmLogout) {
+
+                    alert(
+                        "All other active sessions have been signed out."
+                    );
+
+                }
+
+            });
+
+
+        /* =========================================================
+           DELETE ACCOUNT
+        ========================================================= */
+
+        document.getElementById("deleteAccountButton")
+            .addEventListener("click", function () {
+
+                const confirmDelete =
+                    confirm(
+                        "Are you sure you want to delete this account? This action cannot be undone."
+                    );
+
+                if (confirmDelete) {
+
+                    alert(
+                        "Account deletion requires administrator confirmation."
+                    );
+
+                }
+
+            });
+
     </script>
 
 </body>

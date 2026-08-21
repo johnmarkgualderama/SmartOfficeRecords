@@ -1,6 +1,6 @@
-﻿@{
-    ViewBag.Title = "Reports Management";
-    Layout = null;
+﻿﻿@{
+ViewBag.Title = "Audit Logs";
+Layout = null;
 }
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Reports Management</title>
+    <title>Audit Logs - SORS</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -20,7 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
           rel="stylesheet" />
 
-    <!-- Inter Font - SAME AS RECORDS -->
+    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet">
 
@@ -50,8 +50,8 @@
 
             .dashboard-container {
                 display: flex;
-                height: 100vh;
                 width: 100%;
+                height: 100vh;
             }
 
 
@@ -161,7 +161,7 @@
 
 
             /* =========================================================
-                               LOGO SECTION
+                               LOGO
                             ========================================================= */
 
             .logo-section {
@@ -249,8 +249,8 @@
                     color: #FFFFFF;
                     text-decoration: none;
                     display: flex;
-                    gap: 11px;
                     align-items: center;
+                    gap: 11px;
                     padding: 10px 11px;
                     font-size: 13px;
                     font-weight: 500;
@@ -264,7 +264,6 @@
 
                     .logout a:hover {
                         background: rgba(185,28,28,.18);
-                        color: #FFFFFF;
                     }
 
 
@@ -292,8 +291,8 @@
                 flex-shrink: 0;
                 border-bottom: 1px solid #E5E7EB;
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
+                justify-content: space-between;
                 padding: 0 20px;
                 background: #FFFFFF;
             }
@@ -312,10 +311,6 @@
                 cursor: pointer;
                 padding: 5px;
             }
-
-                .menu-toggle:hover {
-                    color: #991B1B;
-                }
 
 
             /* =========================================================
@@ -388,7 +383,6 @@
 
             /* =========================================================
                                CONTENT AREA
-                               SAME AS RECORDS
                             ========================================================= */
 
             .content-area {
@@ -416,13 +410,12 @@
 
             /* =========================================================
                                PAGE HEADER
-                               SAME AS RECORDS
                             ========================================================= */
 
             .page-header {
                 display: flex;
-                justify-content: space-between;
                 align-items: flex-start;
+                justify-content: space-between;
                 margin-bottom: 18px;
             }
 
@@ -446,13 +439,12 @@
 
             /* =========================================================
                                ACTION BAR
-                               SAME AS RECORDS
                             ========================================================= */
 
             .action-bar {
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
+                justify-content: space-between;
                 gap: 12px;
                 margin-bottom: 16px;
             }
@@ -461,13 +453,12 @@
                 display: flex;
                 align-items: center;
                 gap: 12px;
-                flex: 1;
+                width: 100%;
             }
 
 
             /* =========================================================
-                               SEARCH BOX
-                               SAME AS RECORDS
+                               SEARCH
                             ========================================================= */
 
             .search-box {
@@ -493,10 +484,10 @@
                     width: 100%;
                     border: none;
                     outline: none;
-                    font-size: 11px;
-                    color: #374151;
                     background: transparent;
+                    font-size: 11px;
                     font-weight: 400;
+                    color: #374151;
                 }
 
                     .search-box input::placeholder {
@@ -505,11 +496,35 @@
 
 
             /* =========================================================
+                               FILTERS
+                            ========================================================= */
+
+            .audit-filter {
+                width: 120px;
+                height: 36px;
+                background: #FFFFFF;
+                border: 1px solid #E5E7EB;
+                border-radius: 6px;
+                padding: 0 10px;
+                font-size: 11px;
+                font-weight: 500;
+                color: #374151;
+                outline: none;
+                cursor: pointer;
+            }
+
+                .audit-filter:focus {
+                    border-color: #B91C1C;
+                    box-shadow: 0 0 0 2px rgba(185,28,28,.08);
+                }
+
+
+            /* =========================================================
                                TABLE CONTAINER
-                               SAME AS RECORDS
                             ========================================================= */
 
             .table-container {
+                width: 100%;
                 background: #FFFFFF;
                 border: 1px solid #D9DDE3;
                 border-radius: 8px;
@@ -533,14 +548,14 @@
 
 
             /* =========================================================
-                               REPORT TABLE
-                               SAME WIDTH / SIZE / ALIGNMENT AS RECORDS
+                               AUDIT TABLE
                             ========================================================= */
 
-            .report-table {
+            .audit-table {
                 width: 100%;
-                min-width: 900px;
+                min-width: 1000px;
                 border-collapse: collapse;
+                border-spacing: 0;
                 margin: 0;
                 table-layout: fixed;
             }
@@ -548,184 +563,287 @@
 
                 /* =========================================================
                                COLUMN WIDTHS
-                               REPORT ID | REPORT TYPE | DATE GENERATED | GENERATED BY | ACTION
                             ========================================================= */
 
-                .report-table th:nth-child(1),
-                .report-table td:nth-child(1) {
+                /* DATE & TIME */
+                .audit-table th:nth-child(1),
+                .audit-table td:nth-child(1) {
+                    width: 18%;
+                }
+
+                /* USERS */
+                .audit-table th:nth-child(2),
+                .audit-table td:nth-child(2) {
+                    width: 15%;
+                }
+
+                /* ROLE */
+                .audit-table th:nth-child(3),
+                .audit-table td:nth-child(3) {
                     width: 12%;
                 }
 
-                .report-table th:nth-child(2),
-                .report-table td:nth-child(2) {
-                    width: 22%;
+                /* ACTIVITY */
+                .audit-table th:nth-child(4),
+                .audit-table td:nth-child(4) {
+                    width: 27%;
                 }
 
-                .report-table th:nth-child(3),
-                .report-table td:nth-child(3) {
-                    width: 20%;
+                /* MODULE */
+                .audit-table th:nth-child(5),
+                .audit-table td:nth-child(5) {
+                    width: 13%;
                 }
 
-                .report-table th:nth-child(4),
-                .report-table td:nth-child(4) {
-                    width: 26%;
-                }
-
-                .report-table th:nth-child(5),
-                .report-table td:nth-child(5) {
-                    width: 20%;
+                /* STATUS */
+                .audit-table th:nth-child(6),
+                .audit-table td:nth-child(6) {
+                    width: 15%;
                 }
 
 
                 /* =========================================================
                                TABLE HEADER
-                               SAME AS RECORDS
                             ========================================================= */
 
-                .report-table thead {
+                .audit-table thead {
                     background: #111111;
                 }
 
-                .report-table th {
+                .audit-table th {
                     height: 40px;
-                    padding: 0 12px;
+                    padding: 0 14px;
+                    background: #111111;
+                    color: #FFFFFF;
+                    border-bottom: 1px solid #111111;
                     font-size: 10px;
                     font-weight: 700;
-                    color: #FFFFFF;
-                    background: #111111;
-                    border-bottom: 1px solid #111111;
-                    white-space: nowrap;
                     letter-spacing: .15px;
                     vertical-align: middle;
+                    white-space: nowrap;
                 }
 
 
                     /* =========================================================
                                HEADER ALIGNMENT
+                               DATE & TIME SAME AS REPORTS DATE GENERATED
                             ========================================================= */
 
-                    .report-table th:nth-child(1) {
+                    .audit-table th:nth-child(1) {
                         text-align: center;
                     }
 
-                    .report-table th:nth-child(2),
-                    .report-table th:nth-child(3) {
+                    .audit-table th:nth-child(2),
+                    .audit-table th:nth-child(3),
+                    .audit-table th:nth-child(4) {
                         text-align: left;
                     }
 
-                    .report-table th:nth-child(4) {
-                        text-align: left;
-                    }
-
-                    .report-table th:nth-child(5) {
+                    .audit-table th:nth-child(5),
+                    .audit-table th:nth-child(6) {
                         text-align: center;
                     }
 
 
                 /* =========================================================
                                TABLE BODY
-                               SAME AS RECORDS
                             ========================================================= */
 
-                .report-table td {
+                .audit-table td {
                     height: 42px;
-                    padding: 0 12px;
+                    padding: 0 14px;
+                    background: #FFFFFF;
+                    color: #374151;
+                    border-bottom: 1px solid #E5E7EB;
                     font-size: 10px;
                     font-weight: 500;
-                    color: #374151;
-                    background: #FFFFFF;
-                    border-bottom: 1px solid #E5E7EB;
-                    white-space: nowrap;
                     vertical-align: middle;
+                    white-space: nowrap;
                 }
 
 
                     /* =========================================================
                                BODY ALIGNMENT
+                               DATE & TIME SAME AS REPORTS DATE GENERATED
                             ========================================================= */
 
-                    .report-table td:nth-child(1) {
+                    .audit-table td:nth-child(1) {
                         text-align: center;
-                        font-weight: 600;
                         color: #4B5563;
+                        font-weight: 500;
                     }
 
-                    .report-table td:nth-child(2),
-                    .report-table td:nth-child(3) {
+                    .audit-table td:nth-child(2),
+                    .audit-table td:nth-child(3),
+                    .audit-table td:nth-child(4) {
                         text-align: left;
                     }
 
-                    .report-table td:nth-child(4) {
-                        text-align: left;
-                    }
-
-                    .report-table td:nth-child(5) {
+                    .audit-table td:nth-child(5),
+                    .audit-table td:nth-child(6) {
                         text-align: center;
                     }
 
 
-                /* =========================================================
-                               HOVER
-                               SAME AS RECORDS
+            /* =========================================================
+                               DATE & TIME COLUMN
                             ========================================================= */
 
-                .report-table tbody tr:hover td {
-                    background: #FEF2F2;
+            .date-column {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                min-height: 42px;
+                line-height: 1.25;
+                text-align: center;
+            }
+
+                .date-column > span:first-child {
+                    display: block;
+                    text-align: center;
                 }
 
-                .report-table tbody tr:last-child td {
-                    border-bottom: none;
+                .date-column .time {
+                    display: block;
+                    margin-top: 3px;
+                    color: #6B7280;
+                    font-size: 9px;
+                    font-weight: 400;
+                    text-align: center;
                 }
 
 
             /* =========================================================
-                               REPORT ACTIONS
-                               SAME ALIGNMENT AS RECORDS ACTIONS
+                               ROLE COLUMN
                             ========================================================= */
 
-            .report-actions {
-                display: flex;
+            .audit-table td:nth-child(3) {
+                vertical-align: middle;
+            }
+
+            .role-badge {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 70px;
+                min-width: 70px;
+                height: 23px;
+                padding: 0 9px;
+                border-radius: 5px;
+                font-size: 9px;
+                font-weight: 600;
+                line-height: 1;
+                white-space: nowrap;
+            }
+
+            .role-admin {
+                background: #FEE2E2;
+                color: #B91C1C;
+            }
+
+            .role-staff {
+                background: #F3F4F6;
+                color: #374151;
+            }
+
+
+            /* =========================================================
+                               STATUS COLUMN
+                            ========================================================= */
+
+            .audit-table td:nth-child(6) {
+                vertical-align: middle;
+            }
+
+            .success-badge,
+            .failed-badge {
+                display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 gap: 5px;
-                width: 100%;
-            }
-
-            .view-action {
-                width: 28px;
-                height: 28px;
-                border: none;
+                width: 70px;
+                min-width: 70px;
+                height: 23px;
+                padding: 0 9px;
                 border-radius: 5px;
-                background: transparent;
-                color: #374151;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all .2s ease;
+                font-size: 9px;
+                font-weight: 600;
+                line-height: 1;
+                white-space: nowrap;
             }
 
-                .view-action i {
-                    font-size: 12px;
+
+            /* =========================================================
+                               SUCCESS
+                            ========================================================= */
+
+            .success-badge {
+                background: #DCFCE7;
+                color: #15803D;
+            }
+
+                .success-badge::before {
+                    content: "";
+                    width: 5px;
+                    height: 5px;
+                    background: #15803D;
+                    border-radius: 50%;
                 }
 
-                .view-action:hover {
-                    background: #DBEAFE;
-                    color: #2563EB;
+
+            /* =========================================================
+                               FAILED
+                            ========================================================= */
+
+            .failed-badge {
+                background: #FEE2E2;
+                color: #B91C1C;
+            }
+
+                .failed-badge::before {
+                    content: "";
+                    width: 5px;
+                    height: 5px;
+                    background: #B91C1C;
+                    border-radius: 50%;
                 }
+
+
+            /* =========================================================
+                               ACTIVITY COLUMN
+                            ========================================================= */
+
+            .audit-table td:nth-child(4) {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+
+            /* =========================================================
+                               HOVER
+                            ========================================================= */
+
+            .audit-table tbody tr:hover td {
+                background: #FEF2F2;
+            }
+
+            .audit-table tbody tr:last-child td {
+                border-bottom: none;
+            }
 
 
             /* =========================================================
                                PAGINATION
-                               SAME AS RECORDS
                             ========================================================= */
 
             .pagination-section {
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
-                margin-top: 18px;
+                justify-content: space-between;
                 width: 100%;
+                margin-top: 18px;
             }
 
             .showing-text {
@@ -747,8 +865,8 @@
                 background: #FFFFFF;
                 border-radius: 5px;
                 display: flex;
-                justify-content: center;
                 align-items: center;
+                justify-content: center;
                 color: #6B7280;
                 font-size: 9px;
                 font-weight: 500;
@@ -790,6 +908,10 @@
 
                 .search-box {
                     max-width: none;
+                }
+
+                .audit-filter {
+                    width: 160px;
                 }
             }
 
@@ -864,12 +986,17 @@
                     max-width: none;
                 }
 
+                .audit-filter {
+                    width: 100%;
+                }
+
                 .table-container {
+                    width: 100%;
                     overflow-x: auto;
                 }
 
-                .report-table {
-                    min-width: 900px;
+                .audit-table {
+                    min-width: 1000px;
                 }
 
                 .pagination-section {
@@ -898,24 +1025,20 @@
                     padding: 12px;
                 }
             }
+
     </style>
 
 </head>
 
-
 <body>
 
     <div class="dashboard-container">
-
 
         <!-- =====================================================
              SIDEBAR
         ====================================================== -->
 
         <aside class="sidebar">
-
-
-            <!-- LOGO -->
 
             <div class="logo-section">
 
@@ -934,12 +1057,7 @@
             </div>
 
 
-            <!-- MENU -->
-
             <div class="menu">
-
-
-                <!-- DASHBOARD -->
 
                 <a href="@Url.Action("Dashboard", "Admin")">
 
@@ -952,8 +1070,6 @@
                 </a>
 
 
-                <!-- REQUEST -->
-
                 <a href="@Url.Action("RequestManagement", "Admin")">
 
                     <i class="bi bi-file-earmark-text"></i>
@@ -964,8 +1080,6 @@
 
                 </a>
 
-
-                <!-- RECORDS -->
 
                 <a href="@Url.Action("RecordsManagement", "Admin")">
 
@@ -978,10 +1092,7 @@
                 </a>
 
 
-                <!-- REPORTS - ACTIVE -->
-
-                <a href="@Url.Action("ReportsManagement", "Admin")"
-                   class="active">
+                <a href="@Url.Action("ReportsManagement", "Admin")">
 
                     <i class="bi bi-file-earmark-bar-graph"></i>
 
@@ -992,15 +1103,17 @@
                 </a>
 
 
-                <!-- AUDIT LOGS -->
+                <a href="@Url.Action("AuditLogs", "Admin")"
+                   class="active">
 
-                <a href="@Url.Action("AuditLogs", "Admin")">
                     <i class="bi bi-clock-history"></i>
-                    <span>Audit Logs</span>
+
+                    <span>
+                        Audit Logs
+                    </span>
+
                 </a>
 
-
-                <!-- USERS -->
 
                 <a href="@Url.Action("UsersManagement", "Admin")">
 
@@ -1013,8 +1126,6 @@
                 </a>
 
 
-                <!-- SETTINGS -->
-
                 <a href="@Url.Action("Settings", "Admin")">
 
                     <i class="bi bi-gear-fill"></i>
@@ -1025,11 +1136,8 @@
 
                 </a>
 
-
             </div>
 
-
-            <!-- LOGOUT -->
 
             <div class="logout">
 
@@ -1044,7 +1152,6 @@
                 </a>
 
             </div>
-
 
         </aside>
 
@@ -1062,9 +1169,6 @@
 
             <div class="topbar">
 
-
-                <!-- LEFT -->
-
                 <div class="topbar-left">
 
                     <button class="menu-toggle"
@@ -1078,17 +1182,10 @@
                 </div>
 
 
-                <!-- RIGHT -->
-
                 <div class="topbar-right">
-
-
-                    <!-- NOTIFICATION -->
 
                     <i class="bi bi-bell notification-icon"></i>
 
-
-                    <!-- PROFILE -->
 
                     <div class="profile">
 
@@ -1117,26 +1214,24 @@
 
 
             <!-- =================================================
-                 CONTENT
+                 CONTENT AREA
             ================================================== -->
 
             <div class="content-area">
 
 
-                <!-- =================================================
-                     PAGE HEADER
-                ================================================== -->
+                <!-- PAGE HEADER -->
 
                 <div class="page-header">
 
                     <div>
 
                         <h2 class="page-title">
-                            Reports
+                            Audit Logs
                         </h2>
 
                         <p class="page-description">
-                            Here's what's happening with your interviews and records today.
+                            View a record of activities performed by users in the system.
                         </p>
 
                     </div>
@@ -1145,7 +1240,7 @@
 
 
                 <!-- =================================================
-                     SEARCH
+                     ACTION BAR
                 ================================================== -->
 
                 <div class="action-bar">
@@ -1157,10 +1252,58 @@
                             <i class="bi bi-search"></i>
 
                             <input type="text"
-                                   id="reportSearch"
+                                   id="auditSearch"
                                    placeholder="Search users or activity..." />
 
                         </div>
+
+
+                        <select class="audit-filter"
+                                id="moduleFilter">
+
+                            <option value="">
+                                All Modules
+                            </option>
+
+                            <option value="Login">
+                                Login
+                            </option>
+
+                            <option value="Request">
+                                Request
+                            </option>
+
+                            <option value="Records">
+                                Records
+                            </option>
+
+                            <option value="Reports">
+                                Reports
+                            </option>
+
+                            <option value="Users">
+                                Users
+                            </option>
+
+                        </select>
+
+
+                        <select class="audit-filter"
+                                id="statusFilter">
+
+                            <option value="">
+                                All Status
+                            </option>
+
+                            <option value="Success">
+                                Success
+                            </option>
+
+                            <option value="Failed">
+                                Failed
+                            </option>
+
+                        </select>
 
                     </div>
 
@@ -1168,35 +1311,39 @@
 
 
                 <!-- =================================================
-                     REPORT TABLE
+                     TABLE
                 ================================================== -->
 
                 <div class="table-container">
 
-                    <table class="report-table">
+                    <table class="audit-table">
 
                         <thead>
 
                             <tr>
 
                                 <th>
-                                    REPORT ID
+                                    DATE & TIME
                                 </th>
 
                                 <th>
-                                    REPORT TYPE
+                                    USERS
                                 </th>
 
                                 <th>
-                                    DATE GENERATED
+                                    ROLE
                                 </th>
 
                                 <th>
-                                    GENERATED BY
+                                    ACTIVITY
                                 </th>
 
                                 <th>
-                                    ACTION
+                                    MODULE
+                                </th>
+
+                                <th>
+                                    STATUS
                                 </th>
 
                             </tr>
@@ -1204,198 +1351,156 @@
                         </thead>
 
 
-                        <tbody id="reportTableBody">
+                        <tbody id="auditTableBody">
 
 
-                            <!-- REPORT 1 -->
+                            <!-- ROW 1 -->
 
                             <tr>
 
                                 <td>
-                                    RP0001
-                                </td>
 
-                                <td>
-                                    Request Summary
-                                </td>
+                                    <div class="date-column">
 
-                                <td>
-                                    Apr 24, 2026
-                                </td>
+                                        <span>
+                                            August 01, 2026
+                                        </span>
 
-                                <td>
-                                    John Cruz
-                                </td>
-
-                                <td>
-
-                                    <div class="report-actions">
-
-                                        <button class="view-action"
-                                                type="button"
-                                                title="View Report">
-
-                                            <i class="bi bi-eye"></i>
-
-                                        </button>
+                                        <span class="time">
+                                            09:00:15 AM
+                                        </span>
 
                                     </div>
+
+                                </td>
+
+                                <td>
+                                    Admin User
+                                </td>
+
+                                <td>
+
+                                    <span class="role-badge role-admin">
+                                        Admin
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    Logged in to the system.
+                                </td>
+
+                                <td>
+                                    Login
+                                </td>
+
+                                <td>
+
+                                    <span class="success-badge">
+                                        Success
+                                    </span>
 
                                 </td>
 
                             </tr>
 
 
-                            <!-- REPORT 2 -->
+                            <!-- ROW 2 -->
 
                             <tr>
 
                                 <td>
-                                    RP0002
-                                </td>
 
-                                <td>
-                                    Document
-                                </td>
+                                    <div class="date-column">
 
-                                <td>
-                                    Apr 24, 2026
-                                </td>
+                                        <span>
+                                            August 01, 2026
+                                        </span>
 
-                                <td>
-                                    John Cruz
-                                </td>
-
-                                <td>
-
-                                    <div class="report-actions">
-
-                                        <button class="view-action"
-                                                type="button"
-                                                title="View Report">
-
-                                            <i class="bi bi-eye"></i>
-
-                                        </button>
+                                        <span class="time">
+                                            09:15:25 AM
+                                        </span>
 
                                     </div>
+
+                                </td>
+
+                                <td>
+                                    Staff User
+                                </td>
+
+                                <td>
+
+                                    <span class="role-badge role-staff">
+                                        Staff
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    Approved request #02
+                                </td>
+
+                                <td>
+                                    Request
+                                </td>
+
+                                <td>
+
+                                    <span class="success-badge">
+                                        Success
+                                    </span>
 
                                 </td>
 
                             </tr>
 
 
-                            <!-- REPORT 3 -->
+                            <!-- ROW 3 -->
 
                             <tr>
 
                                 <td>
-                                    RP0003
-                                </td>
 
-                                <td>
-                                    Document
-                                </td>
+                                    <div class="date-column">
 
-                                <td>
-                                    Apr 24, 2026
-                                </td>
+                                        <span>
+                                            August 01, 2026
+                                        </span>
 
-                                <td>
-                                    John Cruz
-                                </td>
-
-                                <td>
-
-                                    <div class="report-actions">
-
-                                        <button class="view-action"
-                                                type="button"
-                                                title="View Report">
-
-                                            <i class="bi bi-eye"></i>
-
-                                        </button>
+                                        <span class="time">
+                                            10:20:10 AM
+                                        </span>
 
                                     </div>
 
                                 </td>
 
-                            </tr>
-
-
-                            <!-- REPORT 4 -->
-
-                            <tr>
-
                                 <td>
-                                    RP0004
-                                </td>
-
-                                <td>
-                                    Document
-                                </td>
-
-                                <td>
-                                    Apr 24, 2026
-                                </td>
-
-                                <td>
-                                    John Cruz
+                                    Admin User
                                 </td>
 
                                 <td>
 
-                                    <div class="report-actions">
-
-                                        <button class="view-action"
-                                                type="button"
-                                                title="View Report">
-
-                                            <i class="bi bi-eye"></i>
-
-                                        </button>
-
-                                    </div>
+                                    <span class="role-badge role-admin">
+                                        Admin
+                                    </span>
 
                                 </td>
 
-                            </tr>
-
-
-                            <!-- REPORT 5 -->
-
-                            <tr>
-
                                 <td>
-                                    RP0005
+                                    Uploaded office record.
                                 </td>
 
                                 <td>
-                                    Document
-                                </td>
-
-                                <td>
-                                    Apr 24, 2026
-                                </td>
-
-                                <td>
-                                    John Cruz
+                                    Records
                                 </td>
 
                                 <td>
 
-                                    <div class="report-actions">
-
-                                        <button class="view-action"
-                                                type="button"
-                                                title="View Report">
-
-                                            <i class="bi bi-eye"></i>
-
-                                        </button>
-
-                                    </div>
+                                    <span class="success-badge">
+                                        Success
+                                    </span>
 
                                 </td>
 
@@ -1415,33 +1520,33 @@
 
                 <div class="pagination-section">
 
-
                     <div class="showing-text"
                          id="showingText">
 
-                        Showing 1 to 5 users
+                        Showing 1 to 3 logs
 
                     </div>
 
 
                     <div class="pagination-buttons">
 
-                        <button class="pagination-btn next-btn"
-                                type="button">
-
-                            Next
-
-                        </button>
-
                         <button class="pagination-btn"
+                                id="previousBtn"
                                 type="button">
 
                             Previous
 
                         </button>
 
-                    </div>
+                        <button class="pagination-btn next-btn"
+                                id="nextBtn"
+                                type="button">
 
+                            Next
+
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -1478,26 +1583,38 @@
 
 
             /* =========================================================
-               REPORT SEARCH
+               AUDIT SEARCH + FILTER
             ========================================================= */
 
-            const reportSearch =
-                document.getElementById('reportSearch');
+            const auditSearch =
+                document.getElementById('auditSearch');
 
-            const reportTableBody =
-                document.getElementById('reportTableBody');
+            const moduleFilter =
+                document.getElementById('moduleFilter');
+
+            const statusFilter =
+                document.getElementById('statusFilter');
+
+            const auditTableBody =
+                document.getElementById('auditTableBody');
 
             const showingText =
                 document.getElementById('showingText');
 
 
-            reportSearch.addEventListener('input', function () {
+            function filterAuditLogs() {
 
                 const searchValue =
-                    this.value.toLowerCase().trim();
+                    auditSearch.value.toLowerCase().trim();
+
+                const selectedModule =
+                    moduleFilter.value.toLowerCase();
+
+                const selectedStatus =
+                    statusFilter.value.toLowerCase();
 
                 const rows =
-                    reportTableBody.querySelectorAll('tr');
+                    auditTableBody.querySelectorAll('tr');
 
                 let visibleCount = 0;
 
@@ -1507,7 +1624,36 @@
                     const rowText =
                         row.textContent.toLowerCase();
 
-                    if (rowText.includes(searchValue)) {
+                    const module =
+                        row.children[4]
+                            .textContent
+                            .toLowerCase()
+                            .trim();
+
+                    const status =
+                        row.children[5]
+                            .textContent
+                            .toLowerCase()
+                            .trim();
+
+
+                    const matchesSearch =
+                        rowText.includes(searchValue);
+
+                    const matchesModule =
+                        selectedModule === '' ||
+                        module === selectedModule;
+
+                    const matchesStatus =
+                        selectedStatus === '' ||
+                        status.includes(selectedStatus);
+
+
+                    if (
+                        matchesSearch &&
+                        matchesModule &&
+                        matchesStatus
+                    ) {
 
                         row.style.display = '';
 
@@ -1523,23 +1669,60 @@
                 });
 
 
-                if (searchValue === '') {
+                if (
+                    searchValue === '' &&
+                    selectedModule === '' &&
+                    selectedStatus === ''
+                ) {
 
                     showingText.textContent =
-                        'Showing 1 to ' + rows.length + ' users';
+                        'Showing 1 to ' +
+                        rows.length +
+                        ' logs';
 
                 }
                 else {
 
                     showingText.textContent =
-                        'Showing ' + visibleCount + ' users';
+                        'Showing ' +
+                        visibleCount +
+                        ' logs';
 
                 }
 
-            });
+            }
+
+
+            /* =========================================================
+               SEARCH EVENT
+            ========================================================= */
+
+            auditSearch.addEventListener(
+                'input',
+                filterAuditLogs
+            );
+
+
+            /* =========================================================
+               MODULE EVENT
+            ========================================================= */
+
+            moduleFilter.addEventListener(
+                'change',
+                filterAuditLogs
+            );
+
+
+            /* =========================================================
+               STATUS EVENT
+            ========================================================= */
+
+            statusFilter.addEventListener(
+                'change',
+                filterAuditLogs
+            );
 
     </script>
-
 
 </body>
 </html>

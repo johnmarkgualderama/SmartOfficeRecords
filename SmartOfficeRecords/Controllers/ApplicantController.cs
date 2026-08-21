@@ -119,7 +119,7 @@ namespace SmartOfficeRecords.Controllers
 
             // ----- STEP 3: SAVE THE PROFILE IMAGE -----
 
-            string savedFileName = null;
+            string? savedFileName = null;
 
             if (ProfileImage != null && ProfileImage.Length > 0)
             {
@@ -175,11 +175,20 @@ namespace SmartOfficeRecords.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Something went wrong while saving: " + ex.Message;
+                var innerMessage = ex.InnerException?.Message ?? ex.Message;
+                ViewBag.Error = "Something went wrong while saving: " + innerMessage;
                 return View();
             }
         }
-
+        private static string GetTimeAgo(DateTime dateTime)
+        {
+            var span = DateTime.Now - dateTime;
+            if (span.TotalMinutes < 1) return "Just now";
+            if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} minutes ago";
+            if (span.TotalHours < 24) return $"{(int)span.TotalHours} hours ago";
+            if (span.TotalDays < 30) return $"{(int)span.TotalDays} days ago";
+            return dateTime.ToString("MMM dd, yyyy");
+        }
         // Simple, dependency-free password hashing using SHA256.
         // (For production-grade security, consider BCrypt.Net-Next instead —
         // it's slower on purpose, which makes brute-forcing harder.)
@@ -209,6 +218,60 @@ namespace SmartOfficeRecords.Controllers
                 return RedirectToAction("ApplicantLogin");
 
             ViewBag.Success = TempData["Success"];
+
+            int applicantId = HttpContext.Session.GetInt32("ApplicantId")!.Value;
+            var today = DateTime.Today;
+
+            var currentRequest = _context.Appointments
+                .Where(a => a.ApplicantId == applicantId
+                         && a.Status == "Approved"
+                         && a.AppointmentDate.Date == today)
+                .OrderByDescending(a => a.DateRequested)
+                .FirstOrDefault();
+
+            if (currentRequest != null)
+            {
+                var sameDayAppointmentIds = _context.Appointments
+                    .Where(a => a.DateRequested.Date == currentRequest.DateRequested.Date)
+                    .OrderBy(a => a.DateRequested)
+                    .Select(a => a.AppointmentId)
+                    .ToList();
+
+                int position = sameDayAppointmentIds.IndexOf(currentRequest.AppointmentId) + 1;
+
+                ViewBag.HasCurrentRequest = true;
+                ViewBag.CurrentServiceId = "AP" + position.ToString("D3");
+                ViewBag.CurrentPurpose = currentRequest.Purpose;
+                ViewBag.CurrentDateSubmitted = currentRequest.DateRequested.ToString("MMMM dd, yyyy");
+
+                // ----- SEND "TODAY" REMINDER, ONCE PER DAY -----
+                bool alreadyNotifiedToday = _context.Notifications.Any(n =>
+                    n.AppointmentId == currentRequest.AppointmentId &&
+                    n.Type == "TodayReminder" &&
+                    n.DateCreated.Date == today);
+
+                if (!alreadyNotifiedToday)
+                {
+                    var applicant = _context.ApplicantRegisters.Find(applicantId);
+                    if (applicant != null)
+                    {
+                        CreateNotificationAndEmail(
+                            applicantId,
+                            currentRequest.AppointmentId,
+                            "TodayReminder",
+                            "Appointment Today",
+                            $"Reminder: Your appointment for \"{currentRequest.Purpose}\" is scheduled for today.",
+                            applicant.Email,
+                            "Reminder: Your SORS Appointment Is Today",
+                            $"<p>Hi {applicant.FullName},</p><p>This is a reminder that your appointment for <strong>{currentRequest.Purpose}</strong> is scheduled for <strong>today</strong>. Please make sure to be on time.</p>"
+                        );
+                    }
+                }
+            }
+            else
+            {
+                ViewBag.HasCurrentRequest = false;
+            }
 
             return View();
         }
@@ -353,7 +416,7 @@ namespace SmartOfficeRecords.Controllers
         [HttpPost]
         public ActionResult VerifyResetCode(string Code)
         {
-            string email = TempData["ResetEmail"] as string;
+            string? email = TempData["ResetEmail"] as string;
 
             if (email == null)
             {
@@ -395,7 +458,7 @@ namespace SmartOfficeRecords.Controllers
         [HttpPost]
         public ActionResult ResetPassword(string NewPassword, string ConfirmPassword)
         {
-            string email = TempData["ResetEmail"] as string;
+            string? email = TempData["ResetEmail"] as string;
 
             if (email == null)
             {
@@ -488,6 +551,76 @@ namespace SmartOfficeRecords.Controllers
             return true;
         }
 
+        // ================== NOTIFICATIONS ==================
+        // Mirrors AdminController.NotifyApplicant — logs a Notification row
+        // and sends the matching email, if an address is available.
+        private void CreateNotificationAndEmail(int applicantId, int appointmentId, string type, string title, string message, string toEmail, string emailSubject, string emailBody)
+        {
+            _context.Notifications.Add(new Notification
+            {
+                ApplicantId = applicantId,
+                AppointmentId = appointmentId,
+                Title = title,
+                Message = message,
+                Type = type,
+                IsRead = false,
+                DateCreated = DateTime.Now
+            });  
+            _context.SaveChanges();
+
+            if (!string.IsNullOrWhiteSpace(toEmail))
+            {
+                _emailService.SendEmail(toEmail, emailSubject, emailBody);
+            }
+        }
+
+        // GET: Applicant/GetNotifications — powers the bell dropdown
+        [HttpGet]
+        public JsonResult GetNotifications()
+        {
+            int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
+            if (applicantId == null)
+                return Json(new { success = false });
+
+            // STEP 1: pull raw rows from the DB first (no method calls in here)
+            var rawNotifications = _context.Notifications
+                .Where(n => n.ApplicantId == applicantId)
+                .OrderByDescending(n => n.DateCreated)
+                .Take(10)
+                .ToList();
+
+            // STEP 2: now that it's in memory, GetTimeAgo is just plain C# — safe to call
+            var notifications = rawNotifications
+                .Select(n => new
+                {
+                    n.NotificationId,
+                    n.Title,
+                    n.Message,
+                    n.Type,
+                    n.IsRead,
+                    TimeAgo = GetTimeAgo(n.DateCreated)
+                })
+                .ToList();
+
+            int unreadCount = _context.Notifications.Count(n => n.ApplicantId == applicantId && !n.IsRead);
+
+            return Json(new { success = true, notifications, unreadCount });
+        }
+
+        // POST: Applicant/MarkAllNotificationsRead
+        [HttpPost]
+        public JsonResult MarkAllNotificationsRead()
+        {
+            int? applicantId = HttpContext.Session.GetInt32("ApplicantId");
+            if (applicantId == null)
+                return Json(new { success = false });
+
+            var unread = _context.Notifications.Where(n => n.ApplicantId == applicantId && !n.IsRead).ToList();
+            foreach (var n in unread) n.IsRead = true;
+            _context.SaveChanges();
+
+            return Json(new { success = true });
+        }
 
         // POST: Applicant/BookAppointment
         [HttpPost]
@@ -546,6 +679,17 @@ namespace SmartOfficeRecords.Controllers
 
             _context.Appointments.Add(newAppointment);
             _context.SaveChanges();
+
+            CreateNotificationAndEmail(
+                applicantId.Value,
+                newAppointment.AppointmentId,
+                "Submitted",
+                "Appointment Request Submitted",
+                $"Your request for \"{Purpose}\" has been submitted and is under review.",
+                applicant.Email,
+                "Your SORS Appointment Request Was Received",
+                $"<p>Hi {applicant.FullName},</p><p>We've received your appointment request for <strong>{Purpose}</strong> on {parsedDate:MMM dd, yyyy}. You'll be notified once it's reviewed.</p>"
+            );
 
             ViewBag.Success = "Appointment request submitted!";
             return RedirectToAction("MyAppointment");
@@ -707,6 +851,17 @@ namespace SmartOfficeRecords.Controllers
 
             _context.Appointments.Add(newAppointment);
             _context.SaveChanges();
+
+            CreateNotificationAndEmail(
+                applicantId,
+                newAppointment.AppointmentId,
+                "Submitted",
+                "Interview Request Submitted",
+                "Your interview request has been submitted and is under review.",
+                EmailAddress,
+                "Your SORS Interview Request Was Received",
+                $"<p>Hi {FullName},</p><p>We've received your interview request for {parsedDate:MMM dd, yyyy} at {parsedTime:hh\\:mm}. You'll be notified once it's reviewed.</p>"
+            );
 
             TempData["Success"] = "Interview booking submitted successfully!";
             return RedirectToAction("MyAppointment");

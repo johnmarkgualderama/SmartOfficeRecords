@@ -2,35 +2,34 @@
 using Microsoft.EntityFrameworkCore;
 using SmartOfficeRecords.Data;
 using SmartOfficeRecords.Models;
+using SmartOfficeRecords.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-
 namespace SmartOfficeRecords.Controllers
 {
     public class AdminController : Controller
     {
-        // EF Core gives us access to the database through this object.
         private readonly ApplicationDbContext _context;
+        private readonly EmailService _emailService;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         // ================== LOGIN ==================
 
-        // GET: Admin/Login
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
-        // POST: Admin/Login
         [HttpPost]
         public ActionResult Login(string Username, string Password)
         {
@@ -40,19 +39,26 @@ namespace SmartOfficeRecords.Controllers
                 return View();
             }
 
-            // Hash whatever was typed, the SAME way we hashed it when we seeded the account
             string hashedPassword = HashPassword(Password);
 
-              var admin = _context.Admins
+            var admin = _context.Admins
                 .FirstOrDefault(a => a.Username == Username && a.Password == hashedPassword);
 
             if (admin == null)
             {
                 ViewBag.Error = "Invalid Username or Password";
                 return View();
-            }  
+            }
 
-            // Store identifying info in session so other Admin pages know who's logged in
+            if (!admin.IsActive)
+            {
+                ViewBag.Error = "This account has been deactivated. Contact an administrator.";
+                return View();
+            }
+
+            admin.LastLogin = DateTime.Now;
+            _context.SaveChanges();
+
             HttpContext.Session.SetInt32("AdminId", admin.AdminId);
             HttpContext.Session.SetString("AdminName", admin.FullName);
             HttpContext.Session.SetString("AdminUsername", admin.Username);
@@ -60,17 +66,13 @@ namespace SmartOfficeRecords.Controllers
             return RedirectToAction("Dashboard");
         }
 
-        // GET: Admin/Logout
         public ActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 
-
         // ================== DASHBOARD & PAGES ==================
-        // Each of these checks the session first — if there's no AdminId,
-        // the user never logged in, so we bounce them back to the login page.
 
         public IActionResult Dashboard()
         {
@@ -79,7 +81,6 @@ namespace SmartOfficeRecords.Controllers
 
             var today = DateTime.Today;
 
-            // ----- TODAY'S APPOINTMENTS (single source of truth for cards, popups, and Recent Applicants) -----
             var todaysAppointmentsRaw = _context.Appointments
                 .Include(a => a.Applicant)
                 .Where(a => a.DateRequested.Date == today)
@@ -106,7 +107,6 @@ namespace SmartOfficeRecords.Controllers
 
             ViewBag.PendingApplicants = pendingApplicants;
 
-            // ----- DAILY-RESET DISPLAY IDS (same scheme as Request Management) -----
             var displayIdMap = new Dictionary<int, string>();
             var orderedForNumbering = todaysAppointmentsRaw.OrderBy(a => a.DateRequested).ToList();
             for (int i = 0; i < orderedForNumbering.Count; i++)
@@ -114,24 +114,22 @@ namespace SmartOfficeRecords.Controllers
                 displayIdMap[orderedForNumbering[i].AppointmentId] = "AP" + (i + 1).ToString("D3");
             }
 
-            // Cycled colors for the avatar circles in the popup tables
             string[] avatarColors = { "#B91C1C", "#111827", "#0EA5A0", "#7C3AED", "#F59E0B", "#2563EB" };
 
             ViewBag.TodayApplicants = todaysAppointmentsRaw
-            .Select((a, index) => new
-            {
-                a.AppointmentId,
-                DisplayId = displayIdMap.ContainsKey(a.AppointmentId) ? displayIdMap[a.AppointmentId] : "AP000",
-                ApplicantName = a.Applicant!.FullName,
-                ApplicantEmail = a.Applicant!.Email,
-                DateAppliedFormatted = a.DateRequested.ToString("MMM dd, yyyy"),
-                a.Status,
-                Initials = GetInitials(a.Applicant!.FullName),
-                AvatarColor = avatarColors[index % avatarColors.Length]
-            })
-            .ToList();
+                .Select((a, index) => new
+                {
+                    a.AppointmentId,
+                    DisplayId = displayIdMap.ContainsKey(a.AppointmentId) ? displayIdMap[a.AppointmentId] : "AP000",
+                    ApplicantName = a.Applicant!.FullName,
+                    ApplicantEmail = a.Applicant!.Email,
+                    DateAppliedFormatted = a.DateRequested.ToString("MMM dd, yyyy"),
+                    a.Status,
+                    Initials = GetInitials(a.Applicant!.FullName),
+                    AvatarColor = avatarColors[index % avatarColors.Length]
+                })
+                .ToList();
 
-            // ----- DAILY-RESET DISPLAY IDS FOR RECENT APPLICANTS (ordered by approval time) -----
             var approvedTodayOrdered = todaysAppointmentsRaw
                 .Where(a => a.DateApproved != null && a.DateApproved.Value.Date == today)
                 .OrderBy(a => a.DateApproved)
@@ -143,9 +141,6 @@ namespace SmartOfficeRecords.Controllers
                 approvalDisplayIdMap[approvedTodayOrdered[i].AppointmentId] = "AP" + (i + 1).ToString("D3");
             }
 
-            // Recent Applicants table shows Approved and Completed, numbered by
-            // approval order (not submission order) so whoever was approved first
-            // today shows as AP001 regardless of their Request Management ID.
             ViewBag.RecentApplicants = todaysAppointmentsRaw
                 .Where(a => a.Status == "Approved" || a.Status == "Completed")
                 .OrderBy(a => a.DateApproved ?? a.DateRequested)
@@ -158,7 +153,6 @@ namespace SmartOfficeRecords.Controllers
                 })
                 .ToList();
 
-            // ----- YEAR FILTER OPTIONS (for the Request Overview graph) -----
             int currentYear = DateTime.Today.Year;
 
             var availableYears = _context.Appointments
@@ -178,6 +172,7 @@ namespace SmartOfficeRecords.Controllers
 
             return View();
         }
+
         private string GetInitials(string fullName)
         {
             if (string.IsNullOrWhiteSpace(fullName)) return "?";
@@ -188,18 +183,60 @@ namespace SmartOfficeRecords.Controllers
                 return parts[0].Substring(0, 2).ToUpper();
             return parts[0].ToUpper();
         }
+
+        // ================== NOTIFICATIONS ==================
+        // Shared helper: logs a Notification row for the applicant and, if an
+        // email address is available, sends the matching email. Called from
+        // the three status-change actions below.
+        private void NotifyApplicant(int applicantId, int appointmentId, string type, string title, string message, string toEmail, string emailSubject, string emailBody)
+        {
+            _context.Notifications.Add(new Notification
+            {
+                ApplicantId = applicantId,
+                AppointmentId = appointmentId,
+                Title = title,
+                Message = message,
+                Type = type,
+                IsRead = false,
+                DateCreated = DateTime.Now
+            });
+            _context.SaveChanges();
+
+            if (!string.IsNullOrWhiteSpace(toEmail))
+            {
+                _emailService.SendEmail(toEmail, emailSubject, emailBody);
+            }
+        }
+
         [HttpPost]
         public ActionResult ApproveAppointment(int AppointmentId)
         {
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
-            var appointment = _context.Appointments.Find(AppointmentId);
-            if (appointment != null) 
+            // .Find() doesn't support .Include() — switched to
+            // FirstOrDefault so appointment.Applicant is populated for
+            // the notification/email below.
+            var appointment = _context.Appointments
+                .Include(a => a.Applicant)
+                .FirstOrDefault(a => a.AppointmentId == AppointmentId);
+
+            if (appointment != null)
             {
                 appointment.Status = "Approved";
-                appointment.DateApproved = DateTime.Now;   // <-- ADD THIS LINE
+                appointment.DateApproved = DateTime.Now;
                 _context.SaveChanges();
+
+                NotifyApplicant(
+                    appointment.Applicant!.ApplicantId,
+                    appointment.AppointmentId,
+                    "Approved",
+                    "Appointment Approved",
+                    "Your interview request has been approved.",
+                    appointment.Applicant.Email,
+                    "Your SORS Appointment Has Been Approved",
+                    $"<p>Hi {appointment.Applicant.FullName},</p><p>Your appointment request has been <strong>approved</strong>. Please check your dashboard for details.</p>"
+                );
             }
 
             return RedirectToAction("Dashboard");
@@ -211,12 +248,26 @@ namespace SmartOfficeRecords.Controllers
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
-            var appointment = _context.Appointments.Find(AppointmentId);
+            var appointment = _context.Appointments
+                .Include(a => a.Applicant)
+                .FirstOrDefault(a => a.AppointmentId == AppointmentId);
+
             if (appointment != null && appointment.Status == "Approved")
             {
                 appointment.Status = "Completed";
-                appointment.DateCompleted = DateTime.Now;   // <-- add this line
+                appointment.DateCompleted = DateTime.Now;
                 _context.SaveChanges();
+
+                NotifyApplicant(
+                    appointment.Applicant!.ApplicantId,
+                    appointment.AppointmentId,
+                    "Completed",
+                    "Process Completed",
+                    "Your document verification process has been completed.",
+                    appointment.Applicant.Email,
+                    "Your SORS Request Has Been Completed",
+                    $"<p>Hi {appointment.Applicant.FullName},</p><p>Your request has been marked as <strong>completed</strong>. Thank you for using SORS.</p>"
+                );
             }
 
             return RedirectToAction("Dashboard");
@@ -228,17 +279,30 @@ namespace SmartOfficeRecords.Controllers
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
-            var appointment = _context.Appointments.Find(AppointmentId);
+            var appointment = _context.Appointments
+                .Include(a => a.Applicant)
+                .FirstOrDefault(a => a.AppointmentId == AppointmentId);
+
             if (appointment != null)
             {
                 appointment.Status = "Rejected";
                 _context.SaveChanges();
+
+                NotifyApplicant(
+                    appointment.Applicant!.ApplicantId,
+                    appointment.AppointmentId,
+                    "Rejected",
+                    "Appointment Rejected",
+                    "Your interview request was not approved.",
+                    appointment.Applicant.Email,
+                    "Update on Your SORS Appointment Request",
+                    $"<p>Hi {appointment.Applicant.FullName},</p><p>Unfortunately, your appointment request was <strong>not approved</strong> at this time. Please contact our office for more information.</p>"
+                );
             }
 
             return RedirectToAction("Dashboard");
         }
 
-        // GET: Admin/ViewAppointment/5
         public ActionResult ViewAppointment(int id)
         {
             if (HttpContext.Session.GetInt32("AdminId") == null)
@@ -254,7 +318,6 @@ namespace SmartOfficeRecords.Controllers
             return View(appointment);
         }
 
-        // Called by the dashboard's JavaScript to load chart data for the selected range
         [HttpGet]
         public JsonResult GetRequestChartData(string range, int? year)
         {
@@ -270,8 +333,6 @@ namespace SmartOfficeRecords.Controllers
 
             if (range == "week")
             {
-                // Week view only supports the current year — the frontend
-                // automatically switches to Month view if a past year is picked.
                 var startOfWeek = now.AddDays(-(int)now.DayOfWeek + (now.DayOfWeek == DayOfWeek.Sunday ? -6 : 1));
 
                 for (int i = 0; i < 7; i++)
@@ -285,8 +346,6 @@ namespace SmartOfficeRecords.Controllers
             }
             else if (range == "month")
             {
-                // Uses the current month number, but within whichever year was selected
-                // (e.g. viewing "August 2026" even if today is in a later year/month)
                 int monthToUse = now.Month;
                 int daysInMonth = DateTime.DaysInMonth(targetYear, monthToUse);
 
@@ -314,133 +373,187 @@ namespace SmartOfficeRecords.Controllers
             return Json(new { labels, counts, year = targetYear, isCurrentYear });
         }
 
+        public ActionResult RecordsManagement(string search, int page = 1)
+        {
+            if (HttpContext.Session.GetInt32("AdminId") == null)
+                return RedirectToAction("Login");
+
+            var allCompletedOrdered = _context.Appointments
+                .Where(a => a.Status == "Completed")
+                .OrderBy(a => a.DateCompleted ?? a.DateRequested)
+                .Select(a => a.AppointmentId)
+                .ToList();
+
+            var recordIdMap = new Dictionary<int, string>();
+            for (int i = 0; i < allCompletedOrdered.Count; i++)
+            {
+                recordIdMap[allCompletedOrdered[i]] = "RC" + (i + 1).ToString("D3");
+            }
+
+            var query = _context.Appointments
+                .Include(a => a.Applicant)
+                .Where(a => a.Status == "Completed")
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(a => a.Applicant!.FullName.Contains(search));
+            }
+
+            var filteredRecords = query.ToList();
+
+            var distinctDatesDescending = filteredRecords
+                .Select(a => a.DateRequested.Date)
+                .Distinct()
+                .ToList();
+
+            var today = DateTime.Today;
+            if (!distinctDatesDescending.Contains(today))
+            {
+                distinctDatesDescending.Add(today);
+            }
+
+            distinctDatesDescending = distinctDatesDescending
+                .OrderByDescending(d => d)
+                .ToList();
+
+            int totalPages = distinctDatesDescending.Count;
+            if (totalPages < 1) totalPages = 1;
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+
+            DateTime? currentPageDate = distinctDatesDescending.Count > 0
+                ? distinctDatesDescending[page - 1]
+                : (DateTime?)null;
+
+            var recordsForThisDate = currentPageDate == null
+                ? new List<Appointment>()
+                : filteredRecords
+                    .Where(a => a.DateRequested.Date == currentPageDate.Value)
+                    .OrderByDescending(a => a.DateRequested)
+                    .ToList();
+
+            int totalCount = recordsForThisDate.Count;
+
+            var records = recordsForThisDate
+                .Select(a => new
+                {
+                    a.AppointmentId,
+                    RecordId = recordIdMap.ContainsKey(a.AppointmentId) ? recordIdMap[a.AppointmentId] : "RC000",
+                    ApplicantName = a.Applicant!.FullName,
+                    a.Status,
+                    AppointmentDateFormatted = a.DateRequested.ToString("MMM dd, yyyy")
+                })
+                .ToList();
+
+            ViewBag.Records = records;
+            ViewBag.SearchTerm = search;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
+            ViewBag.PageSize = totalCount;
+            ViewBag.CurrentDateLabel = currentPageDate?.ToString("MMM dd, yyyy") ?? "—";
+
+            return View();
+        }
 
         public ActionResult RequestManagement(string search, string status, int page = 1)
         {
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
-            const int pageSize = 5;
-            var today = DateTime.Today;
-            bool isSearching = !string.IsNullOrWhiteSpace(search);
-
-            // ----- DAILY-RESET DISPLAY IDS (ACROSS ALL HISTORY) -----
-            // Every appointment gets an ID based on its OWN day's sequence, so a
-            // request from July 19 shows as AP001 (if it was the first that day),
-            // and today's requests show AP001, AP002... independently. This runs
-            // across all appointments so search results (which can span any date)
-            // still show the correct per-day ID.
-            var allForNumbering = _context.Appointments
+            var allAppointmentsForNumbering = _context.Appointments
                 .OrderBy(a => a.DateRequested)
-                .Select(a => new { a.AppointmentId, a.DateRequested })
                 .ToList();
 
             var displayIdMap = new Dictionary<int, string>();
-            var dailyCounters = new Dictionary<DateTime, int>();
-
-            foreach (var item in allForNumbering)
+            foreach (var dayGroup in allAppointmentsForNumbering.GroupBy(a => a.DateRequested.Date))
             {
-                var day = item.DateRequested.Date;
-
-                if (!dailyCounters.ContainsKey(day))
-                    dailyCounters[day] = 0;
-
-                dailyCounters[day]++;
-                displayIdMap[item.AppointmentId] = "AP" + dailyCounters[day].ToString("D3");
+                var ordered = dayGroup.OrderBy(a => a.DateRequested).ToList();
+                for (int i = 0; i < ordered.Count; i++)
+                {
+                    displayIdMap[ordered[i].AppointmentId] = "AP" + (i + 1).ToString("D3");
+                }
             }
 
-            // ----- BASE QUERY -----
             var query = _context.Appointments
                 .Include(a => a.Applicant)
                 .AsQueryable();
 
-            // Only restrict to today when the admin isn't actively searching.
-            // Searching (by name/email) or nothing typed but a status filter
-            // still applied on its own doesn't count as "searching" here —
-            // only a non-empty search box lifts the today-only restriction.
-            if (!isSearching)
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                query = query.Where(a => a.DateRequested.Date == today);
+                query = query.Where(a => a.Applicant!.FullName.Contains(search));
             }
 
-            // ----- SEARCH FILTER -----
-            if (isSearching)
-            {
-                query = query.Where(a =>
-                    a.Applicant!.FullName.Contains(search) ||
-                    a.Applicant!.Email.Contains(search));
-            }
-
-            // ----- STATUS FILTER -----
             if (!string.IsNullOrWhiteSpace(status) && status != "All Status")
             {
                 query = query.Where(a => a.Status == status);
             }
 
-            // ----- PAGINATION -----
-            int totalCount = query.Count();
-            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            var filteredAppointments = query.ToList();
+
+            var distinctDatesDescending = filteredAppointments
+                .Select(a => a.DateRequested.Date)
+                .Distinct()
+                .ToList();
+
+            var today = DateTime.Today;
+            if (!distinctDatesDescending.Contains(today))
+            {
+                distinctDatesDescending.Add(today);
+            }
+
+            distinctDatesDescending = distinctDatesDescending
+                .OrderByDescending(d => d)
+                .ToList();
+
+            int totalPages = distinctDatesDescending.Count;
             if (totalPages < 1) totalPages = 1;
             if (page < 1) page = 1;
             if (page > totalPages) page = totalPages;
 
-            var requests = query
-            .OrderBy(a => a.Status == "Pending" ? 0 : 1)
-            .ThenBy(a => a.DateRequested)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .Select(a => new
-            {
-                a.AppointmentId,
-                ApplicantName = a.Applicant!.FullName,
-                ApplicantEmail = a.Applicant!.Email,
-                DateAppliedFormatted = a.DateRequested.ToString("MMM dd, yyyy"),
-                a.Status,
-                a.ContactNumber,
-                a.Email,
-                a.AppointmentDate,
-                a.AppointmentTime,
-                a.DateRequested,
-                a.AdditionalNotes,
-                a.ResumeFile,
-                a.ValidIDFile
-            })
-            .ToList()
-            .Select(a => new
-            {
-                a.AppointmentId,
-                a.ApplicantName,
-                a.ApplicantEmail,
-                a.DateAppliedFormatted,
-                a.Status,
-                DisplayId = displayIdMap.ContainsKey(a.AppointmentId) ? displayIdMap[a.AppointmentId] : "AP000",
-                Initials = GetInitials(a.ApplicantName),
-                ContactNumber = string.IsNullOrWhiteSpace(a.ContactNumber) ? "Not provided" : a.ContactNumber,
-                Email = string.IsNullOrWhiteSpace(a.Email) ? a.ApplicantEmail : a.Email,
-                AppointmentDateFormatted = a.AppointmentDate.ToString("MM/dd/yyyy"),
-                AppointmentTimeFormatted = DateTime.Today.Add(a.AppointmentTime).ToString("hh:mm tt"),
-                DateSubmittedFormatted = a.DateRequested.ToString("MM/dd/yyyy . hh:mm tt"),
-                AdditionalNotes = string.IsNullOrWhiteSpace(a.AdditionalNotes) ? "No additional notes provided." : a.AdditionalNotes,
-                a.ResumeFile,
-                a.ValidIDFile
-            })
-            .ToList();
+            DateTime? currentPageDate = distinctDatesDescending.Count > 0
+                ? distinctDatesDescending[page - 1]
+                : (DateTime?)null;
+
+            var appointmentsForThisDate = currentPageDate == null
+                ? new List<Appointment>()
+                : filteredAppointments
+                    .Where(a => a.DateRequested.Date == currentPageDate.Value)
+                    .OrderByDescending(a => a.DateRequested)
+                    .ToList();
+
+            int totalCount = appointmentsForThisDate.Count;
+
+            var requests = appointmentsForThisDate
+                .Select(a => new
+                {
+                    a.AppointmentId,
+                    DisplayId = displayIdMap.ContainsKey(a.AppointmentId) ? displayIdMap[a.AppointmentId] : "AP000",
+                    ApplicantName = a.Applicant!.FullName,
+                    ApplicantEmail = a.Applicant!.Email,
+                    Initials = GetInitials(a.Applicant!.FullName),
+                    a.Status,
+                    DateAppliedFormatted = a.DateRequested.ToString("MMM dd, yyyy"),
+                    Email = a.Email,
+                    ContactNumber = a.ContactNumber,
+                    AppointmentDateFormatted = a.AppointmentDate.ToString("MMM dd, yyyy"),
+                    AppointmentTimeFormatted = DateTime.Today.Add(a.AppointmentTime).ToString("hh:mm tt"),
+                    DateSubmittedFormatted = a.DateRequested.ToString("MMM dd, yyyy hh:mm tt"),
+                    AdditionalNotes = string.IsNullOrWhiteSpace(a.AdditionalNotes) ? "No additional notes." : a.AdditionalNotes,
+                    ResumeFile = a.ResumeFile,
+                    ValidIDFile = a.ValidIDFile
+                })
+                .ToList();
 
             ViewBag.Requests = requests;
             ViewBag.SearchTerm = search;
-            ViewBag.SelectedStatus = status;
+            ViewBag.SelectedStatus = string.IsNullOrWhiteSpace(status) ? "All Status" : status;
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
             ViewBag.TotalCount = totalCount;
-            ViewBag.PageSize = pageSize;
-
-            return View();
-        }
-
-        public ActionResult RecordsManagement()
-        {
-            if (HttpContext.Session.GetInt32("AdminId") == null)
-                return RedirectToAction("Login");
+            ViewBag.PageSize = totalCount;
+            ViewBag.CurrentDateLabel = currentPageDate?.ToString("MMM dd, yyyy") ?? "—";
 
             return View();
         }
@@ -453,12 +566,120 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
-        public ActionResult UsersManagement()
+        public ActionResult UsersManagement(string search, string role, int page = 1)
         {
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
+            const int pageSize = 5;
+
+            var adminUsers = _context.Admins
+                .Select(a => new
+                {
+                    Id = a.AdminId,
+                    RoleTag = "Admin",
+                    a.FullName,
+                    a.Email,
+                    a.IsActive,
+                    a.LastLogin,
+                    SortDate = (DateTime?)a.LastLogin ?? a.DateCreated
+                });
+
+            var staffUsers = _context.Staffs
+                .Select(s => new
+                {
+                    Id = s.StaffId,
+                    RoleTag = "Staff",
+                    s.FullName,
+                    s.Email,
+                    s.IsActive,
+                    s.LastLogin,
+                    SortDate = (DateTime?)s.LastLogin ?? s.DateCreated
+                });
+
+            var combined = adminUsers.Concat(staffUsers).ToList();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                combined = combined.Where(u =>
+                    (u.FullName ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    (u.Email ?? "").Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(role) && role != "All Roles")
+            {
+                combined = combined.Where(u => u.RoleTag == role).ToList();
+            }
+
+            combined = combined.OrderByDescending(u => u.SortDate).ToList();
+
+            int totalCount = combined.Count;
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+            if (totalPages < 1) totalPages = 1;
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+
+            var pageItems = combined
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select((u, index) => new
+                {
+                    DisplayId = "U" + ((page - 1) * pageSize + index + 1).ToString("D4"),
+                    u.Id,
+                    u.RoleTag,
+                    u.FullName,
+                    u.Email,
+                    u.IsActive,
+                    LastActiveText = u.LastLogin == null
+                        ? "Never logged in"
+                        : TimeAgo(u.LastLogin.Value)
+                })
+                .ToList();
+
+            ViewBag.Users = pageItems;
+            ViewBag.SearchTerm = search;
+            ViewBag.SelectedRole = string.IsNullOrWhiteSpace(role) ? "All Roles" : role;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
+
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult DeactivateUser(int id, string role)
+        {
+            if (HttpContext.Session.GetInt32("AdminId") == null)
+                return Json(new { success = false, message = "Session expired." });
+
+            if (role == "Admin")
+            {
+                var admin = _context.Admins.Find(id);
+                if (admin == null) return Json(new { success = false, message = "Admin not found." });
+                admin.IsActive = !admin.IsActive;
+                _context.SaveChanges();
+                return Json(new { success = true, isActive = admin.IsActive });
+            }
+            else if (role == "Staff")
+            {
+                var staff = _context.Staffs.Find(id);
+                if (staff == null) return Json(new { success = false, message = "Staff not found." });
+                staff.IsActive = !staff.IsActive;
+                _context.SaveChanges();
+                return Json(new { success = true, isActive = staff.IsActive });
+            }
+
+            return Json(new { success = false, message = "Invalid role." });
+        }
+
+        private string TimeAgo(DateTime dateTime)
+        {
+            var span = DateTime.Now - dateTime;
+            if (span.TotalMinutes < 1) return "Just now";
+            if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} minutes ago";
+            if (span.TotalHours < 24) return $"{(int)span.TotalHours} hours ago";
+            if (span.TotalDays < 30) return $"{(int)span.TotalDays} days ago";
+            return dateTime.ToString("MMM dd, yyyy");
         }
 
         public ActionResult Settings()
@@ -474,7 +695,6 @@ namespace SmartOfficeRecords.Controllers
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
-            // Pull the ACTUAL logged-in admin's info instead of hardcoded values
             int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
             var adminRecord = _context.Admins.Find(adminId);
 
@@ -482,16 +702,23 @@ namespace SmartOfficeRecords.Controllers
             {
                 FullName = adminRecord?.FullName ?? "Unknown",
                 Username = adminRecord?.Username ?? "Unknown",
-                Email = "admin@sors.com",   // update this if/when Admin model gets an Email field
-                Phone = "09123456789"       // update this if/when Admin model gets a Phone field
+                Email = "admin@sors.com",
+                Phone = "09123456789"
             };
 
             return View(admin);
         }
 
-        // GET: Admin/RequestManagement/CreateRequest
         [HttpGet]
         public ActionResult RCreateRequest()
+        {
+            if (HttpContext.Session.GetInt32("AdminId") == null)
+                return RedirectToAction("Login");
+
+            return View();
+        }
+
+        public ActionResult AuditLogs()
         {
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
@@ -533,7 +760,9 @@ namespace SmartOfficeRecords.Controllers
             return RedirectToAction("RequestManagement");
         }
 
-        // GET: Admin/UserManagement/AddNewUser
+        // ================== USER MANAGEMENT: ADD NEW USER ==================
+
+        [HttpGet]
         public ActionResult AddNewUser()
         {
             if (HttpContext.Session.GetInt32("AdminId") == null)
@@ -542,59 +771,114 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
-
-        // ================== REGISTER (Staff, presumably) ==================
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public ActionResult Register(
-             string Fullname,
-             string Username,
-             string Email,
-             string Contact,
-             string Address,
-             string Department,
-             string Password,
-             string ConfirmPassword,
-             IFormFile ProfileImage)
+        public JsonResult AddNewUser(CreateUserRequest request)
         {
-            // PASSWORD CHECK
-            if (Password != ConfirmPassword)
+            if (HttpContext.Session.GetInt32("AdminId") == null)
+                return Json(new { success = false, message = "Session expired. Please log in again." });
+
+            if (string.IsNullOrWhiteSpace(request.FullName) ||
+                string.IsNullOrWhiteSpace(request.ContactNumber) ||
+                string.IsNullOrWhiteSpace(request.Username) ||
+                string.IsNullOrWhiteSpace(request.Email) ||
+                string.IsNullOrWhiteSpace(request.Password) ||
+                string.IsNullOrWhiteSpace(request.Role))
             {
-                ViewBag.Error = "Password does not match.";
-                return View();
+                return Json(new { success = false, message = "Please fill in all required fields." });
             }
 
-            // CHECK IMAGE
-            if (ProfileImage != null)
+            if (request.Password != request.ConfirmPassword)
             {
-                string fileName = System.IO.Path.GetFileName(ProfileImage.FileName);
+                return Json(new { success = false, message = "Passwords do not match." });
+            }
 
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads", fileName);
+            bool usernameTaken =
+                _context.Admins.Any(a => a.Username == request.Username) ||
+                _context.Staffs.Any(s => s.Username == request.Username);
 
-                using (var stream = new FileStream(path, FileMode.Create))
+            bool emailTaken =
+                _context.Admins.Any(a => a.Email == request.Email) ||
+                _context.Staffs.Any(s => s.Email == request.Email);
+
+            if (usernameTaken || emailTaken)
+            {
+                return Json(new { success = false, message = "Username or Email is already registered." });
+            }
+
+            string? savedFileName = null;
+
+            if (request.ProfileImage != null && request.ProfileImage.Length > 0)
+            {
+                savedFileName = Guid.NewGuid().ToString() + Path.GetExtension(request.ProfileImage.FileName);
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images");
+
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                string fullPath = Path.Combine(uploadsFolder, savedFileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
-                    ProfileImage.CopyTo(stream);
+                    request.ProfileImage.CopyTo(stream);
                 }
             }
 
-            // NOTE: this currently does NOT save anything to the database.
-            // It just saves the image and shows a success message.
-            // Let me know if this Register form is meant to create Staff accounts —
-            // if so, we'll wire it up to a Staff table the same way Applicant register works.
+            string hashedPassword = HashPassword(request.Password);
 
-            ViewBag.Success = "Registered Successfully!";
+            try
+            {
+                if (request.Role == "Admin")
+                {
+                    var newAdmin = new Admin
+                    {
+                        FullName = request.FullName,
+                        ContactNumber = request.ContactNumber,
+                        Username = request.Username,
+                        Email = request.Email,
+                        Password = hashedPassword,
+                        ProfileImage = savedFileName,
+                        DateCreated = DateTime.Now
+                    };
 
-            return View();
+                    _context.Admins.Add(newAdmin);
+                }
+                else if (request.Role == "Staff")
+                {
+                    var newStaff = new Staff
+                    {
+                        FullName = request.FullName,
+                        ContactNumber = request.ContactNumber,
+                        Username = request.Username,
+                        Email = request.Email,
+                        Password = hashedPassword,
+                        ProfileImage = savedFileName,
+                        DateCreated = DateTime.Now
+                    };
+
+                    _context.Staffs.Add(newStaff);
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Invalid role selected." });
+                }
+
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = $"{request.Role} account created successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Something went wrong: " + ex.Message });
+            }
         }
 
+        // Register(Staff) moved to StaffController — this is where staff accounts
+        // are self-registered, so it belongs with StaffLogin, not here.
 
-        // Same hashing method as ApplicantController — MUST produce identical
-        // output for the same password, so keep this logic exactly matching.
+        // TestHash() removed — it was an unauthenticated hash-oracle endpoint.
+        // To verify a seed password's hash, run HashPassword locally in a
+        // scratch console app instead of exposing it over HTTP.
+
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -607,11 +891,6 @@ namespace SmartOfficeRecords.Controllers
                 }
                 return builder.ToString();
             }
-        }
-        public ActionResult TestHash()
-        {
-            string hash = HashPassword("admin0000"); // whatever password you want
-            return Content(hash);
         }
     }
 }

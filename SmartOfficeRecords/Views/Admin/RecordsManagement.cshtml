@@ -26,886 +26,855 @@
 
     <style>
 
-        /* =========================================================
-                   GLOBAL
-                ========================================================= */
+            /* =========================================================
+                               GLOBAL
+                            ========================================================= */
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: #F5F6F8;
-            overflow: hidden;
-        }
-
-
-        /* =========================================================
-                   MAIN CONTAINER
-                ========================================================= */
-
-        .dashboard-container {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-
-        /* =========================================================
-                   SIDEBAR
-                   SAME AS ADMIN DASHBOARD
-                ========================================================= */
-
-        .sidebar {
-            width: 158px;
-            min-width: 158px;
-            height: 100vh;
-            background: #1F2933;
-            color: #FFFFFF;
-            display: flex;
-            flex-direction: column;
-            transition: all .3s ease;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-
-        /* Scrollbar */
-
-        .sidebar {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,.25) transparent;
-        }
-
-            .sidebar::-webkit-scrollbar {
-                width: 5px;
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
             }
 
-            .sidebar::-webkit-scrollbar-thumb {
-                background: rgba(255,255,255,.25);
-                border-radius: 10px;
-            }
-
-            .sidebar::-webkit-scrollbar-track {
-                background: transparent;
+            body {
+                background: #F5F6F8;
+                overflow: hidden;
             }
 
 
             /* =========================================================
-                   COLLAPSED SIDEBAR
-                ========================================================= */
+                               MAIN CONTAINER
+                            ========================================================= */
 
-            .sidebar.collapsed {
-                width: 78px;
-                min-width: 78px;
+            .dashboard-container {
+                display: flex;
+                height: 100vh;
+                width: 100%;
             }
 
-                .sidebar.collapsed .system-name {
-                    display: block;
-                    font-size: 10px;
-                    font-weight: 600;
-                    margin-top: 8px;
+
+            /* =========================================================
+                               SIDEBAR
+                               SAME AS ADMIN DASHBOARD
+                            ========================================================= */
+
+            .sidebar {
+                width: 158px;
+                min-width: 158px;
+                height: 100vh;
+                background: #1F2933;
+                color: #FFFFFF;
+                display: flex;
+                flex-direction: column;
+                transition: all .3s ease;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+
+            /* Scrollbar */
+
+            .sidebar {
+                scrollbar-width: thin;
+                scrollbar-color: rgba(255,255,255,.25) transparent;
+            }
+
+                .sidebar::-webkit-scrollbar {
+                    width: 5px;
                 }
 
-                .sidebar.collapsed .logo-circle {
+                .sidebar::-webkit-scrollbar-thumb {
+                    background: rgba(255,255,255,.25);
+                    border-radius: 10px;
+                }
+
+                .sidebar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+
+                /* =========================================================
+                               COLLAPSED SIDEBAR
+                            ========================================================= */
+
+                .sidebar.collapsed {
+                    width: 78px;
+                    min-width: 78px;
+                }
+
+                    .sidebar.collapsed .system-name {
+                        display: block;
+                        font-size: 10px;
+                        font-weight: 600;
+                        margin-top: 8px;
+                    }
+
+                    .sidebar.collapsed .logo-circle {
+                        width: 42px;
+                        height: 42px;
+                    }
+
+                    .sidebar.collapsed .logo-section {
+                        padding: 18px 10px;
+                    }
+
+                    .sidebar.collapsed .menu a span,
+                    .sidebar.collapsed .logout a span {
+                        display: none;
+                    }
+
+                    .sidebar.collapsed .menu {
+                        padding: 15px 10px;
+                    }
+
+                        .sidebar.collapsed .menu a {
+                            width: 42px;
+                            height: 42px;
+                            margin: 0 auto 10px auto;
+                            padding: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 6px;
+                        }
+
+                            .sidebar.collapsed .menu a.active {
+                                background: #B91C1C;
+                                box-shadow: 0 4px 10px rgba(0,0,0,.15);
+                            }
+
+                            .sidebar.collapsed .menu a i,
+                            .sidebar.collapsed .logout a i {
+                                margin: 0;
+                            }
+
+                    .sidebar.collapsed .logout {
+                        padding-bottom: 15px;
+                    }
+
+                        .sidebar.collapsed .logout a {
+                            width: 42px;
+                            height: 42px;
+                            margin: 0 auto;
+                            padding: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+
+                    .sidebar.collapsed .small-arrow {
+                        display: none;
+                    }
+
+
+            /* =========================================================
+                               LOGO SECTION
+                            ========================================================= */
+
+            .logo-section {
+                text-align: center;
+                padding: 16px 10px;
+                border-bottom: 1px solid rgba(255,255,255,.18);
+            }
+
+            .logo-circle {
+                width: 40px;
+                height: 40px;
+                background: #FFFFFF;
+                border-radius: 50%;
+                margin: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .logo-img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            .system-name {
+                margin-top: 8px;
+                font-size: 12px;
+                font-weight: 600;
+                color: #FFFFFF;
+            }
+
+
+            /* =========================================================
+                               MENU
+                            ========================================================= */
+
+            .menu {
+                padding: 14px 8px;
+            }
+
+                .menu a {
+                    color: #FFFFFF;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 8px 10px;
+                    margin-bottom: 3px;
+                    border-radius: 5px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    transition: all .2s ease;
+                }
+
+                    .menu a i {
+                        font-size: 14px;
+                        min-width: 14px;
+                    }
+
+                    .menu a:hover {
+                        background: rgba(185, 28, 28, .18);
+                        color: #FFFFFF;
+                    }
+
+                    .menu a.active {
+                        background: #B91C1C;
+                        color: #FFFFFF;
+                        box-shadow: 0 3px 8px rgba(185,28,28,.22);
+                    }
+
+
+            /* =========================================================
+                               SETTINGS DROPDOWN
+                            ========================================================= */
+
+            .sidebar-dropdown {
+                margin-bottom: 3px;
+            }
+
+            .dropdown-toggle-menu {
+                color: #FFFFFF;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 8px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 11px;
+                font-weight: 500;
+                transition: all .2s ease;
+            }
+
+                .dropdown-toggle-menu:hover {
+                    background: rgba(185,28,28,.18);
+                    color: #FFFFFF;
+                }
+
+            .small-arrow {
+                font-size: 8px;
+                transition: transform .3s ease;
+            }
+
+            .dropdown-submenu {
+                display: none;
+                flex-direction: column;
+                padding-left: 14px;
+                margin-top: 3px;
+            }
+
+                .dropdown-submenu a {
+                    color: #FFFFFF;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 7px 9px;
+                    font-size: 10px;
+                    border-radius: 5px;
+                }
+
+                    .dropdown-submenu a:hover {
+                        background: rgba(185,28,28,.18);
+                        color: #FFFFFF;
+                    }
+
+            .sidebar-dropdown.open .dropdown-submenu {
+                display: flex;
+            }
+
+            .sidebar-dropdown.open .small-arrow {
+                transform: rotate(90deg);
+            }
+
+
+            /* =========================================================
+                               LOGOUT
+                            ========================================================= */
+
+            .logout {
+                margin-top: auto;
+                padding: 10px 8px 12px 8px;
+            }
+
+                .logout a {
+                    color: #FFFFFF;
+                    text-decoration: none;
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    padding: 8px 10px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    border-radius: 5px;
+                    transition: all .2s ease;
+                }
+
+                    .logout a:hover {
+                        background: rgba(185,28,28,.18);
+                    }
+
+
+            /* =========================================================
+                               MAIN CONTENT
+                            ========================================================= */
+
+            .main-content {
+                flex: 1;
+                background: #F5F6F8;
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+
+            /* =========================================================
+                               TOPBAR
+                            ========================================================= */
+
+            .topbar {
+                height: 52px;
+                min-height: 52px;
+                flex-shrink: 0;
+                border-bottom: 1px solid #E5E7EB;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+                background: #FFFFFF;
+            }
+
+            .topbar-left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .menu-toggle {
+                background: none;
+                border: none;
+                color: #B91C1C;
+                font-size: 16px;
+                cursor: pointer;
+                padding: 4px;
+            }
+
+
+            /* =========================================================
+                               TOPBAR RIGHT
+                            ========================================================= */
+
+            .topbar-right {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-left: auto;
+            }
+
+            .notification-icon {
+                font-size: 17px;
+                color: #374151;
+                cursor: pointer;
+                transition: color .2s ease;
+            }
+
+                .notification-icon:hover {
+                    color: #B91C1C;
+                }
+
+
+            /* =========================================================
+                               PROFILE
+                            ========================================================= */
+
+            .profile {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                padding-left: 8px;
+                border-left: 1px solid #E5E7EB;
+            }
+
+                .profile img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+            .profile-info {
+                display: flex;
+                flex-direction: column;
+                line-height: 1.15;
+            }
+
+                .profile-info h5 {
+                    margin: 0;
+                    font-size: 10px;
+                    font-weight: 600;
+                    color: #111827;
+                }
+
+                .profile-info span {
+                    font-size: 8px;
+                    color: #6B7280;
+                }
+
+            .profile-arrow {
+                color: #6B7280;
+                font-size: 9px;
+                margin-left: 2px;
+            }
+
+
+            /* =========================================================
+                               RECORDS CONTENT
+                            ========================================================= */
+
+            .content-area {
+                flex: 1;
+                padding: 18px 28px;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+
+            /* =========================================================
+                               PAGE HEADER
+                            ========================================================= */
+
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 18px;
+            }
+
+            .page-title {
+                color: #B91C1C;
+                font-size: 18px;
+                font-weight: 700;
+                margin: 0 0 2px 0;
+            }
+
+            .page-description {
+                color: #64748B;
+                font-size: 9px;
+                font-weight: 500;
+                margin: 0;
+            }
+
+
+            /* =========================================================
+                               ACTION BAR
+                            ========================================================= */
+
+            .action-bar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .search-filter {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex: 1;
+            }
+
+            .search-box {
+                height: 34px;
+                flex: 1;
+                max-width: 540px;
+                background: #FFFFFF;
+                border-radius: 20px;
+                box-shadow: 0 3px 12px rgba(0,0,0,.07);
+                display: flex;
+                align-items: center;
+                padding: 0 12px;
+                gap: 8px;
+            }
+
+                .search-box i {
+                    color: #6B7280;
+                    font-size: 12px;
+                }
+
+                .search-box input {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    font-size: 10px;
+                    color: #374151;
+                    background: transparent;
+                }
+
+                    .search-box input::placeholder {
+                        color: #9CA3AF;
+                    }
+
+            .upload-btn {
+                height: 34px;
+                border: none;
+                border-radius: 5px;
+                background: #B91C1C;
+                color: #FFFFFF;
+                padding: 0 15px;
+                font-size: 10px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                cursor: pointer;
+                transition: all .2s ease;
+                text-decoration: none;
+            }
+
+                .upload-btn:hover {
+                    background: #991B1B;
+                    color: #FFFFFF;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 10px rgba(185,28,28,.20);
+                }
+
+                .upload-btn i {
+                    font-size: 14px;
+                }
+
+
+            /* =========================================================
+                               TABLE
+                            ========================================================= */
+
+            .table-container {
+                background: #FFFFFF;
+                border: 1px solid #D9DDE3;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+
+            .records-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 0;
+            }
+
+                .records-table thead {
+                    background: #111111;
+                }
+
+                .records-table th {
+                    height: 38px;
+                    padding: 0 12px;
+                    font-size: 9px;
+                    font-weight: 700;
+                    color: #ffffff;
+                    border-bottom: 1px solid #111111;
+                    white-space: nowrap;
+                    text-align: left;
+                }
+
+                .records-table td {
+                    height: 36px;
+                    padding: 0 12px;
+                    font-size: 8px;
+                    color: #374151;
+                    border-bottom: 1px solid #E5E7EB;
+                    white-space: nowrap;
+                }
+
+                .records-table tbody tr:hover {
+                    background: #FEF2F2;
+                }
+
+                .records-table tbody tr:last-child td {
+                    border-bottom: none;
+                }
+
+
+            /* =========================================================
+                               CATEGORY BADGES
+                            ========================================================= */
+
+            .category-badge {
+                display: inline-block;
+                padding: 3px 7px;
+                border-radius: 4px;
+                font-size: 7px;
+                font-weight: 600;
+            }
+
+            .category-document {
+                background: #DCFCE7;
+                color: #15803D;
+            }
+
+
+            /* =========================================================
+                               ACTION ICONS
+                            ========================================================= */
+
+            .record-actions {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .record-action {
+                width: 25px;
+                height: 25px;
+                border: none;
+                border-radius: 5px;
+                background: transparent;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all .2s ease;
+            }
+
+                .record-action i {
+                    font-size: 11px;
+                }
+
+            .download-action {
+                color: #374151;
+            }
+
+                .download-action:hover {
+                    background: #FEE2E2;
+                    color: #B91C1C;
+                }
+
+            .archive-action {
+                color: #374151;
+            }
+
+                .archive-action:hover {
+                    background: #FEF3C7;
+                    color: #D97706;
+                }
+
+            /* =========================================================
+                                       PAGINATION SECTION
+                                    ========================================================= */
+
+            .pagination-section {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 18px;
+                width: 100%;
+            }
+
+
+            /* =========================================================
+                                       SHOWING TEXT
+                                    ========================================================= */
+
+            .showing-text {
+                font-size: 9px;
+                color: #374151;
+                font-weight: 500;
+            }
+
+
+            /* =========================================================
+                                       PAGINATION BUTTON GROUP
+                                    ========================================================= */
+
+            .pagination-buttons {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .pagination-btn {
+                height: 24px;
+                padding: 0 11px;
+                border: 1px solid #E5E7EB;
+                background: #FFFFFF;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #6B7280;
+                font-size: 8px;
+                font-weight: 500;
+                cursor: pointer;
+                text-decoration: none;
+                transition: all .2s ease;
+            }
+
+                .pagination-btn:hover {
+                    background: #FEE2E2;
+                    color: #B91C1C;
+                    border-color: #FECACA;
+                }
+
+                .pagination-btn.next-btn {
+                    background: #B91C1C;
+                    color: #FFFFFF;
+                    border-color: #B91C1C;
+                }
+
+                    .pagination-btn.next-btn:hover {
+                        background: #991B1B;
+                        color: #FFFFFF;
+                    }
+
+
+            /* =========================================================
+                               RESPONSIVE
+                            ========================================================= */
+
+            @@media (max-width: 1000px) {
+
+                .action-bar {
+                    flex-wrap: wrap;
+                }
+
+                .search-filter {
+                    width: 100%;
+                }
+
+                .search-box {
+                    max-width: none;
+                }
+
+                .upload-btn {
+                    margin-left: auto;
+                }
+            }
+
+
+            @@media (max-width: 768px) {
+
+                body {
+                    overflow-y: auto;
+                }
+
+                .sidebar {
+                    width: 78px;
+                    min-width: 78px;
+                }
+
+                .system-name,
+                .menu a span,
+                .dropdown-toggle-menu span,
+                .logout a span {
+                    display: none;
+                }
+
+                .logo-section {
+                    padding: 18px 10px;
+                }
+
+                .logo-circle {
                     width: 42px;
                     height: 42px;
                 }
 
-                .sidebar.collapsed .logo-section {
-                    padding: 18px 10px;
-                }
-
-                .sidebar.collapsed .menu a span,
-                .sidebar.collapsed .logout a span {
-                    display: none;
-                }
-
-                .sidebar.collapsed .menu {
+                .menu {
                     padding: 15px 10px;
                 }
 
-                    .sidebar.collapsed .menu a {
+                    .menu a {
                         width: 42px;
                         height: 42px;
                         margin: 0 auto 10px auto;
                         padding: 0;
-                        display: flex;
                         justify-content: center;
-                        align-items: center;
-                        border-radius: 6px;
                     }
 
-                        .sidebar.collapsed .menu a.active {
-                            background: #B91C1C;
-                            box-shadow: 0 4px 10px rgba(0,0,0,.15);
-                        }
-
-                        .sidebar.collapsed .menu a i,
-                        .sidebar.collapsed .logout a i {
-                            margin: 0;
-                        }
-
-                .sidebar.collapsed .logout {
-                    padding-bottom: 15px;
+                .dropdown-toggle-menu {
+                    justify-content: center;
+                    padding: 10px;
                 }
 
-                    .sidebar.collapsed .logout a {
-                        width: 42px;
-                        height: 42px;
-                        margin: 0 auto;
-                        padding: 0;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-
-                .sidebar.collapsed .small-arrow {
+                .small-arrow {
                     display: none;
                 }
 
-
-        /* =========================================================
-                   LOGO SECTION
-                ========================================================= */
-
-        .logo-section {
-            text-align: center;
-            padding: 16px 10px;
-            border-bottom: 1px solid rgba(255,255,255,.18);
-        }
-
-        .logo-circle {
-            width: 40px;
-            height: 40px;
-            background: #FFFFFF;
-            border-radius: 50%;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .system-name {
-            margin-top: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #FFFFFF;
-        }
-
-
-        /* =========================================================
-                   MENU
-                ========================================================= */
-
-        .menu {
-            padding: 14px 8px;
-        }
-
-            .menu a {
-                color: #FFFFFF;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 8px 10px;
-                margin-bottom: 3px;
-                border-radius: 5px;
-                font-size: 11px;
-                font-weight: 500;
-                transition: all .2s ease;
-            }
-
-                .menu a i {
-                    font-size: 14px;
-                    min-width: 14px;
-                }
-
-                .menu a:hover {
-                    background: rgba(185, 28, 28, .18);
-                    color: #FFFFFF;
-                }
-
-                .menu a.active {
-                    background: #B91C1C;
-                    color: #FFFFFF;
-                    box-shadow: 0 3px 8px rgba(185,28,28,.22);
-                }
-
-
-        /* =========================================================
-                   SETTINGS DROPDOWN
-                ========================================================= */
-
-        .sidebar-dropdown {
-            margin-bottom: 3px;
-        }
-
-        .dropdown-toggle-menu {
-            color: #FFFFFF;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 500;
-            transition: all .2s ease;
-        }
-
-            .dropdown-toggle-menu:hover {
-                background: rgba(185,28,28,.18);
-                color: #FFFFFF;
-            }
-
-        .small-arrow {
-            font-size: 8px;
-            transition: transform .3s ease;
-        }
-
-        .dropdown-submenu {
-            display: none;
-            flex-direction: column;
-            padding-left: 14px;
-            margin-top: 3px;
-        }
-
-            .dropdown-submenu a {
-                color: #FFFFFF;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                padding: 7px 9px;
-                font-size: 10px;
-                border-radius: 5px;
-            }
-
-                .dropdown-submenu a:hover {
-                    background: rgba(185,28,28,.18);
-                    color: #FFFFFF;
-                }
-
-        .sidebar-dropdown.open .dropdown-submenu {
-            display: flex;
-        }
-
-        .sidebar-dropdown.open .small-arrow {
-            transform: rotate(90deg);
-        }
-
-
-        /* =========================================================
-                   LOGOUT
-                ========================================================= */
-
-        .logout {
-            margin-top: auto;
-            padding: 10px 8px 12px 8px;
-        }
-
-            .logout a {
-                color: #FFFFFF;
-                text-decoration: none;
-                display: flex;
-                gap: 10px;
-                align-items: center;
-                padding: 8px 10px;
-                font-size: 11px;
-                font-weight: 500;
-                border-radius: 5px;
-                transition: all .2s ease;
-            }
-
-                .logout a:hover {
-                    background: rgba(185,28,28,.18);
-                }
-
-
-        /* =========================================================
-                   MAIN CONTENT
-                ========================================================= */
-
-        .main-content {
-            flex: 1;
-            background: #F5F6F8;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-
-        /* =========================================================
-                   TOPBAR
-                ========================================================= */
-
-        .topbar {
-            height: 52px;
-            min-height: 52px;
-            flex-shrink: 0;
-            border-bottom: 1px solid #E5E7EB;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            background: #FFFFFF;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: #B91C1C;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-
-        /* =========================================================
-                   TOPBAR RIGHT
-                ========================================================= */
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-left: auto;
-        }
-
-        .notification-icon {
-            font-size: 17px;
-            color: #374151;
-            cursor: pointer;
-            transition: color .2s ease;
-        }
-
-            .notification-icon:hover {
-                color: #B91C1C;
-            }
-
-
-        /* =========================================================
-                   PROFILE
-                ========================================================= */
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding-left: 8px;
-            border-left: 1px solid #E5E7EB;
-        }
-
-            .profile img {
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                object-fit: cover;
-            }
-
-        .profile-info {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.15;
-        }
-
-            .profile-info h5 {
-                margin: 0;
-                font-size: 10px;
-                font-weight: 600;
-                color: #111827;
-            }
-
-            .profile-info span {
-                font-size: 8px;
-                color: #6B7280;
-            }
-
-        .profile-arrow {
-            color: #6B7280;
-            font-size: 9px;
-            margin-left: 2px;
-        }
-
-
-        /* =========================================================
-                   RECORDS CONTENT
-                ========================================================= */
-
-        .content-area {
-            flex: 1;
-            padding: 18px 28px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-
-        /* =========================================================
-                   PAGE HEADER
-                ========================================================= */
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .page-title {
-            color: #B91C1C;
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0 0 2px 0;
-        }
-
-        .page-description {
-            color: #64748B;
-            font-size: 9px;
-            font-weight: 500;
-            margin: 0;
-        }
-
-
-        /* =========================================================
-                   ACTION BAR
-                ========================================================= */
-
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .search-filter {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-        }
-
-        .search-box {
-            height: 34px;
-            flex: 1;
-            max-width: 540px;
-            background: #FFFFFF;
-            border-radius: 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,.07);
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            gap: 8px;
-        }
-
-            .search-box i {
-                color: #6B7280;
-                font-size: 12px;
-            }
-
-            .search-box input {
-                width: 100%;
-                border: none;
-                outline: none;
-                font-size: 10px;
-                color: #374151;
-                background: transparent;
-            }
-
-                .search-box input::placeholder {
-                    color: #9CA3AF;
-                }
-
-        .status-filter {
-            width: 190px;
-            height: 34px;
-            background: #FFFFFF;
-            border: 1px solid #D1D5DB;
-            border-radius: 6px;
-            padding: 0 10px;
-            font-size: 10px;
-            font-weight: 600;
-            color: #374151;
-            outline: none;
-        }
-
-            .status-filter:focus {
-                border-color: #B91C1C;
-            }
-
-        .upload-btn {
-            height: 34px;
-            border: none;
-            border-radius: 5px;
-            background: #B91C1C;
-            color: #FFFFFF;
-            padding: 0 15px;
-            font-size: 10px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            cursor: pointer;
-            transition: all .2s ease;
-            text-decoration: none;
-        }
-
-            .upload-btn:hover {
-                background: #991B1B;
-                color: #FFFFFF;
-                transform: translateY(-1px);
-                box-shadow: 0 4px 10px rgba(185,28,28,.20);
-            }
-
-            .upload-btn i {
-                font-size: 14px;
-            }
-
-
-        /* =========================================================
-                   TABLE
-                ========================================================= */
-
-        .table-container {
-            background: #FFFFFF;
-            border: 1px solid #D9DDE3;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .records-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0;
-        }
-
-            .records-table thead {
-                background: #111111;
-            }
-
-            .records-table th {
-                height: 38px;
-                padding: 0 12px;
-                font-size: 9px;
-                font-weight: 700;
-                color: #ffffff;
-                border-bottom: 1px solid #111111;
-                white-space: nowrap;
-                text-align: left;
-            }
-
-            .records-table td {
-                height: 36px;
-                padding: 0 12px;
-                font-size: 8px;
-                color: #374151;
-                border-bottom: 1px solid #E5E7EB;
-                white-space: nowrap;
-            }
-
-            .records-table tbody tr:hover {
-                background: #FEF2F2;
-            }
-
-            .records-table tbody tr:last-child td {
-                border-bottom: none;
-            }
-
-
-        /* =========================================================
-                   CATEGORY BADGES
-                ========================================================= */
-
-        .category-badge {
-            display: inline-block;
-            padding: 3px 7px;
-            border-radius: 4px;
-            font-size: 7px;
-            font-weight: 600;
-        }
-
-        .category-pdf {
-            background: #FEE2E2;
-            color: #B91C1C;
-        }
-
-        .category-image {
-            background: #DBEAFE;
-            color: #2563EB;
-        }
-
-        .category-document {
-            background: #DCFCE7;
-            color: #15803D;
-        }
-
-
-        /* =========================================================
-                   ACTION ICONS
-                ========================================================= */
-
-        .record-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .record-action {
-            width: 25px;
-            height: 25px;
-            border: none;
-            border-radius: 5px;
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all .2s ease;
-        }
-
-            .record-action i {
-                font-size: 11px;
-            }
-
-        .download-action {
-            color: #374151;
-        }
-
-            .download-action:hover {
-                background: #FEE2E2;
-                color: #B91C1C;
-            }
-
-        .archive-action {
-            color: #374151;
-        }
-
-            .archive-action:hover {
-                background: #FEF3C7;
-                color: #D97706;
-            }
-
-        /* =========================================================
-                           PAGINATION SECTION
-                        ========================================================= */
-
-        .pagination-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 18px;
-            width: 100%;
-        }
-
-
-        /* =========================================================
-                           SHOWING TEXT
-                        ========================================================= */
-
-        .showing-text {
-            font-size: 9px;
-            color: #374151;
-            font-weight: 500;
-        }
-
-
-        /* =========================================================
-                           PAGINATION BUTTON GROUP
-                        ========================================================= */
-
-        .pagination-buttons {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .pagination-btn {
-            height: 24px;
-            padding: 0 11px;
-            border: 1px solid #E5E7EB;
-            background: #FFFFFF;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #6B7280;
-            font-size: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all .2s ease;
-        }
-
-            .pagination-btn:hover {
-                background: #FEE2E2;
-                color: #B91C1C;
-                border-color: #FECACA;
-            }
-
-            .pagination-btn.next-btn {
-                background: #B91C1C;
-                color: #FFFFFF;
-                border-color: #B91C1C;
-            }
-
-                .pagination-btn.next-btn:hover {
-                    background: #991B1B;
-                    color: #FFFFFF;
-                }
-
-
-        /* =========================================================
-                   RESPONSIVE
-                ========================================================= */
-
-        @@media (max-width: 1000px) {
-
-            .action-bar {
-                flex-wrap: wrap;
-            }
-
-            .search-filter {
-                width: 100%;
-            }
-
-            .search-box {
-                max-width: none;
-            }
-
-            .upload-btn {
-                margin-left: auto;
-            }
-        }
-
-
-        @@media (max-width: 768px) {
-
-            body {
-                overflow-y: auto;
-            }
-
-            .sidebar {
-                width: 78px;
-                min-width: 78px;
-            }
-
-            .system-name,
-            .menu a span,
-            .dropdown-toggle-menu span,
-            .logout a span {
-                display: none;
-            }
-
-            .logo-section {
-                padding: 18px 10px;
-            }
-
-            .logo-circle {
-                width: 42px;
-                height: 42px;
-            }
-
-            .menu {
-                padding: 15px 10px;
-            }
-
-                .menu a {
-                    width: 42px;
-                    height: 42px;
-                    margin: 0 auto 10px auto;
-                    padding: 0;
+                .logout a {
                     justify-content: center;
                 }
 
-            .dropdown-toggle-menu {
-                justify-content: center;
-                padding: 10px;
+                .content-area {
+                    padding: 14px;
+                }
+
+                .page-header {
+                    align-items: flex-start;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .action-bar {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .search-filter {
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                .search-box {
+                    width: 100%;
+                    max-width: none;
+                }
+
+                .upload-btn {
+                    width: 100%;
+                    justify-content: center;
+                }
+
+                .table-container {
+                    overflow-x: auto;
+                }
+
+                .records-table {
+                    min-width: 700px;
+                }
             }
 
-            .small-arrow {
-                display: none;
+
+            @@media (max-width: 500px) {
+
+                .profile-info {
+                    display: none;
+                }
+
+                .profile {
+                    border-left: none;
+                }
+
+                .content-area {
+                    padding: 12px;
+                }
             }
-
-            .logout a {
-                justify-content: center;
-            }
-
-            .content-area {
-                padding: 14px;
-            }
-
-            .page-header {
-                align-items: flex-start;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .action-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .search-filter {
-                width: 100%;
-                flex-direction: column;
-            }
-
-            .search-box {
-                width: 100%;
-                max-width: none;
-            }
-
-            .status-filter {
-                width: 100%;
-            }
-
-            .upload-btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .table-container {
-                overflow-x: auto;
-            }
-
-            .records-table {
-                min-width: 700px;
-            }
-        }
-
-
-        @@media (max-width: 500px) {
-
-            .profile-info {
-                display: none;
-            }
-
-            .profile {
-                border-left: none;
-            }
-
-            .content-area {
-                padding: 12px;
-            }
-        }
-
     </style>
 
 </head>
@@ -1190,63 +1159,37 @@
                 <!-- =================================================
                      ACTION BAR
                 ================================================== -->
+                @using (Html.BeginForm("RecordsManagement", "Admin", FormMethod.Get))
+                {
+                    <div class="action-bar">
 
-                <div class="action-bar">
+                        <div class="search-filter">
 
+                            <div class="search-box">
 
-                    <div class="search-filter">
+                                <i class="bi bi-search"></i>
 
+                                <input type="text"
+                                       name="search"
+                                       value="@ViewBag.SearchTerm"
+                                       placeholder="Search here..."
+                                       onchange="this.form.submit()" />
 
-                        <!-- SEARCH -->
-
-                        <div class="search-box">
-
-                            <i class="bi bi-search"></i>
-
-                            <input type="text"
-                                   placeholder="Search here..." />
+                            </div>
 
                         </div>
 
+                        <a href="@Url.Action("UploadFiles", "Admin")"
+                           class="upload-btn">
 
-                        <!-- CATEGORY FILTER -->
+                            <i class="bi bi-plus-lg"></i>
 
-                        <select class="status-filter">
+                            Upload Records
 
-                            <option>
-                                All Categories
-                            </option>
-
-                            <option>
-                                PDF
-                            </option>
-
-                            <option>
-                                Images
-                            </option>
-
-                            <option>
-                                Documents
-                            </option>
-
-                        </select>
-
+                        </a>
 
                     </div>
-
-
-                    <!-- UPLOAD -->
-                    <a href="@Url.Action("UploadFiles", "Admin")"
-                       class="upload-btn">
-
-                        <i class="bi bi-plus-lg"></i>
-
-                        Upload Records
-
-                    </a>
-
-
-                </div>
+                }
 
 
                 <!-- =================================================
@@ -1264,7 +1207,7 @@
                             <tr>
 
                                 <th>
-                                    ID
+                                    RECORDS ID
                                 </th>
 
                                 <th>
@@ -1290,231 +1233,49 @@
 
                         <tbody>
 
+                            @if (ViewBag.Records == null || ViewBag.Records.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">No completed records yet.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var record in ViewBag.Records)
+                                {
+                                    <tr>
 
-                            <tr>
+                                        <td>@record.RecordId</td>
 
-                                <td>
-                                    R-0001
-                                </td>
+                                        <td>@record.ApplicantName</td>
 
-                                <td>
-                                    John Doe
-                                </td>
+                                        <td>
+                                            <span class="category-badge category-document">
+                                                @record.Status
+                                            </span>
+                                        </td>
 
-                                <td>
-                                    <span class="category-badge category-document">
-                                        Completed
-                                    </span>
-                                </td>
+                                        <td>@record.AppointmentDateFormatted</td>
 
-                                <td>
-                                    Apr 24, 2026
-                                </td>
+                                        <td>
 
-                                <td>
+                                            <div class="record-actions">
 
-                                    <div class="record-actions">
+                                                <button class="record-action download-action" title="Download">
+                                                    <i class="bi bi-download"></i>
+                                                </button>
 
-                                        <button class="record-action download-action"
-                                                title="Download">
+                                                <button class="record-action archive-action" title="Archive">
+                                                    <i class="bi bi-archive"></i>
+                                                </button>
 
-                                            <i class="bi bi-download"></i>
+                                            </div>
 
-                                        </button>
+                                        </td>
 
-                                        <button class="record-action archive-action"
-                                                title="Archive">
-
-                                            <i class="bi bi-archive"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-                                    R-0002
-                                </td>
-
-                                <td>
-                                    April Jane
-                                </td>
-
-                                <td>
-                                    <span class="category-badge category-pdf">
-                                        PDF
-                                    </span>
-                                </td>
-
-                                <td>
-                                    Apr 24, 2026
-                                </td>
-
-                                <td>
-
-                                    <div class="record-actions">
-
-                                        <button class="record-action download-action"
-                                                title="Download">
-
-                                            <i class="bi bi-download"></i>
-
-                                        </button>
-
-                                        <button class="record-action archive-action"
-                                                title="Archive">
-
-                                            <i class="bi bi-archive"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-                                    R-0003
-                                </td>
-
-                                <td>
-                                    Johnny Bravo
-                                </td>
-
-                                <td>
-                                    <span class="category-badge category-document">
-                                        Document
-                                    </span>
-                                </td>
-
-                                <td>
-                                    Apr 24, 2026
-                                </td>
-
-                                <td>
-
-                                    <div class="record-actions">
-
-                                        <button class="record-action download-action"
-                                                title="Download">
-
-                                            <i class="bi bi-download"></i>
-
-                                        </button>
-
-                                        <button class="record-action archive-action"
-                                                title="Archive">
-
-                                            <i class="bi bi-archive"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-                                    R-0004
-                                </td>
-
-                                <td>
-                                    Messi May
-                                </td>
-
-                                <td>
-                                    <span class="category-badge category-image">
-                                        Image
-                                    </span>
-                                </td>
-
-                                <td>
-                                    Apr 24, 2026
-                                </td>
-
-                                <td>
-
-                                    <div class="record-actions">
-
-                                        <button class="record-action download-action"
-                                                title="Download">
-
-                                            <i class="bi bi-download"></i>
-
-                                        </button>
-
-                                        <button class="record-action archive-action"
-                                                title="Archive">
-
-                                            <i class="bi bi-archive"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-                                    R-0005
-                                </td>
-
-                                <td>
-                                    Juan Dela Cruz
-                                </td>
-
-                                <td>
-                                    <span class="category-badge category-pdf">
-                                        PDF
-                                    </span>
-                                </td>
-
-                                <td>
-                                    Apr 24, 2026
-                                </td>
-
-                                <td>
-
-                                    <div class="record-actions">
-
-                                        <button class="record-action download-action"
-                                                title="Download">
-
-                                            <i class="bi bi-download"></i>
-
-                                        </button>
-
-                                        <button class="record-action archive-action"
-                                                title="Archive">
-
-                                            <i class="bi bi-archive"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
+                                    </tr>
+                                }
+                            }
 
                         </tbody>
 
@@ -1526,28 +1287,41 @@
                 <!-- =================================================
                      PAGINATION
                 ================================================== -->
+                @{
+                    int currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
+                    int totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
+                    int totalCount = ViewBag.TotalCount != null ? (int)ViewBag.TotalCount : (ViewBag.Records != null ? ViewBag.Records.Count : 0);
+                    int pageSize = ViewBag.PageSize != null ? (int)ViewBag.PageSize : 5;
+
+                    int startItem = totalCount == 0 ? 0 : ((currentPage - 1) * pageSize) + 1;
+                    int endItem = Math.Min(currentPage * pageSize, totalCount);
+                }
 
                 <div class="pagination-section">
 
-
-                    <!-- LEFT -->
-
                     <div class="showing-text">
-                        Showing 1 to 5 users
+                        Showing @startItem to @endItem of @totalCount records
                     </div>
-
-
-                    <!-- RIGHT -->
 
                     <div class="pagination-buttons">
 
-                        <button class="pagination-btn">
-                            Previous
-                        </button>
+                        @if (currentPage <= 1)
+                        {
+                            <span class="pagination-btn" style="opacity:.5; pointer-events:none;">Previous</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("RecordsManagement", "Admin", new { search = ViewBag.SearchTerm, page = currentPage - 1 })" class="pagination-btn">Previous</a>
+                        }
 
-                        <button class="pagination-btn next-btn">
-                            Next
-                        </button>
+                        @if (currentPage >= totalPages)
+                        {
+                            <span class="pagination-btn next-btn" style="opacity:.5; pointer-events:none;">Next</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("RecordsManagement", "Admin", new { search = ViewBag.SearchTerm, page = currentPage + 1 })" class="pagination-btn next-btn">Next</a>
+                        }
 
                     </div>
 
@@ -1568,39 +1342,39 @@
     <script>
 
 
-        /* =========================================
-           SETTINGS DROPDOWN
-        ========================================= */
+            /* =========================================
+               SETTINGS DROPDOWN
+            ========================================= */
 
-       const dropdown =
-            document.querySelector('.sidebar-dropdown');
+            const dropdown =
+                document.querySelector('.sidebar-dropdown');
 
-        const dropdownToggle =
-            document.querySelector('.dropdown-toggle-menu');
-
-
-        dropdownToggle.addEventListener('click', function () {
-
-            dropdown.classList.toggle('open');
-
-        });
-
-        /* =========================================
-           SIDEBAR COLLAPSE
-        ========================================= */
-
-        const sidebar =
-            document.querySelector('.sidebar');
-
-        const menuToggle =
-            document.getElementById('menuToggle');
+            const dropdownToggle =
+                document.querySelector('.dropdown-toggle-menu');
 
 
-        menuToggle.addEventListener('click', function () {
+            dropdownToggle.addEventListener('click', function () {
 
-            sidebar.classList.toggle('collapsed');
+                dropdown.classList.toggle('open');
 
-        }); 
+            });
+
+            /* =========================================
+               SIDEBAR COLLAPSE
+            ========================================= */
+
+            const sidebar =
+                document.querySelector('.sidebar');
+
+            const menuToggle =
+                document.getElementById('menuToggle');
+
+
+            menuToggle.addEventListener('click', function () {
+
+                sidebar.classList.toggle('collapsed');
+
+            });
 
     </script>
 

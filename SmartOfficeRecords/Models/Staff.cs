@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SmartOfficeRecords.Models
 {
-    [Table("Admin")]
-    public class Admin
+    [Table("Staff")]
+    public class Staff
     {
         [Key]
-        public int AdminId { get; set; }
+        public int StaffId { get; set; }
 
         [Required]
         public string Username { get; set; } = string.Empty;
@@ -19,8 +19,6 @@ namespace SmartOfficeRecords.Models
         [Required]
         public string FullName { get; set; } = string.Empty;
 
-        // Added for the AddNewUser form — were missing before, which is why
-        // AddNewUser wouldn't compile against this model.
         public string? ContactNumber { get; set; }
 
         public string? Email { get; set; }

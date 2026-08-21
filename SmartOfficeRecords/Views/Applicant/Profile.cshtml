@@ -195,16 +195,24 @@
                     color: var(--red);
                 }
 
-            .notification-badge-dot {
+            .notification-badge-count {
                 position: absolute;
-                top: 8px;
-                right: 7px;
-                width: 7px;
-                height: 7px;
+                top: 2px;
+                right: 2px;
+                min-width: 16px;
+                height: 16px;
+                padding: 0 4px;
                 background: var(--red);
-                border-radius: 50%;
-                border: 1px solid white;
-            }
+                border-radius: 999px;
+                border: 1.5px solid white;
+                color: white;
+                font-size: 9px;
+                font-weight: 700;
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }}
 
 
             /* =========================================================
@@ -303,6 +311,15 @@
                 color: #fb8c00;
             }
 
+            .notif-icon-danger {
+                background: #ffebee;
+                color: #e53935;
+            }
+
+            .notif-icon-info {
+                background: #e3f2fd;
+                color: #1e88e5;
+            }
             .notif-content {
                 flex: 1;
             }

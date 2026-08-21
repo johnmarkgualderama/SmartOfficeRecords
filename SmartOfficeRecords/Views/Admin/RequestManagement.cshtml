@@ -1313,22 +1313,22 @@
 
                     <div class="pagination-buttons">
 
-                        @if (currentPage <= 1)
+                        @if (currentPage >= totalPages)
                         {
                             <span class="pill-btn disabled">Previous</span>
                         }
                         else
                         {
-                            <a href="@Url.Action("RequestManagement", "Admin", new { search = ViewBag.SearchTerm, status = ViewBag.SelectedStatus, page = currentPage - 1 })" class="pill-btn">Previous</a>
+                            <a href="@Url.Action("RequestManagement", "Admin", new { search = ViewBag.SearchTerm, status = ViewBag.SelectedStatus, page = currentPage + 1 })" class="pill-btn">Previous</a>
                         }
 
-                        @if (currentPage >= totalPages)
+                        @if (currentPage <= 1)
                         {
                             <span class="pill-btn disabled">Next</span>
                         }
                         else
                         {
-                            <a href="@Url.Action("RequestManagement", "Admin", new { search = ViewBag.SearchTerm, status = ViewBag.SelectedStatus, page = currentPage + 1 })" class="pill-btn">Next</a>
+                            <a href="@Url.Action("RequestManagement", "Admin", new { search = ViewBag.SearchTerm, status = ViewBag.SelectedStatus, page = currentPage - 1 })" class="pill-btn">Next</a>
                         }
 
                     </div>

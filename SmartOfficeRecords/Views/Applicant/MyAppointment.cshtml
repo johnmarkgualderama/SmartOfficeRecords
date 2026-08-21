@@ -197,15 +197,23 @@
                     color: var(--red);
                 }
 
-            .notification-badge-dot {
+            .notification-badge-count {
                 position: absolute;
-                top: 8px;
-                right: 7px;
-                width: 7px;
-                height: 7px;
+                top: 2px;
+                right: 2px;
+                min-width: 16px;
+                height: 16px;
+                padding: 0 4px;
                 background: var(--red);
-                border-radius: 50%;
-                border: 1px solid white;
+                border-radius: 999px;
+                border: 1.5px solid white;
+                color: white;
+                font-size: 9px;
+                font-weight: 700;
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
 
@@ -303,6 +311,16 @@
             .notif-icon-warning {
                 background: #fff3e0;
                 color: #fb8c00;
+            }
+
+            .notif-icon-danger {
+                background: #ffebee;
+                color: #e53935;
+            }
+
+            .notif-icon-info {
+                background: #e3f2fd;
+                color: #1e88e5;
             }
 
             .notif-content {
@@ -1534,7 +1552,7 @@
 
                     <i class="bi bi-bell"></i>
 
-                    <span class="notification-badge-dot"></span>
+                    <span class="notification-badge-count" id="notifBadgeCount" style="display:none;"></span>
 
                 </button>
 
@@ -1550,76 +1568,22 @@
                         </span>
 
                         <a href="#"
-                           class="notif-mark-read">
+                           class="notif-mark-read"
+                           id="markAllReadBtn">
                             Mark all as read
                         </a>
 
                     </div>
 
 
-                    <div class="notif-body">
-
-                        <a href="#"
-                           class="notif-item unread">
-
-                            <div class="notif-icon-box notif-icon-success">
-
-                                <i class="bi bi-check-circle-fill"></i>
-
-                            </div>
-
-                            <div class="notif-content">
-
-                                <div class="notif-text">
-
-                                    Your interview request
-                                    <strong>#RI01</strong>
-                                    was approved.
-
-                                </div>
-
-                                <div class="notif-time">
-                                    10 mins ago
-                                </div>
-
-                            </div>
-
-                        </a>
-
-
-                        <a href="#"
-                           class="notif-item">
-
-                            <div class="notif-icon-box notif-icon-warning">
-
-                                <i class="bi bi-clock-history"></i>
-
-                            </div>
-
-                            <div class="notif-content">
-
-                                <div class="notif-text">
-
-                                    Reminder: Upload missing
-                                    requirements for
-                                    <strong>#RI02</strong>.
-
-                                </div>
-
-                                <div class="notif-time">
-                                    2 hours ago
-                                </div>
-
-                            </div>
-
-                        </a>
-
+                    <div class="notif-body" id="notifBody">
+                        <div style="padding:20px; text-align:center; color:#9e9e9e; font-size:11px;">Loading...</div>
                     </div>
 
 
                     <div class="notif-footer">
 
-                        <a href="#"
+                        <a href="@Url.Action("MyAppointment", "Applicant")"
                            class="notif-footer-btn">
 
                             View All Notifications
@@ -2307,6 +2271,76 @@
                     notificationContainer.classList.remove("open");
                 }
             });
+
+            // NOTIFICATIONS
+            function iconClassFor(type) {
+                switch (type) {
+                    case "Approved":
+                    case "Completed":
+                        return { box: "notif-icon-success", icon: "bi-check-circle-fill" };
+                    case "Rejected":
+                        return { box: "notif-icon-danger", icon: "bi-x-circle-fill" };
+                    case "Submitted":
+                        return { box: "notif-icon-info", icon: "bi-send-fill" };
+                    case "TodayReminder":
+                        return { box: "notif-icon-warning", icon: "bi-alarm-fill" };
+                    default:
+                        return { box: "notif-icon-warning", icon: "bi-bell-fill" };
+                }
+            }
+
+            function loadNotifications() {
+                fetch('@Url.Action("GetNotifications", "Applicant")')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.success) return;
+
+                        const notifBody = document.getElementById("notifBody");
+                        const badgeCount = document.getElementById("notifBadgeCount");
+
+                        if (data.notifications.length === 0) {
+                            notifBody.innerHTML = '<div style="padding:20px; text-align:center; color:#9e9e9e; font-size:11px;">No notifications yet.</div>';
+                        } else {
+                            notifBody.innerHTML = data.notifications.map(function (n) {
+                                const style = iconClassFor(n.type);
+                                return `
+                                    <a href="#" class="notif-item">
+                                        <div class="notif-icon-box ${style.box}"><i class="bi ${style.icon}"></i></div>
+                                        <div>
+                                            <div class="notif-text">${n.message}</div>
+                                            <div class="notif-time">${n.timeAgo}</div>
+                                        </div>
+                                    </a>
+                                `;
+                            }).join("");
+                        }
+
+                        if (data.unreadCount > 0) {
+                            badgeCount.textContent = data.unreadCount > 9 ? "9+" : data.unreadCount;
+                            badgeCount.style.display = "flex";
+                        } else {
+                            badgeCount.style.display = "none";
+                        }
+                    })
+                    .catch(err => console.error("Failed to load notifications:", err));
+            }
+
+            document.getElementById("markAllReadBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+
+                fetch('@Url.Action("MarkAllNotificationsRead", "Applicant")', {
+                    method: "POST"
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById("notifBadgeCount").style.display = "none";
+                    }
+                });
+            });
+
+            loadNotifications();
+            notificationToggle.addEventListener("click", loadNotifications);
                 /* =====================================================
                EDIT BOOK INTERVIEW MODAL
             ===================================================== */

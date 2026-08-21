@@ -1,137 +1,158 @@
-﻿@{
+﻿﻿@{
     ViewBag.Title = "User Management";
     Layout = null;
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>User Management</title>
+    <title>User Management - SORS</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
 
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet" />
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <!-- Inter Font - SAME AS RECORDS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet">
 
     <style>
 
-        /* COPY ALL CSS FROM YOUR RecordsManagement.cshtml */
+        /* =========================================================
+                   GLOBAL
+                ========================================================= */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background: #f4f6f9;
+            background: #F5F6F8;
             overflow: hidden;
+            color: #111827;
         }
 
-        /* ==========================
-                       DASHBOARD DESIGN
-                   ===========================*/
+
+        /* =========================================================
+                   MAIN CONTAINER
+                ========================================================= */
 
         .dashboard-container {
             display: flex;
             height: 100vh;
+            width: 100%;
         }
 
-        /* ==========================
-                        IDEBAR DESIGN
-                  ===========================*/
+
+        /* =========================================================
+                   SIDEBAR
+                ========================================================= */
 
         .sidebar {
-            width: 190px;
-            background: #0b1f3a;
-            color: white;
+            width: 158px;
+            min-width: 158px;
+            height: 100vh;
+            background: #1F2933;
+            color: #FFFFFF;
             display: flex;
             flex-direction: column;
             transition: all .3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,.25) transparent;
         }
 
-            /* ==========================
-                        COLLAPSED SIDEBAR
-                   ===========================*/
-            .sidebar.collapsed {
-                width: 90px;
+            .sidebar::-webkit-scrollbar {
+                width: 5px;
             }
 
-                /* Keep SORS visible */
+            .sidebar::-webkit-scrollbar-thumb {
+                background: rgba(255,255,255,.25);
+                border-radius: 10px;
+            }
+
+            .sidebar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+
+            /* =========================================================
+                   COLLAPSED SIDEBAR
+                ========================================================= */
+
+            .sidebar.collapsed {
+                width: 78px;
+                min-width: 78px;
+            }
+
                 .sidebar.collapsed .system-name {
                     display: block;
-                    font-size: 12px;
-                    font-weight: 600;
-                    margin-top: 10px;
+                    font-size: 11px;
+                    font-weight: 700;
+                    margin-top: 8px;
+                    letter-spacing: .2px;
                 }
 
-                /* Logo size when collapsed */
                 .sidebar.collapsed .logo-circle {
-                    width: 58px;
-                    height: 58px;
+                    width: 42px;
+                    height: 42px;
                 }
 
-                /* Keep divider line */
                 .sidebar.collapsed .logo-section {
-                    padding: 25px 15px;
-                    border-bottom: 1px solid rgba(255,255,255,.15);
+                    padding: 18px 10px;
                 }
 
-                /* Hide menu text only */
                 .sidebar.collapsed .menu a span,
                 .sidebar.collapsed .logout a span {
                     display: none;
                 }
 
-                /* Menu layout */
                 .sidebar.collapsed .menu {
-                    padding: 20px 12px;
+                    padding: 16px 10px;
                 }
 
-                    /* Menu items */
                     .sidebar.collapsed .menu a {
-                        width: 50px;
-                        height: 50px;
-                        margin: 0 auto 18px auto;
+                        width: 44px;
+                        height: 44px;
+                        margin: 0 auto 10px auto;
                         padding: 0;
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        border-radius: 8px;
+                        border-radius: 6px;
                     }
 
-                        /* Active menu */
                         .sidebar.collapsed .menu a.active {
-                            background: #1e4f8a;
+                            background: #B91C1C;
                             box-shadow: 0 4px 10px rgba(0,0,0,.15);
                         }
 
-                        /* Keep icon size same as expanded */
                         .sidebar.collapsed .menu a i,
                         .sidebar.collapsed .logout a i {
                             margin: 0;
-                            font-size: inherit;
+                            font-size: 17px;
                         }
 
-                /* Logout */
                 .sidebar.collapsed .logout {
-                    margin-top: auto;
-                    padding-bottom: 20px;
+                    padding-bottom: 15px;
                 }
 
                     .sidebar.collapsed .logout a {
-                        width: 50px;
-                        height: 50px;
+                        width: 44px;
+                        height: 44px;
                         margin: 0 auto;
                         padding: 0;
                         display: flex;
@@ -139,84 +160,21 @@
                         align-items: center;
                     }
 
-        /* ================
-                       SETTINGS DROPDOWN
-                   ====================== */
 
-        .sidebar-dropdown {
-            margin-bottom: 10px;
-        }
+        /* =========================================================
+                   LOGO SECTION
+                ========================================================= */
 
-        .dropdown-toggle-menu {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-            .dropdown-toggle-menu:hover {
-                background: rgba(255,255,255,.12);
-            }
-
-        .small-arrow {
-            font-size: 12px;
-            transition: transform .3s ease;
-        }
-
-        /* submenu */
-        .dropdown-submenu {
-            display: none;
-            flex-direction: column;
-            padding-left: 20px;
-        }
-
-            .dropdown-submenu a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 10px 12px;
-                font-size: 14px;
-                border-radius: 6px;
-            }
-
-                .dropdown-submenu a:hover {
-                    background: rgba(255,255,255,.12);
-                }
-
-        /* active state */
-        .sidebar-dropdown.open .dropdown-submenu {
-            display: flex;
-        }
-
-        .sidebar-dropdown.open .small-arrow {
-            transform: rotate(180deg);
-        }
-
-        /* Hide dropdown arrow when sidebar is collapsed */
-        .sidebar.collapsed .small-arrow {
-            display: none;
-        }
-
-
-        /* ==========================
-                          LOGO DESIGN
-                   ===========================*/
         .logo-section {
             text-align: center;
-            padding: 25px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, .15);
+            padding: 18px 10px;
+            border-bottom: 1px solid rgba(255,255,255,.18);
         }
 
         .logo-circle {
-            width: 60px;
-            height: 60px;
-            background: white;
+            width: 42px;
+            height: 42px;
+            background: #FFFFFF;
             border-radius: 50%;
             margin: auto;
             display: flex;
@@ -230,122 +188,175 @@
             object-fit: contain;
         }
 
-        .logout {
-            margin-top: auto;
-            padding: 15px 12px;
-        }
-
-            .logout a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                gap: 12px;
-                align-items: center;
-                padding: 12px 14px;
-            }
-
         .system-name {
-            margin-top: 12px;
-            font-size: 14px;
-            font-weight: 600;
+            margin-top: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            color: #FFFFFF;
         }
-        /* ==========================
-                         MENU DESIGN
-                   ===========================*/
+
+
+        /* =========================================================
+                   MENU
+                ========================================================= */
 
         .menu {
-            padding: 20px 12px;
+            padding: 16px 9px;
         }
 
             .menu a {
-                color: white;
+                color: #FFFFFF;
                 text-decoration: none;
                 display: flex;
                 align-items: center;
-                gap: 12px;
-                padding: 12px 14px;
-                margin-bottom: 10px;
+                gap: 11px;
+                padding: 10px 11px;
+                margin-bottom: 5px;
                 border-radius: 6px;
+                font-size: 13px;
+                font-weight: 500;
+                line-height: 1.2;
+                transition: all .2s ease;
             }
 
+                .menu a i {
+                    font-size: 16px;
+                    min-width: 16px;
+                }
+
                 .menu a:hover {
-                    background: rgba(255,255,255,.12);
+                    background: rgba(185, 28, 28, .18);
+                    color: #FFFFFF;
                 }
 
                 .menu a.active {
-                    background: #1e4f8a;
-                    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+                    background: #B91C1C;
+                    color: #FFFFFF;
+                    box-shadow: 0 3px 8px rgba(185,28,28,.22);
                 }
 
-        /* MAIN */
-        .main-content {
-            flex: 1;
-            background: #f4f6f9;
+
+        /* =========================================================
+                   LOGOUT
+                ========================================================= */
+
+        .logout {
+            margin-top: auto;
+            padding: 12px 9px 15px 9px;
         }
 
-        /* ==========================
-                            TOP BAR
-                   ===========================*/
+            .logout a {
+                color: #FFFFFF;
+                text-decoration: none;
+                display: flex;
+                gap: 11px;
+                align-items: center;
+                padding: 10px 11px;
+                font-size: 13px;
+                font-weight: 500;
+                border-radius: 6px;
+                transition: all .2s ease;
+            }
+
+                .logout a i {
+                    font-size: 16px;
+                }
+
+                .logout a:hover {
+                    background: rgba(185,28,28,.18);
+                    color: #FFFFFF;
+                }
+
+
+        /* =========================================================
+                   MAIN CONTENT
+                ========================================================= */
+
+        .main-content {
+            flex: 1;
+            background: #F5F6F8;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+
+        /* =========================================================
+                   TOPBAR
+                ========================================================= */
+
         .topbar {
-            height: 60px;
-            border-bottom: 1px solid #d9dce3;
+            height: 56px;
+            min-height: 56px;
+            flex-shrink: 0;
+            border-bottom: 1px solid #E5E7EB;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
-            background: #fff;
-        }
-
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: #0b1f3a;
-            font-size: 22px;
-            cursor: pointer;
-            margin-right: 10px;
+            background: #FFFFFF;
         }
 
         .topbar-left {
             display: flex;
             align-items: center;
-            gap: 18px;
-            margin-right: 8px;
+            gap: 10px;
         }
 
-            .topbar-left i {
-                font-size: 28px;
-                color: #0b1f3a;
-                cursor: pointer;
-                margin: 8px;
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #B91C1C;
+            font-size: 19px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+            .menu-toggle:hover {
+                color: #991B1B;
             }
 
-            .topbar-left h3 {
-                color: #0b1f3a;
-                font-weight: 700;
-                margin: 0;
-            }
+
+        /* =========================================================
+                   TOPBAR RIGHT
+                ========================================================= */
 
         .topbar-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
             margin-left: auto;
         }
 
-            .topbar-right i {
-                font-size: 24px;
-                cursor: pointer;
+        .notification-icon {
+            font-size: 19px;
+            color: #374151;
+            cursor: pointer;
+            transition: color .2s ease;
+        }
+
+            .notification-icon:hover {
+                color: #B91C1C;
             }
+
+
+        /* =========================================================
+                   PROFILE
+                ========================================================= */
 
         .profile {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
+            padding-left: 12px;
+            border-left: 1px solid #E5E7EB;
         }
 
             .profile img {
-                width: 40px;
-                height: 40px;
+                width: 34px;
+                height: 34px;
                 border-radius: 50%;
                 object-fit: cover;
             }
@@ -353,200 +364,750 @@
         .profile-info {
             display: flex;
             flex-direction: column;
-            line-height: 1.2;
+            line-height: 1.25;
         }
-
-            .profile-info .role {
-                font-size: 12px;
-                color: #777;
-            }
 
             .profile-info h5 {
                 margin: 0;
-                font-size: 14px;
+                font-size: 12px;
                 font-weight: 600;
-                color: #1e4f8a;
+                color: #111827;
             }
 
             .profile-info span {
-                font-size: 12px;
-                color: gray;
+                font-size: 10px;
+                color: #6B7280;
+                margin-top: 2px;
             }
 
-        /* CONTENT */
+        .profile-arrow {
+            color: #6B7280;
+            font-size: 10px;
+            margin-left: 3px;
+        }
+
+
+        /* =========================================================
+                   CONTENT AREA
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
         .content-area {
-            padding: 30px;
+            flex: 1;
+            padding: 22px 30px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #C7CBD1 transparent;
+        }
+
+            .content-area::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .content-area::-webkit-scrollbar-thumb {
+                background: #C7CBD1;
+                border-radius: 10px;
+            }
+
+            .content-area::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+
+        /* =========================================================
+                   PAGE HEADER
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
         }
 
         .page-title {
-            font-size: 20px;
+            color: #B91C1C;
+            font-size: 24px;
             font-weight: 700;
-            color: #1e4f8a;
-            margin-bottom: 25px;
+            letter-spacing: -0.2px;
+            margin: 0 0 5px 0;
+            line-height: 1.2;
         }
 
-        /* ACTION BAR */
+        .page-description {
+            color: #64748B;
+            font-size: 13px;
+            font-weight: 400;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+                   ACTION BAR
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
         .action-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
         .search-filter {
             display: flex;
-            gap: 15px;
+            align-items: center;
+            gap: 12px;
             flex: 1;
         }
 
+
+        /* =========================================================
+                   SEARCH BOX
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
         .search-box {
+            height: 36px;
             flex: 1;
-            position: relative;
+            max-width: 540px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 3px 12px rgba(0,0,0,.05);
+            display: flex;
+            align-items: center;
+            padding: 0 13px;
+            gap: 9px;
         }
 
             .search-box i {
-                position: absolute;
-                top: 14px;
-                left: 14px;
-                color: #9ca3af;
-                font-size: 16px;
+                color: #6B7280;
+                font-size: 13px;
             }
 
             .search-box input {
                 width: 100%;
-                height: 50px;
-                border: 1px solid #d1d5db;
-                border-radius: 8px;
-                padding-left: 42px;
-                font-size: 15px;
+                border: none;
                 outline: none;
+                font-size: 11px;
+                color: #374151;
+                background: transparent;
+                font-weight: 400;
             }
 
+                .search-box input::placeholder {
+                    color: #9CA3AF;
+                }
+
+
+        /* =========================================================
+                   ROLE FILTER
+                   SAME HEIGHT / FONT SCALE AS RECORDS
+                ========================================================= */
+
         .status-filter {
-            width: 220px;
-            height: 50px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            padding: 0 15px;
-            font-size: 15px;
+            width: 135px;
+            height: 36px;
+            background: #FFFFFF;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            padding: 0 11px;
+            font-size: 11px;
             font-weight: 500;
+            color: #374151;
             outline: none;
         }
 
+            .status-filter:focus {
+                border-color: #B91C1C;
+            }
+
+
+        /* =========================================================
+                   ADD USER BUTTON
+                   SAME SIZE AS RECORDS UPLOAD BUTTON
+                ========================================================= */
+
         .create-btn {
-            background: #1e4f8a;
-            color: white;
-            height: 50px;
-            padding: 0 24px;
-            border-radius: 8px;
+            height: 36px;
+            border: none;
+            border-radius: 6px;
+            background: #B91C1C;
+            color: #FFFFFF;
+            padding: 0 16px;
+            font-size: 11px;
             font-weight: 600;
-            font-size: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: all .2s ease;
             text-decoration: none;
+            white-space: nowrap;
         }
+
+            .create-btn i {
+                font-size: 13px;
+            }
 
             .create-btn:hover {
-                transform: translateY(0px);
-                box-shadow: 0 3px 8px rgba(11, 31, 58, 0.25);
+                background: #991B1B;
+                color: #FFFFFF;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 10px rgba(185,28,28,.20);
             }
 
-        /* TABLE */
+
+        /* =========================================================
+                   TABLE CONTAINER
+                   SAME AS RECORDS
+                ========================================================= */
+
         .table-container {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #e5e7eb;
+            background: #FFFFFF;
+            border: 1px solid #D9DDE3;
+            border-radius: 8px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,.02);
         }
 
-        .table {
-            margin-bottom: 0;
-        }
-
-            .table thead {
-                background: #f3f4f6;
+            .table-container::-webkit-scrollbar {
+                height: 6px;
             }
 
-                .table thead th {
-                    padding: 18px;
-                    font-size: 15px;
-                    font-weight: 700;
-                    color: #111827;
+            .table-container::-webkit-scrollbar-thumb {
+                background: #C7CBD1;
+                border-radius: 10px;
+            }
+
+            .table-container::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+
+        /* =========================================================
+                   USER TABLE
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
+        .user-table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: collapse;
+            margin: 0;
+            table-layout: fixed;
+        }
+
+
+            /* =========================================================
+                   COLUMN WIDTHS
+                ========================================================= */
+
+            .user-table th:nth-child(1),
+            .user-table td:nth-child(1) {
+                width: 10%;
+            }
+
+            .user-table th:nth-child(2),
+            .user-table td:nth-child(2) {
+                width: 16%;
+            }
+
+            .user-table th:nth-child(3),
+            .user-table td:nth-child(3) {
+                width: 24%;
+            }
+
+            .user-table th:nth-child(4),
+            .user-table td:nth-child(4) {
+                width: 13%;
+            }
+
+            .user-table th:nth-child(5),
+            .user-table td:nth-child(5) {
+                width: 13%;
+            }
+
+            .user-table th:nth-child(6),
+            .user-table td:nth-child(6) {
+                width: 14%;
+            }
+
+            .user-table th:nth-child(7),
+            .user-table td:nth-child(7) {
+                width: 10%;
+            }
+
+
+            /* =========================================================
+                   TABLE HEADER
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
+            .user-table thead {
+                background: #111111;
+            }
+
+            .user-table th {
+                height: 40px;
+                padding: 0 12px;
+                font-size: 10px;
+                font-weight: 700;
+                color: #FFFFFF;
+                background: #111111;
+                border-bottom: 1px solid #111111;
+                white-space: nowrap;
+                letter-spacing: .15px;
+                vertical-align: middle;
+                text-align: left;
+            }
+
+
+                /* =========================================================
+                   HEADER ALIGNMENT
+                ========================================================= */
+
+                .user-table th:nth-child(1) {
+                    text-align: center;
                 }
 
-            .table tbody td {
-                padding: 18px;
-                font-size: 14px;
+                .user-table th:nth-child(2),
+                .user-table th:nth-child(3) {
+                    text-align: left;
+                }
+
+                .user-table th:nth-child(4),
+                .user-table th:nth-child(5),
+                .user-table th:nth-child(6),
+                .user-table th:nth-child(7) {
+                    text-align: center;
+                }
+
+
+            /* =========================================================
+                   TABLE BODY
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
+            .user-table td {
+                height: 42px;
+                padding: 0 12px;
+                font-size: 10px;
+                font-weight: 500;
                 color: #374151;
+                background: #FFFFFF;
+                border-bottom: 1px solid #E5E7EB;
+                white-space: nowrap;
+                vertical-align: middle;
             }
 
-        /* PAGINATION */
-        .pagination-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            margin-top: 35px;
-        }
 
-        .page-number {
-            width: 34px;
-            height: 34px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: center;
+                /* =========================================================
+                   BODY ALIGNMENT
+                ========================================================= */
+
+                .user-table td:nth-child(1) {
+                    text-align: center;
+                    font-weight: 600;
+                    color: #4B5563;
+                }
+
+                .user-table td:nth-child(2),
+                .user-table td:nth-child(3) {
+                    text-align: left;
+                }
+
+                .user-table td:nth-child(4),
+                .user-table td:nth-child(5),
+                .user-table td:nth-child(6),
+                .user-table td:nth-child(7) {
+                    text-align: center;
+                }
+
+
+            /* =========================================================
+                   HOVER
+                ========================================================= */
+
+            .user-table tbody tr:hover td {
+                background: #FEF2F2;
+            }
+
+            .user-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+
+        /* =========================================================
+                   ROLE BADGES
+                   MATCH RECORDS BADGE SCALE
+                ========================================================= */
+
+        .role-badge {
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
+            min-width: 70px;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 9px;
             font-weight: 600;
-            cursor: pointer;
+            line-height: 1;
         }
 
-        .active-page {
-            background: #1e4f8a;
-            color: white;
+        .role-admin {
+            background: #FEE2E2;
+            color: #B91C1C;
+        }
+
+        .role-staff {
+            background: #F3F4F6;
+            color: #374151;
+        }
+
+
+        /* =========================================================
+                   STATUS BADGES
+                   MATCH RECORDS BADGE SCALE
+                ========================================================= */
+
+        .active-badge,
+        .inactive-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-width: 70px;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 9px;
+            font-weight: 600;
+            line-height: 1;
         }
 
         .active-badge {
-            background: #d1fae5;
-            color: #10b981;
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 600;
+            background: #DCFCE7;
+            color: #15803D;
         }
 
-        .action-icons {
-            display: flex;
-            gap: 18px;
-            font-size: 18px;
-        }
-
-            .action-icons i {
-                cursor: pointer;
-                transition: .3s;
+            .active-badge::before {
+                content: "";
+                width: 5px;
+                height: 5px;
+                background: #16A34A;
+                border-radius: 50%;
             }
 
-                .action-icons i:hover {
-                    color: #3b82f6;
+        .inactive-badge {
+            background: #FEE2E2;
+            color: #B91C1C;
+        }
+
+            .inactive-badge::before {
+                content: "";
+                width: 5px;
+                height: 5px;
+                background: #DC2626;
+                border-radius: 50%;
+            }
+
+
+        /* =========================================================
+                   LAST ACTIVE
+                ========================================================= */
+
+        .last-active {
+            font-size: 10px;
+            font-weight: 500;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+
+        /* =========================================================
+                   USER ACTIONS
+                ========================================================= */
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .edit-btn,
+        .deactivate-btn {
+            height: 28px;
+            padding: 0 10px;
+            border-radius: 5px;
+            font-size: 9px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        .edit-btn {
+            background: #FFFFFF;
+            color: #374151;
+            border: 1px solid #E2E5E8;
+        }
+
+            .edit-btn:hover {
+                background: #F3F4F6;
+                color: #111827;
+                border-color: #CBD5E1;
+            }
+
+        .deactivate-btn {
+            background: #FEE2E2;
+            color: #B91C1C;
+            border: 1px solid transparent;
+        }
+
+            .deactivate-btn:hover {
+                background: #FECACA;
+                color: #991B1B;
+            }
+
+
+        /* =========================================================
+                   PAGINATION
+                   SAME SIZE AS RECORDS
+                ========================================================= */
+
+        .pagination-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            width: 100%;
+        }
+
+        .showing-text {
+            font-size: 10px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pagination-btn {
+            height: 28px;
+            padding: 0 12px;
+            border: 1px solid #E5E7EB;
+            background: #FFFFFF;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6B7280;
+            font-size: 9px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+            .pagination-btn:hover {
+                background: #FEE2E2;
+                color: #B91C1C;
+                border-color: #FECACA;
+            }
+
+            .pagination-btn.next-btn {
+                background: #B91C1C;
+                color: #FFFFFF;
+                border-color: #B91C1C;
+            }
+
+                .pagination-btn.next-btn:hover {
+                    background: #991B1B;
+                    color: #FFFFFF;
                 }
+
+
+        /* =========================================================
+                   RESPONSIVE
+                ========================================================= */
+
+        @@media (max-width: 1000px) {
+
+            .action-bar {
+                flex-wrap: wrap;
+            }
+
+            .search-filter {
+                width: 100%;
+            }
+
+            .search-box {
+                max-width: none;
+            }
+
+            .create-btn {
+                margin-left: auto;
+            }
+        }
+
+
+        @@media (max-width: 768px) {
+
+            body {
+                overflow-y: auto;
+            }
+
+            .sidebar {
+                width: 78px;
+                min-width: 78px;
+            }
+
+            .system-name,
+            .menu a span,
+            .logout a span {
+                display: none;
+            }
+
+            .logo-section {
+                padding: 15px 8px;
+            }
+
+            .logo-circle {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu {
+                padding: 15px 8px;
+            }
+
+                .menu a {
+                    justify-content: center;
+                    padding: 10px;
+                }
+
+            .logout a {
+                justify-content: center;
+            }
+
+            .content-area {
+                padding: 16px;
+            }
+
+            .page-title {
+                font-size: 21px;
+            }
+
+            .page-description {
+                font-size: 12px;
+            }
+
+            .page-header {
+                margin-bottom: 16px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-filter {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: none;
+            }
+
+            .status-filter {
+                width: 100%;
+            }
+
+            .create-btn {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .user-table {
+                min-width: 1050px;
+            }
+
+            .pagination-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .pagination-buttons {
+                align-self: flex-end;
+            }
+        }
+
+
+        @@media (max-width: 500px) {
+
+            .profile-info {
+                display: none;
+            }
+
+            .profile {
+                border-left: none;
+            }
+
+            .content-area {
+                padding: 12px;
+            }
+        }
 
     </style>
 
 </head>
 
+
 <body>
 
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
         <aside class="sidebar">
+
+
+            <!-- LOGO -->
 
             <div class="logo-section">
 
                 <div class="logo-circle">
-                    <img src="~/Images/logo.png" class="logo-img">
+
+                    <img src="~/Images/newlogo.png"
+                         class="logo-img"
+                         alt="SORS Logo" />
+
                 </div>
 
                 <div class="system-name">
@@ -555,96 +1116,186 @@
 
             </div>
 
+
+            <!-- MENU -->
+
             <div class="menu">
 
+
+                <!-- DASHBOARD -->
+
                 <a href="@Url.Action("Dashboard", "Admin")">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
+
+                    <i class="bi bi-grid-fill"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
                 </a>
+
+
+                <!-- REQUEST -->
 
                 <a href="@Url.Action("RequestManagement", "Admin")">
+
                     <i class="bi bi-file-earmark-text"></i>
-                    <span>Request</span>
+
+                    <span>
+                        Request
+                    </span>
+
                 </a>
+
+
+                <!-- RECORDS -->
 
                 <a href="@Url.Action("RecordsManagement", "Admin")">
+
                     <i class="bi bi-folder2-open"></i>
-                    <span>Records</span>
+
+                    <span>
+                        Records
+                    </span>
+
                 </a>
+
+
+                <!-- REPORTS -->
 
                 <a href="@Url.Action("ReportsManagement", "Admin")">
-                    <i class="bi bi-clipboard-data"></i>
-                    <span>Reports</span>
+
+                    <i class="bi bi-file-earmark-bar-graph"></i>
+
+                    <span>
+                        Reports
+                    </span>
+
                 </a>
 
-                <a href="@Url.Action("UsersManagement", "Admin")" class="active">
-                    <i class="bi bi-people"></i>
-                    <span>Users</span>
+
+                <!-- AUDIT LOGS -->
+
+                <a href="@Url.Action("AuditLogs", "Admin")">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    <span>
+                        Audit Logs
+                    </span>
+
                 </a>
 
-                <!-- SETTINGS DROPDOWN -->
-                <div class="sidebar-dropdown">
 
-                    <a href="javascript:void(0)" class="dropdown-toggle-menu">
-                        <i class="bi bi-gear"></i>
-                        <span>Settings</span>
-                        <i class="bi bi-caret-down-fill ms-auto small-arrow"></i>
-                    </a>
+                <!-- USERS - ACTIVE -->
 
-                    <div class="dropdown-submenu">
+                <a href="@Url.Action("UsersManagement", "Admin")"
+                   class="active">
 
-                        <a href="@Url.Action("Settings", "Admin")">
-                            <i class="bi bi-sliders"></i>
-                            <span>General Settings</span>
-                        </a>
+                    <i class="bi bi-people-fill"></i>
 
-                        <a href="@Url.Action("SAccountSettings", "Admin")">
-                            <i class="bi bi-person-gear"></i>
-                            <span>Account & Security</span>
-                        </a>
-                    </div>
+                    <span>
+                        Users
+                    </span>
 
-                </div>
+                </a>
+
+
+                <!-- SETTINGS -->
+
+                <a href="@Url.Action("Settings", "Admin")">
+
+                    <i class="bi bi-gear-fill"></i>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
 
             </div>
+
+
+            <!-- LOGOUT -->
 
             <div class="logout">
 
                 <a href="@Url.Action("Login", "Admin")">
+
                     <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
+
+                    <span>
+                        Logout
+                    </span>
+
                 </a>
 
             </div>
 
+
         </aside>
 
-        <!-- MAIN -->
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+
         <div class="main-content">
 
-            <!-- TOPBAR -->
+
+            <!-- =================================================
+                 TOPBAR
+            ================================================== -->
+
             <div class="topbar">
 
-                <div class="topbar-left">
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="bi bi-list"></i>
-                    </button>
 
+                <!-- LEFT -->
+
+                <div class="topbar-left">
+
+                    <button class="menu-toggle"
+                            id="menuToggle"
+                            type="button">
+
+                        <i class="bi bi-list"></i>
+
+                    </button>
 
                 </div>
 
+
+                <!-- RIGHT -->
+
                 <div class="topbar-right">
 
-                    <i class="bi bi-bell-fill"></i>
+
+                    <!-- NOTIFICATION -->
+
+                    <i class="bi bi-bell notification-icon"></i>
+
+
+                    <!-- PROFILE -->
 
                     <div class="profile">
 
-                        <img src="~/Images/adminpic.jpg" alt="Profile" />
+                        <img src="~/Images/adminpic.jpg"
+                             alt="Profile" />
 
                         <div class="profile-info">
-                            <span class="role">Administrator</span>
-                            <h5>Juan Dela Cruz</h5>
+
+                            <h5>
+                                John Cruz
+                            </h5>
+
+                            <span>
+                                Administrator
+                            </span>
+
                         </div>
+
+                        <i class="bi bi-chevron-down profile-arrow"></i>
 
                     </div>
 
@@ -652,210 +1303,215 @@
 
             </div>
 
-            <!-- CONTENT -->
+
+            <!-- =================================================
+                 CONTENT
+            ================================================== -->
+
             <div class="content-area">
 
-                <div class="page-title">
-                    Users
+
+                <!-- =================================================
+                     PAGE HEADER
+                ================================================== -->
+
+                <div class="page-header">
+
+                    <div>
+
+                        <h2 class="page-title">
+                            Users
+                        </h2>
+
+                        <p class="page-description">
+                            Manage user accounts and keep their information up to date.
+                        </p>
+
+                    </div>
+
                 </div>
 
-                <!-- ACTION BAR -->
+
+                <!-- =================================================
+                     ACTION BAR
+                ================================================== -->
+
                 <div class="action-bar">
 
+
                     <div class="search-filter">
+
+
+                        <!-- SEARCH -->
 
                         <div class="search-box">
 
                             <i class="bi bi-search"></i>
 
                             <input type="text"
-                                   placeholder="Search users..." />
+                                   id="userSearch"
+                                   placeholder="Search users or activity..." />
 
                         </div>
 
-                        <select class="status-filter">
 
-                            <option>All Roles</option>
-                            <option>Admin</option>
-                            <option>Staff</option>
+                        <!-- ROLE FILTER -->
+
+                        <select class="status-filter"
+                                id="roleFilter">
+
+                            <option>
+                                All Roles
+                            </option>
+
+                            <option>
+                                Admin
+                            </option>
+
+                            <option>
+                                Staff
+                            </option>
 
                         </select>
 
+
                     </div>
+
+
+                    <!-- ADD USER -->
 
                     <a href="@Url.Action("AddNewUser", "Admin")"
                        class="create-btn">
 
                         <i class="bi bi-plus-lg"></i>
+
                         Add New User
 
                     </a>
 
+
                 </div>
 
-                <!-- TABLE -->
+
+                <!-- =================================================
+                     TABLE
+                ================================================== -->
+
                 <div class="table-container">
 
-                    <table class="table">
+                    <table class="user-table">
+
+                        <!-- TABLE HEADER -->
 
                         <thead>
 
                             <tr>
-                                <th>NAME</th>
-                                <th>EMAIL ADDRESS</th>
-                                <th>ROLE</th>
-                                <th>STATUS</th>
-                                <th>ACTION</th>
+
+                                <th>
+                                    USERS ID
+                                </th>
+
+                                <th>
+                                    NAME
+                                </th>
+
+                                <th>
+                                    EMAIL ADDRESS
+                                </th>
+
+                                <th>
+                                    ROLE
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    LAST ACTIVE
+                                </th>
+
+                                <th>
+                                    ACTION
+                                </th>
+
                             </tr>
 
                         </thead>
 
-                        <tbody>
 
-                            <tr>
+                        <!-- TABLE BODY -->
 
-                                <td>Admin User</td>
-                                <td>administrator@gmail.com</td>
-                                <td>Admin</td>
-
-                                <td>
-                                    <span class="active-badge">
-                                        Active
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="action-icons">
-
-                                        <i class="bi bi-pencil-square"></i>
-                                        <i class="bi bi-trash"></i>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>Jane Pakay</td>
-                                <td>janepakay@gmail.com</td>
-                                <td>Staff</td>
-
-                                <td>
-                                    <span class="active-badge">
-                                        Active
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="action-icons">
-
-                                        <i class="bi bi-pencil-square"></i>
-                                        <i class="bi bi-trash"></i>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>Johnny Bravo</td>
-                                <td>johnnybravo@gmail.com</td>
-                                <td>Staff</td>
-
-                                <td>
-                                    <span class="active-badge">
-                                        Active
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="action-icons">
-
-                                        <i class="bi bi-pencil-square"></i>
-                                        <i class="bi bi-trash"></i>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>Messie Pie</td>
-                                <td>messiepie@gmail.com</td>
-                                <td>Staff</td>
-
-                                <td>
-                                    <span class="active-badge">
-                                        Active
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="action-icons">
-
-                                        <i class="bi bi-pencil-square"></i>
-                                        <i class="bi bi-trash"></i>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>Juana Silas</td>
-                                <td>juanasilas@gmail.com</td>
-                                <td>Staff</td>
-
-                                <td>
-                                    <span class="active-badge">
-                                        Active
-                                    </span>
-                                </td>
-
-                                <td>
-
-                                    <div class="action-icons">
-
-                                        <i class="bi bi-pencil-square"></i>
-                                        <i class="bi bi-trash"></i>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
-
+                        <tbody id="usersTableBody">
+                            @foreach (var user in ViewBag.Users)
+                            {
+                                <tr>
+                                    <td>@user.DisplayId</td>
+                                    <td>@user.FullName</td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        <span class="role-badge @(user.RoleTag == "Admin" ? "role-admin" : "role-staff")">
+                                            @user.RoleTag
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="@(user.IsActive ? "active-badge" : "inactive-badge")">
+                                            @(user.IsActive ? "Active" : "Inactive")
+                                        </span>
+                                    </td>
+                                    <td><span class="last-active">@user.LastActiveText</span></td>
+                                    <td>
+                                        <div class="user-actions">
+                                            <a href="@Url.Action("EditUser", "Admin", new { id = user.Id, role = user.RoleTag })" class="edit-btn">Edit</a>
+                                            <button class="deactivate-btn" type="button"
+                                                    onclick="toggleDeactivate(@user.Id, '@user.RoleTag', this)">
+                                                @(user.IsActive ? "Deactivate" : "Activate")
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
 
                     </table>
 
                 </div>
 
-                <!-- PAGINATION -->
+
+                <!-- =================================================
+                     PAGINATION
+                ================================================== -->
+
                 <div class="pagination-section">
 
-                    <i class="bi bi-chevron-left"></i>
+                    <div class="showing-text"
+                         id="showingText">
 
-                    <div class="page-number active-page">1</div>
-                    <div class="page-number">2</div>
-                    <div class="page-number">3</div>
-                    <div class="page-number">4</div>
+                        Showing 1 to 5 users
 
-                    <i class="bi bi-chevron-right"></i>
+                    </div>
+
+
+                    <div class="pagination-buttons">
+
+                        <button class="pagination-btn"
+                                type="button">
+
+                            Previous
+
+                        </button>
+
+                        <button class="pagination-btn next-btn"
+                                type="button">
+
+                            Next
+
+                        </button>
+
+                    </div>
 
                 </div>
+
 
             </div>
 
@@ -863,21 +1519,86 @@
 
     </div>
 
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
     <script>
-        const dropdown = document.querySelector('.sidebar-dropdown');
-            const toggle = document.querySelector('.dropdown-toggle-menu');
 
-        toggle.addEventListener('click', function () {
-            dropdown.classList.toggle('open');
-        });
+            /* =========================================================
+               SIDEBAR COLLAPSE
+            ========================================================= */
 
-        const sidebar = document.querySelector('.sidebar');
-        const toggleBtn = document.getElementById('menuToggle');
+            const sidebar =
+                document.querySelector('.sidebar');
 
-        toggleBtn.addEventListener('click', function () {
-            sidebar.classList.toggle('collapsed');
-        });
+            const menuToggle =
+                document.getElementById('menuToggle');
+
+            menuToggle.addEventListener('click', function () {
+
+                sidebar.classList.toggle('collapsed');
+
+            });
+
+
+            /* =========================================================
+               USER SEARCH
+            ========================================================= */
+
+            const userSearch =
+                document.getElementById('userSearch');
+
+            const roleFilter =
+                document.getElementById('roleFilter');
+
+            const usersTableBody =
+                document.getElementById('usersTableBody');
+
+            const showingText =
+                document.getElementById('showingText');
+
+
+            function filterUsers() {
+                ... // your existing code, unchanged
+            }
+
+
+            userSearch.addEventListener(
+                'input',
+                filterUsers
+            );
+
+
+            roleFilter.addEventListener(
+                'change',
+                filterUsers
+            );
+
+
+            /* =========================================================
+               DEACTIVATE / ACTIVATE USER      ← ADD THIS PART
+            ========================================================= */
+
+            function toggleDeactivate(id, role, btn) {
+                fetch('@Url.Action("DeactivateUser", "Admin")', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: id, role: role })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            }
+
     </script>
 
 </body>
+
 </html>

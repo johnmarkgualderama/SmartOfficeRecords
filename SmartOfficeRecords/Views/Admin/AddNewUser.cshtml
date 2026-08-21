@@ -1,523 +1,985 @@
-﻿@{
-    ViewBag.Title = "Add New User";
-    Layout = null;
+﻿﻿@{
+ViewBag.Title = "Add New User";
+Layout = null;
 }
 
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
 
-    <title>Add New User</title>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add New User - SORS</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
 
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet" />
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
 
+
     <style>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+            /* =========================================================
+                                                              GLOBAL
+                                        ========================================================= */
 
-        body {
-            background: #f4f6f9;
-            overflow: hidden;
-        }
-        /* ==========================
-                DASHBOARD DESIGN
-           ===========================*/
-
-        .dashboard-container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* ==========================
-                  SIDEBAR DESIGN
-           ===========================*/
-
-        .sidebar {
-            width: 190px;
-            background: #0b1f3a;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            transition: all .3s ease;
-        }
-
-            /* ==========================
-                     COLLAPSED SIDEBAR
-               ===========================*/
-            .sidebar.collapsed {
-                width: 90px;
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
             }
 
-                /* Keep SORS visible */
-                .sidebar.collapsed .system-name {
-                    display: block;
-                    font-size: 12px;
-                    font-weight: 600;
-                    margin-top: 10px;
-                }
-
-                /* Logo size when collapsed */
-                .sidebar.collapsed .logo-circle {
-                    width: 58px;
-                    height: 58px;
-                }
-
-                /* Keep divider line */
-                .sidebar.collapsed .logo-section {
-                    padding: 25px 15px;
-                    border-bottom: 1px solid rgba(255,255,255,.15);
-                }
-
-                /* Hide menu text only */
-                .sidebar.collapsed .menu a span,
-                .sidebar.collapsed .logout a span {
-                    display: none;
-                }
-
-                /* Menu layout */
-                .sidebar.collapsed .menu {
-                    padding: 20px 12px;
-                }
-
-                    /* Menu items */
-                    .sidebar.collapsed .menu a {
-                        width: 50px;
-                        height: 50px;
-                        margin: 0 auto 18px auto;
-                        padding: 0;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        border-radius: 8px;
-                    }
-
-                        /* Active menu */
-                        .sidebar.collapsed .menu a.active {
-                            background: #1e4f8a;
-                            box-shadow: 0 4px 10px rgba(0,0,0,.15);
-                        }
-
-                        /* Keep icon size same as expanded */
-                        .sidebar.collapsed .menu a i,
-                        .sidebar.collapsed .logout a i {
-                            margin: 0;
-                            font-size: inherit;
-                        }
-
-                /* Logout */
-                .sidebar.collapsed .logout {
-                    margin-top: auto;
-                    padding-bottom: 20px;
-                }
-
-                    .sidebar.collapsed .logout a {
-                        width: 50px;
-                        height: 50px;
-                        margin: 0 auto;
-                        padding: 0;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
-
-        /* ================
-                       SETTINGS DROPDOWN
-                   ====================== */
-
-        .sidebar-dropdown {
-            margin-bottom: 10px;
-        }
-
-        .dropdown-toggle-menu {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-            .dropdown-toggle-menu:hover {
-                background: rgba(255,255,255,.12);
+            body {
+                background: #F5F5F5;
+                overflow: hidden;
             }
 
-        .small-arrow {
-            font-size: 12px;
-            transition: transform .3s ease;
-        }
 
-        /* submenu */
-        .dropdown-submenu {
-            display: none;
-            flex-direction: column;
-            padding-left: 20px;
-        }
+            /* =========================================================
+                                                           MAIN CONTAINER
+                                        ========================================================= */
 
-            .dropdown-submenu a {
-                color: white;
+            .dashboard-container {
+                display: flex;
+                height: 100vh;
+                width: 100%;
+            }
+
+
+            /* =========================================================
+                                                              SIDEBAR
+                                        ========================================================= */
+
+            .sidebar {
+                width: 158px;
+                min-width: 158px;
+                height: 100vh;
+                background: #1F2933;
+                color: #FFFFFF;
+                display: flex;
+                flex-direction: column;
+                transition: all .3s ease;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+
+            /* Scrollbar */
+
+            .sidebar {
+                scrollbar-width: thin;
+                scrollbar-color: rgba(255,255,255,.25) transparent;
+            }
+
+                .sidebar::-webkit-scrollbar {
+                    width: 5px;
+                }
+
+                .sidebar::-webkit-scrollbar-thumb {
+                    background: rgba(255,255,255,.25);
+                    border-radius: 10px;
+                }
+
+                .sidebar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+
+                /* =========================================================
+                                                         COLLAPSED SIDEBAR
+                                        ========================================================= */
+
+                .sidebar.collapsed {
+                    width: 78px;
+                    min-width: 78px;
+                }
+
+                    .sidebar.collapsed .system-name {
+                        display: block;
+                        font-size: 10px;
+                        font-weight: 600;
+                        margin-top: 8px;
+                    }
+
+                    .sidebar.collapsed .logo-circle {
+                        width: 42px;
+                        height: 42px;
+                    }
+
+                    .sidebar.collapsed .logo-section {
+                        padding: 18px 10px;
+                    }
+
+                    .sidebar.collapsed .menu a span,
+                    .sidebar.collapsed .logout a span {
+                        display: none;
+                    }
+
+                    .sidebar.collapsed .menu {
+                        padding: 15px 10px;
+                    }
+
+                        .sidebar.collapsed .menu a {
+                            width: 42px;
+                            height: 42px;
+                            margin: 0 auto 10px auto;
+                            padding: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 6px;
+                        }
+
+                            .sidebar.collapsed .menu a.active {
+                                background: #B91C1C;
+                                box-shadow: 0 4px 10px rgba(0,0,0,.15);
+                            }
+
+                            .sidebar.collapsed .menu a i,
+                            .sidebar.collapsed .logout a i {
+                                margin: 0;
+                            }
+
+                    .sidebar.collapsed .logout {
+                        padding-bottom: 15px;
+                    }
+
+                        .sidebar.collapsed .logout a {
+                            width: 42px;
+                            height: 42px;
+                            margin: 0 auto;
+                            padding: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+
+                    .sidebar.collapsed .small-arrow {
+                        display: none;
+                    }
+
+
+            /* =========================================================
+                                                               LOGO
+                                        ========================================================= */
+
+            .logo-section {
+                text-align: center;
+                padding: 16px 10px;
+                border-bottom: 1px solid rgba(255,255,255,.18);
+            }
+
+            .logo-circle {
+                width: 40px;
+                height: 40px;
+                background: #FFFFFF;
+                border-radius: 50%;
+                margin: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .logo-img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            .system-name {
+                margin-top: 8px;
+                font-size: 12px;
+                font-weight: 600;
+                color: #FFFFFF;
+            }
+
+
+            /* =========================================================
+                                                               MENU
+                                        ========================================================= */
+
+            .menu {
+                padding: 14px 8px;
+            }
+
+                .menu a {
+                    color: #FFFFFF;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 8px 10px;
+                    margin-bottom: 3px;
+                    border-radius: 5px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    transition: all .2s ease;
+                }
+
+                    .menu a i {
+                        font-size: 14px;
+                        min-width: 14px;
+                    }
+
+                    .menu a:hover {
+                        background: rgba(185, 28, 28, .18);
+                        color: #FFFFFF;
+                    }
+
+                    .menu a.active {
+                        background: #B91C1C;
+                        color: #FFFFFF;
+                        box-shadow: 0 3px 8px rgba(185,28,28,.22);
+                    }
+
+
+            /* =========================================================
+                                                         SETTINGS DROPDOWN
+                                        ========================================================= */
+
+            .sidebar-dropdown {
+                margin-bottom: 3px;
+            }
+
+            .dropdown-toggle-menu {
+                color: #FFFFFF;
                 text-decoration: none;
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                padding: 10px 12px;
-                font-size: 14px;
-                border-radius: 6px;
-            }
-
-                .dropdown-submenu a:hover {
-                    background: rgba(255,255,255,.12);
-                }
-
-        /* active state */
-        .sidebar-dropdown.open .dropdown-submenu {
-            display: flex;
-        }
-
-        .sidebar-dropdown.open .small-arrow {
-            transform: rotate(180deg);
-        }
-
-        /* Hide dropdown arrow when sidebar is collapsed */
-        .sidebar.collapsed .small-arrow {
-            display: none;
-        }
-
-        /* ==========================
-                 LOGO DESIGN
-           ===========================*/
-        .logo-section {
-            text-align: center;
-            padding: 25px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, .15);
-        }
-
-        .logo-circle {
-            width: 60px;
-            height: 60px;
-            background: white;
-            border-radius: 50%;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .logout {
-            margin-top: auto;
-            padding: 15px 12px;
-        }
-
-            .logout a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                gap: 12px;
-                align-items: center;
-                padding: 12px 14px;
-            }
-
-        .system-name {
-            margin-top: 12px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        /* ==========================
-                  MENU DESIGN
-           ===========================*/
-
-        .menu {
-            padding: 20px 12px;
-        }
-
-            .menu a {
-                color: white;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 12px 14px;
-                margin-bottom: 10px;
-                border-radius: 6px;
-            }
-
-                .menu a:hover {
-                    background: rgba(255,255,255,.12);
-                }
-
-                .menu a.active {
-                    background: #1e4f8a;
-                    box-shadow: 0 4px 10px rgba(0,0,0,.15);
-                }
-
-        /* ==========================
-                   MAIN CONTENT
-           ===========================*/
-
-        .main-content {
-            flex: 1;
-            background: #f4f6f9;
-        }
-
-        /* ==========================
-                     TOP BAR
-          ===========================*/
-        .topbar {
-            height: 60px;
-            border-bottom: 1px solid #d9dce3;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            background: #fff;
-        }
-
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: #0b1f3a;
-            font-size: 22px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            margin-right: 8px;
-        }
-
-            .topbar-left i {
-                font-size: 28px;
-                color: #0b1f3a;
+                padding: 8px 10px;
+                border-radius: 5px;
                 cursor: pointer;
-                margin: 8px;
+                font-size: 11px;
+                font-weight: 500;
+                transition: all .2s ease;
             }
 
-            .topbar-left h3 {
-                color: #0b1f3a;
+                .dropdown-toggle-menu:hover {
+                    background: rgba(185,28,28,.18);
+                    color: #FFFFFF;
+                }
+
+            .small-arrow {
+                font-size: 8px;
+                transition: transform .3s ease;
+            }
+
+            .dropdown-submenu {
+                display: none;
+                flex-direction: column;
+                padding-left: 14px;
+                margin-top: 3px;
+            }
+
+                .dropdown-submenu a {
+                    color: #FFFFFF;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 7px 9px;
+                    font-size: 10px;
+                    border-radius: 5px;
+                }
+
+                    .dropdown-submenu a:hover {
+                        background: rgba(185,28,28,.18);
+                        color: #FFFFFF;
+                    }
+
+            .sidebar-dropdown.open .dropdown-submenu {
+                display: flex;
+            }
+
+            .sidebar-dropdown.open .small-arrow {
+                transform: rotate(180deg);
+            }
+
+
+            /* =========================================================
+                                                              LOGOUT
+                                        ========================================================= */
+
+            .logout {
+                margin-top: auto;
+                padding: 10px 8px 12px 8px;
+            }
+
+                .logout a {
+                    color: #FFFFFF;
+                    text-decoration: none;
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    padding: 8px 10px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    border-radius: 5px;
+                    transition: all .2s ease;
+                }
+
+                    .logout a:hover {
+                        background: rgba(185,28,28,.18);
+                        color: #FFFFFF;
+                    }
+
+
+            /* =========================================================
+                                                           MAIN CONTENT
+                                        ========================================================= */
+
+            .main-content {
+                flex: 1;
+                background: #F5F6F8;
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+
+            /* =========================================================
+                                                              TOPBAR
+                                        ========================================================= */
+
+            .topbar {
+                height: 52px;
+                min-height: 52px;
+                flex-shrink: 0;
+                border-bottom: 1px solid #E5E7EB;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 16px;
+                background: #FFFFFF;
+            }
+
+            .topbar-left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .menu-toggle {
+                background: none;
+                border: none;
+                color: #B91C1C;
+                font-size: 16px;
+                cursor: pointer;
+                padding: 4px;
+            }
+
+                .menu-toggle:hover {
+                    color: #991B1B;
+                }
+
+
+            /* =========================================================
+                                                           TOPBAR RIGHT
+                                        ========================================================= */
+
+            .topbar-right {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-left: auto;
+            }
+
+            .notification-icon {
+                font-size: 17px;
+                color: #374151;
+                cursor: pointer;
+                transition: color .2s ease;
+            }
+
+                .notification-icon:hover {
+                    color: #B91C1C;
+                }
+
+
+            /* =========================================================
+                                                              PROFILE
+                                        ========================================================= */
+
+            .profile {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                padding-left: 8px;
+                border-left: 1px solid #E5E7EB;
+            }
+
+                .profile img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+            .profile-info {
+                display: flex;
+                flex-direction: column;
+                line-height: 1.15;
+            }
+
+                .profile-info h5 {
+                    margin: 0;
+                    font-size: 10px;
+                    font-weight: 600;
+                    color: #111827;
+                }
+
+                .profile-info .role {
+                    font-size: 8px;
+                    color: #6B7280;
+                }
+
+            .profile-arrow {
+                color: #6B7280;
+                font-size: 9px;
+                margin-left: 2px;
+            }
+
+
+            /* =========================================================
+                                                           CONTENT AREA
+                                        ========================================================= */
+
+            .content-area {
+                flex: 1;
+                padding: 18px 28px;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+
+            /* =========================================================
+                                   BREADCRUMB
+                                ========================================================= */
+
+            .breadcrumb-title {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                font-size: 19px;
                 font-weight: 700;
                 margin: 0;
+                padding: 0;
+                color: #111827;
+                line-height: 1.3;
             }
 
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-left: auto;
-        }
+            .users-breadcrumb {
+                text-decoration: none;
+                color: #9CA3AF;
+                transition: .2s ease;
+            }
 
-            .topbar-right i {
-                font-size: 24px;
+                .users-breadcrumb:hover {
+                    color: #B91C1C;
+                }
+
+            .breadcrumb-title strong {
+                color: #E32626;
+                font-weight: 700;
+            }
+
+
+            /* =========================================================
+                                   PAGE DESCRIPTION
+                                ========================================================= */
+
+            .page-description {
+                color: #64748B;
+                font-size: 10px;
+                font-weight: 400;
+                margin: 3px 0 20px 0;
+                padding: 0;
+                line-height: 1.4;
+            }
+
+
+            /* =========================================================
+                                   FORM WRAPPER
+                                ========================================================= */
+
+            .form-wrapper {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                column-gap: 24px;
+                align-items: start;
+                width: 100%;
+            }
+
+            .left-column,
+            .right-column {
+                width: 100%;
+                min-width: 0;
+            }
+
+
+            /* =========================================================
+                                   FORM GROUP
+                                ========================================================= */
+
+            .form-group {
+                width: 100%;
+                margin-bottom: 16px;
+            }
+
+                .form-group label {
+                    display: block;
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: #111827;
+                    margin-bottom: 6px;
+                    line-height: 1.3;
+                }
+
+            /* =========================================================
+                                                            INPUT GROUP
+                                        ========================================================= */
+
+            .input-group {
+                display: flex;
+                width: 100%;
+                height: 36px;
+                position: relative;
+            }
+
+            .input-group-text {
+                width: 34px;
+                height: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                background: #FFFFFF;
+                border: 1px solid #D1D5DB;
+                border-right: none;
+                border-radius: 5px 0 0 5px;
+                color: #9CA3AF;
+                font-size: 13px;
+            }
+
+            .form-control {
+                height: 36px;
+                border: 1px solid #D1D5DB;
+                border-left: none;
+                border-radius: 0 5px 5px 0;
+                font-size: 10px;
+                color: #374151;
+                box-shadow: none !important;
+                padding: 0 11px;
+            }
+
+                .form-control::placeholder {
+                    color: #9CA3AF;
+                }
+
+                .form-control:focus {
+                    border-color: #B91C1C;
+                }
+
+            .input-group:focus-within .input-group-text {
+                border-color: #B91C1C;
+                color: #B91C1C;
+            }
+
+
+            /* =========================================================
+                                                         PASSWORD INPUT
+                                        ========================================================= */
+
+            .password-group {
+                position: relative;
+            }
+
+                .password-group .form-control {
+                    padding-right: 38px;
+                }
+
+            .password-eye {
+                position: absolute;
+                right: 11px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #8B929A;
+                font-size: 13px;
+                cursor: pointer;
+                z-index: 5;
+            }
+
+                .password-eye:hover {
+                    color: #B91C1C;
+                }
+
+
+            /* =========================================================
+                                                              ROLE
+                                        ========================================================= */
+
+            .role-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .role-card {
+                height: 54px;
+                border: 1px solid #D1D5DB;
+                border-radius: 5px;
+                background: #FFFFFF;
+                display: flex;
+                align-items: center;
+                padding: 0 12px;
+                gap: 9px;
+                cursor: pointer;
+                transition: all .2s ease;
+                position: relative;
+            }
+
+                .role-card:hover {
+                    border-color: #B91C1C;
+                    box-shadow: 0 3px 8px rgba(0,0,0,.08);
+                }
+
+                .role-card input {
+                    display: none;
+                }
+
+            .role-radio {
+                width: 15px;
+                height: 15px;
+                border: 1px solid #D1D5DB;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+                .role-radio::after {
+                    content: "";
+                    width: 7px;
+                    height: 7px;
+                    background: transparent;
+                    border-radius: 50%;
+                }
+
+            .role-card.active {
+                border-color: #B91C1C;
+                box-shadow: 0 2px 7px rgba(185,28,28,.15);
+            }
+
+                .role-card.active .role-radio {
+                    border-color: #2563EB;
+                }
+
+                    .role-card.active .role-radio::after {
+                        background: #2563EB;
+                    }
+
+            .role-icon {
+                font-size: 18px;
+            }
+
+            .admin-role .role-icon {
+                color: #2563EB;
+            }
+
+            .staff-role .role-icon {
+                color: #16A34A;
+            }
+
+            .role-name {
+                font-size: 11px;
+                font-weight: 600;
+                color: #374151;
+            }
+
+
+            /* =========================================================
+                                                         PROFILE UPLOAD
+                                        ========================================================= */
+
+            .upload-box {
+                height: 171px;
+                border: 1px dashed #5B8AC6;
+                background: #FFFFFF;
+                border-radius: 4px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                transition: .2s ease;
                 cursor: pointer;
             }
 
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+                .upload-box:hover {
+                    background: #F9FBFF;
+                    border-color: #B91C1C;
+                }
 
-            .profile img {
-                width: 40px;
-                height: 40px;
+            .upload-icon {
+                width: 42px;
+                height: 42px;
+                border: 1px solid #D8E3F2;
                 border-radius: 50%;
-                object-fit: cover;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #5B8AC6;
+                font-size: 18px;
+                margin-bottom: -1px;
             }
 
-        .profile-info {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-
-            .profile-info .role {
-                font-size: 12px;
-                color: #777;
-            }
-
-            .profile-info h5 {
-                margin: 0;
-                font-size: 14px;
+            .upload-text {
+                font-size: 11px;
                 font-weight: 600;
-                color: #1e4f8a;
+                color: #111827;
+                margin-top: -3px;
             }
 
-            .profile-info span {
+            .upload-or {
+                font-size: 10px;
+                color: #9CA3AF;
+                margin: 1px 0;
+            }
+
+            .browse-btn {
+                background: #E32626;
+                color: #FFFFFF;
+                border: none;
+                height: 35px;
+                padding: 0 18px;
+                border-radius: 5px;
+                font-size: 10px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .browse-btn:hover {
+                    background: #B91C1C;
+                }
+
+            .upload-info {
+                font-size: 9px;
+                color: #777777;
+                margin-top: 7px;
+            }
+
+            #profileImage {
+                display: none;
+            }
+
+
+            /* =========================================================
+                                                            BUTTON AREA
+                                        ========================================================= */
+
+            .button-area {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 8px;
+                margin-top: 13px;
+                width: 100%;
+            }
+
+            .btn-cancel {
+                background: #E5E7EB;
+                border: none;
+                color: #374151;
+                width: 105px;
+                height: 36px;
+                border-radius: 5px;
+                font-size: 10px;
+                font-weight: 600;
+                transition: .2s ease;
+            }
+
+                .btn-cancel:hover {
+                    background: #D1D5DB;
+                }
+
+            .btn-save {
+                background: #E32626;
+                color: #FFFFFF;
+                border: none;
+                width: 120px;
+                height: 36px;
+                border-radius: 5px;
+                font-size: 10px;
+                font-weight: 600;
+                transition: .2s ease;
+            }
+
+                .btn-save:hover {
+                    background: #B91C1C;
+                    box-shadow: 0 4px 10px rgba(201,28,28,.20);
+                }
+
+                .btn-save i {
+                    font-size: 11px;
+                    margin-right: 3px;
+                }
+
+                .btn-save:disabled {
+                    opacity: .65;
+                    cursor: not-allowed;
+                }
+
+
+            /* =========================================================
+                                                         RESULT MODAL
+                                        ========================================================= */
+
+            .result-modal-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 20, 22, 0.55);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 3000;
+                padding: 20px;
+            }
+
+                .result-modal-overlay.show {
+                    display: flex;
+                }
+
+            .result-modal-card {
+                width: 100%;
+                max-width: 320px;
+                background: #ffffff;
+                border-radius: 12px;
+                padding: 30px 26px 24px;
+                text-align: center;
+                box-shadow: 0 25px 60px rgba(0,0,0,.28);
+            }
+
+            .result-modal-icon {
+                width: 62px;
+                height: 62px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 26px;
+                margin: 0 auto 16px;
+            }
+
+                .result-modal-icon.success {
+                    background: #DCFCE7;
+                    color: #15803D;
+                }
+
+                .result-modal-icon.fail {
+                    background: #FEE2E2;
+                    color: #B91C1C;
+                }
+
+            .result-modal-title {
+                color: #111827;
+                font-size: 16px;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+
+            .result-modal-text {
+                color: #6B7280;
                 font-size: 12px;
-                color: gray;
+                line-height: 1.5;
+                margin-bottom: 22px;
             }
 
-        /* CONTENT */
-        .content-area {
-            padding: 30px;
-            overflow:hidden;
-        }
-        .page-container {
-            padding: 35px;
-        }
-
-        /*breadcrumb*/
-        .breadcrumb-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 25px;
-        }
-
-            .breadcrumb-title span {
-                color: #9ca3af;
+            .result-modal-btn-ok {
+                width: 100%;
+                height: 40px;
+                border: none;
+                background: #E32626;
+                color: #ffffff;
+                border-radius: 7px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: .2s ease;
             }
 
-            .breadcrumb-title strong {
-                color: #1e4f8a;
+                .result-modal-btn-ok:hover {
+                    background: #B91C1C;
+                }
+
+
+            /* =========================================================
+                                                            RESPONSIVE
+                                        ========================================================= */
+
+            
+            @@media (max-width: 900px) {
+
+                .sidebar {
+                    width: 158px;
+                }
+
+                .content-area {
+                    padding: 18px;
+                }
+
+                .form-wrapper {
+                    grid-template-columns: 1fr;
+                }
+
+                .right-column {
+                    margin-top: 5px;
+                }
+
+                .button-area {
+                    justify-content: flex-end;
+                }
             }
-
-        .users-breadcrumb {
-            text-decoration: none;
-            color: #9ca3af;
-            transition: 0.3s ease;
-        }
-
-            .users-breadcrumb:hover {
-                color: #1e4f8a;
-            }
-
-        .form-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .input-group-text {
-            background: #f8fafc;
-            border-right: none;
-            color: #000000;
-            width: 48px;
-            justify-content: center;
-        }
-
-        .form-control {
-            border-left: none;
-            height: 48px;
-        }
-
-        .role-container {
-            display: flex;
-            gap: 15px;
-        }
-
-        .role-card {
-            flex: 1;
-            border: 2px solid #dbe3ff;
-            border-radius: 10px;
-            padding: 18px;
-            text-align: center;
-            cursor: pointer;
-            transition: .3s;
-        }
-
-            .role-card:hover {
-                transform: translateY(0px);
-                box-shadow: 0 3px 8px rgba(11, 31, 58, 0.25);
-            }
-
-            .role-card.active {
-                border-color: #1e4f8a;
-                background: #f4f8ff;
-            }
-
-        .admin-role i {
-            color: #2563eb;
-        }
-
-        .staff-role i {
-            color: #16a34a;
-        }
-
-        .admin-role.active {
-            border-color: #dbe3ff;
-            background: #eff6ff;
-        }
-
-        .staff-role.active {
-            border-color: #16a34a;
-            background: #f0fdf4;
-        }
-
-        .button-area {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-top: 25px;
-            width: 100%;
-        }
-
-        .btn-cancel {
-            background: #ececec;
-            border: none;
-            width: 140px;
-            height: 50px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .btn-save {
-            background: #1e4f8a;
-            color: white;
-            border: none;
-            width: 160px;
-            height: 50px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
     </style>
+
 </head>
+
+
 <body>
 
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
+
+        <!-- =====================================================
+                              SIDEBAR
+        ====================================================== -->
+
         <aside class="sidebar">
+
+
+            <!-- LOGO -->
 
             <div class="logo-section">
 
                 <div class="logo-circle">
-                    <img src="~/Images/logo.png" class="logo-img">
+
+                    <img src="~/Images/newlogo.png"
+                         class="logo-img"
+                         alt="SORS Logo">
+
                 </div>
 
                 <div class="system-name">
@@ -526,95 +988,218 @@
 
             </div>
 
+
+            <!-- MENU -->
+
             <div class="menu">
 
+
+                <!-- DASHBOARD -->
+
                 <a href="@Url.Action("Dashboard", "Admin")">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Dashboard</span>
+
+                    <i class="bi bi-grid-fill"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
                 </a>
+
+
+                <!-- REQUEST -->
 
                 <a href="@Url.Action("RequestManagement", "Admin")">
+
                     <i class="bi bi-file-earmark-text"></i>
-                    <span>Request</span>
+
+                    <span>
+                        Request
+                    </span>
+
                 </a>
+
+
+                <!-- RECORDS -->
 
                 <a href="@Url.Action("RecordsManagement", "Admin")">
+
                     <i class="bi bi-folder2-open"></i>
-                    <span>Records</span>
+
+                    <span>
+                        Records
+                    </span>
+
                 </a>
+
+
+                <!-- REPORTS -->
 
                 <a href="@Url.Action("ReportsManagement", "Admin")">
+
                     <i class="bi bi-clipboard-data"></i>
-                    <span>Reports</span>
+
+                    <span>
+                        Reports
+                    </span>
+
                 </a>
 
-                <!-- ACTIVE PAGE -->
-                <a href="@Url.Action("UsersManagement", "Admin")" class="active">
-                    <i class="bi bi-people"></i>
-                    <span>Users</span>
+
+                <!-- AUDIT LOGS -->
+
+                <a href="@Url.Action("AuditLogs", "Admin")">
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                    <span>
+                        Audit Logs
+                    </span>
+
                 </a>
 
-                <!-- SETTINGS DROPDOWN -->
+
+                <!-- USERS - ACTIVE -->
+
+                <a href="@Url.Action("UsersManagement", "Admin")"
+                   class="active">
+
+                    <i class="bi bi-people-fill"></i>
+
+                    <span>
+                        Users
+                    </span>
+
+                </a>
+
+
+                <!-- SETTINGS -->
+
                 <div class="sidebar-dropdown">
 
-                    <a href="javascript:void(0)" class="dropdown-toggle-menu">
-                        <i class="bi bi-gear"></i>
-                        <span>Settings</span>
-                        <i class="bi bi-caret-down-fill ms-auto small-arrow"></i>
+                    <a href="javascript:void(0)"
+                       class="dropdown-toggle-menu">
+
+                        <i class="bi bi-gear-fill"></i>
+
+                        <span>
+                            Settings
+                        </span>
+
+                        <i class="bi bi-chevron-right ms-auto small-arrow"></i>
+
                     </a>
+
 
                     <div class="dropdown-submenu">
 
                         <a href="@Url.Action("Settings", "Admin")">
+
                             <i class="bi bi-sliders"></i>
-                            <span>General Settings</span>
+
+                            <span>
+                                General Settings
+                            </span>
+
                         </a>
 
-                        <a href="#">
+
+                        <a href="@Url.Action("SAccountSettings", "Admin")">
+
                             <i class="bi bi-person-gear"></i>
-                            <span>Account & Security</span>
+
+                            <span>
+                                Account & Security
+                            </span>
+
                         </a>
 
                     </div>
+
                 </div>
 
             </div>
 
+
+            <!-- LOGOUT -->
+
             <div class="logout">
+
                 <a href="@Url.Action("Login", "Admin")">
+
                     <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
+
+                    <span>
+                        Logout
+                    </span>
+
                 </a>
+
             </div>
 
         </aside>
 
-        <!-- MAIN CONTENT -->
+
+        <!-- =====================================================
+                            MAIN CONTENT
+        ====================================================== -->
+
         <div class="main-content">
 
-            <!-- TOPBAR -->
+
+            <!-- =================================================
+                                TOPBAR
+            ================================================== -->
+
             <div class="topbar">
+
+
+                <!-- LEFT -->
 
                 <div class="topbar-left">
 
-                    <button class="menu-toggle" id="menuToggle">
+                    <button class="menu-toggle"
+                            id="menuToggle">
+
                         <i class="bi bi-list"></i>
+
                     </button>
 
                 </div>
 
+
+                <!-- RIGHT -->
+
                 <div class="topbar-right">
 
-                    <i class="bi bi-bell-fill"></i>
+
+                    <!-- NOTIFICATION -->
+
+                    <i class="bi bi-bell notification-icon"></i>
+
+
+                    <!-- PROFILE -->
 
                     <div class="profile">
 
-                        <img src="~/Images/adminpic.jpg" alt="Profile" />
+                        <img src="~/Images/adminpic.jpg"
+                             alt="Profile" />
+
 
                         <div class="profile-info">
-                            <span class="role">Administrator</span>
-                            <h5>Juan Dela Cruz</h5>
+
+                            <span class="role">
+                                Administrator
+                            </span>
+
+                            <h5>
+                                John Cruz
+                            </h5>
+
                         </div>
+
+
+                        <i class="bi bi-chevron-down profile-arrow"></i>
 
                     </div>
 
@@ -622,8 +1207,17 @@
 
             </div>
 
-            <!-- PAGE CONTENT -->
+
+            <!-- =================================================
+                              CONTENT AREA
+            ================================================== -->
+
             <div class="content-area">
+
+
+                <!-- =================================================
+                              BREADCRUMB
+                ================================================== -->
 
                 <div class="breadcrumb-title">
 
@@ -634,110 +1228,320 @@
 
                     </a>
 
-                    ›
+                    <span>
+                        ›
+                    </span>
 
-                    <strong>Add New user</strong>
+                    <strong>
+                        Add New User
+                    </strong>
 
                 </div>
+                <p class="page-description">
+                    Add and manage user accounts and their access roles.
+                </p>
 
-                <form>
+
+                <!-- =================================================
+                                  FORM
+                ================================================== -->
+
+                <form id="addUserForm" enctype="multipart/form-data">
+
 
                     <div class="form-wrapper">
 
-                        <!-- LEFT COLUMN -->
-                        <div>
+
+                        <!-- =================================================
+                              LEFT COLUMN
+                        ================================================== -->
+
+                        <div class="left-column">
+
+
+                            <!-- FULL NAME -->
 
                             <div class="form-group">
-                                <label>Full Name</label>
+
+                                <label>
+                                    Full Name
+                                </label>
+
                                 <div class="input-group">
+
                                     <span class="input-group-text">
-                                        <i class="bi bi-person-fill"></i>
+
+                                        <i class="bi bi-person"></i>
+
                                     </span>
+
                                     <input type="text"
                                            class="form-control"
+                                           name="FullName"
                                            placeholder="Enter full name">
+
                                 </div>
+
                             </div>
 
+
+                            <!-- CONTACT NUMBER -->
+
                             <div class="form-group">
-                                <label>Contact Number</label>
+
+                                <label>
+                                    Contact Number
+                                </label>
+
                                 <div class="input-group">
+
                                     <span class="input-group-text">
-                                        <i class="bi bi-telephone-fill"></i>
+
+                                        <i class="bi bi-telephone"></i>
+
                                     </span>
+
                                     <input type="text"
                                            class="form-control"
+                                           name="ContactNumber"
                                            placeholder="Enter contact number">
+
                                 </div>
+
                             </div>
 
+
+                            <!-- USERNAME -->
+
                             <div class="form-group">
-                                <label>Username</label>
+
+                                <label>
+                                    Username
+                                </label>
+
                                 <div class="input-group">
+
                                     <span class="input-group-text">
-                                        <i class="bi bi-person-badge-fill"></i>
+
+                                        <i class="bi bi-person-badge"></i>
+
                                     </span>
+
                                     <input type="text"
                                            class="form-control"
-                                           placeholder="Enter username">
+                                           name="Username"
+                                           placeholder="Enter user name">
+
                                 </div>
+
                             </div>
 
+
+                            <!-- PASSWORD -->
+
                             <div class="form-group">
-                                <label>Password</label>
-                                <div class="input-group">
+
+                                <label>
+                                    Password
+                                </label>
+
+                                <div class="input-group password-group">
+
                                     <span class="input-group-text">
-                                        <i class="bi bi-lock-fill"></i>
+
+                                        <i class="bi bi-lock"></i>
+
                                     </span>
+
                                     <input type="password"
                                            class="form-control"
+                                           id="password"
+                                           name="Password"
                                            placeholder="Enter password">
+
+                                    <i class="bi bi-eye password-eye"
+                                       onclick="togglePassword('password', this)">
+                                    </i>
+
                                 </div>
+
                             </div>
 
+
+                            <!-- CONFIRM PASSWORD -->
+
                             <div class="form-group">
-                                <label>Confirm Password</label>
-                                <div class="input-group">
+
+                                <label>
+                                    Confirm Password
+                                </label>
+
+                                <div class="input-group password-group">
+
                                     <span class="input-group-text">
-                                        <i class="bi bi-shield-fill-check"></i>
+
+                                        <i class="bi bi-lock"></i>
+
                                     </span>
+
                                     <input type="password"
                                            class="form-control"
+                                           id="confirmPassword"
+                                           name="ConfirmPassword"
                                            placeholder="Confirm Password">
+
+                                    <i class="bi bi-eye password-eye"
+                                       onclick="togglePassword('confirmPassword', this)">
+                                    </i>
+
                                 </div>
+
                             </div>
 
                         </div>
 
-                        <!-- RIGHT COLUMN -->
-                        <div>
+
+                        <!-- =================================================
+                              RIGHT COLUMN
+                        ================================================== -->
+
+                        <div class="right-column">
+
+
+                            <!-- EMAIL -->
 
                             <div class="form-group">
-                                <label>Email Address</label>
+
+                                <label>
+                                    Email Address
+                                </label>
+
                                 <div class="input-group">
+
                                     <span class="input-group-text">
-                                        <i class="bi bi-envelope-fill"></i>
+
+                                        <i class="bi bi-envelope"></i>
+
                                     </span>
+
                                     <input type="email"
                                            class="form-control"
+                                           name="Email"
                                            placeholder="Enter email address">
+
                                 </div>
+
                             </div>
+
+
+                            <!-- ROLE -->
 
                             <div class="form-group">
 
-                                <label>Role</label>
+                                <label>
+                                    Role
+                                </label>
+
 
                                 <div class="role-container">
 
-                                    <div class="role-card admin-role">
-                                        <i class="bi bi-shield-lock-fill"></i>
-                                        <h5>Admin</h5>
+
+                                    <!-- ADMIN -->
+
+                                    <div class="role-card admin-role active"
+                                         onclick="selectRole(this, 'Admin')">
+
+                                        <input type="radio"
+                                               name="Role"
+                                               value="Admin"
+                                               checked>
+
+                                        <span class="role-radio"></span>
+
+                                        <i class="bi bi-shield-lock-fill role-icon"></i>
+
+                                        <span class="role-name">
+                                            Admin
+                                        </span>
+
                                     </div>
 
-                                    <div class="role-card staff-role">
-                                        <i class="bi bi-person-workspace"></i>
-                                        <h5>Staff</h5>
+
+                                    <!-- STAFF -->
+
+                                    <div class="role-card staff-role"
+                                         onclick="selectRole(this, 'Staff')">
+
+                                        <input type="radio"
+                                               name="Role"
+                                               value="Staff">
+
+                                        <span class="role-radio"></span>
+
+                                        <i class="bi bi-person-workspace role-icon"></i>
+
+                                        <span class="role-name">
+                                            Staff
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PROFILE IMAGE -->
+
+                            <div class="form-group">
+
+                                <label>
+                                    Upload Profile Image
+                                    <span class="optional">
+                                        (Optional)
+                                    </span>
+                                </label>
+
+
+                                <input type="file"
+                                       id="profileImage"
+                                       name="ProfileImage"
+                                       accept=".jpg,.jpeg,.png">
+
+
+                                <div class="upload-box"
+                                     onclick="document.getElementById('profileImage').click()">
+
+
+                                    <div class="upload-icon">
+
+                                        <i class="bi bi-cloud-arrow-up"></i>
+
+                                    </div>
+
+
+                                    <div class="upload-text">
+                                        Drag and drop files here
+                                    </div>
+
+
+                                    <div class="upload-or">
+                                        or
+                                    </div>
+
+
+                                    <button type="button"
+                                            class="browse-btn"
+                                            onclick="event.stopPropagation(); document.getElementById('profileImage').click();">
+
+                                        Browse Files
+
+                                    </button>
+
+
+                                    <div class="upload-info">
+                                        JPG, JPEG OR PNG, Max size 4MB.
                                     </div>
 
                                 </div>
@@ -748,23 +1552,35 @@
 
                     </div>
 
+
+                    <!-- =================================================
+                                BUTTON AREA
+                    ================================================== -->
+
                     <div class="button-area">
+
 
                         <button type="button"
                                 class="btn-cancel"
                                 onclick="window.location.href='@Url.Action("UsersManagement", "Admin")'">
+
                             Cancel
+
                         </button>
 
+
                         <button type="submit"
-                                class="btn-save">
+                                class="btn-save"
+                                id="saveUserBtn">
 
                             <i class="bi bi-floppy"></i>
+
                             Save User
 
                         </button>
 
                     </div>
+
 
                 </form>
 
@@ -774,22 +1590,231 @@
 
     </div>
 
+
+    <!-- =====================================================
+                          SUCCESS MODAL
+    ====================================================== -->
+
+    <div class="result-modal-overlay" id="successModal">
+        <div class="result-modal-card">
+            <div class="result-modal-icon success">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            <div class="result-modal-title">Account Created</div>
+            <div class="result-modal-text" id="successMessageText"></div>
+            <button type="button" class="result-modal-btn-ok" onclick="closeResultModal('successModal')">OK</button>
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+                          FAILURE MODAL
+    ====================================================== -->
+
+    <div class="result-modal-overlay" id="failModal">
+        <div class="result-modal-card">
+            <div class="result-modal-icon fail">
+                <i class="bi bi-x-lg"></i>
+            </div>
+            <div class="result-modal-title">Account Creation Failed</div>
+            <div class="result-modal-text" id="failMessageText"></div>
+            <button type="button" class="result-modal-btn-ok" onclick="closeResultModal('failModal')">Try Again</button>
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+                              JAVASCRIPT
+    ========================================================== -->
+
     <script>
 
-        const dropdown = document.querySelector('.sidebar-dropdown');
-             const toggle = document.querySelector('.dropdown-toggle-menu');
 
-         toggle.addEventListener('click', function () {
-             dropdown.classList.toggle('open');
-         });
+            /* =====================================================
+                             SETTINGS DROPDOWN
+            ====================================================== */
 
-         const sidebar = document.querySelector('.sidebar');
-         const toggleBtn = document.getElementById('menuToggle');
+            const dropdown =
+                document.querySelector('.sidebar-dropdown');
 
-         toggleBtn.addEventListener('click', function () {
-             sidebar.classList.toggle('collapsed');
-         });
+            const dropdownToggle =
+                document.querySelector('.dropdown-toggle-menu');
+
+
+            dropdownToggle.addEventListener('click', function () {
+
+                dropdown.classList.toggle('open');
+
+            });
+
+
+            /* =====================================================
+                             SIDEBAR COLLAPSE
+            ====================================================== */
+
+            const sidebar =
+                document.querySelector('.sidebar');
+
+            const toggleBtn =
+                document.getElementById('menuToggle');
+
+
+            toggleBtn.addEventListener('click', function () {
+
+                sidebar.classList.toggle('collapsed');
+
+            });
+
+
+            /* =====================================================
+                             ROLE SELECTION
+            ====================================================== */
+
+            function selectRole(card, role) {
+
+                const cards =
+                    document.querySelectorAll('.role-card');
+
+                cards.forEach(function (item) {
+
+                    item.classList.remove('active');
+
+                });
+
+
+                card.classList.add('active');
+
+
+                const radio =
+                    card.querySelector('input[type="radio"]');
+
+                radio.checked = true;
+
+            }
+
+
+            /* =====================================================
+                             PASSWORD TOGGLE
+            ====================================================== */
+
+            function togglePassword(inputId, icon) {
+
+                const input =
+                    document.getElementById(inputId);
+
+
+                if (input.type === "password") {
+
+                    input.type = "text";
+
+                    icon.classList.remove('bi-eye');
+
+                    icon.classList.add('bi-eye-slash');
+
+                }
+                else {
+
+                    input.type = "password";
+
+                    icon.classList.remove('bi-eye-slash');
+
+                    icon.classList.add('bi-eye');
+
+                }
+
+            }
+
+
+            /* =====================================================
+                             FILE NAME
+            ====================================================== */
+
+            const profileImage =
+                document.getElementById('profileImage');
+
+
+            profileImage.addEventListener('change', function () {
+
+                if (this.files.length > 0) {
+
+                    const uploadText =
+                        document.querySelector('.upload-text');
+
+                    uploadText.textContent =
+                        this.files[0].name;
+
+                }
+
+            });
+
+
+            /* =====================================================
+                             SUBMIT FORM VIA AJAX
+            ====================================================== */
+
+            const addUserForm = document.getElementById('addUserForm');
+            const saveUserBtn = document.getElementById('saveUserBtn');
+
+            addUserForm.addEventListener('submit', function (e) {
+
+                e.preventDefault();
+
+                saveUserBtn.disabled = true;
+
+                const formData = new FormData(this);
+
+                fetch('@Url.Action("AddNewUser", "Admin")', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(function (res) {
+                        return res.json();
+                    })
+                    .then(function (data) {
+
+                        if (data.success) {
+
+                            document.getElementById('successMessageText').textContent = data.message;
+                            document.getElementById('successModal').classList.add('show');
+
+                        } else {
+
+                            document.getElementById('failMessageText').textContent = data.message;
+                            document.getElementById('failModal').classList.add('show');
+
+                        }
+
+                    })
+                    .catch(function () {
+
+                        document.getElementById('failMessageText').textContent = 'Something went wrong. Please try again.';
+                        document.getElementById('failModal').classList.add('show');
+
+                    })
+                    .finally(function () {
+
+                        saveUserBtn.disabled = false;
+
+                    });
+
+            });
+
+
+            function closeResultModal(id) {
+
+                document.getElementById(id).classList.remove('show');
+
+                if (id === 'successModal') {
+
+                    window.location.href = '@Url.Action("UsersManagement", "Admin")';
+
+                }
+
+            }
+
     </script>
 
+
 </body>
+
 </html>

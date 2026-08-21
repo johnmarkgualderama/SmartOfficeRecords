@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// ================= StaffController.cs =================
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartOfficeRecords.Data;
 using SmartOfficeRecords.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SmartOfficeRecords.Controllers
 {
@@ -17,25 +20,147 @@ namespace SmartOfficeRecords.Controllers
             _context = context;
         }
 
-        // GET: Staff Login Page
+        // ================== LOGIN ==================
+
         [HttpGet]
         public ActionResult StaffLogin()
         {
             return View();
         }
 
-        // POST: Staff Login
         [HttpPost]
         public IActionResult StaffLogin(string Username, string Password)
         {
-            if (Username == "staff" && Password == "123")
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                return RedirectToAction("StaffDashboard", "Staff");
+                ViewBag.Error = "Please enter both Username and Password.";
+                return View();
             }
 
-            ViewBag.Error = "Invalid Username or Password";
+            string hashedPassword = HashPassword(Password);
+
+            var staff = _context.Staffs
+                .FirstOrDefault(s => s.Username == Username && s.Password == hashedPassword);
+
+            if (staff == null)
+            {
+                ViewBag.Error = "Invalid Username or Password";
+                return View();
+            }
+
+            if (!staff.IsActive)
+            {
+                ViewBag.Error = "This account has been deactivated. Contact an administrator.";
+                return View();
+            }
+              
+            staff.LastLogin = DateTime.Now;
+            _context.SaveChanges();
+
+            HttpContext.Session.SetInt32("StaffId", staff.StaffId);
+            HttpContext.Session.SetString("StaffName", staff.FullName);
+            HttpContext.Session.SetString("StaffUsername", staff.Username);
+
+            return RedirectToAction("StaffDashboard");
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("StaffLogin");
+        }
+
+        // ================== REGISTER ==================
+
+        [HttpGet]
+        public ActionResult Register()
+        {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Register(
+            string Fullname,
+            string Username,
+            string Email,
+            string Contact,
+            string Address,
+            string Department,
+            string Password,
+            string ConfirmPassword,
+            IFormFile ProfileImage)
+        {
+            if (string.IsNullOrWhiteSpace(Fullname) ||
+                string.IsNullOrWhiteSpace(Username) ||
+                string.IsNullOrWhiteSpace(Email) ||
+                string.IsNullOrWhiteSpace(Password))
+            {
+                ViewBag.Error = "Please fill in all required fields.";
+                return View();
+            }
+
+            if (Password != ConfirmPassword)
+            {
+                ViewBag.Error = "Password does not match.";
+                return View();
+            }
+
+            bool usernameTaken =
+                _context.Admins.Any(a => a.Username == Username) ||
+                _context.Staffs.Any(s => s.Username == Username);
+
+            bool emailTaken =
+                _context.Admins.Any(a => a.Email == Email) ||
+                _context.Staffs.Any(s => s.Email == Email);
+
+            if (usernameTaken || emailTaken)
+            {
+                ViewBag.Error = "Username or Email is already registered.";
+                return View();
+            }
+
+            string? savedFileName = null;
+
+            if (ProfileImage != null && ProfileImage.Length > 0)
+            {
+                savedFileName = Guid.NewGuid().ToString() + Path.GetExtension(ProfileImage.FileName);
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images");
+
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                string fullPath = Path.Combine(uploadsFolder, savedFileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    ProfileImage.CopyTo(stream);
+                }
+            }
+
+            // NOTE: Address and Department are collected here but the Staff
+            // table has no columns for them yet, so they are not persisted.
+            // Run: ALTER TABLE Staff ADD Address VARCHAR(255) NULL, Department VARCHAR(100) NULL;
+            // then add matching properties to the Staff model if you want to keep them.
+
+            var newStaff = new Staff
+            {
+                FullName = Fullname,
+                Username = Username,
+                Email = Email,
+                ContactNumber = Contact,
+                Password = HashPassword(Password),
+                ProfileImage = savedFileName,
+                DateCreated = DateTime.Now
+            };
+
+            _context.Staffs.Add(newStaff);
+            _context.SaveChanges();
+
+            ViewBag.Success = "Registered Successfully!";
+            return View();
+        }
+
+        // ================== DASHBOARD & PAGES ==================
 
         public IActionResult StaffDashboard()
         {
@@ -118,8 +243,6 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
-        // Staff-side copy of Admin's chart endpoint — no AdminId session check,
-        // since Staff doesn't have one. Keeps the "This Week/Month/Year" graph working.
         [HttpGet]
         public JsonResult GetRequestChartData(string range, int? year)
         {
@@ -177,7 +300,6 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
-        // GET: Admin/RecordsManagement
         public ActionResult UploadFiles()
         {
             return View();
@@ -193,14 +315,12 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
-        // GET: Staff/StaffRequest
         public ActionResult StaffRequest(string search, string status, int page = 1)
         {
             const int pageSize = 5;
             var today = DateTime.Today;
             bool isSearching = !string.IsNullOrWhiteSpace(search);
 
-            // ----- DAILY-RESET DISPLAY IDS (ACROSS ALL HISTORY) -----
             var allForNumbering = _context.Appointments
                 .OrderBy(a => a.DateRequested)
                 .Select(a => new { a.AppointmentId, a.DateRequested })
@@ -220,7 +340,6 @@ namespace SmartOfficeRecords.Controllers
                 displayIdMap[item.AppointmentId] = "AP" + dailyCounters[day].ToString("D3");
             }
 
-            // ----- BASE QUERY -----
             var query = _context.Appointments
                 .Include(a => a.Applicant)
                 .AsQueryable();
@@ -242,7 +361,6 @@ namespace SmartOfficeRecords.Controllers
                 query = query.Where(a => a.Status == status);
             }
 
-            // ----- PAGINATION -----
             int totalCount = query.Count();
             int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
             if (totalPages < 1) totalPages = 1;
@@ -311,6 +429,20 @@ namespace SmartOfficeRecords.Controllers
             if (parts[0].Length >= 2)
                 return parts[0].Substring(0, 2).ToUpper();
             return parts[0].ToUpper();
+        }
+
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
     }
 }
