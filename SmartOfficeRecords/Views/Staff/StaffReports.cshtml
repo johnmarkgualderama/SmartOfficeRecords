@@ -1,5 +1,5 @@
 ﻿﻿@{
-ViewBag.Title = "Audit Logs";
+ViewBag.Title = "Staff Reports";
 Layout = null;
 }
 
@@ -10,7 +10,7 @@ Layout = null;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Audit Logs - SORS</title>
+    <title>Staff Reports</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -20,15 +20,15 @@ Layout = null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
           rel="stylesheet" />
 
-    <!-- Inter Font -->
+    <!-- Inter Font - SAME AS RECORDS -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet">
 
     <style>
 
             /* =========================================================
-                               GLOBAL
-                            ========================================================= */
+                                       GLOBAL
+                                    ========================================================= */
 
             * {
                 margin: 0;
@@ -45,19 +45,19 @@ Layout = null;
 
 
             /* =========================================================
-                               MAIN CONTAINER
-                            ========================================================= */
+                                       MAIN CONTAINER
+                                    ========================================================= */
 
             .dashboard-container {
                 display: flex;
-                width: 100%;
                 height: 100vh;
+                width: 100%;
             }
 
 
             /* =========================================================
-                               SIDEBAR
-                            ========================================================= */
+                                       SIDEBAR
+                                    ========================================================= */
 
             .sidebar {
                 width: 158px;
@@ -89,8 +89,8 @@ Layout = null;
 
 
                 /* =========================================================
-                               COLLAPSED SIDEBAR
-                            ========================================================= */
+                                       COLLAPSED SIDEBAR
+                                    ========================================================= */
 
                 .sidebar.collapsed {
                     width: 78px;
@@ -161,8 +161,8 @@ Layout = null;
 
 
             /* =========================================================
-                               LOGO
-                            ========================================================= */
+                                       LOGO SECTION
+                                    ========================================================= */
 
             .logo-section {
                 text-align: center;
@@ -197,8 +197,8 @@ Layout = null;
 
 
             /* =========================================================
-                               MENU
-                            ========================================================= */
+                                       MENU
+                                    ========================================================= */
 
             .menu {
                 padding: 16px 9px;
@@ -235,22 +235,24 @@ Layout = null;
                         box-shadow: 0 3px 8px rgba(185,28,28,.22);
                     }
 
-
             /* =========================================================
-                               LOGOUT
-                            ========================================================= */
+                                       SETTINGS + LOGOUT
+                                    ========================================================= */
 
             .logout {
                 margin-top: auto;
                 padding: 12px 9px 15px 9px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
             }
 
                 .logout a {
                     color: #FFFFFF;
                     text-decoration: none;
                     display: flex;
-                    align-items: center;
                     gap: 11px;
+                    align-items: center;
                     padding: 10px 11px;
                     font-size: 13px;
                     font-weight: 500;
@@ -260,16 +262,22 @@ Layout = null;
 
                     .logout a i {
                         font-size: 16px;
+                        min-width: 16px;
                     }
 
-                    .logout a:hover {
-                        background: rgba(185,28,28,.18);
-                    }
+            .settings-link:hover {
+                background: rgba(185, 28, 28, .18);
+                color: #FFFFFF;
+            }
 
+            .logout-link:hover {
+                background: rgba(185,28,28,.25);
+                color: #FFFFFF;
+            }
 
             /* =========================================================
-                               MAIN CONTENT
-                            ========================================================= */
+                                       MAIN CONTENT
+                                    ========================================================= */
 
             .main-content {
                 flex: 1;
@@ -282,8 +290,8 @@ Layout = null;
 
 
             /* =========================================================
-                               TOPBAR
-                            ========================================================= */
+                                       TOPBAR
+                                    ========================================================= */
 
             .topbar {
                 height: 56px;
@@ -291,8 +299,8 @@ Layout = null;
                 flex-shrink: 0;
                 border-bottom: 1px solid #E5E7EB;
                 display: flex;
-                align-items: center;
                 justify-content: space-between;
+                align-items: center;
                 padding: 0 20px;
                 background: #FFFFFF;
             }
@@ -312,10 +320,14 @@ Layout = null;
                 padding: 5px;
             }
 
+                .menu-toggle:hover {
+                    color: #991B1B;
+                }
+
 
             /* =========================================================
-                               TOPBAR RIGHT
-                            ========================================================= */
+                                       TOPBAR RIGHT
+                                    ========================================================= */
 
             .topbar-right {
                 display: flex;
@@ -337,8 +349,8 @@ Layout = null;
 
 
             /* =========================================================
-                               PROFILE
-                            ========================================================= */
+                                       PROFILE
+                                    ========================================================= */
 
             .profile {
                 display: flex;
@@ -382,8 +394,8 @@ Layout = null;
 
 
             /* =========================================================
-                               CONTENT AREA
-                            ========================================================= */
+                                       CONTENT AREA
+                                    ========================================================= */
 
             .content-area {
                 flex: 1;
@@ -409,13 +421,13 @@ Layout = null;
 
 
             /* =========================================================
-                               PAGE HEADER
-                            ========================================================= */
+                                       PAGE HEADER
+                                    ========================================================= */
 
             .page-header {
                 display: flex;
-                align-items: flex-start;
                 justify-content: space-between;
+                align-items: flex-start;
                 margin-bottom: 18px;
             }
 
@@ -438,13 +450,13 @@ Layout = null;
 
 
             /* =========================================================
-                               ACTION BAR
-                            ========================================================= */
+                                       ACTION BAR
+                                    ========================================================= */
 
             .action-bar {
                 display: flex;
-                align-items: center;
                 justify-content: space-between;
+                align-items: center;
                 gap: 12px;
                 margin-bottom: 16px;
             }
@@ -453,13 +465,13 @@ Layout = null;
                 display: flex;
                 align-items: center;
                 gap: 12px;
-                width: 100%;
+                flex: 1;
             }
 
 
             /* =========================================================
-                               SEARCH
-                            ========================================================= */
+                                       SEARCH BOX
+                                    ========================================================= */
 
             .search-box {
                 height: 36px;
@@ -484,10 +496,10 @@ Layout = null;
                     width: 100%;
                     border: none;
                     outline: none;
-                    background: transparent;
                     font-size: 11px;
-                    font-weight: 400;
                     color: #374151;
+                    background: transparent;
+                    font-weight: 400;
                 }
 
                     .search-box input::placeholder {
@@ -496,35 +508,11 @@ Layout = null;
 
 
             /* =========================================================
-                               FILTERS
-                            ========================================================= */
-
-            .audit-filter {
-                width: 120px;
-                height: 36px;
-                background: #FFFFFF;
-                border: 1px solid #E5E7EB;
-                border-radius: 6px;
-                padding: 0 10px;
-                font-size: 11px;
-                font-weight: 500;
-                color: #374151;
-                outline: none;
-                cursor: pointer;
-            }
-
-                .audit-filter:focus {
-                    border-color: #B91C1C;
-                    box-shadow: 0 0 0 2px rgba(185,28,28,.08);
-                }
-
-
-            /* =========================================================
-                               TABLE CONTAINER
-                            ========================================================= */
+                                       TABLE CONTAINER
+                                       SAME AS RECORDS
+                                    ========================================================= */
 
             .table-container {
-                width: 100%;
                 background: #FFFFFF;
                 border: 1px solid #D9DDE3;
                 border-radius: 8px;
@@ -548,302 +536,218 @@ Layout = null;
 
 
             /* =========================================================
-                               AUDIT TABLE
-                            ========================================================= */
+                                       REPORT TABLE
+                                    ========================================================= */
 
-            .audit-table {
+            .report-table {
                 width: 100%;
-                min-width: 1000px;
+                min-width: 900px;
                 border-collapse: collapse;
-                border-spacing: 0;
                 margin: 0;
                 table-layout: fixed;
             }
 
 
                 /* =========================================================
-                               COLUMN WIDTHS
-                            ========================================================= */
+                                       COLUMN WIDTHS
+                                    ========================================================= */
 
-                /* DATE & TIME */
-                .audit-table th:nth-child(1),
-                .audit-table td:nth-child(1) {
-                    width: 18%;
+                .report-table th:nth-child(1),
+                .report-table td:nth-child(1) {
+                    width: 10%;
                 }
 
-                /* USERS */
-                .audit-table th:nth-child(2),
-                .audit-table td:nth-child(2) {
+                .report-table th:nth-child(2),
+                .report-table td:nth-child(2) {
+                    width: 21%;
+                }
+
+                .report-table th:nth-child(3),
+                .report-table td:nth-child(3) {
+                    width: 23%;
+                }
+
+                .report-table th:nth-child(4),
+                .report-table td:nth-child(4) {
                     width: 15%;
                 }
 
-                /* ROLE */
-                .audit-table th:nth-child(3),
-                .audit-table td:nth-child(3) {
-                    width: 12%;
-                }
-
-                /* ACTIVITY */
-                .audit-table th:nth-child(4),
-                .audit-table td:nth-child(4) {
-                    width: 27%;
-                }
-
-                /* MODULE */
-                .audit-table th:nth-child(5),
-                .audit-table td:nth-child(5) {
-                    width: 13%;
-                }
-
-                /* STATUS */
-                .audit-table th:nth-child(6),
-                .audit-table td:nth-child(6) {
-                    width: 15%;
+                .report-table th:nth-child(5),
+                .report-table td:nth-child(5) {
+                    width: 31%;
                 }
 
 
                 /* =========================================================
-                               TABLE HEADER
-                            ========================================================= */
+                                       TABLE HEADER
+                                    ========================================================= */
 
-                .audit-table thead {
+                .report-table thead {
                     background: #111111;
                 }
 
-                .audit-table th {
+                .report-table th {
                     height: 40px;
-                    padding: 0 14px;
-                    background: #111111;
-                    color: #FFFFFF;
-                    border-bottom: 1px solid #111111;
+                    padding: 0 12px;
                     font-size: 10px;
                     font-weight: 700;
+                    color: #FFFFFF;
+                    background: #111111;
+                    border-bottom: 1px solid #111111;
+                    white-space: nowrap;
                     letter-spacing: .15px;
                     vertical-align: middle;
-                    white-space: nowrap;
                 }
 
 
                     /* =========================================================
-                               HEADER ALIGNMENT
-                               DATE & TIME SAME AS REPORTS DATE GENERATED
-                            ========================================================= */
+                                       HEADER ALIGNMENT
+                                    ========================================================= */
 
-                    .audit-table th:nth-child(1) {
+                    .report-table th:nth-child(1) {
                         text-align: center;
                     }
 
-                    .audit-table th:nth-child(2),
-                    .audit-table th:nth-child(3),
-                    .audit-table th:nth-child(4) {
+                    .report-table th:nth-child(2),
+                    .report-table th:nth-child(3) {
                         text-align: left;
                     }
 
-                    .audit-table th:nth-child(5),
-                    .audit-table th:nth-child(6) {
+                    .report-table th:nth-child(4),
+                    .report-table th:nth-child(5) {
                         text-align: center;
                     }
 
 
                 /* =========================================================
-                               TABLE BODY
-                            ========================================================= */
+                                       TABLE BODY
+                                    ========================================================= */
 
-                .audit-table td {
+                .report-table td {
                     height: 42px;
-                    padding: 0 14px;
-                    background: #FFFFFF;
-                    color: #374151;
-                    border-bottom: 1px solid #E5E7EB;
+                    padding: 0 12px;
                     font-size: 10px;
                     font-weight: 500;
-                    vertical-align: middle;
+                    color: #374151;
+                    background: #FFFFFF;
+                    border-bottom: 1px solid #E5E7EB;
                     white-space: nowrap;
+                    vertical-align: middle;
                 }
 
 
                     /* =========================================================
-                               BODY ALIGNMENT
-                               DATE & TIME SAME AS REPORTS DATE GENERATED
-                            ========================================================= */
+                                       BODY ALIGNMENT
+                                    ========================================================= */
 
-                    .audit-table td:nth-child(1) {
+                    .report-table td:nth-child(1) {
                         text-align: center;
+                        font-weight: 600;
                         color: #4B5563;
-                        font-weight: 500;
                     }
 
-                    .audit-table td:nth-child(2),
-                    .audit-table td:nth-child(3),
-                    .audit-table td:nth-child(4) {
+                    .report-table td:nth-child(2),
+                    .report-table td:nth-child(3) {
                         text-align: left;
                     }
 
-                    .audit-table td:nth-child(5),
-                    .audit-table td:nth-child(6) {
+                    .report-table td:nth-child(4),
+                    .report-table td:nth-child(5) {
                         text-align: center;
                     }
 
 
-            /* =========================================================
-                               DATE & TIME COLUMN
-                            ========================================================= */
+                /* =========================================================
+                                       HOVER
+                                    ========================================================= */
 
-            .date-column {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                min-height: 42px;
-                line-height: 1.25;
-                text-align: center;
-            }
-
-                .date-column > span:first-child {
-                    display: block;
-                    text-align: center;
+                .report-table tbody tr:hover td {
+                    background: #FEF2F2;
                 }
 
-                .date-column .time {
-                    display: block;
-                    margin-top: 3px;
-                    color: #6B7280;
-                    font-size: 9px;
-                    font-weight: 400;
-                    text-align: center;
+                .report-table tbody tr:last-child td {
+                    border-bottom: none;
                 }
 
 
             /* =========================================================
-                               ROLE COLUMN
-                            ========================================================= */
+                                       STATUS BADGES
+                                    ========================================================= */
 
-            .audit-table td:nth-child(3) {
-                vertical-align: middle;
-            }
-
-            .role-badge {
+            .status-badge {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 70px;
                 min-width: 70px;
-                height: 23px;
-                padding: 0 9px;
+                padding: 5px 9px;
                 border-radius: 5px;
                 font-size: 9px;
                 font-weight: 600;
                 line-height: 1;
-                white-space: nowrap;
             }
 
-            .role-admin {
-                background: #FEE2E2;
-                color: #B91C1C;
-            }
-
-            .role-staff {
-                background: #F3F4F6;
-                color: #374151;
-            }
-
-
-            /* =========================================================
-                               STATUS COLUMN
-                            ========================================================= */
-
-            .audit-table td:nth-child(6) {
-                vertical-align: middle;
-            }
-
-            .success-badge,
-            .failed-badge {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-                width: 70px;
-                min-width: 70px;
-                height: 23px;
-                padding: 0 9px;
-                border-radius: 5px;
-                font-size: 9px;
-                font-weight: 600;
-                line-height: 1;
-                white-space: nowrap;
-            }
-
-
-            /* =========================================================
-                               SUCCESS
-                            ========================================================= */
-
-            .success-badge {
+            .status-completed {
                 background: #DCFCE7;
                 color: #15803D;
             }
 
-                .success-badge::before {
-                    content: "";
-                    width: 5px;
-                    height: 5px;
-                    background: #15803D;
-                    border-radius: 50%;
+            .status-approved {
+                background: #DBEAFE;
+                color: #2563EB;
+            }
+
+            .status-pending {
+                background: #FEF3C7;
+                color: #D97706;
+            }
+
+
+            /* =========================================================
+                                       REPORT ACTIONS
+                                    ========================================================= */
+
+            .report-actions {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                width: 100%;
+            }
+
+            .view-action {
+                width: 28px;
+                height: 28px;
+                border: none;
+                border-radius: 5px;
+                background: transparent;
+                color: #374151;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all .2s ease;
+            }
+
+                .view-action i {
+                    font-size: 12px;
+                }
+
+                .view-action:hover {
+                    background: #DBEAFE;
+                    color: #2563EB;
                 }
 
 
             /* =========================================================
-                               FAILED
-                            ========================================================= */
-
-            .failed-badge {
-                background: #FEE2E2;
-                color: #B91C1C;
-            }
-
-                .failed-badge::before {
-                    content: "";
-                    width: 5px;
-                    height: 5px;
-                    background: #B91C1C;
-                    border-radius: 50%;
-                }
-
-
-            /* =========================================================
-                               ACTIVITY COLUMN
-                            ========================================================= */
-
-            .audit-table td:nth-child(4) {
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-
-            /* =========================================================
-                               HOVER
-                            ========================================================= */
-
-            .audit-table tbody tr:hover td {
-                background: #FEF2F2;
-            }
-
-            .audit-table tbody tr:last-child td {
-                border-bottom: none;
-            }
-
-
-            /* =========================================================
-                               PAGINATION
-                            ========================================================= */
+                                       PAGINATION
+                                    ========================================================= */
 
             .pagination-section {
                 display: flex;
-                align-items: center;
                 justify-content: space-between;
-                width: 100%;
+                align-items: center;
                 margin-top: 18px;
+                width: 100%;
             }
 
             .showing-text {
@@ -865,8 +769,8 @@ Layout = null;
                 background: #FFFFFF;
                 border-radius: 5px;
                 display: flex;
-                align-items: center;
                 justify-content: center;
+                align-items: center;
                 color: #6B7280;
                 font-size: 9px;
                 font-weight: 500;
@@ -893,8 +797,8 @@ Layout = null;
 
 
             /* =========================================================
-                               RESPONSIVE
-                            ========================================================= */
+                                       RESPONSIVE
+                                    ========================================================= */
 
             @@media (max-width: 1000px) {
 
@@ -908,10 +812,6 @@ Layout = null;
 
                 .search-box {
                     max-width: none;
-                }
-
-                .audit-filter {
-                    width: 160px;
                 }
             }
 
@@ -986,17 +886,12 @@ Layout = null;
                     max-width: none;
                 }
 
-                .audit-filter {
-                    width: 100%;
-                }
-
                 .table-container {
-                    width: 100%;
                     overflow-x: auto;
                 }
 
-                .audit-table {
-                    min-width: 1000px;
+                .report-table {
+                    min-width: 900px;
                 }
 
                 .pagination-section {
@@ -1030,15 +925,20 @@ Layout = null;
 
 </head>
 
+
 <body>
 
     <div class="dashboard-container">
+
 
         <!-- =====================================================
              SIDEBAR
         ====================================================== -->
 
         <aside class="sidebar">
+
+
+            <!-- LOGO -->
 
             <div class="logo-section">
 
@@ -1057,9 +957,14 @@ Layout = null;
             </div>
 
 
+            <!-- MENU -->
+
             <div class="menu">
 
-                <a href="@Url.Action("Dashboard", "Admin")">
+
+                <!-- DASHBOARD -->
+
+                <a href="@Url.Action("StaffDashboard", "Staff")">
 
                     <i class="bi bi-grid-fill"></i>
 
@@ -1070,7 +975,9 @@ Layout = null;
                 </a>
 
 
-                <a href="@Url.Action("RequestManagement", "Admin")">
+                <!-- REQUEST -->
+
+                <a href="@Url.Action("StaffRequest", "Staff")">
 
                     <i class="bi bi-file-earmark-text"></i>
 
@@ -1081,7 +988,9 @@ Layout = null;
                 </a>
 
 
-                <a href="@Url.Action("RecordsManagement", "Admin")">
+                <!-- RECORDS -->
+
+                <a href="@Url.Action("StaffRecords", "Staff")">
 
                     <i class="bi bi-folder2-open"></i>
 
@@ -1092,7 +1001,10 @@ Layout = null;
                 </a>
 
 
-                <a href="@Url.Action("ReportsManagement", "Admin")">
+                <!-- REPORTS - ACTIVE -->
+
+                <a href="@Url.Action("StaffReports", "Staff")"
+                   class="active">
 
                     <i class="bi bi-file-earmark-bar-graph"></i>
 
@@ -1103,55 +1015,36 @@ Layout = null;
                 </a>
 
 
-                <a href="@Url.Action("AuditLogs", "Admin")"
-                   class="active">
-
-                    <i class="bi bi-clock-history"></i>
-
-                    <span>
-                        Audit Logs
-                    </span>
-
-                </a>
-
-
-                <a href="@Url.Action("UsersManagement", "Admin")">
-
-                    <i class="bi bi-people-fill"></i>
-
-                    <span>
-                        Users
-                    </span>
-
-                </a>
-
-
-                <a href="@Url.Action("Settings", "Admin")">
-
-                    <i class="bi bi-gear-fill"></i>
-
-                    <span>
-                        Settings
-                    </span>
-
-                </a>
-
             </div>
 
+            <!-- SETTINGS + LOGOUT AT THE BOTTOM -->
 
             <div class="logout">
 
-                <a href="@Url.Action("Login", "Admin")">
+                <!-- SETTINGS -->
+
+                <a href="@Url.Action("StaffSettings", "Staff")"
+                   class="settings-link">
+
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Settings</span>
+
+                </a>
+
+
+                <!-- LOGOUT -->
+
+                <a href="@Url.Action("StaffLogin", "Staff")"
+                   class="logout-link">
 
                     <i class="bi bi-box-arrow-right"></i>
-
-                    <span>
-                        Logout
-                    </span>
+                    <span>Logout</span>
 
                 </a>
 
             </div>
+
+
 
         </aside>
 
@@ -1169,6 +1062,9 @@ Layout = null;
 
             <div class="topbar">
 
+
+                <!-- LEFT -->
+
                 <div class="topbar-left">
 
                     <button class="menu-toggle"
@@ -1182,10 +1078,17 @@ Layout = null;
                 </div>
 
 
+                <!-- RIGHT -->
+
                 <div class="topbar-right">
+
+
+                    <!-- NOTIFICATION -->
 
                     <i class="bi bi-bell notification-icon"></i>
 
+
+                    <!-- PROFILE -->
 
                     <div class="profile">
 
@@ -1195,7 +1098,7 @@ Layout = null;
                         <div class="profile-info">
 
                             <h5>
-                                    @(Context.Session.GetString("AdminName") ?? "Admin")
+                                   @(Context.Session.GetString("AdminName") ?? "Admin")
                             </h5>
 
                             <span>
@@ -1214,24 +1117,26 @@ Layout = null;
 
 
             <!-- =================================================
-                 CONTENT AREA
+                 CONTENT
             ================================================== -->
 
             <div class="content-area">
 
 
-                <!-- PAGE HEADER -->
+                <!-- =================================================
+                     PAGE HEADER
+                ================================================== -->
 
                 <div class="page-header">
 
                     <div>
 
                         <h2 class="page-title">
-                            Audit Logs
+                            Reports
                         </h2>
 
                         <p class="page-description">
-                            View a record of activities performed by users in the system.
+                            Generate and manage reports from office records and requests.
                         </p>
 
                     </div>
@@ -1240,7 +1145,7 @@ Layout = null;
 
 
                 <!-- =================================================
-                     ACTION BAR
+                     SEARCH
                 ================================================== -->
 
                 <div class="action-bar">
@@ -1252,58 +1157,10 @@ Layout = null;
                             <i class="bi bi-search"></i>
 
                             <input type="text"
-                                   id="auditSearch"
-                                   placeholder="Search users or activity..." />
+                                   id="reportSearch"
+                                   placeholder="Search here..." />
 
                         </div>
-
-
-                        <select class="audit-filter"
-                                id="moduleFilter">
-
-                            <option value="">
-                                All Modules
-                            </option>
-
-                            <option value="Login">
-                                Login
-                            </option>
-
-                            <option value="Request">
-                                Request
-                            </option>
-
-                            <option value="Records">
-                                Records
-                            </option>
-
-                            <option value="Reports">
-                                Reports
-                            </option>
-
-                            <option value="Users">
-                                Users
-                            </option>
-
-                        </select>
-
-
-                        <select class="audit-filter"
-                                id="statusFilter">
-
-                            <option value="">
-                                All Status
-                            </option>
-
-                            <option value="Success">
-                                Success
-                            </option>
-
-                            <option value="Failed">
-                                Failed
-                            </option>
-
-                        </select>
 
                     </div>
 
@@ -1311,39 +1168,35 @@ Layout = null;
 
 
                 <!-- =================================================
-                     TABLE
+                     REPORT TABLE
                 ================================================== -->
 
                 <div class="table-container">
 
-                    <table class="audit-table">
+                    <table class="report-table">
 
                         <thead>
 
                             <tr>
 
                                 <th>
-                                    DATE & TIME
+                                    REPORT ID
                                 </th>
 
                                 <th>
-                                    USERS
-                                </th>
-
-                                <th>
-                                    ROLE
-                                </th>
-
-                                <th>
-                                    ACTIVITY
-                                </th>
-
-                                <th>
-                                    MODULE
+                                    REPORT TYPE
                                 </th>
 
                                 <th>
                                     STATUS
+                                </th>
+
+                                <th>
+                                    DATE GENERATED
+                                </th>
+
+                                <th>
+                                    ACTION
                                 </th>
 
                             </tr>
@@ -1351,156 +1204,218 @@ Layout = null;
                         </thead>
 
 
-                        <tbody id="auditTableBody">
+                        <tbody id="reportTableBody">
 
 
-                            <!-- ROW 1 -->
+                            <!-- REPORT 1 -->
 
                             <tr>
 
                                 <td>
+                                    RP0001
+                                </td>
 
-                                    <div class="date-column">
+                                <td>
+                                    Interview
+                                </td>
 
-                                        <span>
-                                            August 01, 2026
-                                        </span>
+                                <td>
 
-                                        <span class="time">
-                                            09:00:15 AM
-                                        </span>
+                                    <span class="status-badge status-completed">
+                                        Completed
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    Apr 24, 2026
+                                </td>
+
+                                <td>
+
+                                    <div class="report-actions">
+
+                                        <button class="view-action"
+                                                type="button"
+                                                title="View Report">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </button>
 
                                     </div>
-
-                                </td>
-
-                                <td>
-                                    Admin User
-                                </td>
-
-                                <td>
-
-                                    <span class="role-badge role-admin">
-                                        Admin
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    Logged in to the system.
-                                </td>
-
-                                <td>
-                                    Login
-                                </td>
-
-                                <td>
-
-                                    <span class="success-badge">
-                                        Success
-                                    </span>
 
                                 </td>
 
                             </tr>
 
 
-                            <!-- ROW 2 -->
+                            <!-- REPORT 2 -->
 
                             <tr>
 
                                 <td>
+                                    RP0002
+                                </td>
 
-                                    <div class="date-column">
+                                <td>
+                                    Interview
+                                </td>
 
-                                        <span>
-                                            August 01, 2026
-                                        </span>
+                                <td>
 
-                                        <span class="time">
-                                            09:15:25 AM
-                                        </span>
+                                    <span class="status-badge status-approved">
+                                        Approved
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    Apr 24, 2026
+                                </td>
+
+                                <td>
+
+                                    <div class="report-actions">
+
+                                        <button class="view-action"
+                                                type="button"
+                                                title="View Report">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </button>
 
                                     </div>
-
-                                </td>
-
-                                <td>
-                                    Staff User
-                                </td>
-
-                                <td>
-
-                                    <span class="role-badge role-staff">
-                                        Staff
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    Approved request #02
-                                </td>
-
-                                <td>
-                                    Request
-                                </td>
-
-                                <td>
-
-                                    <span class="success-badge">
-                                        Success
-                                    </span>
 
                                 </td>
 
                             </tr>
 
 
-                            <!-- ROW 3 -->
+                            <!-- REPORT 3 -->
 
                             <tr>
 
                                 <td>
+                                    RP0003
+                                </td>
 
-                                    <div class="date-column">
+                                <td>
+                                    Interview
+                                </td>
 
-                                        <span>
-                                            August 01, 2026
-                                        </span>
+                                <td>
 
-                                        <span class="time">
-                                            10:20:10 AM
-                                        </span>
+                                    <span class="status-badge status-completed">
+                                        Completed
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    Apr 24, 2026
+                                </td>
+
+                                <td>
+
+                                    <div class="report-actions">
+
+                                        <button class="view-action"
+                                                type="button"
+                                                title="View Report">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </button>
 
                                     </div>
 
                                 </td>
 
+                            </tr>
+
+
+                            <!-- REPORT 4 -->
+
+                            <tr>
+
                                 <td>
-                                    Admin User
+                                    RP0004
+                                </td>
+
+                                <td>
+                                    Document
                                 </td>
 
                                 <td>
 
-                                    <span class="role-badge role-admin">
-                                        Admin
+                                    <span class="status-badge status-approved">
+                                        Approved
                                     </span>
 
                                 </td>
 
                                 <td>
-                                    Uploaded office record.
-                                </td>
-
-                                <td>
-                                    Records
+                                    Apr 24, 2026
                                 </td>
 
                                 <td>
 
-                                    <span class="success-badge">
-                                        Success
+                                    <div class="report-actions">
+
+                                        <button class="view-action"
+                                                type="button"
+                                                title="View Report">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- REPORT 5 -->
+
+                            <tr>
+
+                                <td>
+                                    RP0005
+                                </td>
+
+                                <td>
+                                    Document
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-completed">
+                                        Completed
                                     </span>
+
+                                </td>
+
+                                <td>
+                                    Apr 24, 2026
+                                </td>
+
+                                <td>
+
+                                    <div class="report-actions">
+
+                                        <button class="view-action"
+                                                type="button"
+                                                title="View Report">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </button>
+
+                                    </div>
 
                                 </td>
 
@@ -1520,10 +1435,11 @@ Layout = null;
 
                 <div class="pagination-section">
 
+
                     <div class="showing-text"
                          id="showingText">
 
-                        Showing 1 to 3 logs
+                        Showing 1 to 5 reports
 
                     </div>
 
@@ -1531,7 +1447,6 @@ Layout = null;
                     <div class="pagination-buttons">
 
                         <button class="pagination-btn"
-                                id="previousBtn"
                                 type="button">
 
                             Previous
@@ -1539,7 +1454,6 @@ Layout = null;
                         </button>
 
                         <button class="pagination-btn next-btn"
-                                id="nextBtn"
                                 type="button">
 
                             Next
@@ -1547,6 +1461,7 @@ Layout = null;
                         </button>
 
                     </div>
+
 
                 </div>
 
@@ -1583,38 +1498,26 @@ Layout = null;
 
 
             /* =========================================================
-               AUDIT SEARCH + FILTER
+               REPORT SEARCH
             ========================================================= */
 
-            const auditSearch =
-                document.getElementById('auditSearch');
+            const reportSearch =
+                document.getElementById('reportSearch');
 
-            const moduleFilter =
-                document.getElementById('moduleFilter');
-
-            const statusFilter =
-                document.getElementById('statusFilter');
-
-            const auditTableBody =
-                document.getElementById('auditTableBody');
+            const reportTableBody =
+                document.getElementById('reportTableBody');
 
             const showingText =
                 document.getElementById('showingText');
 
 
-            function filterAuditLogs() {
+            reportSearch.addEventListener('input', function () {
 
                 const searchValue =
-                    auditSearch.value.toLowerCase().trim();
-
-                const selectedModule =
-                    moduleFilter.value.toLowerCase();
-
-                const selectedStatus =
-                    statusFilter.value.toLowerCase();
+                    this.value.toLowerCase().trim();
 
                 const rows =
-                    auditTableBody.querySelectorAll('tr');
+                    reportTableBody.querySelectorAll('tr');
 
                 let visibleCount = 0;
 
@@ -1624,36 +1527,7 @@ Layout = null;
                     const rowText =
                         row.textContent.toLowerCase();
 
-                    const module =
-                        row.children[4]
-                            .textContent
-                            .toLowerCase()
-                            .trim();
-
-                    const status =
-                        row.children[5]
-                            .textContent
-                            .toLowerCase()
-                            .trim();
-
-
-                    const matchesSearch =
-                        rowText.includes(searchValue);
-
-                    const matchesModule =
-                        selectedModule === '' ||
-                        module === selectedModule;
-
-                    const matchesStatus =
-                        selectedStatus === '' ||
-                        status.includes(selectedStatus);
-
-
-                    if (
-                        matchesSearch &&
-                        matchesModule &&
-                        matchesStatus
-                    ) {
+                    if (rowText.includes(searchValue)) {
 
                         row.style.display = '';
 
@@ -1669,60 +1543,23 @@ Layout = null;
                 });
 
 
-                if (
-                    searchValue === '' &&
-                    selectedModule === '' &&
-                    selectedStatus === ''
-                ) {
+                if (searchValue === '') {
 
                     showingText.textContent =
-                        'Showing 1 to ' +
-                        rows.length +
-                        ' logs';
+                        'Showing 1 to ' + rows.length + ' reports';
 
                 }
                 else {
 
                     showingText.textContent =
-                        'Showing ' +
-                        visibleCount +
-                        ' logs';
+                        'Showing ' + visibleCount + ' reports';
 
                 }
 
-            }
-
-
-            /* =========================================================
-               SEARCH EVENT
-            ========================================================= */
-
-            auditSearch.addEventListener(
-                'input',
-                filterAuditLogs
-            );
-
-
-            /* =========================================================
-               MODULE EVENT
-            ========================================================= */
-
-            moduleFilter.addEventListener(
-                'change',
-                filterAuditLogs
-            );
-
-
-            /* =========================================================
-               STATUS EVENT
-            ========================================================= */
-
-            statusFilter.addEventListener(
-                'change',
-                filterAuditLogs
-            );
+            });
 
     </script>
+
 
 </body>
 </html>

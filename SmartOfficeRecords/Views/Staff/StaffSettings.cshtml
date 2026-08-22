@@ -1,0 +1,1080 @@
+﻿﻿@{
+ViewBag.Title = "Staff Settings";
+Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Settings</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet" />
+
+    <!-- Inter Font - SAME AS RECORDS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+            /* =========================================================
+                                       GLOBAL
+                                    ========================================================= */
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Inter', sans-serif;
+            }
+
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+            }
+
+            body {
+                background: #FFFFFF;
+                overflow: hidden;
+                color: #111827;
+            }
+
+
+            /* =========================================================
+                                       FULL PAGE
+                                    ========================================================= */
+
+            .settings-container {
+                width: 100%;
+                height: 100vh;
+                background: #FFFFFF;
+                display: flex;
+            }
+
+            .settings-page {
+                width: 100%;
+                height: 100vh;
+                background: #FFFFFF;
+                display: flex;
+                overflow: hidden;
+            }
+
+
+            /* =========================================================
+                                       LEFT SETTINGS PANEL
+                                       SIZE MATCHED TO RECORDS
+                                    ========================================================= */
+
+            .settings-sidebar {
+                width: 158px;
+                min-width: 158px;
+                height: 100vh;
+                background: #FFFFFF;
+                padding: 18px 18px;
+                border-right: 1px solid #F0F0F0;
+            }
+
+
+            /* =========================================================
+                                       BACK BUTTON
+                                    ========================================================= */
+
+            .settings-back {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: #111827;
+                font-size: 13px;
+                font-weight: 500;
+                margin-bottom: 30px;
+            }
+
+                .settings-back i {
+                    font-size: 16px;
+                }
+
+                .settings-back:hover {
+                    color: #B91C1C;
+                }
+
+
+            /* =========================================================
+                                       PROFILE
+                                    ========================================================= */
+
+            .settings-profile {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                padding: 0 3px 18px 3px;
+                border-bottom: 1px solid #E5E7EB;
+                margin-bottom: 18px;
+            }
+
+            .settings-profile-img {
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #F4A340;
+            }
+
+            .settings-profile-info {
+                display: flex;
+                flex-direction: column;
+                line-height: 1.25;
+                min-width: 0;
+            }
+
+            .settings-profile-email {
+                font-size: 9px;
+                font-weight: 500;
+                color: #222222;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .settings-profile-role {
+                font-size: 8px;
+                color: #6B7280;
+                margin-top: 2px;
+            }
+
+
+            /* =========================================================
+                                       SETTINGS NAVIGATION
+                                       SAME FONT SCALE AS RECORDS MENU
+                                    ========================================================= */
+
+            .settings-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+                .settings-nav a {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    width: 100%;
+                    min-height: 38px;
+                    padding: 9px 8px;
+                    text-decoration: none;
+                    color: #222222;
+                    font-size: 13px;
+                    font-weight: 500;
+                    border-radius: 6px;
+                    transition: .2s ease;
+                }
+
+                    .settings-nav a i {
+                        width: 16px;
+                        text-align: center;
+                        font-size: 16px;
+                    }
+
+                    .settings-nav a:hover {
+                        color: #B91C1C;
+                        background: #FEF2F2;
+                    }
+
+                    .settings-nav a.active {
+                        color: #B91C1C;
+                        background: #FEF2F2;
+                        font-weight: 600;
+                    }
+
+
+            /* =========================================================
+                                       MAIN CONTENT
+                                    ========================================================= */
+
+            .settings-main {
+                flex: 1;
+                height: 100vh;
+                background: #FFFFFF;
+                padding: 22px 30px;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+
+            /* =========================================================
+                                       SEARCH BAR
+                                       SAME SIZE SCALE AS RECORDS
+                                    ========================================================= */
+
+            .settings-top {
+                width: 100%;
+                display: flex;
+                justify-content: flex-start;
+                margin-bottom: 22px;
+            }
+
+            .settings-search {
+                width: 540px;
+                height: 36px;
+                background: #FFFFFF;
+                border-radius: 20px;
+                border: 1px solid #E5E7EB;
+                box-shadow: 0 3px 12px rgba(0,0,0,.05);
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                padding: 0 13px;
+            }
+
+                .settings-search i {
+                    font-size: 13px;
+                    color: #6B7280;
+                }
+
+                .settings-search input {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    font-size: 11px;
+                    font-weight: 400;
+                    color: #374151;
+                }
+
+                    .settings-search input::placeholder {
+                        color: #9CA3AF;
+                    }
+
+
+            /* =========================================================
+                                       SYSTEM HEADING
+                                       SAME SIZE AS RECORDS PAGE HEADER
+                                    ========================================================= */
+
+            .settings-heading {
+                margin-bottom: 18px;
+            }
+
+                .settings-heading h1 {
+                    font-size: 24px;
+                    font-weight: 700;
+                    letter-spacing: -0.2px;
+                    line-height: 1.2;
+                    color: #B91C1C;
+                    margin: 0 0 5px 0;
+                }
+
+                .settings-heading p {
+                    font-size: 13px;
+                    font-weight: 400;
+                    color: #64748B;
+                    line-height: 1.5;
+                    margin: 0;
+                }
+
+
+            /* =========================================================
+                                       SYSTEM CARD
+                                    ========================================================= */
+
+            .system-card {
+                width: 100%;
+                background: #FFFFFF;
+                border: 1px solid #D9DDE3;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 1px 2px rgba(0,0,0,.02);
+            }
+
+
+            /* =========================================================
+                                       SYSTEM ROW
+                                    ========================================================= */
+
+            .system-row {
+                min-height: 68px;
+                padding: 0 18px 0 24px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #E5E7EB;
+            }
+
+                .system-row:last-child {
+                    border-bottom: none;
+                }
+
+
+            /* =========================================================
+                                       SYSTEM LABEL
+                                    ========================================================= */
+
+            .system-label-text {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+                .system-label-text strong {
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: #374151;
+                }
+
+                .system-label-text span {
+                    font-size: 9px;
+                    font-weight: 400;
+                    color: #64748B;
+                }
+
+
+            /* =========================================================
+                                       SELECT
+                                    ========================================================= */
+
+            .settings-select {
+                width: 194px;
+                height: 36px;
+                border: 1px solid #D1D5DB;
+                border-radius: 6px;
+                background: #FFFFFF;
+                padding: 0 11px;
+                font-size: 10px;
+                font-weight: 400;
+                color: #374151;
+                outline: none;
+            }
+
+                .settings-select:focus {
+                    border-color: #B91C1C;
+                    box-shadow: none;
+                }
+
+
+            /* =========================================================
+                                       SESSION TIMEOUT
+                                    ========================================================= */
+
+            .timeout-row {
+                min-height: 72px;
+            }
+
+            .timeout-control {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+            }
+
+            .timeout-slider {
+                width: 192px;
+                height: 4px;
+                appearance: none;
+                -webkit-appearance: none;
+                outline: none;
+                border-radius: 10px;
+                background: #D9D9D9;
+            }
+
+                .timeout-slider::-webkit-slider-runnable-track {
+                    height: 4px;
+                    border-radius: 10px;
+                    background: linear-gradient( to right, #B91C1C 0%, #B91C1C 70%, #D9D9D9 70%, #D9D9D9 100% );
+                }
+
+                .timeout-slider::-webkit-slider-thumb {
+                    appearance: none;
+                    -webkit-appearance: none;
+                    width: 10px;
+                    height: 10px;
+                    margin-top: -3px;
+                    border-radius: 50%;
+                    background: #B91C1C;
+                    border: 1px solid #FFFFFF;
+                    box-shadow: 0 0 0 1px #B91C1C;
+                    cursor: pointer;
+                }
+
+                .timeout-slider::-moz-range-track {
+                    height: 4px;
+                    border-radius: 10px;
+                    background: #D9D9D9;
+                }
+
+                .timeout-slider::-moz-range-progress {
+                    height: 4px;
+                    border-radius: 10px;
+                    background: #B91C1C;
+                }
+
+                .timeout-slider::-moz-range-thumb {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: #B91C1C;
+                    border: 1px solid #FFFFFF;
+                    box-shadow: 0 0 0 1px #B91C1C;
+                    cursor: pointer;
+                }
+
+            .timeout-value {
+                min-width: 40px;
+                font-size: 10px;
+                font-weight: 500;
+                color: #374151;
+            }
+
+
+            /* =========================================================
+                                       DANGER ZONE
+                                    ========================================================= */
+
+            .danger-section {
+                margin-top: 24px;
+            }
+
+            .danger-title {
+                font-size: 14px;
+                font-weight: 600;
+                color: #111827;
+                margin-bottom: 10px;
+            }
+
+            .danger-card {
+                width: 100%;
+                background: #FFFFFF;
+                border: 1px solid #D9DDE3;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 1px 2px rgba(0,0,0,.02);
+            }
+
+            .danger-row {
+                min-height: 90px;
+                padding: 18px 24px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 20px;
+                border-bottom: 1px solid #E5E7EB;
+            }
+
+                .danger-row:last-child {
+                    border-bottom: none;
+                }
+
+            .danger-info {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+                .danger-info strong {
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: #B91C1C;
+                }
+
+                .danger-info span {
+                    font-size: 9px;
+                    font-weight: 400;
+                    color: #64748B;
+                }
+
+            .danger-button {
+                min-width: 140px;
+                height: 36px;
+                padding: 0 14px;
+                background: #FFFFFF;
+                border: 1px solid #FCA5A5;
+                border-radius: 6px;
+                color: #B91C1C;
+                font-size: 10px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s ease;
+                white-space: nowrap;
+            }
+
+                .danger-button:hover {
+                    background: #B91C1C;
+                    border-color: #B91C1C;
+                    color: #FFFFFF;
+                }
+
+
+            /* =========================================================
+                                       SCROLLBAR
+                                    ========================================================= */
+
+            .settings-main {
+                scrollbar-width: thin;
+                scrollbar-color: #C7CBD1 transparent;
+            }
+
+                .settings-main::-webkit-scrollbar {
+                    width: 6px;
+                }
+
+                .settings-main::-webkit-scrollbar-thumb {
+                    background: #C7CBD1;
+                    border-radius: 10px;
+                }
+
+                .settings-main::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+
+            /* =========================================================
+                                       RESPONSIVE
+                                    ========================================================= */
+
+            @@media (max-width: 900px) {
+
+                .settings-sidebar {
+                    width: 158px;
+                    min-width: 158px;
+                }
+
+                .settings-main {
+                    padding-left: 25px;
+                    padding-right: 25px;
+                }
+
+                .settings-search {
+                    width: 70%;
+                }
+            }
+
+
+            @@media (max-width: 700px) {
+
+                body {
+                    overflow-y: auto;
+                }
+
+                .settings-page {
+                    height: auto;
+                    min-height: 100vh;
+                    flex-direction: column;
+                }
+
+                .settings-sidebar {
+                    width: 100%;
+                    min-width: 100%;
+                    height: auto;
+                    border-right: none;
+                    border-bottom: 1px solid #E5E7EB;
+                    padding: 15px 20px;
+                }
+
+                .settings-back {
+                    margin-bottom: 20px;
+                }
+
+                .settings-profile {
+                    margin-bottom: 12px;
+                }
+
+                .settings-nav {
+                    flex-direction: row;
+                }
+
+                    .settings-nav a {
+                        flex: 1;
+                    }
+
+                .settings-main {
+                    height: auto;
+                    min-height: calc(100vh - 250px);
+                    overflow: visible;
+                    padding: 25px 20px;
+                }
+
+                .settings-search {
+                    width: 100%;
+                }
+
+                .settings-heading h1 {
+                    font-size: 21px;
+                }
+
+                .settings-heading p {
+                    font-size: 12px;
+                }
+
+                .system-row {
+                    min-height: 78px;
+                    padding: 14px 18px;
+                }
+
+                .danger-row {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+                .danger-button {
+                    width: 100%;
+                }
+            }
+
+
+            @@media (max-width: 480px) {
+
+                .settings-nav {
+                    flex-direction: column;
+                }
+
+                .system-row {
+                    align-items: flex-start;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .settings-select {
+                    width: 100%;
+                }
+
+                .timeout-control {
+                    width: 100%;
+                }
+
+                .timeout-slider {
+                    flex: 1;
+                }
+            }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="settings-container">
+
+        <div class="settings-page">
+
+
+            <!-- =====================================================
+                 LEFT SETTINGS SIDEBAR
+            ====================================================== -->
+
+            <aside class="settings-sidebar">
+
+
+                <!-- BACK -->
+
+                <a href="@Url.Action("Dashboard", "Admin")"
+                   class="settings-back">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
+
+                <!-- PROFILE -->
+
+                <div class="settings-profile">
+
+                    <img src="~/Images/adminpic.jpg"
+                         class="settings-profile-img"
+                         alt="Profile" />
+
+                    <div class="settings-profile-info">
+
+                        <span class="settings-profile-email">
+                            smart.officerecords@gmail.com
+                        </span>
+
+                        <span class="settings-profile-role">
+                            Administrator
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SETTINGS NAVIGATION -->
+
+                <nav class="settings-nav">
+
+
+                    <!-- SYSTEM -->
+
+                    <a href="@Url.Action("Settings", "Admin")"
+                       class="active">
+
+                        <i class="bi bi-display"></i>
+
+                        <span>
+                            System
+                        </span>
+
+                    </a>
+
+
+                    <!-- PROFILE -->
+
+                    <a href="@Url.Action("SAccountSettings", "Admin")">
+
+                        <i class="bi bi-person"></i>
+
+                        <span>
+                            Profile
+                        </span>
+
+                    </a>
+
+
+                </nav>
+
+            </aside>
+
+
+            <!-- =====================================================
+                 MAIN SETTINGS
+            ====================================================== -->
+
+            <main class="settings-main">
+
+
+                <!-- SEARCH -->
+
+                <div class="settings-top">
+
+                    <div class="settings-search">
+
+                        <i class="bi bi-search"></i>
+
+                        <input type="text"
+                               placeholder="Find Settings..." />
+
+                    </div>
+
+                </div>
+
+
+                <!-- HEADING -->
+
+                <div class="settings-heading">
+
+                    <h1>
+                        System
+                    </h1>
+
+                    <p>
+                        Manage your profile, security and system preferences.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     SYSTEM SETTINGS CARD
+                ================================================== -->
+
+                <div class="system-card">
+
+
+                    <!-- TIME ZONE -->
+
+                    <div class="system-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Time Zone
+                            </strong>
+
+                        </div>
+
+                        <select class="settings-select">
+
+                            <option selected>
+                                Asia/Manila (GMT+8)
+                            </option>
+
+                            <option>
+                                Asia/Tokyo (GMT+9)
+                            </option>
+
+                            <option>
+                                Asia/Singapore (GMT+8)
+                            </option>
+
+                            <option>
+                                UTC
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DATE FORMAT -->
+
+                    <div class="system-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Date Format
+                            </strong>
+
+                        </div>
+
+                        <select class="settings-select">
+
+                            <option selected>
+                                MM/DD/YYYY
+                            </option>
+
+                            <option>
+                                DD/MM/YYYY
+                            </option>
+
+                            <option>
+                                YYYY-MM-DD
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DEFAULT LANGUAGE -->
+
+                    <div class="system-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Default Language
+                            </strong>
+
+                        </div>
+
+                        <select class="settings-select">
+
+                            <option selected>
+                                English
+                            </option>
+
+                            <option>
+                                Filipino
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SESSION TIMEOUT -->
+
+                    <div class="system-row timeout-row">
+
+                        <div class="system-label-text">
+
+                            <strong>
+                                Session Timeout
+                            </strong>
+
+                            <span>
+                                How long before you're signed out from inactivity.
+                            </span>
+
+                        </div>
+
+                        <div class="timeout-control">
+
+                            <input type="range"
+                                   id="timeoutSlider"
+                                   class="timeout-slider"
+                                   min="10"
+                                   max="60"
+                                   value="40" />
+
+                            <span id="timeoutValue"
+                                  class="timeout-value">
+
+                                40 mins
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     DANGER ZONE
+                ================================================== -->
+
+                <div class="danger-section">
+
+                    <h2 class="danger-title">
+                        Danger Zone
+                    </h2>
+
+                    <div class="danger-card">
+
+
+                        <!-- SIGN OUT EVERYWHERE -->
+
+                        <div class="danger-row">
+
+                            <div class="danger-info">
+
+                                <strong>
+                                    Sign out all of devices
+                                </strong>
+
+                                <span>
+                                    Ends every active session except this one. You'll need to sign back in on other devices.
+                                </span>
+
+                            </div>
+
+                            <button type="button"
+                                    class="danger-button"
+                                    id="signOutButton">
+
+                                Sign out everywhere
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- DELETE ACCOUNT -->
+
+                        <div class="danger-row">
+
+                            <div class="danger-info">
+
+                                <strong>
+                                    Delete Account
+                                </strong>
+
+                                <span>
+                                    Permanent removes your access and profile. This can't be undone– assign another administrator.
+                                </span>
+
+                            </div>
+
+                            <button type="button"
+                                    class="danger-button"
+                                    id="deleteAccountButton">
+
+                                Delete Account
+
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </main>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+            /* =========================================================
+               SESSION TIMEOUT
+            ========================================================= */
+
+            const timeoutSlider =
+                document.getElementById("timeoutSlider");
+
+            const timeoutValue =
+                document.getElementById("timeoutValue");
+
+
+            timeoutSlider.addEventListener("input", function () {
+
+                timeoutValue.textContent =
+                    this.value + " mins";
+
+            });
+
+
+            /* =========================================================
+               SIGN OUT EVERYWHERE
+            ========================================================= */
+
+            document.getElementById("signOutButton")
+                .addEventListener("click", function () {
+
+                    const confirmLogout =
+                        confirm(
+                            "Are you sure you want to sign out all other devices?"
+                        );
+
+                    if (confirmLogout) {
+
+                        alert(
+                            "All other active sessions have been signed out."
+                        );
+
+                    }
+
+                });
+
+
+            /* =========================================================
+               DELETE ACCOUNT
+            ========================================================= */
+
+            document.getElementById("deleteAccountButton")
+                .addEventListener("click", function () {
+
+                    const confirmDelete =
+                        confirm(
+                            "Are you sure you want to delete this account? This action cannot be undone."
+                        );
+
+                    if (confirmDelete) {
+
+                        alert(
+                            "Account deletion requires administrator confirmation."
+                        );
+
+                    }
+
+                });
+
+    </script>
+
+</body>
+</html>

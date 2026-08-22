@@ -1,4 +1,4 @@
-﻿﻿@{
+﻿@{
     ViewBag.Title = "User Management";
     Layout = null;
 }
@@ -237,13 +237,17 @@
                 }
 
 
+
         /* =========================================================
-                   LOGOUT
-                ========================================================= */
+                           SETTINGS + LOGOUT
+                        ========================================================= */
 
         .logout {
             margin-top: auto;
             padding: 12px 9px 15px 9px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
             .logout a {
@@ -261,13 +265,18 @@
 
                 .logout a i {
                     font-size: 16px;
+                    min-width: 16px;
                 }
 
-                .logout a:hover {
-                    background: rgba(185,28,28,.18);
-                    color: #FFFFFF;
-                }
+        .settings-link:hover {
+            background: rgba(185, 28, 28, .18);
+            color: #FFFFFF;
+        }
 
+        .logout-link:hover {
+            background: rgba(185,28,28,.25);
+            color: #FFFFFF;
+        }
 
         /* =========================================================
                    MAIN CONTENT
@@ -417,7 +426,6 @@
 
         /* =========================================================
                    PAGE HEADER
-                   SAME SIZE AS RECORDS
                 ========================================================= */
 
         .page-header {
@@ -447,7 +455,6 @@
 
         /* =========================================================
                    ACTION BAR
-                   SAME SIZE AS RECORDS
                 ========================================================= */
 
         .action-bar {
@@ -530,7 +537,6 @@
 
         /* =========================================================
                    ADD USER BUTTON
-                   SAME SIZE AS RECORDS UPLOAD BUTTON
                 ========================================================= */
 
         .create-btn {
@@ -566,7 +572,6 @@
 
         /* =========================================================
                    TABLE CONTAINER
-                   SAME AS RECORDS
                 ========================================================= */
 
         .table-container {
@@ -648,7 +653,6 @@
 
             /* =========================================================
                    TABLE HEADER
-                   SAME SIZE AS RECORDS
                 ========================================================= */
 
             .user-table thead {
@@ -693,7 +697,6 @@
 
             /* =========================================================
                    TABLE BODY
-                   SAME SIZE AS RECORDS
                 ========================================================= */
 
             .user-table td {
@@ -747,7 +750,6 @@
 
         /* =========================================================
                    ROLE BADGES
-                   MATCH RECORDS BADGE SCALE
                 ========================================================= */
 
         .role-badge {
@@ -775,7 +777,6 @@
 
         /* =========================================================
                    STATUS BADGES
-                   MATCH RECORDS BADGE SCALE
                 ========================================================= */
 
         .active-badge,
@@ -882,10 +883,8 @@
                 color: #991B1B;
             }
 
-
         /* =========================================================
                    PAGINATION
-                   SAME SIZE AS RECORDS
                 ========================================================= */
 
         .pagination-section {
@@ -1200,39 +1199,34 @@
 
                 </a>
 
-
-                <!-- SETTINGS -->
-
-                <a href="@Url.Action("Settings", "Admin")">
-
-                    <i class="bi bi-gear-fill"></i>
-
-                    <span>
-                        Settings
-                    </span>
-
-                </a>
-
-
             </div>
 
-
-            <!-- LOGOUT -->
+            <!-- SETTINGS + LOGOUT AT THE BOTTOM -->
 
             <div class="logout">
 
-                <a href="@Url.Action("Login", "Admin")">
+                <!-- SETTINGS -->
+
+                <a href="@Url.Action("Settings", "Admin")"
+                   class="settings-link">
+
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Settings</span>
+
+                </a>
+
+
+                <!-- LOGOUT -->
+
+                <a href="@Url.Action("Login", "Admin")"
+                   class="logout-link">
 
                     <i class="bi bi-box-arrow-right"></i>
-
-                    <span>
-                        Logout
-                    </span>
+                    <span>Logout</span>
 
                 </a>
 
             </div>
-
 
         </aside>
 
@@ -1286,7 +1280,7 @@
                         <div class="profile-info">
 
                             <h5>
-                                John Cruz
+                                 @(Context.Session.GetString("AdminName") ?? "Admin")
                             </h5>
 
                             <span>
@@ -1526,76 +1520,132 @@
 
     <script>
 
-            /* =========================================================
-               SIDEBAR COLLAPSE
-            ========================================================= */
+        /* =========================================================
+           SIDEBAR COLLAPSE
+        ========================================================= */
 
-            const sidebar =
-                document.querySelector('.sidebar');
+        const sidebar =
+            document.querySelector('.sidebar');
 
-            const menuToggle =
-                document.getElementById('menuToggle');
+        const menuToggle =
+            document.getElementById('menuToggle');
 
-            menuToggle.addEventListener('click', function () {
+        menuToggle.addEventListener('click', function () {
 
-                sidebar.classList.toggle('collapsed');
+            sidebar.classList.toggle('collapsed');
+
+        });
+
+
+        /* =========================================================
+           USER SEARCH
+        ========================================================= */
+
+        const userSearch =
+            document.getElementById('userSearch');
+
+        const roleFilter =
+            document.getElementById('roleFilter');
+
+        const usersTableBody =
+            document.getElementById('usersTableBody');
+
+        const showingText =
+            document.getElementById('showingText');
+
+
+        function filterUsers() {
+
+            const searchValue =
+                userSearch.value.toLowerCase().trim();
+
+            const selectedRole =
+                roleFilter.value.toLowerCase();
+
+            const rows =
+                usersTableBody.querySelectorAll('tr');
+
+            let visibleCount = 0;
+
+            rows.forEach(function (row) {
+
+                const rowText =
+                    row.textContent.toLowerCase();
+
+                const roleCell =
+                    row.children[3].textContent.toLowerCase().trim();
+
+                const matchesSearch =
+                    rowText.includes(searchValue);
+
+                const matchesRole =
+                    selectedRole === 'all roles' ||
+                    roleCell === selectedRole;
+
+                if (matchesSearch && matchesRole) {
+
+                    row.style.display = '';
+
+                    visibleCount++;
+
+                }
+                else {
+
+                    row.style.display = 'none';
+
+                }
 
             });
 
 
-            /* =========================================================
-               USER SEARCH
-            ========================================================= */
+            if (searchValue === '' &&
+                selectedRole === 'all roles') {
 
-            const userSearch =
-                document.getElementById('userSearch');
+                showingText.textContent =
+                    'Showing 1 to ' + rows.length + ' users';
 
-            const roleFilter =
-                document.getElementById('roleFilter');
+            }
+            else {
 
-            const usersTableBody =
-                document.getElementById('usersTableBody');
+                showingText.textContent =
+                    'Showing ' + visibleCount + ' users';
 
-            const showingText =
-                document.getElementById('showingText');
-
-
-            function filterUsers() {
-                ... // your existing code, unchanged
             }
 
-
-            userSearch.addEventListener(
-                'input',
-                filterUsers
-            );
+        }
 
 
-            roleFilter.addEventListener(
-                'change',
-                filterUsers
-            );
+        userSearch.addEventListener(
+            'input',
+            filterUsers
+        );
 
 
-            /* =========================================================
-               DEACTIVATE / ACTIVATE USER      ← ADD THIS PART
-            ========================================================= */
+        roleFilter.addEventListener(
+            'change',
+            filterUsers
+        );
 
-            function toggleDeactivate(id, role, btn) {
-                fetch('@Url.Action("DeactivateUser", "Admin")', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: id, role: role })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload();
-                    } else {
-                        alert(data.message);
-                    }
-                });
-            }
+
+        /* =========================================================
+           DEACTIVATE / ACTIVATE USER
+        ========================================================= */
+
+        function toggleDeactivate(id, role, btn) {
+            fetch('@Url.Action("DeactivateUser", "Admin")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id, role: role })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
 
     </script>
 

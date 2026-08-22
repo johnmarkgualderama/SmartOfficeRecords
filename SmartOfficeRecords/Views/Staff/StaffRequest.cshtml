@@ -1079,7 +1079,10 @@
                         <img src="~/Images/adminpic.jpg" alt="Profile" />
 
                         <div class="profile-info">
-                            <h5>John Cruz</h5>
+                            <h5>   
+                                @(Context.Session.GetString("AdminName") ?? "Admin")
+                            </h5>
+
                             <span>Staff</span>
                         </div>
 

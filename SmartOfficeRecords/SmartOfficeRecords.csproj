@@ -5,6 +5,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+	
+    <PropertyGroup>
+		<StaticWebAssetsCacheDefineStaticWebAssetsEnabled>false</StaticWebAssetsCacheDefineStaticWebAssetsEnabled>
+	</PropertyGroup>
 
   <ItemGroup>
     <None Include="wwwroot\Images\ad.png" />

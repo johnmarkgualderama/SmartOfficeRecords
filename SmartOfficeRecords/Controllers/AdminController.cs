@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SmartOfficeRecords.Data;
 using SmartOfficeRecords.Models;
 using SmartOfficeRecords.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -130,20 +132,19 @@ namespace SmartOfficeRecords.Controllers
                 })
                 .ToList();
 
-            var approvedTodayOrdered = todaysAppointmentsRaw
-                .Where(a => a.DateApproved != null && a.DateApproved.Value.Date == today)
-                .OrderBy(a => a.DateApproved)
+            var todaysScheduledAppointments = _context.Appointments
+                .Include(a => a.Applicant)
+                .Where(a => a.AppointmentDate.Date == today && (a.Status == "Approved" || a.Status == "Completed"))
+                .OrderBy(a => a.DateApproved ?? a.DateRequested)
                 .ToList();
 
             var approvalDisplayIdMap = new Dictionary<int, string>();
-            for (int i = 0; i < approvedTodayOrdered.Count; i++)
+            for (int i = 0; i < todaysScheduledAppointments.Count; i++)
             {
-                approvalDisplayIdMap[approvedTodayOrdered[i].AppointmentId] = "AP" + (i + 1).ToString("D3");
+                approvalDisplayIdMap[todaysScheduledAppointments[i].AppointmentId] = "AP" + (i + 1).ToString("D3");
             }
 
-            ViewBag.RecentApplicants = todaysAppointmentsRaw
-                .Where(a => a.Status == "Approved" || a.Status == "Completed")
-                .OrderBy(a => a.DateApproved ?? a.DateRequested)
+            ViewBag.RecentApplicants = todaysScheduledAppointments
                 .Select(a => new
                 {
                     a.AppointmentId,
@@ -214,9 +215,6 @@ namespace SmartOfficeRecords.Controllers
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
-            // .Find() doesn't support .Include() — switched to
-            // FirstOrDefault so appointment.Applicant is populated for
-            // the notification/email below.
             var appointment = _context.Appointments
                 .Include(a => a.Applicant)
                 .FirstOrDefault(a => a.AppointmentId == AppointmentId);
@@ -457,11 +455,34 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
-        public ActionResult RequestManagement(string search, string status, int page = 1)
+        // ================== REQUEST MANAGEMENT ==================
+        // Strongly-typed result for BuildRequestsData, shared by the normal
+        // page load (RequestManagement) and the live-search AJAX endpoint
+        // (SearchRequests) so both stay in sync automatically. This is what
+        // powers the "type in the search box, results update immediately"
+        // behavior — no form submit, no page reload.
+        //
+        // Behavior:
+        //  - "All Status" + no search  -> old day-by-day paging (one
+        //    calendar date per page, most recent date first).
+        //  - Any search text OR a specific status selected -> flat list
+        //    across ALL dates, newest DateRequested first, paged 10 rows
+        //    at a time. This is what makes searching/filtering surface
+        //    past-dated records instead of being stuck on today's page.
+        private class RequestManagementResult
         {
-            if (HttpContext.Session.GetInt32("AdminId") == null)
-                return RedirectToAction("Login");
+            public List<object> Requests { get; set; } = new();
+            public string SelectedStatus { get; set; } = "All Status";
+            public int CurrentPage { get; set; }
+            public int TotalPages { get; set; }
+            public int TotalCount { get; set; }
+            public int StartItem { get; set; }
+            public int EndItem { get; set; }
+            public string CurrentDateLabel { get; set; } = "—";
+        }
 
+        private RequestManagementResult BuildRequestsData(string search, string status, int page)
+        {
             var allAppointmentsForNumbering = _context.Appointments
                 .OrderBy(a => a.DateRequested)
                 .ToList();
@@ -480,52 +501,91 @@ namespace SmartOfficeRecords.Controllers
                 .Include(a => a.Applicant)
                 .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(search))
+            bool hasSearch = !string.IsNullOrWhiteSpace(search);
+            bool hasStatusFilter = !string.IsNullOrWhiteSpace(status) && status != "All Status";
+
+            if (hasSearch)
             {
                 query = query.Where(a => a.Applicant!.FullName.Contains(search));
             }
 
-            if (!string.IsNullOrWhiteSpace(status) && status != "All Status")
+            if (hasStatusFilter)
             {
                 query = query.Where(a => a.Status == status);
             }
 
             var filteredAppointments = query.ToList();
 
-            var distinctDatesDescending = filteredAppointments
-                .Select(a => a.DateRequested.Date)
-                .Distinct()
-                .ToList();
+            List<Appointment> appointmentsToShow;
+            int totalPages, totalCount, startItem, endItem;
+            string currentDateLabel;
 
-            var today = DateTime.Today;
-            if (!distinctDatesDescending.Contains(today))
+            bool useFlatList = hasSearch || hasStatusFilter;
+
+            if (useFlatList)
             {
-                distinctDatesDescending.Add(today);
-            }
+                const int pageSize = 10;
 
-            distinctDatesDescending = distinctDatesDescending
-                .OrderByDescending(d => d)
-                .ToList();
-
-            int totalPages = distinctDatesDescending.Count;
-            if (totalPages < 1) totalPages = 1;
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
-
-            DateTime? currentPageDate = distinctDatesDescending.Count > 0
-                ? distinctDatesDescending[page - 1]
-                : (DateTime?)null;
-
-            var appointmentsForThisDate = currentPageDate == null
-                ? new List<Appointment>()
-                : filteredAppointments
-                    .Where(a => a.DateRequested.Date == currentPageDate.Value)
+                var orderedFlat = filteredAppointments
                     .OrderByDescending(a => a.DateRequested)
                     .ToList();
 
-            int totalCount = appointmentsForThisDate.Count;
+                totalCount = orderedFlat.Count;
+                totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+                if (totalPages < 1) totalPages = 1;
+                if (page < 1) page = 1;
+                if (page > totalPages) page = totalPages;
 
-            var requests = appointmentsForThisDate
+                appointmentsToShow = orderedFlat
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                startItem = totalCount == 0 ? 0 : ((page - 1) * pageSize) + 1;
+                endItem = Math.Min(page * pageSize, totalCount);
+                currentDateLabel = "All Dates";
+            }
+            else
+            {
+                var distinctDatesDescending = filteredAppointments
+                    .Select(a => a.DateRequested.Date)
+                    .Distinct()
+                    .ToList();
+
+                var today = DateTime.Today;
+                if (!distinctDatesDescending.Contains(today))
+                {
+                    distinctDatesDescending.Add(today);
+                }
+
+                distinctDatesDescending = distinctDatesDescending
+                    .OrderByDescending(d => d)
+                    .ToList();
+
+                totalPages = distinctDatesDescending.Count;
+                if (totalPages < 1) totalPages = 1;
+                if (page < 1) page = 1;
+                if (page > totalPages) page = totalPages;
+
+                DateTime? currentPageDate = distinctDatesDescending.Count > 0
+                    ? distinctDatesDescending[page - 1]
+                    : (DateTime?)null;
+
+                appointmentsToShow = currentPageDate == null
+                    ? new List<Appointment>()
+                    : filteredAppointments
+                        .Where(a => a.DateRequested.Date == currentPageDate.Value)
+                        .OrderBy(a => a.Status == "Pending" ? 0 : 1)
+                        .ThenBy(a => a.DateRequested)
+                        .ToList();
+
+                totalCount = appointmentsToShow.Count;
+                startItem = totalCount == 0 ? 0 : 1;
+                endItem = totalCount;
+                currentDateLabel = currentPageDate?.ToString("MMM dd, yyyy") ?? "—";
+            }
+
+            var requests = appointmentsToShow
                 .Select(a => new
                 {
                     a.AppointmentId,
@@ -541,21 +601,63 @@ namespace SmartOfficeRecords.Controllers
                     AppointmentTimeFormatted = DateTime.Today.Add(a.AppointmentTime).ToString("hh:mm tt"),
                     DateSubmittedFormatted = a.DateRequested.ToString("MMM dd, yyyy hh:mm tt"),
                     AdditionalNotes = string.IsNullOrWhiteSpace(a.AdditionalNotes) ? "No additional notes." : a.AdditionalNotes,
-                    ResumeFile = a.ResumeFile,
-                    ValidIDFile = a.ValidIDFile
+                    // a.ResumeFile / a.ValidIDFile already hold a full
+                    // app-relative path (e.g. "/Uploads/Resumes/xyz.pdf") as
+                    // written in RCreateRequest below, so this just resolves
+                    // "~" + that path. Prepending an extra "/Resumes/" or
+                    // "/ValidIDs/" segment here would double up the path and
+                    // break the link.
+                    ResumeUrl = string.IsNullOrEmpty(a.ResumeFile) ? "" : Url.Content("~/" + a.ResumeFile),
+                    ValidIdUrl = string.IsNullOrEmpty(a.ValidIDFile) ? "" : Url.Content("~/" + a.ValidIDFile)
                 })
-                .ToList();
+                .ToList<object>();
 
-            ViewBag.Requests = requests;
+            return new RequestManagementResult
+            {
+                Requests = requests,
+                SelectedStatus = string.IsNullOrWhiteSpace(status) ? "All Status" : status,
+                CurrentPage = page,
+                TotalPages = totalPages,
+                TotalCount = totalCount,
+                StartItem = startItem,
+                EndItem = endItem,
+                CurrentDateLabel = currentDateLabel
+            };
+        }
+
+        [HttpGet]
+        public ActionResult RequestManagement(string search, string status, int page = 1)
+        {
+            if (HttpContext.Session.GetInt32("AdminId") == null)
+                return RedirectToAction("Login");
+
+            var data = BuildRequestsData(search, status, page);
+
+            ViewBag.Requests = data.Requests;
             ViewBag.SearchTerm = search;
-            ViewBag.SelectedStatus = string.IsNullOrWhiteSpace(status) ? "All Status" : status;
-            ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = totalPages;
-            ViewBag.TotalCount = totalCount;
-            ViewBag.PageSize = totalCount;
-            ViewBag.CurrentDateLabel = currentPageDate?.ToString("MMM dd, yyyy") ?? "—";
+            ViewBag.SelectedStatus = data.SelectedStatus;
+            ViewBag.CurrentPage = data.CurrentPage;
+            ViewBag.TotalPages = data.TotalPages;
+            ViewBag.TotalCount = data.TotalCount;
+            ViewBag.StartItem = data.StartItem;
+            ViewBag.EndItem = data.EndItem;
+            ViewBag.CurrentDateLabel = data.CurrentDateLabel;
 
             return View();
+        }
+
+        // Live-search endpoint used by RequestManagement.cshtml's JS —
+        // returns the same data shape as the page load above, as JSON,
+        // so the table can be filtered/paginated without a full reload as
+        // the admin types.
+        [HttpGet]
+        public JsonResult SearchRequests(string search, string status, int page = 1)
+        {
+            if (HttpContext.Session.GetInt32("AdminId") == null)
+                return Json(new { error = "Not logged in" });
+
+            var data = BuildRequestsData(search, status, page);
+            return Json(data);
         }
 
         public ActionResult ReportsManagement()
@@ -709,6 +811,8 @@ namespace SmartOfficeRecords.Controllers
             return View(admin);
         }
 
+        // ================== CREATE REQUEST (WALK-IN) ==================
+
         [HttpGet]
         public ActionResult RCreateRequest()
         {
@@ -718,21 +822,27 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
-        public ActionResult AuditLogs()
-        {
-            if (HttpContext.Session.GetInt32("AdminId") == null)
-                return RedirectToAction("Login");
-
-            return View();
-        }
-
         [HttpPost]
-        public ActionResult RCreateRequest(string PositionType, string RequestType, string Title, string PreferredDate, string Description)
+        public ActionResult RCreateRequest(
+            string FullName,
+            string ContactNumber,
+            string Email,
+            IFormFile ResumeFile,
+            IFormFile ValidIdFile,
+            string PreferredDate,
+            string PreferredTime,
+            string AdditionalNotes)
         {
             if (HttpContext.Session.GetInt32("AdminId") == null)
                 return RedirectToAction("Login");
 
-            if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(PreferredDate))
+            if (string.IsNullOrWhiteSpace(FullName) ||
+                string.IsNullOrWhiteSpace(ContactNumber) ||
+                string.IsNullOrWhiteSpace(Email) ||
+                ResumeFile == null || ResumeFile.Length == 0 ||
+                ValidIdFile == null || ValidIdFile.Length == 0 ||
+                string.IsNullOrWhiteSpace(PreferredDate) ||
+                string.IsNullOrWhiteSpace(PreferredTime))
             {
                 TempData["Error"] = "Please fill in all required fields.";
                 return RedirectToAction("RCreateRequest");
@@ -740,24 +850,109 @@ namespace SmartOfficeRecords.Controllers
 
             if (!DateTime.TryParse(PreferredDate, out DateTime parsedDate))
             {
-                TempData["Error"] = "Invalid date.";
+                TempData["Error"] = "Invalid interview date.";
                 return RedirectToAction("RCreateRequest");
             }
 
-            var newRequest = new Appointment
+            if (!DateTime.TryParse(PreferredTime, out DateTime parsedTimeValue))
             {
-                Purpose = Title,
-                AppointmentDate = parsedDate,
-                Status = "Pending",
-                DateRequested = DateTime.Now,
-                AdditionalNotes = Description
+                TempData["Error"] = "Invalid interview time.";
+                return RedirectToAction("RCreateRequest");
+            }
+            TimeSpan parsedTime = parsedTimeValue.TimeOfDay;
+
+            // ---- Reject duplicate applicants ----
+            // Any existing ApplicantRegister with this email blocks the
+            // request entirely — no reuse, no silent linking. (The
+            // database also enforces this via a UNIQUE constraint on
+            // Email, but checking here gives a clean error message
+            // instead of an unhandled SqlException.)
+            bool emailExists = _context.ApplicantRegisters.Any(a => a.Email == Email);
+
+            if (emailExists)
+            {
+                TempData["Error"] = "A request with this Email already exists.";
+                return RedirectToAction("RCreateRequest");
+            }
+
+            // ---- Create the walk-in applicant record ----
+            // Walk-in applicants don't register an account, so this is a
+            // bare ApplicantRegister row just to satisfy the Appointment
+            // foreign key. Username/Password are placeholders, not meant
+            // for login.
+            string baseUsername = "walkin_" + Email.Split('@')[0];
+            string username = baseUsername;
+            int suffix = 1;
+            while (_context.ApplicantRegisters.Any(a => a.Username == username))
+            {
+                username = baseUsername + suffix;
+                suffix++;
+            }
+
+            var applicant = new ApplicantRegister
+            {
+                FullName = FullName,
+                Username = username,
+                Email = Email,
+                ContactNumber = ContactNumber,
+                Birthdate = new DateTime(1900, 1, 1),               // sentinel — unknown for walk-ins
+                InvitedBy = "Walk-in (created by Admin)",
+                Password = HashPassword(Guid.NewGuid().ToString())  // unusable placeholder
             };
 
-            _context.Appointments.Add(newRequest);
+            _context.ApplicantRegisters.Add(applicant);
+            _context.SaveChanges(); // need ApplicantId generated before linking the appointment
+
+            // ---- Save uploaded files ----
+            string uploadsRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
+            string resumeFolder = Path.Combine(uploadsRoot, "Resumes");
+            string validIdFolder = Path.Combine(uploadsRoot, "ValidIDs");
+
+            if (!Directory.Exists(resumeFolder)) Directory.CreateDirectory(resumeFolder);
+            if (!Directory.Exists(validIdFolder)) Directory.CreateDirectory(validIdFolder);
+
+            string resumeFileName = Guid.NewGuid().ToString() + Path.GetExtension(ResumeFile.FileName);
+            using (var stream = new FileStream(Path.Combine(resumeFolder, resumeFileName), FileMode.Create))
+            {
+                ResumeFile.CopyTo(stream);
+            }
+
+            string validIdFileName = Guid.NewGuid().ToString() + Path.GetExtension(ValidIdFile.FileName);
+            using (var stream = new FileStream(Path.Combine(validIdFolder, validIdFileName), FileMode.Create))
+            {
+                ValidIdFile.CopyTo(stream);
+            }
+
+            // ---- Create the appointment, pre-approved ----
+            var newAppointment = new Appointment
+            {
+                ApplicantId = applicant.ApplicantId,
+                Purpose = "Walk-in Document Request",   // Appointment.Purpose is NOT NULL in the DB
+                Email = Email,
+                ContactNumber = ContactNumber,
+                AppointmentDate = parsedDate,
+                AppointmentTime = parsedTime,
+                Status = "Approved",
+                DateRequested = DateTime.Now,
+                DateApproved = DateTime.Now,
+                AdditionalNotes = AdditionalNotes,
+                ResumeFile = "/Uploads/Resumes/" + resumeFileName,
+                ValidIDFile = "/Uploads/ValidIDs/" + validIdFileName
+            };
+
+            _context.Appointments.Add(newAppointment);
             _context.SaveChanges();
 
-            TempData["Success"] = "Request created successfully!";
+            TempData["Success"] = "Request created and approved successfully!";
             return RedirectToAction("RequestManagement");
+        }
+
+        public ActionResult AuditLogs()
+        {
+            if (HttpContext.Session.GetInt32("AdminId") == null)
+                return RedirectToAction("Login");
+
+            return View();
         }
 
         // ================== USER MANAGEMENT: ADD NEW USER ==================

@@ -300,6 +300,12 @@ namespace SmartOfficeRecords.Controllers
             return View();
         }
 
+        public IActionResult StaffReport()
+        {
+            return View();
+        }
+
+
         public ActionResult UploadFiles()
         {
             return View();

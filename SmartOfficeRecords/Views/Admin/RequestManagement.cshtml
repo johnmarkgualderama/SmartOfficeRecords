@@ -12,17 +12,9 @@
 
     <title>Request Management - SORS</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet" />
-
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-          rel="stylesheet" />
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -30,12 +22,13 @@
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
-                font-family: 'Poppins', sans-serif;
+                font-family: 'Inter', sans-serif;
             }
 
             body {
-                background: #f5f5f5;
+                background: #F5F6F8;
                 overflow: hidden;
+                color: #111827;
             }
 
             .dashboard-container {
@@ -44,6 +37,7 @@
                 width: 100%;
             }
 
+            /* SIDEBAR */
             .sidebar {
                 width: 158px;
                 min-width: 158px;
@@ -55,9 +49,6 @@
                 transition: all .3s ease;
                 overflow-y: auto;
                 overflow-x: hidden;
-            }
-
-            .sidebar {
                 scrollbar-width: thin;
                 scrollbar-color: rgba(255,255,255,.25) transparent;
             }
@@ -82,9 +73,10 @@
 
                     .sidebar.collapsed .system-name {
                         display: block;
-                        font-size: 10px;
-                        font-weight: 600;
+                        font-size: 11px;
+                        font-weight: 700;
                         margin-top: 8px;
+                        letter-spacing: .2px;
                     }
 
                     .sidebar.collapsed .logo-circle {
@@ -102,12 +94,12 @@
                     }
 
                     .sidebar.collapsed .menu {
-                        padding: 15px 10px;
+                        padding: 16px 10px;
                     }
 
                         .sidebar.collapsed .menu a {
-                            width: 42px;
-                            height: 42px;
+                            width: 44px;
+                            height: 44px;
                             margin: 0 auto 10px auto;
                             padding: 0;
                             display: flex;
@@ -124,6 +116,7 @@
                             .sidebar.collapsed .menu a i,
                             .sidebar.collapsed .logout a i {
                                 margin: 0;
+                                font-size: 17px;
                             }
 
                     .sidebar.collapsed .logout {
@@ -131,8 +124,8 @@
                     }
 
                         .sidebar.collapsed .logout a {
-                            width: 42px;
-                            height: 42px;
+                            width: 44px;
+                            height: 44px;
                             margin: 0 auto;
                             padding: 0;
                             display: flex;
@@ -140,19 +133,15 @@
                             align-items: center;
                         }
 
-                    .sidebar.collapsed .small-arrow {
-                        display: none;
-                    }
-
             .logo-section {
                 text-align: center;
-                padding: 16px 10px;
+                padding: 18px 10px;
                 border-bottom: 1px solid rgba(255,255,255,.18);
             }
 
             .logo-circle {
-                width: 40px;
-                height: 40px;
+                width: 42px;
+                height: 42px;
                 background: #FFFFFF;
                 border-radius: 50%;
                 margin: auto;
@@ -168,14 +157,15 @@
             }
 
             .system-name {
-                margin-top: 8px;
-                font-size: 12px;
-                font-weight: 600;
+                margin-top: 9px;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: .3px;
                 color: #FFFFFF;
             }
 
             .menu {
-                padding: 14px 8px;
+                padding: 16px 9px;
             }
 
                 .menu a {
@@ -183,18 +173,19 @@
                     text-decoration: none;
                     display: flex;
                     align-items: center;
-                    gap: 10px;
-                    padding: 8px 10px;
-                    margin-bottom: 3px;
-                    border-radius: 5px;
-                    font-size: 11px;
+                    gap: 11px;
+                    padding: 10px 11px;
+                    margin-bottom: 5px;
+                    border-radius: 6px;
+                    font-size: 13px;
                     font-weight: 500;
+                    line-height: 1.2;
                     transition: all .2s ease;
                 }
 
                     .menu a i {
-                        font-size: 14px;
-                        min-width: 14px;
+                        font-size: 16px;
+                        min-width: 16px;
                     }
 
                     .menu a:hover {
@@ -208,87 +199,43 @@
                         box-shadow: 0 3px 8px rgba(185,28,28,.22);
                     }
 
-            .sidebar-dropdown {
-                margin-bottom: 3px;
-            }
-
-            .dropdown-toggle-menu {
-                color: #FFFFFF;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                padding: 8px 10px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 11px;
-                font-weight: 500;
-                transition: all .2s ease;
-            }
-
-                .dropdown-toggle-menu:hover {
-                    background: rgba(185,28,28,.18);
-                    color: #FFFFFF;
-                }
-
-            .small-arrow {
-                font-size: 8px;
-                transition: transform .3s ease;
-            }
-
-            .dropdown-submenu {
-                display: none;
-                flex-direction: column;
-                padding-left: 14px;
-                margin-top: 3px;
-            }
-
-                .dropdown-submenu a {
-                    color: #FFFFFF;
-                    text-decoration: none;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 7px 9px;
-                    font-size: 10px;
-                    border-radius: 5px;
-                }
-
-                    .dropdown-submenu a:hover {
-                        background: rgba(185,28,28,.18);
-                        color: #FFFFFF;
-                    }
-
-            .sidebar-dropdown.open .dropdown-submenu {
-                display: flex;
-            }
-
-            .sidebar-dropdown.open .small-arrow {
-                transform: rotate(180deg);
-            }
-
             .logout {
                 margin-top: auto;
-                padding: 10px 8px 12px 8px;
+                padding: 12px 9px 15px 9px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
             }
 
                 .logout a {
                     color: #FFFFFF;
                     text-decoration: none;
                     display: flex;
-                    gap: 10px;
+                    gap: 11px;
                     align-items: center;
-                    padding: 8px 10px;
-                    font-size: 11px;
+                    padding: 10px 11px;
+                    font-size: 13px;
                     font-weight: 500;
-                    border-radius: 5px;
+                    border-radius: 6px;
                     transition: all .2s ease;
                 }
 
-                    .logout a:hover {
-                        background: rgba(185,28,28,.18);
+                    .logout a i {
+                        font-size: 16px;
+                        min-width: 16px;
                     }
 
+            .settings-link:hover {
+                background: rgba(185, 28, 28, .18);
+                color: #FFFFFF;
+            }
+
+            .logout-link:hover {
+                background: rgba(185,28,28,.25);
+                color: #FFFFFF;
+            }
+
+            /* MAIN CONTENT */
             .main-content {
                 flex: 1;
                 background: #F5F6F8;
@@ -299,14 +246,14 @@
             }
 
             .topbar {
-                height: 52px;
-                min-height: 52px;
+                height: 56px;
+                min-height: 56px;
                 flex-shrink: 0;
                 border-bottom: 1px solid #E5E7EB;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 0 16px;
+                padding: 0 20px;
                 background: #FFFFFF;
             }
 
@@ -320,20 +267,20 @@
                 background: none;
                 border: none;
                 color: #B91C1C;
-                font-size: 16px;
+                font-size: 19px;
                 cursor: pointer;
-                padding: 4px;
+                padding: 5px;
             }
 
             .topbar-right {
                 display: flex;
                 align-items: center;
-                gap: 14px;
+                gap: 16px;
                 margin-left: auto;
             }
 
             .notification-icon {
-                font-size: 17px;
+                font-size: 19px;
                 color: #374151;
                 cursor: pointer;
                 transition: color .2s ease;
@@ -346,14 +293,14 @@
             .profile {
                 display: flex;
                 align-items: center;
-                gap: 7px;
-                padding-left: 8px;
+                gap: 9px;
+                padding-left: 12px;
                 border-left: 1px solid #E5E7EB;
             }
 
                 .profile img {
-                    width: 30px;
-                    height: 30px;
+                    width: 34px;
+                    height: 34px;
                     border-radius: 50%;
                     object-fit: cover;
                 }
@@ -361,435 +308,419 @@
             .profile-info {
                 display: flex;
                 flex-direction: column;
-                line-height: 1.15;
+                line-height: 1.25;
             }
 
                 .profile-info h5 {
                     margin: 0;
-                    font-size: 10px;
+                    font-size: 12px;
                     font-weight: 600;
                     color: #111827;
                 }
 
                 .profile-info span {
-                    font-size: 8px;
+                    font-size: 10px;
                     color: #6B7280;
+                    margin-top: 2px;
                 }
 
             .profile-arrow {
                 color: #6B7280;
-                font-size: 9px;
-                margin-left: 2px;
+                font-size: 10px;
+                margin-left: 3px;
             }
 
             .content-area {
                 flex: 1;
-                padding: 18px 28px;
+                padding: 22px 30px;
                 overflow-y: auto;
                 overflow-x: hidden;
+                scrollbar-width: thin;
+                scrollbar-color: #C7CBD1 transparent;
+            }
+
+                .content-area::-webkit-scrollbar {
+                    width: 6px;
+                }
+
+                .content-area::-webkit-scrollbar-thumb {
+                    background: #C7CBD1;
+                    border-radius: 10px;
+                }
+
+                .content-area::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 18px;
             }
 
             .page-title {
-                font-size: 19px;
+                color: #B91C1C;
+                font-size: 24px;
                 font-weight: 700;
-                color: #E32626;
-                margin-bottom: 2px;
+                letter-spacing: -0.2px;
+                margin: 0 0 5px 0;
+                line-height: 1.2;
             }
 
             .page-subtitle {
-                font-size: 10px;
-                font-weight: 500;
                 color: #64748B;
-                margin-bottom: 25px;
+                font-size: 13px;
+                font-weight: 400;
+                margin: 0;
+                line-height: 1.5;
             }
 
             .action-bar {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 15px;
-                gap: 15px;
+                gap: 12px;
+                margin-bottom: 16px;
             }
 
             .search-filter {
                 display: flex;
+                align-items: center;
                 gap: 12px;
                 flex: 1;
             }
 
             .search-box {
+                height: 36px;
                 flex: 1;
-                position: relative;
-                max-width: 535px;
+                max-width: 540px;
+                background: #FFFFFF;
+                border-radius: 20px;
+                border: 1px solid #E5E7EB;
+                box-shadow: 0 3px 12px rgba(0,0,0,.05);
+                display: flex;
+                align-items: center;
+                padding: 0 13px;
+                gap: 9px;
             }
 
                 .search-box i {
-                    position: absolute;
-                    top: 50%;
-                    left: 13px;
-                    transform: translateY(-50%);
-                    color: #8B929A;
+                    color: #6B7280;
                     font-size: 13px;
                 }
 
                 .search-box input {
                     width: 100%;
-                    height: 38px;
-                    border: 1px solid #E2E5E8;
-                    border-radius: 18px;
-                    padding-left: 35px;
-                    padding-right: 15px;
-                    font-size: 11px;
+                    border: none;
                     outline: none;
-                    background: #ffffff;
-                    box-shadow: 0 3px 12px rgba(0,0,0,.06);
-                    transition: .2s ease;
+                    font-size: 11px;
+                    color: #374151;
+                    background: transparent;
+                    font-weight: 400;
                 }
-
-                    .search-box input:focus {
-                        border-color: #C91C1C;
-                        box-shadow: 0 0 0 3px rgba(201,28,28,.08);
-                    }
 
                     .search-box input::placeholder {
                         color: #9CA3AF;
                     }
 
             .status-filter {
-                width: 205px;
-                height: 38px;
+                width: 190px;
+                height: 36px;
+                background: #FFFFFF;
                 border: 1px solid #D1D5DB;
                 border-radius: 6px;
-                padding: 0 12px;
+                padding: 0 11px;
                 font-size: 11px;
-                font-weight: 500;
-                outline: none;
-                background: white;
+                font-weight: 600;
                 color: #374151;
+                outline: none;
             }
 
                 .status-filter:focus {
-                    border-color: #C91C1C;
+                    border-color: #B91C1C;
+                    box-shadow: 0 0 0 2px rgba(185,28,28,.08);
                 }
 
             .create-btn {
-                background: #E32626;
+                height: 36px;
                 border: none;
-                color: white;
-                height: 38px;
+                border-radius: 6px;
+                background: #B91C1C;
+                color: #FFFFFF;
                 padding: 0 16px;
-                border-radius: 5px;
-                font-weight: 600;
                 font-size: 11px;
-                transition: all .2s ease;
+                font-weight: 600;
                 display: flex;
                 align-items: center;
-                gap: 8px;
+                gap: 7px;
+                cursor: pointer;
+                transition: all .2s ease;
                 text-decoration: none;
                 white-space: nowrap;
             }
 
-                .create-btn i {
-                    font-size: 17px;
-                }
-
                 .create-btn:hover {
-                    background: #B91C1C;
-                    color: white;
+                    background: #991B1B;
+                    color: #FFFFFF;
                     transform: translateY(-1px);
-                    box-shadow: 0 4px 10px rgba(201,28,28,.25);
+                    box-shadow: 0 4px 10px rgba(185,28,28,.20);
                 }
 
-                .create-btn:active {
-                    transform: translateY(0);
+                .create-btn i {
+                    font-size: 13px;
                 }
 
             .table-container {
-                background: white;
-                border-radius: 6px;
-                overflow: hidden;
-                border: 1px solid #E1E1E1;
-                box-shadow: 0 1px 5px rgba(0,0,0,.02);
+                background: #FFFFFF;
+                border: 1px solid #D9DDE3;
+                border-radius: 8px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                box-shadow: 0 1px 2px rgba(0,0,0,.02);
             }
 
-            .table {
-                margin-bottom: 0;
-                width: 100%;
-            }
-
-                .table thead {
-                    background: #D9D9D9;
+                .table-container::-webkit-scrollbar {
+                    height: 6px;
                 }
 
-                    .table thead th {
-                        padding: 11px 12px;
-                        font-size: 11px;
+                .table-container::-webkit-scrollbar-thumb {
+                    background: #C7CBD1;
+                    border-radius: 10px;
+                }
+
+            .request-table {
+                width: 100%;
+                min-width: 900px;
+                border-collapse: collapse;
+                margin: 0;
+                table-layout: fixed;
+            }
+
+                .request-table th:nth-child(1), .request-table td:nth-child(1) {
+                    width: 10%;
+                }
+
+                .request-table th:nth-child(2), .request-table td:nth-child(2) {
+                    width: 21%;
+                }
+
+                .request-table th:nth-child(3), .request-table td:nth-child(3) {
+                    width: 23%;
+                }
+
+                .request-table th:nth-child(4), .request-table td:nth-child(4) {
+                    width: 15%;
+                }
+
+                .request-table th:nth-child(5), .request-table td:nth-child(5) {
+                    width: 12%;
+                }
+
+                .request-table th:nth-child(6), .request-table td:nth-child(6) {
+                    width: 19%;
+                }
+
+                .request-table thead {
+                    background: #111111;
+                }
+
+                    .request-table thead th {
+                        height: 40px;
+                        padding: 0 12px;
+                        font-size: 10px;
                         font-weight: 700;
-                        color: #20242A;
-                        border-bottom: 1px solid #CCCCCC;
+                        letter-spacing: .15px;
+                        color: #FFFFFF;
+                        background: #111111;
+                        border-bottom: 1px solid #111111;
                         white-space: nowrap;
+                        vertical-align: middle;
                     }
 
-                .table tbody td {
-                    padding: 11px 12px;
-                    vertical-align: middle;
+                        .request-table thead th:nth-child(1) {
+                            text-align: center;
+                        }
+
+                        .request-table thead th:nth-child(2), .request-table thead th:nth-child(3) {
+                            text-align: left;
+                        }
+
+                        .request-table thead th:nth-child(4), .request-table thead th:nth-child(5), .request-table thead th:nth-child(6) {
+                            text-align: center;
+                        }
+
+                .request-table tbody td {
+                    height: 42px;
+                    padding: 0 12px;
                     font-size: 10px;
+                    font-weight: 500;
                     color: #374151;
+                    background: #FFFFFF;
                     border-bottom: 1px solid #E5E7EB;
                     white-space: nowrap;
+                    vertical-align: middle;
                 }
 
-                .table tbody tr:last-child td {
+                    .request-table tbody td:nth-child(1) {
+                        text-align: center;
+                        font-weight: 600;
+                        color: #4B5563;
+                    }
+
+                    .request-table tbody td:nth-child(2), .request-table tbody td:nth-child(3) {
+                        text-align: left;
+                    }
+
+                    .request-table tbody td:nth-child(4), .request-table tbody td:nth-child(5), .request-table tbody td:nth-child(6) {
+                        text-align: center;
+                    }
+
+                .request-table tbody tr:hover td {
+                    background: #FEF2F2;
+                }
+
+                .request-table tbody tr:last-child td {
                     border-bottom: none;
                 }
 
-                .table tbody tr:hover {
-                    background: #FAFAFA;
-                }
-
-            .status-pill-pending {
-                background: #FFF4E5;
-                color: #E58A00;
-                padding: 4px 8px;
-                border-radius: 4px;
+            .status-badge {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 70px;
+                padding: 5px 9px;
+                border-radius: 5px;
                 font-size: 9px;
                 font-weight: 600;
-                display: inline-block;
+                line-height: 1;
             }
 
-            .status-pill-approved {
+            .status-pending {
+                background: #FEF3C7;
+                color: #D97706;
+            }
+
+            .status-approved {
                 background: #DCFCE7;
                 color: #15803D;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 9px;
-                font-weight: 600;
-                display: inline-block;
             }
 
-            .status-pill-completed {
-                background: #DBEAFE;
-                color: #1D4ED8;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 9px;
-                font-weight: 600;
-                display: inline-block;
-            }
-
-            .status-pill-rejected {
+            .status-rejected {
                 background: #FEE2E2;
                 color: #B91C1C;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 9px;
-                font-weight: 600;
-                display: inline-block;
             }
 
-            .action-buttons {
+            .status-completed {
+                background: #DBEAFE;
+                color: #2563EB;
+            }
+
+            .action-icons {
                 display: flex;
                 align-items: center;
-                gap: 6px;
+                justify-content: center;
+                gap: 5px;
+                width: 100%;
                 flex-wrap: wrap;
             }
 
             .action-btn {
-                height: 24px;
+                height: 28px;
                 border: none;
-                border-radius: 4px;
-                font-size: 8px;
-                font-weight: 600;
-                padding: 0 8px;
+                border-radius: 5px;
+                padding: 0 9px;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                gap: 4px;
-                color: #FFFFFF;
-                transition: all .2s ease;
                 cursor: pointer;
-                text-decoration: none;
+                transition: all .2s ease;
+                font-family: 'Inter', sans-serif;
+                font-size: 10px;
+                font-weight: 600;
+                gap: 4px;
                 white-space: nowrap;
             }
 
                 .action-btn i {
-                    font-size: 9px;
+                    font-size: 11px;
                 }
 
-                .action-btn:hover {
+            .view-action {
+                background: #2563EB;
+                color: #FFFFFF;
+            }
+
+                .view-action:hover {
+                    background: #1D4ED8;
                     color: #FFFFFF;
+                    transform: translateY(-1px);
                 }
 
-            .btn-view {
-                background: #8B5CF6;
-            }
-
-                .btn-view:hover {
-                    background: #6D28D9;
-                }
-
-            .btn-approve {
+            .approve-action {
                 background: #16A34A;
+                color: #FFFFFF;
             }
 
-                .btn-approve:hover {
+                .approve-action:hover {
                     background: #15803D;
+                    color: #FFFFFF;
+                    transform: translateY(-1px);
                 }
 
-            .btn-reject {
-                background: #E32626;
+            .reject-action {
+                background: #B91C1C;
+                color: #FFFFFF;
             }
 
-                .btn-reject:hover {
-                    background: #B91C1C;
-                }
-            /* =========================================================
-               APPROVE / REJECT CONFIRMATION MODALS
-            ========================================================= */
-
-            .confirm-modal-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(15, 20, 22, 0.55);
-                display: none;
-                align-items: center;
-                justify-content: center;
-                z-index: 3000;
-                padding: 20px;
-            }
-
-                .confirm-modal-overlay.show {
-                    display: flex;
+                .reject-action:hover {
+                    background: #991B1B;
+                    color: #FFFFFF;
+                    transform: translateY(-1px);
                 }
 
-            .confirm-modal-card {
-                width: 100%;
-                max-width: 320px;
-                background: #ffffff;
-                border-radius: 12px;
-                padding: 30px 26px 24px;
-                text-align: center;
-                box-shadow: 0 25px 60px rgba(0,0,0,.28);
-                opacity: 0;
-                transform: translateY(16px);
-                animation: confirmSlideIn .25s ease forwards;
-            }
-
-            @@keyframes confirmSlideIn {
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .confirm-modal-icon {
-                width: 62px;
-                height: 62px;
-                border-radius: 50%;
-                background: #FEE2E2;
-                color: #E32626;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 26px;
-                margin: 0 auto 16px;
-            }
-
-            .confirm-modal-title {
-                color: #111827;
-                font-size: 16px;
-                font-weight: 700;
-                margin-bottom: 6px;
-            }
-
-            .confirm-modal-text {
-                color: #6B7280;
-                font-size: 12px;
-                line-height: 1.5;
-                margin-bottom: 22px;
-            }
-
-            .confirm-modal-actions {
-                display: flex;
-                gap: 10px;
-            }
-
-            .confirm-modal-btn-yes {
-                flex: 1;
-                height: 40px;
-                border: none;
-                background: #E32626;
-                color: #ffffff;
-                border-radius: 7px;
-                font-size: 13px;
-                font-weight: 700;
-                cursor: pointer;
-                transition: .2s ease;
-            }
-
-                .confirm-modal-btn-yes:hover {
-                    background: #B91C1C;
-                }
-
-            .confirm-modal-btn-cancel {
-                flex: 1;
-                height: 40px;
-                border: 1px solid #D1D5DB;
-                background: #ffffff;
-                color: #374151;
-                border-radius: 7px;
-                font-size: 13px;
-                font-weight: 700;
-                cursor: pointer;
-                transition: .2s ease;
-            }
-
-                .confirm-modal-btn-cancel:hover {
-                    background: #F3F4F6;
-                }
-            /* ========================================
-                                           PAGINATION FOOTER
-                                        ======================================== */
-
-            .pagination-footer {
+            /* PAGINATION */
+            .pagination-section {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 margin-top: 18px;
-                padding: 0 2px;
+                width: 100%;
             }
 
             .showing-text {
-                font-size: 11px;
-                color: #6B7280;
+                font-size: 10px;
+                color: #374151;
                 font-weight: 500;
             }
 
             .pagination-buttons {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 6px;
             }
 
             .pill-btn {
-                height: 30px;
-                padding: 0 16px;
-                border-radius: 20px;
-                background: #DCFCE7;
-                color: #15803D;
-                font-size: 11px;
-                font-weight: 600;
-                border: none;
-                text-decoration: none;
-                display: inline-flex;
-                align-items: center;
+                height: 28px;
+                padding: 0 12px;
+                border: 1px solid #E5E7EB;
+                background: #FFFFFF;
+                border-radius: 5px;
+                display: flex;
                 justify-content: center;
+                align-items: center;
+                color: #6B7280;
+                font-size: 9px;
+                font-weight: 500;
+                cursor: pointer;
                 transition: all .2s ease;
+                text-decoration: none;
             }
 
                 .pill-btn:hover {
-                    background: #BBF7D0;
-                    color: #15803D;
+                    background: #FEE2E2;
+                    color: #B91C1C;
+                    border-color: #FECACA;
                 }
 
                 .pill-btn.disabled {
@@ -798,10 +729,7 @@
                     pointer-events: none;
                 }
 
-            /* ========================================
-                                           VIEW APPLICANT MODAL
-                                        ======================================== */
-
+            /* VIEW APPLICANT MODAL */
             .view-modal-overlay {
                 position: fixed;
                 inset: 0;
@@ -984,16 +912,110 @@
                 color: #9CA3AF;
             }
 
-            /* ========================================
-                                           RESPONSIVE
-                                        ======================================== */
+            /* APPROVE / REJECT CONFIRM MODALS */
+            .confirm-modal-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 20, 22, 0.55);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 3000;
+                padding: 20px;
+            }
 
-            @@media (max-width: 900px) {
-
-                .content-area {
-                    padding: 18px;
+                .confirm-modal-overlay.show {
+                    display: flex;
                 }
 
+            .confirm-modal-card {
+                width: 100%;
+                max-width: 320px;
+                background: #ffffff;
+                border-radius: 12px;
+                padding: 30px 26px 24px;
+                text-align: center;
+                box-shadow: 0 25px 60px rgba(0,0,0,.28);
+                opacity: 0;
+                transform: translateY(16px);
+                animation: confirmSlideIn .25s ease forwards;
+            }
+
+            @@keyframes confirmSlideIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .confirm-modal-icon {
+                width: 62px;
+                height: 62px;
+                border-radius: 50%;
+                background: #FEE2E2;
+                color: #E32626;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 26px;
+                margin: 0 auto 16px;
+            }
+
+            .confirm-modal-title {
+                color: #111827;
+                font-size: 16px;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+
+            .confirm-modal-text {
+                color: #6B7280;
+                font-size: 12px;
+                line-height: 1.5;
+                margin-bottom: 22px;
+            }
+
+            .confirm-modal-actions {
+                display: flex;
+                gap: 10px;
+            }
+
+            .confirm-modal-btn-yes {
+                flex: 1;
+                height: 40px;
+                border: none;
+                background: #E32626;
+                color: #ffffff;
+                border-radius: 7px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .confirm-modal-btn-yes:hover {
+                    background: #B91C1C;
+                }
+
+            .confirm-modal-btn-cancel {
+                flex: 1;
+                height: 40px;
+                border: 1px solid #D1D5DB;
+                background: #ffffff;
+                color: #374151;
+                border-radius: 7px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .confirm-modal-btn-cancel:hover {
+                    background: #F3F4F6;
+                }
+
+            /* RESPONSIVE */
+            @@media (max-width: 1000px) {
                 .action-bar {
                     flex-wrap: wrap;
                 }
@@ -1002,22 +1024,122 @@
                     width: 100%;
                 }
 
+                .search-box {
+                    max-width: none;
+                }
+
                 .create-btn {
                     margin-left: auto;
+                }
+            }
+
+            @@media (max-width: 768px) {
+                body {
+                    overflow-y: auto;
+                }
+
+                .sidebar {
+                    width: 78px;
+                    min-width: 78px;
+                }
+
+                .system-name, .menu a span, .logout a span {
+                    display: none;
+                }
+
+                .logo-section {
+                    padding: 15px 8px;
+                }
+
+                .logo-circle {
+                    width: 40px;
+                    height: 40px;
+                }
+
+                .menu {
+                    padding: 15px 8px;
+                }
+
+                    .menu a {
+                        justify-content: center;
+                        padding: 10px;
+                    }
+
+                .logout a {
+                    justify-content: center;
+                }
+
+                .content-area {
+                    padding: 16px;
+                }
+
+                .page-title {
+                    font-size: 21px;
+                }
+
+                .page-subtitle {
+                    font-size: 12px;
+                }
+
+                .page-header {
+                    margin-bottom: 16px;
+                }
+
+                .action-bar {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .search-filter {
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                .search-box {
+                    width: 100%;
+                    max-width: none;
+                }
+
+                .status-filter {
+                    width: 100%;
+                }
+
+                .create-btn {
+                    width: 100%;
+                    justify-content: center;
+                    margin-left: 0;
                 }
 
                 .table-container {
                     overflow-x: auto;
                 }
 
-                .table {
-                    min-width: 850px;
+                .request-table {
+                    min-width: 900px;
                 }
 
-                .pagination-footer {
+                .pagination-section {
                     flex-direction: column;
-                    gap: 10px;
                     align-items: flex-start;
+                    gap: 10px;
+                }
+
+                .pagination-buttons {
+                    align-self: flex-end;
+                }
+            }
+
+            @@media (max-width: 500px) {
+                .profile-info {
+                    display: none;
+                }
+
+                .profile {
+                    border-left: none;
+                }
+
+                .content-area {
+                    padding: 12px;
                 }
             }
     </style>
@@ -1029,21 +1151,13 @@
     <div class="dashboard-container">
 
         <!-- SIDEBAR -->
-
         <aside class="sidebar">
 
             <div class="logo-section">
-
                 <div class="logo-circle">
-                    <img src="~/Images/logo.png"
-                         class="logo-img"
-                         alt="SORS Logo">
+                    <img src="~/Images/logo.png" class="logo-img" alt="SORS Logo" />
                 </div>
-
-                <div class="system-name">
-                    SORS
-                </div>
-
+                <div class="system-name">SORS</div>
             </div>
 
             <div class="menu">
@@ -1064,8 +1178,13 @@
                 </a>
 
                 <a href="@Url.Action("ReportsManagement", "Admin")">
-                    <i class="bi bi-clipboard-data"></i>
+                    <i class="bi bi-file-earmark-bar-graph"></i>
                     <span>Reports</span>
+                </a>
+
+                <a href="@Url.Action("AuditLogs", "Admin")">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Audit Logs</span>
                 </a>
 
                 <a href="@Url.Action("UsersManagement", "Admin")">
@@ -1073,58 +1192,32 @@
                     <span>Users</span>
                 </a>
 
-                <div class="sidebar-dropdown">
-
-                    <a href="javascript:void(0)" class="dropdown-toggle-menu">
-                        <i class="bi bi-gear-fill"></i>
-                        <span>Settings</span>
-                        <i class="bi bi-chevron-right ms-auto small-arrow"></i>
-                    </a>
-
-                    <div class="dropdown-submenu">
-
-                        <a href="@Url.Action("Settings", "Admin")">
-                            <i class="bi bi-sliders"></i>
-                            <span>General Settings</span>
-                        </a>
-
-                        <a href="@Url.Action("SAccountSettings", "Admin")">
-                            <i class="bi bi-person-gear"></i>
-                            <span>Account & Security</span>
-                        </a>
-
-                    </div>
-
-                </div>
-
             </div>
 
             <div class="logout">
+                <a href="@Url.Action("Settings", "Admin")" class="settings-link">
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Settings</span>
+                </a>
 
-                <a href="@Url.Action("Logout", "Admin")">
+                <a href="@Url.Action("Logout", "Admin")" class="logout-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Logout</span>
                 </a>
-
             </div>
 
         </aside>
 
 
         <!-- MAIN CONTENT -->
-
         <div class="main-content">
-
-            <!-- TOPBAR -->
 
             <div class="topbar">
 
                 <div class="topbar-left">
-
-                    <button class="menu-toggle" id="menuToggle">
+                    <button class="menu-toggle" id="menuToggle" type="button">
                         <i class="bi bi-list"></i>
                     </button>
-
                 </div>
 
                 <div class="topbar-right">
@@ -1132,16 +1225,12 @@
                     <i class="bi bi-bell notification-icon"></i>
 
                     <div class="profile">
-
                         <img src="~/Images/adminpic.jpg" alt="Profile" />
-
                         <div class="profile-info">
-                            <h5>John Cruz</h5>
+                            <h5>@(Context.Session.GetString("AdminName") ?? "Admin")</h5>
                             <span>Administrator</span>
                         </div>
-
                         <i class="bi bi-chevron-down profile-arrow"></i>
-
                     </div>
 
                 </div>
@@ -1149,60 +1238,54 @@
             </div>
 
 
-            <!-- CONTENT -->
-
             <div class="content-area">
 
-                <div class="page-title">Request</div>
-
-                <div class="page-subtitle">
-                    Here's what's happening with your interviews and records today.
+                <div class="page-header">
+                    <div>
+                        <h2 class="page-title">Request</h2>
+                        <p class="page-subtitle">Manage and track submitted requests efficiently.</p>
+                    </div>
                 </div>
 
-                @using (Html.BeginForm("RequestManagement", "Admin", FormMethod.Get))
-                {
-                    <div class="action-bar">
+                <!--
+                    No <form> here on purpose: search/status filtering is done
+                    live via JS (fetchRequests) below, never by submitting a
+                    page GET. A <form> around a lone text input can still
+                    implicitly submit on Enter in some browsers, which would
+                    reload the page and defeat the live search.
+                -->
+                <div class="action-bar">
 
-                        <div class="search-filter">
+                    <div class="search-filter">
 
-                            <div class="search-box">
-
-                                <i class="bi bi-search"></i>
-
-                                <input type="text"
-                                       name="search"
-                                       value="@ViewBag.SearchTerm"
-                                       placeholder="Search here..."
-                                       onchange="this.form.submit()" />
-
-                            </div>
-
-                            <select name="status" class="status-filter" onchange="this.form.submit()">
-                                <option value="All Status" selected="@(ViewBag.SelectedStatus == null || ViewBag.SelectedStatus == "All Status")">All Status</option>
-                                <option value="Pending" selected="@(ViewBag.SelectedStatus == "Pending")">Pending</option>
-                                <option value="Approved" selected="@(ViewBag.SelectedStatus == "Approved")">Approved</option>
-                                <option value="Rejected" selected="@(ViewBag.SelectedStatus == "Rejected")">Rejected</option>
-                                <option value="Completed" selected="@(ViewBag.SelectedStatus == "Completed")">Completed</option>
-                            </select>
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" id="searchInput" name="search" value="@ViewBag.SearchTerm" placeholder="Search here..." autocomplete="off" />
                         </div>
 
-                        <a href="@Url.Action("RCreateRequest", "Admin")" class="create-btn">
-                            <i class="bi bi-plus-lg"></i>
-                            Create Request
-                        </a>
-
+                        <select name="status" id="statusFilter" class="status-filter">
+                            <option value="All Status" selected="@(ViewBag.SelectedStatus == null || ViewBag.SelectedStatus == "All Status")">All Status</option>
+                            <option value="Pending" selected="@(ViewBag.SelectedStatus == "Pending")">Pending</option>
+                            <option value="Approved" selected="@(ViewBag.SelectedStatus == "Approved")">Approved</option>
+                            <option value="Rejected" selected="@(ViewBag.SelectedStatus == "Rejected")">Rejected</option>
+                            <option value="Completed" selected="@(ViewBag.SelectedStatus == "Completed")">Completed</option>
+                        </select>
                     </div>
-                }
 
-                <!-- TABLE -->
+                    <a href="@Url.Action("RCreateRequest", "Admin")" class="create-btn">
+                        <i class="bi bi-plus-lg"></i>
+                        Create Request
+                    </a>
+
+                </div>
 
                 <div class="table-container">
 
-                    <table class="table">
+                    <table class="request-table">
 
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>REQUEST ID</th>
                                 <th>APPLICANT NAME</th>
                                 <th>EMAIL ADDRESS</th>
                                 <th>DATE APPLIED</th>
@@ -1211,7 +1294,7 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="requestsTableBody">
 
                             @if (ViewBag.Requests == null || ViewBag.Requests.Count == 0)
                             {
@@ -1225,63 +1308,58 @@
                                 {
                                     string statusClass = request.Status switch
                                     {
-                                        "Pending" => "status-pill-pending",
-                                        "Approved" => "status-pill-approved",
-                                        "Completed" => "status-pill-completed",
-                                        "Rejected" => "status-pill-rejected",
-                                        _ => "status-pill-pending"
+                                        "Pending" => "status-pending",
+                                        "Approved" => "status-approved",
+                                        "Completed" => "status-completed",
+                                        "Rejected" => "status-rejected",
+                                        _ => "status-pending"
                                     };
 
                                     <tr>
 
                                         <td>@request.DisplayId</td>
-
                                         <td>@request.ApplicantName</td>
-
                                         <td>@request.ApplicantEmail</td>
-
                                         <td>@request.DateAppliedFormatted</td>
 
                                         <td>
-                                            <span class="@statusClass">@request.Status</span>
+                                            <span class="status-badge @statusClass">@request.Status</span>
                                         </td>
 
                                         <td>
-
-                                            <div class="action-buttons">
+                                            <div class="action-icons">
 
                                                 <button type="button"
-                                                        class="action-btn btn-view"
+                                                        class="action-btn view-action"
                                                         onclick="openViewModal(this)"
                                                         data-id="@request.DisplayId"
                                                         data-name="@request.ApplicantName"
                                                         data-initials="@request.Initials"
                                                         data-status="@request.Status"
-                                                        data-statusclass="@statusClass"
+                                                        data-statusclass="status-badge @statusClass"
                                                         data-email="@request.Email"
                                                         data-contact="@request.ContactNumber"
                                                         data-appdate="@request.AppointmentDateFormatted"
                                                         data-apptime="@request.AppointmentTimeFormatted"
                                                         data-submitted="@request.DateSubmittedFormatted"
                                                         data-notes="@request.AdditionalNotes"
-                                                        data-resume="@(string.IsNullOrEmpty((string)request.ResumeFile) ? "" : Url.Content("~/Resumes/" + request.ResumeFile))"
-                                                        data-validid="@(string.IsNullOrEmpty((string)request.ValidIDFile) ? "" : Url.Content("~/ValidIDs/" + request.ValidIDFile))">
+                                                        data-resume="@request.ResumeUrl"
+                                                        data-validid="@request.ValidIdUrl">
                                                     <i class="bi bi-eye"></i> View
                                                 </button>
 
                                                 @if (request.Status == "Pending")
                                                 {
-                                                    <button type="button" class="action-btn btn-approve" onclick="openConfirmModal('approve', @request.AppointmentId)">
+                                                    <button type="button" class="action-btn approve-action" onclick="openConfirmModal('approve', @request.AppointmentId)">
                                                         <i class="bi bi-check-lg"></i> Approve
                                                     </button>
 
-                                                    <button type="button" class="action-btn btn-reject" onclick="openConfirmModal('reject', @request.AppointmentId)">
+                                                    <button type="button" class="action-btn reject-action" onclick="openConfirmModal('reject', @request.AppointmentId)">
                                                         <i class="bi bi-x-lg"></i> Reject
                                                     </button>
                                                 }
 
-                                            </div> 
-
+                                            </div>
                                         </td>
 
                                     </tr>
@@ -1294,51 +1372,24 @@
 
                 </div>
 
-                <!-- PAGINATION FOOTER -->
-                @{
-                    int currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
-                    int totalPages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
-                    int totalCount = ViewBag.TotalCount != null ? (int)ViewBag.TotalCount : (ViewBag.Requests != null ? ViewBag.Requests.Count : 0);
-                    int pageSize = ViewBag.PageSize != null ? (int)ViewBag.PageSize : 5;
+                <div class="pagination-section">
 
-                    int startItem = totalCount == 0 ? 0 : ((currentPage - 1) * pageSize) + 1;
-                    int endItem = Math.Min(currentPage * pageSize, totalCount);
-                }
-
-                <div class="pagination-footer">
-
-                    <div class="showing-text">
-                        Showing @startItem to @endItem of @totalCount users
+                    <div class="showing-text" id="showingText">
+                        Showing @ViewBag.StartItem to @ViewBag.EndItem of @ViewBag.TotalCount requests
                     </div>
 
-                    <div class="pagination-buttons">
-
-                        @if (currentPage >= totalPages)
-                        {
-                            <span class="pill-btn disabled">Previous</span>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("RequestManagement", "Admin", new { search = ViewBag.SearchTerm, status = ViewBag.SelectedStatus, page = currentPage + 1 })" class="pill-btn">Previous</a>
-                        }
-
-                        @if (currentPage <= 1)
-                        {
-                            <span class="pill-btn disabled">Next</span>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("RequestManagement", "Admin", new { search = ViewBag.SearchTerm, status = ViewBag.SelectedStatus, page = currentPage - 1 })" class="pill-btn">Next</a>
-                        }
-
-                    </div>
+                    <!--
+                        Left empty on purpose: renderPagination() (called at
+                        the bottom of the script, using the same ViewBag
+                        values) fills this in with correctly-ordered
+                        Previous/Next buttons on page load, and again after
+                        every live search/filter/page change.
+                    -->
+                    <div class="pagination-buttons" id="paginationButtons"></div>
 
                 </div>
 
-                <!-- ================================================
-                     VIEW APPLICANT MODAL
-                ================================================= -->
-
+                <!-- VIEW APPLICANT MODAL -->
                 <div class="view-modal-overlay" id="viewApplicantModal">
                     <div class="view-modal-card">
 
@@ -1405,163 +1456,249 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
+                <!-- CONFIRM MODAL: APPROVE -->
+                <div class="confirm-modal-overlay" id="approveConfirmModal">
+                    <div class="confirm-modal-card">
 
+                        <div class="confirm-modal-icon">
+                            <i class="bi bi-patch-check-fill"></i>
+                        </div>
 
-        <!-- ================================================
-                     CONFIRM MODAL: APPROVE
-                ================================================= -->
+                        <div class="confirm-modal-title">Approve Applicant?</div>
+                        <div class="confirm-modal-text">Are you sure you want to approve this applicant?</div>
 
-        <div class="confirm-modal-overlay" id="approveConfirmModal">
-            <div class="confirm-modal-card">
+                        <div class="confirm-modal-actions">
+                            <form id="approveForm" action="@Url.Action("ApproveAppointment", "Admin")" method="post" style="flex:1;">
+                                <input type="hidden" name="AppointmentId" id="approveAppointmentId" />
+                                <button type="submit" class="confirm-modal-btn-yes" style="width:100%;">Yes</button>
+                            </form>
+                            <button type="button" class="confirm-modal-btn-cancel" onclick="closeConfirmModal('approveConfirmModal')">Cancel</button>
+                        </div>
 
-                <div class="confirm-modal-icon">
-                    <i class="bi bi-patch-check-fill"></i>
+                    </div>
                 </div>
 
-                <div class="confirm-modal-title">Approve Applicant?</div>
-                <div class="confirm-modal-text">Are you sure you want to approve this applicant?</div>
+                <!-- CONFIRM MODAL: REJECT -->
+                <div class="confirm-modal-overlay" id="rejectConfirmModal">
+                    <div class="confirm-modal-card">
 
-                <div class="confirm-modal-actions">
-                    <form id="approveForm" action="@Url.Action("ApproveAppointment", "Admin")" method="post" style="flex:1;">
-                        <input type="hidden" name="AppointmentId" id="approveAppointmentId" />
-                        <button type="submit" class="confirm-modal-btn-yes" style="width:100%;">Yes</button>
-                    </form>
-                    <button type="button" class="confirm-modal-btn-cancel" onclick="closeConfirmModal('approveConfirmModal')">Cancel</button>
-                </div>
+                        <div class="confirm-modal-icon">
+                            <i class="bi bi-file-earmark-x-fill"></i>
+                        </div>
 
-            </div>
-        </div>
+                        <div class="confirm-modal-title">Reject Applicant?</div>
+                        <div class="confirm-modal-text">Are you sure you want to reject this applicant?</div>
 
+                        <div class="confirm-modal-actions">
+                            <form id="rejectForm" action="@Url.Action("RejectAppointment", "Admin")" method="post" style="flex:1;">
+                                <input type="hidden" name="AppointmentId" id="rejectAppointmentId" />
+                                <button type="submit" class="confirm-modal-btn-yes" style="width:100%;">Yes</button>
+                            </form>
+                            <button type="button" class="confirm-modal-btn-cancel" onclick="closeConfirmModal('rejectConfirmModal')">Cancel</button>
+                        </div>
 
-        <!-- ================================================
-                     CONFIRM MODAL: REJECT
-                ================================================= -->
-
-        <div class="confirm-modal-overlay" id="rejectConfirmModal">
-            <div class="confirm-modal-card">
-
-                <div class="confirm-modal-icon">
-                    <i class="bi bi-file-earmark-x-fill"></i>
-                </div>
-
-                <div class="confirm-modal-title">Reject Applicant?</div>
-                <div class="confirm-modal-text">Are you sure you want to reject this applicant?</div>
-
-                <div class="confirm-modal-actions">
-                    <form id="rejectForm" action="@Url.Action("RejectAppointment", "Admin")" method="post" style="flex:1;">
-                        <input type="hidden" name="AppointmentId" id="rejectAppointmentId" />
-                        <button type="submit" class="confirm-modal-btn-yes" style="width:100%;">Yes</button>
-                    </form>
-                    <button type="button" class="confirm-modal-btn-cancel" onclick="closeConfirmModal('rejectConfirmModal')">Cancel</button>
+                    </div>
                 </div>
 
             </div>
+
         </div>
+
     </div>
 
-   
-
-
-    <!-- JAVASCRIPT -->
 
     <script>
 
-            const dropdown = document.querySelector('.sidebar-dropdown');
-            const toggle = document.querySelector('.dropdown-toggle-menu');
-
-            toggle.addEventListener('click', function () {
-                dropdown.classList.toggle('open');
-            });
-
+            // ---------- SIDEBAR TOGGLE ----------
+            const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.querySelector('.sidebar');
-            const toggleBtn = document.getElementById('menuToggle');
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+            }
 
-            toggleBtn.addEventListener('click', function () {
-                sidebar.classList.toggle('collapsed');
+            // ---------- LIVE SEARCH / FILTER ----------
+            let searchDebounceTimer;
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+
+            searchInput.addEventListener('input', function () {
+                clearTimeout(searchDebounceTimer);
+                searchDebounceTimer = setTimeout(() => fetchRequests(1), 350);
             });
 
+            // Belt-and-suspenders: since there's no <form> anymore Enter
+            // has nothing to submit, but stop it explicitly anyway so a
+            // future markup change can't silently reintroduce a reload.
+            searchInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') e.preventDefault();
+            });
 
-            /* =========================================
-               VIEW APPLICANT MODAL
-            ========================================= */
+            statusFilter.addEventListener('change', function () {
+                fetchRequests(1);
+            });
+
+            function fetchRequests(page) {
+                const search = searchInput.value;
+                const status = statusFilter.value;
+
+                fetch(`/Admin/SearchRequests?search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}&page=${page}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        renderRows(data.requests);
+                        renderPagination(data);
+                    })
+                    .catch(err => console.error('Search request failed:', err));
+            }
+
+            function statusClassFor(status) {
+                switch (status) {
+                    case "Pending": return "status-pending";
+                    case "Approved": return "status-approved";
+                    case "Completed": return "status-completed";
+                    case "Rejected": return "status-rejected";
+                    default: return "status-pending";
+                }
+            }
+
+            function renderRows(requests) {
+                const tbody = document.getElementById('requestsTableBody');
+
+                if (!requests || requests.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">No requests found.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = requests.map(r => {
+                    const cls = statusClassFor(r.status);
+                    const actions = r.status === "Pending"
+                        ? `<button type="button" class="action-btn approve-action" onclick="openConfirmModal('approve', ${r.appointmentId})">
+                               <i class="bi bi-check-lg"></i> Approve
+                           </button>
+                           <button type="button" class="action-btn reject-action" onclick="openConfirmModal('reject', ${r.appointmentId})">
+                               <i class="bi bi-x-lg"></i> Reject
+                           </button>`
+                        : '';
+
+                    return `
+                        <tr>
+                            <td>${r.displayId}</td>
+                            <td>${r.applicantName}</td>
+                            <td>${r.applicantEmail}</td>
+                            <td>${r.dateAppliedFormatted}</td>
+                            <td><span class="status-badge ${cls}">${r.status}</span></td>
+                            <td>
+                                <div class="action-icons">
+                                    <button type="button" class="action-btn view-action"
+                                        onclick="openViewModal(this)"
+                                        data-id="${r.displayId}" data-name="${r.applicantName}"
+                                        data-initials="${r.initials}" data-status="${r.status}"
+                                        data-statusclass="status-badge ${cls}"
+                                        data-email="${r.email ?? ''}" data-contact="${r.contactNumber ?? ''}"
+                                        data-appdate="${r.appointmentDateFormatted}" data-apptime="${r.appointmentTimeFormatted}"
+                                        data-submitted="${r.dateSubmittedFormatted}" data-notes="${r.additionalNotes}"
+                                        data-resume="${r.resumeUrl}" data-validid="${r.validIdUrl}">
+                                        <i class="bi bi-eye"></i> View
+                                    </button>
+                                    ${actions}
+                                </div>
+                            </td>
+                        </tr>`;
+                }).join('');
+            }
+
+            function renderPagination(data) {
+                document.getElementById('showingText').textContent =
+                    `Showing ${data.startItem} to ${data.endItem} of ${data.totalCount} requests`;
+
+                const container = document.getElementById('paginationButtons');
+                const prevDisabled = data.currentPage <= 1;
+                const nextDisabled = data.currentPage >= data.totalPages;
+
+                container.innerHTML = `
+                    ${prevDisabled
+                        ? `<span class="pill-btn disabled">Previous</span>`
+                        : `<a href="#" class="pill-btn" onclick="fetchRequests(${data.currentPage - 1}); return false;">Previous</a>`}
+                    ${nextDisabled
+                        ? `<span class="pill-btn disabled">Next</span>`
+                        : `<a href="#" class="pill-btn" onclick="fetchRequests(${data.currentPage + 1}); return false;">Next</a>`}
+                `;
+            }
+
+            // Build the initial pagination buttons from server-rendered ViewBag values on page load
+            renderPagination({
+                currentPage: @ViewBag.CurrentPage,
+                totalPages: @ViewBag.TotalPages,
+                startItem: @ViewBag.StartItem,
+                endItem: @ViewBag.EndItem,
+                totalCount: @ViewBag.TotalCount
+            });
+   
+            // ---------- VIEW APPLICANT MODAL ----------
+            const viewModal = document.getElementById('viewApplicantModal');
 
             function openViewModal(btn) {
                 const d = btn.dataset;
 
-                document.getElementById('vmAvatar').textContent = d.initials;
-                document.getElementById('vmName').textContent = d.name;
+                document.getElementById('vmAvatar').textContent = d.initials || '?';
+                document.getElementById('vmName').textContent = d.name || '';
 
                 const statusEl = document.getElementById('vmStatus');
-                statusEl.textContent = d.status;
-                statusEl.className = 'view-modal-status ' + d.statusclass;
+                statusEl.className = d.statusclass || 'status-badge status-pending';
+                statusEl.textContent = d.status || '';
 
-                document.getElementById('vmEmail').textContent = d.email;
-                document.getElementById('vmContact').textContent = d.contact;
-                document.getElementById('vmAppDate').textContent = d.appdate;
-                document.getElementById('vmSubmitted').textContent = d.submitted;
-                document.getElementById('vmAppTime').textContent = d.apptime;
-                document.getElementById('vmNotes').textContent = d.notes;
+                document.getElementById('vmEmail').textContent = d.email || '—';
+                document.getElementById('vmContact').textContent = d.contact || '—';
+                document.getElementById('vmAppDate').textContent = d.appdate || '—';
+                document.getElementById('vmSubmitted').textContent = d.submitted || '—';
+                document.getElementById('vmAppTime').textContent = d.apptime || '—';
+                document.getElementById('vmNotes').textContent = d.notes || 'No additional notes.';
 
-                const resumeLink = document.getElementById('vmResumeLink');
-                if (d.resume) {
-                    resumeLink.href = d.resume;
-                    resumeLink.classList.remove('disabled');
+                setDocLink('vmResumeLink', d.resume);
+                setDocLink('vmValidIdLink', d.validid);
+
+                viewModal.classList.add('show');
+            }
+
+            function setDocLink(linkId, url) {
+                const link = document.getElementById(linkId);
+                if (url) {
+                    link.href = url;
+                    link.classList.remove('disabled');
                 } else {
-                    resumeLink.href = '#';
-                    resumeLink.classList.add('disabled');
+                    link.href = '#';
+                    link.classList.add('disabled');
                 }
-
-                const validIdLink = document.getElementById('vmValidIdLink');
-                if (d.validid) {
-                    validIdLink.href = d.validid;
-                    validIdLink.classList.remove('disabled');
-                } else {
-                    validIdLink.href = '#';
-                    validIdLink.classList.add('disabled');
-                }
-
-                document.getElementById('viewApplicantModal').classList.add('show');
             }
 
             function closeViewModal() {
-                document.getElementById('viewApplicantModal').classList.remove('show');
+                viewModal.classList.remove('show');
             }
 
-            document.getElementById('viewApplicantModal').addEventListener('click', function (e) {
-                if (e.target === this) {
-                    closeViewModal();
-                }
+            viewModal.addEventListener('click', function (e) {
+                if (e.target === viewModal) closeViewModal();
             });
-                        /* =========================================
-               APPROVE / REJECT CONFIRMATION MODALS
-            ========================================= */
 
-            function openConfirmModal(type, appointmentId) {
-                if (type === 'approve') {
+            // ---------- APPROVE / REJECT CONFIRM MODALS ----------
+            function openConfirmModal(action, appointmentId) {
+                if (action === 'approve') {
                     document.getElementById('approveAppointmentId').value = appointmentId;
                     document.getElementById('approveConfirmModal').classList.add('show');
-                } else if (type === 'reject') {
+                } else if (action === 'reject') {
                     document.getElementById('rejectAppointmentId').value = appointmentId;
                     document.getElementById('rejectConfirmModal').classList.add('show');
                 }
             }
 
-            function closeConfirmModal(id) {
-                document.getElementById(id).classList.remove('show');
+            function closeConfirmModal(modalId) {
+                document.getElementById(modalId).classList.remove('show');
             }
 
-            document.querySelectorAll('.confirm-modal-overlay').forEach(function (overlay) {
+            document.querySelectorAll('.confirm-modal-overlay').forEach(overlay => {
                 overlay.addEventListener('click', function (e) {
-                    if (e.target === overlay) {
-                        overlay.classList.remove('show');
-                    }
+                    if (e.target === overlay) overlay.classList.remove('show');
                 });
             });
-
-
+         
     </script>
-
 </body>
 </html>

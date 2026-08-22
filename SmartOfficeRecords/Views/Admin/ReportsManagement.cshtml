@@ -26,878 +26,916 @@
 
     <style>
 
-            /* =========================================================
-                               GLOBAL
-                            ========================================================= */
+        /* =========================================================
+                   GLOBAL
+                ========================================================= */
 
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: 'Inter', sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #F5F6F8;
+            overflow: hidden;
+            color: #111827;
+        }
+
+
+        /* =========================================================
+                   MAIN CONTAINER
+                ========================================================= */
+
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+
+        /* =========================================================
+                   SIDEBAR
+                ========================================================= */
+
+        .sidebar {
+            width: 158px;
+            min-width: 158px;
+            height: 100vh;
+            background: #1F2933;
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            transition: all .3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,.25) transparent;
+        }
+
+            .sidebar::-webkit-scrollbar {
+                width: 5px;
             }
 
-            body {
-                background: #F5F6F8;
-                overflow: hidden;
+            .sidebar::-webkit-scrollbar-thumb {
+                background: rgba(255,255,255,.25);
+                border-radius: 10px;
+            }
+
+            .sidebar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+
+            /* =========================================================
+                   COLLAPSED SIDEBAR
+                ========================================================= */
+
+            .sidebar.collapsed {
+                width: 78px;
+                min-width: 78px;
+            }
+
+                .sidebar.collapsed .system-name {
+                    display: block;
+                    font-size: 11px;
+                    font-weight: 700;
+                    margin-top: 8px;
+                    letter-spacing: .2px;
+                }
+
+                .sidebar.collapsed .logo-circle {
+                    width: 42px;
+                    height: 42px;
+                }
+
+                .sidebar.collapsed .logo-section {
+                    padding: 18px 10px;
+                }
+
+                .sidebar.collapsed .menu a span,
+                .sidebar.collapsed .logout a span {
+                    display: none;
+                }
+
+                .sidebar.collapsed .menu {
+                    padding: 16px 10px;
+                }
+
+                    .sidebar.collapsed .menu a {
+                        width: 44px;
+                        height: 44px;
+                        margin: 0 auto 10px auto;
+                        padding: 0;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 6px;
+                    }
+
+                        .sidebar.collapsed .menu a.active {
+                            background: #B91C1C;
+                            box-shadow: 0 4px 10px rgba(0,0,0,.15);
+                        }
+
+                        .sidebar.collapsed .menu a i,
+                        .sidebar.collapsed .logout a i {
+                            margin: 0;
+                            font-size: 17px;
+                        }
+
+                .sidebar.collapsed .logout {
+                    padding-bottom: 15px;
+                }
+
+                    .sidebar.collapsed .logout a {
+                        width: 44px;
+                        height: 44px;
+                        margin: 0 auto;
+                        padding: 0;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+
+        /* =========================================================
+                   LOGO SECTION
+                ========================================================= */
+
+        .logo-section {
+            text-align: center;
+            padding: 18px 10px;
+            border-bottom: 1px solid rgba(255,255,255,.18);
+        }
+
+        .logo-circle {
+            width: 42px;
+            height: 42px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .system-name {
+            margin-top: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            color: #FFFFFF;
+        }
+
+
+        /* =========================================================
+                   MENU
+                ========================================================= */
+
+        .menu {
+            padding: 16px 9px;
+        }
+
+            .menu a {
+                color: #FFFFFF;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                padding: 10px 11px;
+                margin-bottom: 5px;
+                border-radius: 6px;
+                font-size: 13px;
+                font-weight: 500;
+                line-height: 1.2;
+                transition: all .2s ease;
+            }
+
+                .menu a i {
+                    font-size: 16px;
+                    min-width: 16px;
+                }
+
+                .menu a:hover {
+                    background: rgba(185, 28, 28, .18);
+                    color: #FFFFFF;
+                }
+
+                .menu a.active {
+                    background: #B91C1C;
+                    color: #FFFFFF;
+                    box-shadow: 0 3px 8px rgba(185,28,28,.22);
+                }
+
+        /* =========================================================
+                           SETTINGS + LOGOUT
+                        ========================================================= */
+
+        .logout {
+            margin-top: auto;
+            padding: 12px 9px 15px 9px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+            .logout a {
+                color: #FFFFFF;
+                text-decoration: none;
+                display: flex;
+                gap: 11px;
+                align-items: center;
+                padding: 10px 11px;
+                font-size: 13px;
+                font-weight: 500;
+                border-radius: 6px;
+                transition: all .2s ease;
+            }
+
+                .logout a i {
+                    font-size: 16px;
+                    min-width: 16px;
+                }
+
+        .settings-link:hover {
+            background: rgba(185, 28, 28, .18);
+            color: #FFFFFF;
+        }
+
+        .logout-link:hover {
+            background: rgba(185,28,28,.25);
+            color: #FFFFFF;
+        }
+
+
+        /* =========================================================
+                   MAIN CONTENT
+                ========================================================= */
+
+        .main-content {
+            flex: 1;
+            background: #F5F6F8;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+
+        /* =========================================================
+                   TOPBAR
+                ========================================================= */
+
+        .topbar {
+            height: 56px;
+            min-height: 56px;
+            flex-shrink: 0;
+            border-bottom: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background: #FFFFFF;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #B91C1C;
+            font-size: 19px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+            .menu-toggle:hover {
+                color: #991B1B;
+            }
+
+
+        /* =========================================================
+                   TOPBAR RIGHT
+                ========================================================= */
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+        }
+
+        .notification-icon {
+            font-size: 19px;
+            color: #374151;
+            cursor: pointer;
+            transition: color .2s ease;
+        }
+
+            .notification-icon:hover {
+                color: #B91C1C;
+            }
+
+
+        /* =========================================================
+                   PROFILE
+                ========================================================= */
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding-left: 12px;
+            border-left: 1px solid #E5E7EB;
+        }
+
+            .profile img {
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.25;
+        }
+
+            .profile-info h5 {
+                margin: 0;
+                font-size: 12px;
+                font-weight: 600;
                 color: #111827;
             }
 
-
-            /* =========================================================
-                               MAIN CONTAINER
-                            ========================================================= */
-
-            .dashboard-container {
-                display: flex;
-                height: 100vh;
-                width: 100%;
-            }
-
-
-            /* =========================================================
-                               SIDEBAR
-                            ========================================================= */
-
-            .sidebar {
-                width: 158px;
-                min-width: 158px;
-                height: 100vh;
-                background: #1F2933;
-                color: #FFFFFF;
-                display: flex;
-                flex-direction: column;
-                transition: all .3s ease;
-                overflow-y: auto;
-                overflow-x: hidden;
-                scrollbar-width: thin;
-                scrollbar-color: rgba(255,255,255,.25) transparent;
-            }
-
-                .sidebar::-webkit-scrollbar {
-                    width: 5px;
-                }
-
-                .sidebar::-webkit-scrollbar-thumb {
-                    background: rgba(255,255,255,.25);
-                    border-radius: 10px;
-                }
-
-                .sidebar::-webkit-scrollbar-track {
-                    background: transparent;
-                }
-
-
-                /* =========================================================
-                               COLLAPSED SIDEBAR
-                            ========================================================= */
-
-                .sidebar.collapsed {
-                    width: 78px;
-                    min-width: 78px;
-                }
-
-                    .sidebar.collapsed .system-name {
-                        display: block;
-                        font-size: 11px;
-                        font-weight: 700;
-                        margin-top: 8px;
-                        letter-spacing: .2px;
-                    }
-
-                    .sidebar.collapsed .logo-circle {
-                        width: 42px;
-                        height: 42px;
-                    }
-
-                    .sidebar.collapsed .logo-section {
-                        padding: 18px 10px;
-                    }
-
-                    .sidebar.collapsed .menu a span,
-                    .sidebar.collapsed .logout a span {
-                        display: none;
-                    }
-
-                    .sidebar.collapsed .menu {
-                        padding: 16px 10px;
-                    }
-
-                        .sidebar.collapsed .menu a {
-                            width: 44px;
-                            height: 44px;
-                            margin: 0 auto 10px auto;
-                            padding: 0;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            border-radius: 6px;
-                        }
-
-                            .sidebar.collapsed .menu a.active {
-                                background: #B91C1C;
-                                box-shadow: 0 4px 10px rgba(0,0,0,.15);
-                            }
-
-                            .sidebar.collapsed .menu a i,
-                            .sidebar.collapsed .logout a i {
-                                margin: 0;
-                                font-size: 17px;
-                            }
-
-                    .sidebar.collapsed .logout {
-                        padding-bottom: 15px;
-                    }
-
-                        .sidebar.collapsed .logout a {
-                            width: 44px;
-                            height: 44px;
-                            margin: 0 auto;
-                            padding: 0;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
-
-
-            /* =========================================================
-                               LOGO SECTION
-                            ========================================================= */
-
-            .logo-section {
-                text-align: center;
-                padding: 18px 10px;
-                border-bottom: 1px solid rgba(255,255,255,.18);
-            }
-
-            .logo-circle {
-                width: 42px;
-                height: 42px;
-                background: #FFFFFF;
-                border-radius: 50%;
-                margin: auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .logo-img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
-
-            .system-name {
-                margin-top: 9px;
-                font-size: 13px;
-                font-weight: 700;
-                letter-spacing: .3px;
-                color: #FFFFFF;
-            }
-
-
-            /* =========================================================
-                               MENU
-                            ========================================================= */
-
-            .menu {
-                padding: 16px 9px;
-            }
-
-                .menu a {
-                    color: #FFFFFF;
-                    text-decoration: none;
-                    display: flex;
-                    align-items: center;
-                    gap: 11px;
-                    padding: 10px 11px;
-                    margin-bottom: 5px;
-                    border-radius: 6px;
-                    font-size: 13px;
-                    font-weight: 500;
-                    line-height: 1.2;
-                    transition: all .2s ease;
-                }
-
-                    .menu a i {
-                        font-size: 16px;
-                        min-width: 16px;
-                    }
-
-                    .menu a:hover {
-                        background: rgba(185, 28, 28, .18);
-                        color: #FFFFFF;
-                    }
-
-                    .menu a.active {
-                        background: #B91C1C;
-                        color: #FFFFFF;
-                        box-shadow: 0 3px 8px rgba(185,28,28,.22);
-                    }
-
-
-            /* =========================================================
-                               LOGOUT
-                            ========================================================= */
-
-            .logout {
-                margin-top: auto;
-                padding: 12px 9px 15px 9px;
-            }
-
-                .logout a {
-                    color: #FFFFFF;
-                    text-decoration: none;
-                    display: flex;
-                    gap: 11px;
-                    align-items: center;
-                    padding: 10px 11px;
-                    font-size: 13px;
-                    font-weight: 500;
-                    border-radius: 6px;
-                    transition: all .2s ease;
-                }
-
-                    .logout a i {
-                        font-size: 16px;
-                    }
-
-                    .logout a:hover {
-                        background: rgba(185,28,28,.18);
-                        color: #FFFFFF;
-                    }
-
-
-            /* =========================================================
-                               MAIN CONTENT
-                            ========================================================= */
-
-            .main-content {
-                flex: 1;
-                background: #F5F6F8;
-                display: flex;
-                flex-direction: column;
-                height: 100vh;
-                overflow: hidden;
-            }
-
-
-            /* =========================================================
-                               TOPBAR
-                            ========================================================= */
-
-            .topbar {
-                height: 56px;
-                min-height: 56px;
-                flex-shrink: 0;
-                border-bottom: 1px solid #E5E7EB;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0 20px;
-                background: #FFFFFF;
-            }
-
-            .topbar-left {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .menu-toggle {
-                background: none;
-                border: none;
-                color: #B91C1C;
-                font-size: 19px;
-                cursor: pointer;
-                padding: 5px;
-            }
-
-                .menu-toggle:hover {
-                    color: #991B1B;
-                }
-
-
-            /* =========================================================
-                               TOPBAR RIGHT
-                            ========================================================= */
-
-            .topbar-right {
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                margin-left: auto;
-            }
-
-            .notification-icon {
-                font-size: 19px;
-                color: #374151;
-                cursor: pointer;
-                transition: color .2s ease;
-            }
-
-                .notification-icon:hover {
-                    color: #B91C1C;
-                }
-
-
-            /* =========================================================
-                               PROFILE
-                            ========================================================= */
-
-            .profile {
-                display: flex;
-                align-items: center;
-                gap: 9px;
-                padding-left: 12px;
-                border-left: 1px solid #E5E7EB;
-            }
-
-                .profile img {
-                    width: 34px;
-                    height: 34px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
-
-            .profile-info {
-                display: flex;
-                flex-direction: column;
-                line-height: 1.25;
-            }
-
-                .profile-info h5 {
-                    margin: 0;
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: #111827;
-                }
-
-                .profile-info span {
-                    font-size: 10px;
-                    color: #6B7280;
-                    margin-top: 2px;
-                }
-
-            .profile-arrow {
-                color: #6B7280;
+            .profile-info span {
                 font-size: 10px;
-                margin-left: 3px;
+                color: #6B7280;
+                margin-top: 2px;
+            }
+
+        .profile-arrow {
+            color: #6B7280;
+            font-size: 10px;
+            margin-left: 3px;
+        }
+
+
+        /* =========================================================
+                   CONTENT AREA
+                   SAME AS RECORDS
+                ========================================================= */
+
+        .content-area {
+            flex: 1;
+            padding: 22px 30px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #C7CBD1 transparent;
+        }
+
+            .content-area::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .content-area::-webkit-scrollbar-thumb {
+                background: #C7CBD1;
+                border-radius: 10px;
+            }
+
+            .content-area::-webkit-scrollbar-track {
+                background: transparent;
             }
 
 
-            /* =========================================================
-                               CONTENT AREA
-                               SAME AS RECORDS
-                            ========================================================= */
+        /* =========================================================
+                   PAGE HEADER
+                   SAME AS RECORDS
+                ========================================================= */
 
-            .content-area {
-                flex: 1;
-                padding: 22px 30px;
-                overflow-y: auto;
-                overflow-x: hidden;
-                scrollbar-width: thin;
-                scrollbar-color: #C7CBD1 transparent;
-            }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
 
-                .content-area::-webkit-scrollbar {
-                    width: 6px;
-                }
+        .page-title {
+            color: #B91C1C;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            margin: 0 0 5px 0;
+            line-height: 1.2;
+        }
 
-                .content-area::-webkit-scrollbar-thumb {
-                    background: #C7CBD1;
-                    border-radius: 10px;
-                }
+        .page-description {
+            color: #64748B;
+            font-size: 13px;
+            font-weight: 400;
+            margin: 0;
+            line-height: 1.5;
+        }
 
-                .content-area::-webkit-scrollbar-track {
-                    background: transparent;
-                }
+
+        /* =========================================================
+                   ACTION BAR
+                   SAME AS RECORDS
+                ========================================================= */
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .search-filter {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
 
 
-            /* =========================================================
-                               PAGE HEADER
-                               SAME AS RECORDS
-                            ========================================================= */
+        /* =========================================================
+                   SEARCH BOX
+                   SAME AS RECORDS
+                ========================================================= */
 
-            .page-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 18px;
-            }
+        .search-box {
+            height: 36px;
+            flex: 1;
+            max-width: 540px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 3px 12px rgba(0,0,0,.05);
+            display: flex;
+            align-items: center;
+            padding: 0 13px;
+            gap: 9px;
+        }
 
-            .page-title {
-                color: #B91C1C;
-                font-size: 24px;
-                font-weight: 700;
-                letter-spacing: -0.2px;
-                margin: 0 0 5px 0;
-                line-height: 1.2;
-            }
-
-            .page-description {
-                color: #64748B;
+            .search-box i {
+                color: #6B7280;
                 font-size: 13px;
-                font-weight: 400;
-                margin: 0;
-                line-height: 1.5;
             }
 
-
-            /* =========================================================
-                               ACTION BAR
-                               SAME AS RECORDS
-                            ========================================================= */
-
-            .action-bar {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 12px;
-                margin-bottom: 16px;
-            }
-
-            .search-filter {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                flex: 1;
-            }
-
-
-            /* =========================================================
-                               SEARCH BOX
-                               SAME AS RECORDS
-                            ========================================================= */
-
-            .search-box {
-                height: 36px;
-                flex: 1;
-                max-width: 540px;
-                background: #FFFFFF;
-                border-radius: 20px;
-                border: 1px solid #E5E7EB;
-                box-shadow: 0 3px 12px rgba(0,0,0,.05);
-                display: flex;
-                align-items: center;
-                padding: 0 13px;
-                gap: 9px;
-            }
-
-                .search-box i {
-                    color: #6B7280;
-                    font-size: 13px;
-                }
-
-                .search-box input {
-                    width: 100%;
-                    border: none;
-                    outline: none;
-                    font-size: 11px;
-                    color: #374151;
-                    background: transparent;
-                    font-weight: 400;
-                }
-
-                    .search-box input::placeholder {
-                        color: #9CA3AF;
-                    }
-
-
-            /* =========================================================
-                               TABLE CONTAINER
-                               SAME AS RECORDS
-                            ========================================================= */
-
-            .table-container {
-                background: #FFFFFF;
-                border: 1px solid #D9DDE3;
-                border-radius: 8px;
-                overflow-x: auto;
-                overflow-y: hidden;
-                box-shadow: 0 1px 2px rgba(0,0,0,.02);
-            }
-
-                .table-container::-webkit-scrollbar {
-                    height: 6px;
-                }
-
-                .table-container::-webkit-scrollbar-thumb {
-                    background: #C7CBD1;
-                    border-radius: 10px;
-                }
-
-                .table-container::-webkit-scrollbar-track {
-                    background: transparent;
-                }
-
-
-            /* =========================================================
-                               REPORT TABLE
-                               SAME WIDTH / SIZE / ALIGNMENT AS RECORDS
-                            ========================================================= */
-
-            .report-table {
+            .search-box input {
                 width: 100%;
-                min-width: 900px;
-                border-collapse: collapse;
-                margin: 0;
-                table-layout: fixed;
+                border: none;
+                outline: none;
+                font-size: 11px;
+                color: #374151;
+                background: transparent;
+                font-weight: 400;
+            }
+
+                .search-box input::placeholder {
+                    color: #9CA3AF;
+                }
+
+
+        /* =========================================================
+                   TABLE CONTAINER
+                   SAME AS RECORDS
+                ========================================================= */
+
+        .table-container {
+            background: #FFFFFF;
+            border: 1px solid #D9DDE3;
+            border-radius: 8px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,.02);
+        }
+
+            .table-container::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .table-container::-webkit-scrollbar-thumb {
+                background: #C7CBD1;
+                border-radius: 10px;
+            }
+
+            .table-container::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+
+        /* =========================================================
+                   REPORT TABLE
+                   SAME WIDTH / SIZE / ALIGNMENT AS RECORDS
+                ========================================================= */
+
+        .report-table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: collapse;
+            margin: 0;
+            table-layout: fixed;
+        }
+
+
+            /* =========================================================
+                   COLUMN WIDTHS
+                   SAME PROPORTION STYLE AS RECORDS
+                ========================================================= */
+
+            .report-table th:nth-child(1),
+            .report-table td:nth-child(1) {
+                width: 10%;
+            }
+
+            .report-table th:nth-child(2),
+            .report-table td:nth-child(2) {
+                width: 21%;
+            }
+
+            .report-table th:nth-child(3),
+            .report-table td:nth-child(3) {
+                width: 23%;
+            }
+
+            .report-table th:nth-child(4),
+            .report-table td:nth-child(4) {
+                width: 15%;
+            }
+
+            .report-table th:nth-child(5),
+            .report-table td:nth-child(5) {
+                width: 31%;
+            }
+
+
+            /* =========================================================
+                   TABLE HEADER
+                   SAME AS RECORDS
+                ========================================================= */
+
+            .report-table thead {
+                background: #111111;
+            }
+
+            .report-table th {
+                height: 40px;
+                padding: 0 12px;
+                font-size: 10px;
+                font-weight: 700;
+                color: #FFFFFF;
+                background: #111111;
+                border-bottom: 1px solid #111111;
+                white-space: nowrap;
+                letter-spacing: .15px;
+                vertical-align: middle;
             }
 
 
                 /* =========================================================
-                               COLUMN WIDTHS
-                               REPORT ID | REPORT TYPE | DATE GENERATED | GENERATED BY | ACTION
-                            ========================================================= */
+                   HEADER ALIGNMENT
+                   SAME AS RECORDS
+                ========================================================= */
 
-                .report-table th:nth-child(1),
-                .report-table td:nth-child(1) {
-                    width: 12%;
+                .report-table th:nth-child(1) {
+                    text-align: center;
                 }
 
                 .report-table th:nth-child(2),
-                .report-table td:nth-child(2) {
-                    width: 22%;
-                }
-
-                .report-table th:nth-child(3),
-                .report-table td:nth-child(3) {
-                    width: 20%;
+                .report-table th:nth-child(3) {
+                    text-align: left;
                 }
 
                 .report-table th:nth-child(4),
-                .report-table td:nth-child(4) {
-                    width: 26%;
-                }
-
-                .report-table th:nth-child(5),
-                .report-table td:nth-child(5) {
-                    width: 20%;
-                }
-
-
-                /* =========================================================
-                               TABLE HEADER
-                               SAME AS RECORDS
-                            ========================================================= */
-
-                .report-table thead {
-                    background: #111111;
-                }
-
-                .report-table th {
-                    height: 40px;
-                    padding: 0 12px;
-                    font-size: 10px;
-                    font-weight: 700;
-                    color: #FFFFFF;
-                    background: #111111;
-                    border-bottom: 1px solid #111111;
-                    white-space: nowrap;
-                    letter-spacing: .15px;
-                    vertical-align: middle;
-                }
-
-
-                    /* =========================================================
-                               HEADER ALIGNMENT
-                            ========================================================= */
-
-                    .report-table th:nth-child(1) {
-                        text-align: center;
-                    }
-
-                    .report-table th:nth-child(2),
-                    .report-table th:nth-child(3) {
-                        text-align: left;
-                    }
-
-                    .report-table th:nth-child(4) {
-                        text-align: left;
-                    }
-
-                    .report-table th:nth-child(5) {
-                        text-align: center;
-                    }
-
-
-                /* =========================================================
-                               TABLE BODY
-                               SAME AS RECORDS
-                            ========================================================= */
-
-                .report-table td {
-                    height: 42px;
-                    padding: 0 12px;
-                    font-size: 10px;
-                    font-weight: 500;
-                    color: #374151;
-                    background: #FFFFFF;
-                    border-bottom: 1px solid #E5E7EB;
-                    white-space: nowrap;
-                    vertical-align: middle;
-                }
-
-
-                    /* =========================================================
-                               BODY ALIGNMENT
-                            ========================================================= */
-
-                    .report-table td:nth-child(1) {
-                        text-align: center;
-                        font-weight: 600;
-                        color: #4B5563;
-                    }
-
-                    .report-table td:nth-child(2),
-                    .report-table td:nth-child(3) {
-                        text-align: left;
-                    }
-
-                    .report-table td:nth-child(4) {
-                        text-align: left;
-                    }
-
-                    .report-table td:nth-child(5) {
-                        text-align: center;
-                    }
-
-
-                /* =========================================================
-                               HOVER
-                               SAME AS RECORDS
-                            ========================================================= */
-
-                .report-table tbody tr:hover td {
-                    background: #FEF2F2;
-                }
-
-                .report-table tbody tr:last-child td {
-                    border-bottom: none;
+                .report-table th:nth-child(5) {
+                    text-align: center;
                 }
 
 
             /* =========================================================
-                               REPORT ACTIONS
-                               SAME ALIGNMENT AS RECORDS ACTIONS
-                            ========================================================= */
+                   TABLE BODY
+                   SAME AS RECORDS
+                ========================================================= */
 
-            .report-actions {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
+            .report-table td {
+                height: 42px;
+                padding: 0 12px;
+                font-size: 10px;
+                font-weight: 500;
+                color: #374151;
+                background: #FFFFFF;
+                border-bottom: 1px solid #E5E7EB;
+                white-space: nowrap;
+                vertical-align: middle;
+            }
+
+
+                /* =========================================================
+                   BODY ALIGNMENT
+                   SAME AS RECORDS
+                ========================================================= */
+
+                .report-table td:nth-child(1) {
+                    text-align: center;
+                    font-weight: 600;
+                    color: #4B5563;
+                }
+
+                .report-table td:nth-child(2),
+                .report-table td:nth-child(3) {
+                    text-align: left;
+                }
+
+                .report-table td:nth-child(4),
+                .report-table td:nth-child(5) {
+                    text-align: center;
+                }
+
+
+            /* =========================================================
+                   HOVER
+                   SAME AS RECORDS
+                ========================================================= */
+
+            .report-table tbody tr:hover td {
+                background: #FEF2F2;
+            }
+
+            .report-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+
+        /* =========================================================
+                   STATUS BADGES
+                   SAME SCALE AS RECORDS
+                ========================================================= */
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 70px;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 9px;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .status-completed {
+            background: #DCFCE7;
+            color: #15803D;
+        }
+
+        .status-approved {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+
+
+        /* =========================================================
+                   REPORT ACTIONS
+                   SAME ALIGNMENT AS RECORDS ACTIONS
+                ========================================================= */
+
+        .report-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .view-action {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 5px;
+            background: transparent;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+            .view-action i {
+                font-size: 12px;
+            }
+
+            .view-action:hover {
+                background: #DBEAFE;
+                color: #2563EB;
+            }
+
+
+        /* =========================================================
+                   PAGINATION
+                   SAME AS RECORDS
+                ========================================================= */
+
+        .pagination-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            width: 100%;
+        }
+
+        .showing-text {
+            font-size: 10px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pagination-btn {
+            height: 28px;
+            padding: 0 12px;
+            border: 1px solid #E5E7EB;
+            background: #FFFFFF;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6B7280;
+            font-size: 9px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+            .pagination-btn:hover {
+                background: #FEE2E2;
+                color: #B91C1C;
+                border-color: #FECACA;
+            }
+
+            .pagination-btn.next-btn {
+                background: #B91C1C;
+                color: #FFFFFF;
+                border-color: #B91C1C;
+            }
+
+                .pagination-btn.next-btn:hover {
+                    background: #991B1B;
+                    color: #FFFFFF;
+                }
+
+
+        /* =========================================================
+                   RESPONSIVE
+                ========================================================= */
+
+        @@media (max-width: 1000px) {
+
+            .action-bar {
+                flex-wrap: wrap;
+            }
+
+            .search-filter {
                 width: 100%;
             }
 
-            .view-action {
-                width: 28px;
-                height: 28px;
-                border: none;
-                border-radius: 5px;
-                background: transparent;
-                color: #374151;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all .2s ease;
+            .search-box {
+                max-width: none;
+            }
+        }
+
+
+        @@media (max-width: 768px) {
+
+            body {
+                overflow-y: auto;
             }
 
-                .view-action i {
-                    font-size: 12px;
+            .sidebar {
+                width: 78px;
+                min-width: 78px;
+            }
+
+            .system-name,
+            .menu a span,
+            .logout a span {
+                display: none;
+            }
+
+            .logo-section {
+                padding: 15px 8px;
+            }
+
+            .logo-circle {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu {
+                padding: 15px 8px;
+            }
+
+                .menu a {
+                    justify-content: center;
+                    padding: 10px;
                 }
 
-                .view-action:hover {
-                    background: #DBEAFE;
-                    color: #2563EB;
-                }
+            .logout a {
+                justify-content: center;
+            }
 
+            .content-area {
+                padding: 16px;
+            }
 
-            /* =========================================================
-                               PAGINATION
-                               SAME AS RECORDS
-                            ========================================================= */
+            .page-title {
+                font-size: 21px;
+            }
+
+            .page-description {
+                font-size: 12px;
+            }
+
+            .page-header {
+                margin-bottom: 16px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-filter {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: none;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .report-table {
+                min-width: 900px;
+            }
 
             .pagination-section {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 18px;
-                width: 100%;
-            }
-
-            .showing-text {
-                font-size: 10px;
-                color: #374151;
-                font-weight: 500;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
 
             .pagination-buttons {
-                display: flex;
-                align-items: center;
-                gap: 6px;
+                align-self: flex-end;
+            }
+        }
+
+
+        @@media (max-width: 500px) {
+
+            .profile-info {
+                display: none;
             }
 
-            .pagination-btn {
-                height: 28px;
-                padding: 0 12px;
-                border: 1px solid #E5E7EB;
-                background: #FFFFFF;
-                border-radius: 5px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: #6B7280;
-                font-size: 9px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all .2s ease;
+            .profile {
+                border-left: none;
             }
 
-                .pagination-btn:hover {
-                    background: #FEE2E2;
-                    color: #B91C1C;
-                    border-color: #FECACA;
-                }
-
-                .pagination-btn.next-btn {
-                    background: #B91C1C;
-                    color: #FFFFFF;
-                    border-color: #B91C1C;
-                }
-
-                    .pagination-btn.next-btn:hover {
-                        background: #991B1B;
-                        color: #FFFFFF;
-                    }
-
-
-            /* =========================================================
-                               RESPONSIVE
-                            ========================================================= */
-
-            @@media (max-width: 1000px) {
-
-                .action-bar {
-                    flex-wrap: wrap;
-                }
-
-                .search-filter {
-                    width: 100%;
-                }
-
-                .search-box {
-                    max-width: none;
-                }
+            .content-area {
+                padding: 12px;
             }
+        }
 
-
-            @@media (max-width: 768px) {
-
-                body {
-                    overflow-y: auto;
-                }
-
-                .sidebar {
-                    width: 78px;
-                    min-width: 78px;
-                }
-
-                .system-name,
-                .menu a span,
-                .logout a span {
-                    display: none;
-                }
-
-                .logo-section {
-                    padding: 15px 8px;
-                }
-
-                .logo-circle {
-                    width: 40px;
-                    height: 40px;
-                }
-
-                .menu {
-                    padding: 15px 8px;
-                }
-
-                    .menu a {
-                        justify-content: center;
-                        padding: 10px;
-                    }
-
-                .logout a {
-                    justify-content: center;
-                }
-
-                .content-area {
-                    padding: 16px;
-                }
-
-                .page-title {
-                    font-size: 21px;
-                }
-
-                .page-description {
-                    font-size: 12px;
-                }
-
-                .page-header {
-                    margin-bottom: 16px;
-                }
-
-                .action-bar {
-                    flex-direction: column;
-                    align-items: stretch;
-                }
-
-                .search-filter {
-                    width: 100%;
-                    flex-direction: column;
-                }
-
-                .search-box {
-                    width: 100%;
-                    max-width: none;
-                }
-
-                .table-container {
-                    overflow-x: auto;
-                }
-
-                .report-table {
-                    min-width: 900px;
-                }
-
-                .pagination-section {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 10px;
-                }
-
-                .pagination-buttons {
-                    align-self: flex-end;
-                }
-            }
-
-
-            @@media (max-width: 500px) {
-
-                .profile-info {
-                    display: none;
-                }
-
-                .profile {
-                    border-left: none;
-                }
-
-                .content-area {
-                    padding: 12px;
-                }
-            }
     </style>
 
 </head>
@@ -995,8 +1033,13 @@
                 <!-- AUDIT LOGS -->
 
                 <a href="@Url.Action("AuditLogs", "Admin")">
+
                     <i class="bi bi-clock-history"></i>
-                    <span>Audit Logs</span>
+
+                    <span>
+                        Audit Logs
+                    </span>
+
                 </a>
 
 
@@ -1012,39 +1055,34 @@
 
                 </a>
 
-
-                <!-- SETTINGS -->
-
-                <a href="@Url.Action("Settings", "Admin")">
-
-                    <i class="bi bi-gear-fill"></i>
-
-                    <span>
-                        Settings
-                    </span>
-
-                </a>
-
-
             </div>
 
-
-            <!-- LOGOUT -->
+            <!-- SETTINGS + LOGOUT AT THE BOTTOM -->
 
             <div class="logout">
 
-                <a href="@Url.Action("Login", "Admin")">
+                <!-- SETTINGS -->
+
+                <a href="@Url.Action("Settings", "Admin")"
+                   class="settings-link">
+
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Settings</span>
+
+                </a>
+
+
+                <!-- LOGOUT -->
+
+                <a href="@Url.Action("Login", "Admin")"
+                   class="logout-link">
 
                     <i class="bi bi-box-arrow-right"></i>
-
-                    <span>
-                        Logout
-                    </span>
+                    <span>Logout</span>
 
                 </a>
 
             </div>
-
 
         </aside>
 
@@ -1098,7 +1136,7 @@
                         <div class="profile-info">
 
                             <h5>
-                                John Cruz
+                                    @(Context.Session.GetString("AdminName") ?? "Admin")
                             </h5>
 
                             <span>
@@ -1136,7 +1174,7 @@
                         </h2>
 
                         <p class="page-description">
-                            Here's what's happening with your interviews and records today.
+                            Generate and manage reports from office records and requests.
                         </p>
 
                     </div>
@@ -1158,7 +1196,7 @@
 
                             <input type="text"
                                    id="reportSearch"
-                                   placeholder="Search users or activity..." />
+                                   placeholder="Search here..." />
 
                         </div>
 
@@ -1188,11 +1226,11 @@
                                 </th>
 
                                 <th>
-                                    DATE GENERATED
+                                    STATUS
                                 </th>
 
                                 <th>
-                                    GENERATED BY
+                                    DATE GENERATED
                                 </th>
 
                                 <th>
@@ -1216,15 +1254,19 @@
                                 </td>
 
                                 <td>
-                                    Request Summary
+                                    Interview
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-completed">
+                                        Completed
+                                    </span>
+
                                 </td>
 
                                 <td>
                                     Apr 24, 2026
-                                </td>
-
-                                <td>
-                                    John Cruz
                                 </td>
 
                                 <td>
@@ -1255,15 +1297,19 @@
                                 </td>
 
                                 <td>
-                                    Document
+                                    Interview
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-approved">
+                                        Approved
+                                    </span>
+
                                 </td>
 
                                 <td>
                                     Apr 24, 2026
-                                </td>
-
-                                <td>
-                                    John Cruz
                                 </td>
 
                                 <td>
@@ -1294,15 +1340,19 @@
                                 </td>
 
                                 <td>
-                                    Document
+                                    Interview
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-completed">
+                                        Completed
+                                    </span>
+
                                 </td>
 
                                 <td>
                                     Apr 24, 2026
-                                </td>
-
-                                <td>
-                                    John Cruz
                                 </td>
 
                                 <td>
@@ -1337,11 +1387,15 @@
                                 </td>
 
                                 <td>
-                                    Apr 24, 2026
+
+                                    <span class="status-badge status-approved">
+                                        Approved
+                                    </span>
+
                                 </td>
 
                                 <td>
-                                    John Cruz
+                                    Apr 24, 2026
                                 </td>
 
                                 <td>
@@ -1376,11 +1430,15 @@
                                 </td>
 
                                 <td>
-                                    Apr 24, 2026
+
+                                    <span class="status-badge status-completed">
+                                        Completed
+                                    </span>
+
                                 </td>
 
                                 <td>
-                                    John Cruz
+                                    Apr 24, 2026
                                 </td>
 
                                 <td>
@@ -1419,24 +1477,24 @@
                     <div class="showing-text"
                          id="showingText">
 
-                        Showing 1 to 5 users
+                        Showing 1 to 5 reports
 
                     </div>
 
 
                     <div class="pagination-buttons">
 
-                        <button class="pagination-btn next-btn"
-                                type="button">
-
-                            Next
-
-                        </button>
-
                         <button class="pagination-btn"
                                 type="button">
 
                             Previous
+
+                        </button>
+
+                        <button class="pagination-btn next-btn"
+                                type="button">
+
+                            Next
 
                         </button>
 
